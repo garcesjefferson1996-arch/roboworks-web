@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoboPro - Robótica competitiva de alto nivel | RoboWorks</title>
+  <meta name="description" content="RoboPro: Programa de robótica competitiva para jóvenes de 10 a 17 años. Diseño avanzado, programación y preparación para torneos nacionales e internacionales." />
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Configuración Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif']
+          },
+          colors: {
+            'robo-blue': '#3b82f6',
+            'robo-purple': '#8b5cf6',
+            'robo-yellow': '#fbbf24',
+            'robo-green': '#10b981',
+            'robo-orange': '#fb923c',
+            'competition-red': '#ef4444',
+            'competition-blue': '#2563eb',
+            'competition-gold': '#f59e0b'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-gray-50 font-poppins text-gray-700">
+
+<!-- HEADER -->
+<header class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center md:flex-row flex-col md:space-y-0 space-y-4">
+    <!-- Logo -->
+    <div class="flex items-center gap-3 mobile-logo-center w-full md:w-auto justify-center md:justify-start">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/icons/logo.png" alt="RoboWorks Logo" class="h-10 w-auto">
+        <span class="text-2xl font-bold text-robo-blue text-center md:text-left">
+          Robo<span class="text-robo-orange">Works</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="flex gap-6 font-medium mobile-center w-full md:w-auto justify-center md:justify-end">
+      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300">Programas</a>
+      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300">¿Por qué RoboWorks?</a>
+      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO DEL PROGRAMA -->
+<section class="program-hero robo-pro-hero relative overflow-hidden">
+  <!-- Elementos decorativos -->
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+    <div class="absolute top-10 left-10 w-20 h-20 border-2 border-orange-300/30 rounded-full animate-ping"></div>
+    <div class="absolute bottom-20 right-20 w-16 h-16 border-2 border-orange-400/40 rounded-full animate-pulse"></div>
+    <div class="absolute top-1/3 right-1/4 w-12 h-12 border-2 border-orange-500/50 rounded-full"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto relative z-10">
+    <div class="program-hero-content text-center text-white">
+      <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6 font-medium">
+        🏆 Programa RoboPro
+      </span>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+        RoboPro – Robótica competitiva y de alto nivel
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 opacity-90">
+        Donde los desafíos forjan campeones y la excelencia es el estándar
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="index.html#programas" class="back-button">
+          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboPro" 
+           target="_blank" class="whatsapp-button bg-orange-600 hover:bg-orange-700">
+          <i class="fab fa-whatsapp mr-2"></i> Más información
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENIDO DEL PROGRAMA -->
+<section class="program-content">
+  <div class="max-w-6xl mx-auto">
+    <div class="program-detail-container">
+      
+      <!-- Imagen del programa -->
+      <div class="program-image relative overflow-hidden">
+        <img src="images/programs/robo-pro.jpg" alt="RoboPro - Robótica competitiva" 
+             onerror="this.src='images/optimized/fot5.jpg'" class="w-full h-auto">
+        <div class="absolute bottom-4 right-4 bg-black/70 text-white px-4 py-2 rounded-lg text-sm">
+          <i class="fas fa-trophy mr-2"></i> Equipo RoboWorks en competencia
+        </div>
+      </div>
+
+      <!-- Edad y nivel -->
+      <div class="flex flex-wrap gap-4 mb-8">
+        <div class="program-age">
+          <i class="fas fa-child mr-2"></i> Edad: 10 a 17 años
+        </div>
+        <div class="program-age bg-orange-100 text-orange-800">
+          <i class="fas fa-signal mr-2"></i> Nivel: Avanzado/Competitivo
+        </div>
+        <div class="program-age bg-red-100 text-red-800">
+          <i class="fas fa-bolt mr-2"></i> Intensidad: Alta
+        </div>
+      </div>
+
+      <!-- Descripción principal -->
+      <div class="program-description">
+        <h2 class="program-title">De aprendiz a competidor, de competidor a campeón</h2>
+        
+        <p>
+          <strong>RoboPro</strong> está dirigido a niños y jóvenes que quieren llevar la robótica al siguiente nivel. 
+          No es solo un programa educativo; es un <span class="text-orange-600 font-semibold">entrenamiento de alto rendimiento</span> 
+          donde la excelencia técnica, la estrategia y el trabajo en equipo son fundamentales.
+        </p>
+
+        <p>
+          Aprenden <span class="text-orange-600 font-semibold">diseño avanzado de robots, programación compleja, 
+          estrategias de competencia y gestión de proyectos</span> bajo presión. Cada sesión es un paso más 
+          hacia la preparación para competencias nacionales e internacionales.
+        </p>
+
+        <p>
+          RoboPro forma jóvenes <span class="text-orange-600 font-semibold">perseverantes, creativos, estratégicos 
+          y seguros</span> de sus capacidades. No solo aprenden robótica; aprenden a competir con propósito, 
+          a superar obstáculos y a celebrar tanto las victorias como las lecciones aprendidas en la derrota.
+        </p>
+
+        <div class="bg-gradient-to-r from-orange-50 to-red-50 p-6 rounded-xl mt-6 border-l-4 border-orange-500">
+          <div class="flex items-start">
+            <div class="text-3xl text-orange-500 mr-4">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <div>
+              <p class="text-gray-700">
+                "En RoboPro no buscamos crear robots perfectos; buscamos crear jóvenes resilientes. 
+                El robot que gana una competencia es solo el resultado visible de meses de trabajo en equipo, 
+                perseverancia y aprendizaje constante."
+              </p>
+              <p class="mt-3 font-semibold text-gray-800">
+                — Coach principal de RoboPro
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Competencias -->
+      <div class="program-highlights mt-10">
+        <h3 class="flex items-center">
+          <i class="fas fa-trophy mr-3 text-orange-500"></i>
+          Competencias en las que participamos
+        </h3>
+        
+        <div class="grid md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 text-xl mr-4">
+                <i class="fas fa-robot"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">FIRST LEGO League</h4>
+                <p class="text-sm text-gray-500">Nacional e Internacional</p>
+              </div>
+            </div>
+            <p class="text-gray-600">Competencia que combina robótica, investigación científica y valores como el trabajo en equipo y la innovación.</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center text-red-600 text-xl mr-4">
+                <i class="fas fa-globe-americas"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">World Robot Olympiad</h4>
+                <p class="text-sm text-gray-500">WRO - Mundial</p>
+              </div>
+            </div>
+            <p class="text-gray-600">Una de las competencias más prestigiosas a nivel mundial, con desafíos que cambian cada año.</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-xl mr-4">
+                <i class="fas fa-futbol"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">RoboCup Junior</h4>
+                <p class="text-sm text-gray-500">Fútbol robótico</p>
+              </div>
+            </div>
+            <p class="text-gray-600">Robots autónomos que juegan fútbol, combinando visión artificial, inteligencia artificial y mecánica.</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-xl mr-4">
+                <i class="fas fa-medal"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">Competencias Locales</h4>
+                <p class="text-sm text-gray-500">Universidades y organizaciones</p>
+              </div>
+            </div>
+            <p class="text-gray-600">Participación en torneos organizados por universidades y empresas tecnológicas del país.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estructura del programa -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Estructura del programa</h3>
+        
+        <div class="relative">
+          <!-- Línea de tiempo -->
+          <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-orange-400 to-red-500"></div>
+          
+          <!-- Nivel 1 -->
+          <div class="relative mb-12 md:flex items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+              <div class="bg-white p-6 rounded-xl shadow-lg border border-orange-200">
+                <span class="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-bold mb-3">
+                  NIVEL 1
+                </span>
+                <h4 class="text-xl font-bold mb-2">Fundamentos Competitivos</h4>
+                <p class="text-gray-600">Duración: 3 meses</p>
+                <ul class="mt-3 space-y-2">
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Diseño mecánico avanzado</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Programación con sensores múltiples</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Estrategias básicas de competencia</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <!-- Punto en línea de tiempo -->
+            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
+              <div class="w-8 h-8 bg-orange-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                <span class="text-white font-bold">1</span>
+              </div>
+            </div>
+            
+            <div class="md:w-1/2 md:pl-12">
+              <!-- Espacio vacío para alinear -->
+            </div>
+          </div>
+          
+          <!-- Nivel 2 -->
+          <div class="relative mb-12 md:flex items-center">
+            <div class="md:w-1/2 md:pr-12">
+              <!-- Espacio vacío para alinear -->
+            </div>
+            
+            <!-- Punto en línea de tiempo -->
+            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
+              <div class="w-8 h-8 bg-orange-600 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                <span class="text-white font-bold">2</span>
+              </div>
+            </div>
+            
+            <div class="md:w-1/2 md:pl-12">
+              <div class="bg-white p-6 rounded-xl shadow-lg border border-orange-200">
+                <span class="inline-block bg-orange-200 text-orange-800 px-3 py-1 rounded-full text-sm font-bold mb-3">
+                  NIVEL 2
+                </span>
+                <h4 class="text-xl font-bold mb-2">Especialización</h4>
+                <p class="text-gray-600">Duración: 4 meses</p>
+                <ul class="mt-3 space-y-2">
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Algoritmos avanzados y PID</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Análisis de reglas de competencia</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Simulaciones de competencia</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Nivel 3 -->
+          <div class="relative md:flex items-center">
+            <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+              <div class="bg-white p-6 rounded-xl shadow-lg border border-orange-200">
+                <span class="inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-bold mb-3">
+                  NIVEL 3
+                </span>
+                <h4 class="text-xl font-bold mb-2">Equipos de Competencia</h4>
+                <p class="text-gray-600">Duración: Todo el año</p>
+                <ul class="mt-3 space-y-2">
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Preparación para torneos oficiales</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Viajes a competencias</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>Mentoría personalizada</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <!-- Punto en línea de tiempo -->
+            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
+              <div class="w-8 h-8 bg-red-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                <span class="text-white font-bold">3</span>
+              </div>
+            </div>
+            
+            <div class="md:w-1/2 md:pl-12">
+              <!-- Espacio vacío para alinear -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lo que aprenden -->
+      <div class="program-highlights mt-10">
+        <h3>Habilidades que desarrollan en RoboPro</h3>
+        
+        <div class="grid md:grid-cols-3 gap-6 mt-6">
+          <div class="text-center p-6 bg-gradient-to-b from-orange-50 to-white rounded-xl border border-orange-100">
+            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Técnicas</h4>
+            <p class="text-gray-600 text-sm">Diseño 3D, electrónica avanzada, programación en Python/C++, visión artificial</p>
+          </div>
+          
+          <div class="text-center p-6 bg-gradient-to-b from-orange-50 to-white rounded-xl border border-orange-100">
+            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-chess"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Estratégicas</h4>
+            <p class="text-gray-600 text-sm">Análisis de problemas, optimización de soluciones, gestión del tiempo en competencia</p>
+          </div>
+          
+          <div class="text-center p-6 bg-gradient-to-b from-orange-50 to-white rounded-xl border border-orange-100">
+            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-users"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Personales</h4>
+            <p class="text-gray-600 text-sm">Liderazgo, trabajo en equipo bajo presión, resiliencia, comunicación efectiva</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tecnologías avanzadas -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Tecnologías avanzadas que utilizamos</h3>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div class="tech-card bg-white p-4 rounded-lg border border-gray-200 text-center hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-2 text-blue-600">
+              <i class="fab fa-python"></i>
+            </div>
+            <p class="text-sm font-medium">Python</p>
+          </div>
+          
+          <div class="tech-card bg-white p-4 rounded-lg border border-gray-200 text-center hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-2 text-blue-500">
+              <i class="fas fa-code"></i>
+            </div>
+            <p class="text-sm font-medium">C++</p>
+          </div>
+          
+          <div class="tech-card bg-white p-4 rounded-lg border border-gray-200 text-center hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-2 text-green-600">
+              <i class="fas fa-robot"></i>
+            </div>
+            <p class="text-sm font-medium">ROS</p>
+          </div>
+          
+          <div class="tech-card bg-white p-4 rounded-lg border border-gray-200 text-center hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-2 text-red-500">
+              <i class="fas fa-eye"></i>
+            </div>
+            <p class="text-sm font-medium">OpenCV</p>
+          </div>
+          
+          <div class="tech-card bg-white p-4 rounded-lg border border-gray-200 text-center hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-2 text-purple-600">
+              <i class="fas fa-cube"></i>
+            </div>
+            <p class="text-sm font-medium">Fusion 360</p>
+          </div>
+          
+          <div class="tech-card bg-white p-4 rounded-lg border border-gray-200 text-center hover:shadow-md transition-shadow">
+            <div class="text-3xl mb-2 text-yellow-600">
+              <i class="fas fa-print"></i>
+            </div>
+            <p class="text-sm font-medium">Impresión 3D</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logros -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Logros de nuestros equipos</h3>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200 text-center">
+            <div class="text-5xl mb-4">🏆</div>
+            <div class="text-3xl font-bold text-amber-600 mb-2">15</div>
+            <p class="font-medium text-gray-700">Premios en competencias nacionales</p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200 text-center">
+            <div class="text-5xl mb-4">🌍</div>
+            <div class="text-3xl font-bold text-amber-600 mb-2">3</div>
+            <p class="font-medium text-gray-700">Participaciones internacionales</p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200 text-center">
+            <div class="text-5xl mb-4">🎓</div>
+            <div class="text-3xl font-bold text-amber-600 mb-2">8</div>
+            <p class="font-medium text-gray-700">Becas universitarias obtenidas</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonios de estudiantes -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Voces de nuestros competidores</h3>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold text-lg mr-4">
+                AP
+              </div>
+              <div>
+                <h4 class="font-bold">Ana Paula, 16 años</h4>
+                <p class="text-sm text-gray-500">Capitana equipo FLL 2024</p>
+              </div>
+            </div>
+            <p class="text-gray-600 italic">
+              "RoboPro me enseñó que el fracaso no es el final, es información. 
+              Cada robot que no funcionó como esperábamos nos hizo mejores ingenieros. 
+              Cuando finalmente ganamos el primer lugar, entendí que el verdadero premio 
+              fue el camino recorrido."
+            </p>
+            <div class="flex mt-4">
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+            </div>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg mr-4">
+                CR
+              </div>
+              <div>
+                <h4 class="font-bold">Carlos Rodríguez, 15 años</h4>
+                <p class="text-sm text-gray-500">Programador principal WRO 2023</p>
+              </div>
+            </div>
+            <p class="text-gray-600 italic">
+              "Antes de RoboPro, la programación eran ejercicios en la computadora. 
+              Ahora es dar vida a máquinas que compiten. Aprendí más en un año de 
+              competencias que en tres años de clases. Y lo mejor: conocí a mi mejor 
+              amigo en el equipo."
+            </p>
+            <div class="flex mt-4">
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+              <i class="fas fa-star text-yellow-400"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proceso de selección -->
+      <div class="program-highlights mt-10">
+        <h3>Proceso de admisión RoboPro</h3>
+        
+        <div class="space-y-6 mt-6">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold mr-4">
+              1
+            </div>
+            <div>
+              <h4 class="font-bold text-lg mb-1">Evaluación de conocimientos</h4>
+              <p class="text-gray-600">Prueba práctica de robótica básica y entrevista técnica.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold mr-4">
+              2
+            </div>
+            <div>
+              <h4 class="font-bold text-lg mb-1">Clase de prueba</h4>
+              <p class="text-gray-600">Participación en una sesión real para evaluar adaptación al ritmo.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold mr-4">
+              3
+            </div>
+            <div>
+              <h4 class="font-bold text-lg mb-1">Entrevista personal</h4>
+              <p class="text-gray-600">Evaluación de motivación, compromiso y habilidades blandas.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold mr-4">
+              4
+            </div>
+            <div>
+              <h4 class="font-bold text-lg mb-1">Formación de equipos</h4>
+              <p class="text-gray-600">Asignación a equipo según habilidades complementarias.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-8 p-6 bg-amber-50 rounded-xl border border-amber-200">
+          <div class="flex items-start">
+            <i class="fas fa-exclamation-circle text-amber-500 text-xl mr-3 mt-1"></i>
+            <div>
+              <p class="font-medium text-amber-800">
+                Nota importante: RoboPro es un programa exigente que requiere compromiso semanal 
+                de 6-8 horas (sesiones + trabajo en casa). Los estudiantes deben estar dispuestos 
+                a trabajar en equipo y asistir a competencias los fines de semana.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inversión -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Inversión y beneficios</h3>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white p-8 rounded-xl shadow-lg border border-orange-300 text-center">
+            <h4 class="text-2xl font-bold mb-4">Incluye</h4>
+            <ul class="space-y-3 text-left">
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 mr-3"></i>
+                <span>Acceso a equipos de competencia</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 mr-3"></i>
+                <span>Materiales y componentes</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 mr-3"></i>
+                <span>Entrenamiento especializado</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 mr-3"></i>
+                <span>Preparación para competencias</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-gradient-to-br from-orange-500 to-red-500 p-8 rounded-xl shadow-lg text-white text-center relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-8 translate-x-8"></div>
+            <h4 class="text-2xl font-bold mb-4">Beneficios exclusivos</h4>
+            <ul class="space-y-3 text-left">
+              <li class="flex items-center">
+                <i class="fas fa-award mr-3"></i>
+                <span>Certificaciones internacionales</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-passport mr-3"></i>
+                <span>Oportunidades de viaje</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-university mr-3"></i>
+                <span>Cartas de recomendación</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-network-wired mr-3"></i>
+                <span>Red de contactos profesionales</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center">
+            <h4 class="text-2xl font-bold mb-4">Becas disponibles</h4>
+            <p class="text-gray-600 mb-4">Ofrecemos becas parciales basadas en:</p>
+            <ul class="space-y-2 text-left">
+              <li class="flex items-center">
+                <i class="fas fa-graduation-cap text-blue-500 mr-3"></i>
+                <span>Excelencia académica</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-hand-holding-heart text-red-500 mr-3"></i>
+                <span>Situación económica</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-female text-purple-500 mr-3"></i>
+                <span>Promoción de mujeres en STEM</span>
+              </li>
+            </ul>
+            <a href="https://wa.me/593993340103?text=Hola,%20quisiera%20información%20sobre%20becas%20para%20RoboPro" 
+               class="inline-block mt-6 text-orange-600 font-semibold hover:text-orange-700">
+              Consultar requisitos de beca →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="program-actions mt-12">
+        <a href="index.html#programas" class="back-button">
+          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboPro,%20quisiera%20más%20información" 
+           target="_blank" class="whatsapp-button bg-orange-600 hover:bg-orange-700">
+          <i class="fab fa-whatsapp mr-2"></i> Solicitar información completa
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20quiero%20agendar%20una%20evaluación%20para%20RoboPro" 
+           target="_blank" class="back-button bg-red-100 text-red-700 hover:bg-red-200 border border-red-200">
+          <i class="fas fa-clipboard-check mr-2"></i> Agendar evaluación
+        </a>
+      </div>
+
+      <!-- FAQ -->
+      <div class="program-description mt-12 pt-8 border-t border-gray-200">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Preguntas frecuentes sobre RoboPro</h3>
+        
+        <div class="space-y-4">
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Qué nivel de robótica necesita mi hijo para entrar a RoboPro?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Requerimos conocimientos básicos de robótica (construcción y programación visual). 
+              Si tu hijo viene de nuestros programas RoboStart o RoboCare, puede hacer la transición. 
+              Si es nuevo, ofrecemos un curso puente de 1 mes para nivelar conocimientos.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Cuánto cuesta participar en las competencias?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Las inscripciones a competencias nacionales están incluidas en la mensualidad. 
+              Para competencias internacionales, organizamos actividades de fundraising (venta de camisetas, 
+              rifas, patrocinios) y los padres contribuyen con una parte. Nunca excluimos a un estudiante 
+              por motivos económicos.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Cómo afecta RoboPro el rendimiento escolar?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Enseñamos <strong>gestión del tiempo</strong> como parte del programa. La mayoría de nuestros 
+              estudiantes mantienen o mejoran sus notas porque desarrollan disciplina, organización y 
+              pensamiento lógico. Además, las habilidades de RoboPro suelen ayudar en matemáticas, 
+              física y ciencias.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Qué pasa si mi hijo quiere retirarse a mitad del año?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Entendemos que las circunstancias cambian. Tenemos un período de prueba de 1 mes. 
+              Después de eso, solicitamos un preaviso de 30 días para reorganizar los equipos. 
+              La mayoría de los estudiantes que empiezan RoboPro se quedan hasta graduarse del colegio.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Llamado final a la acción -->
+      <div class="mt-12 text-center">
+        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-8 rounded-2xl">
+          <h3 class="text-2xl font-bold mb-4">¿Tu hijo está listo para el siguiente nivel?</h3>
+          <p class="text-lg mb-6 opacity-90">
+            RoboPro no es para todos. Es para aquellos que buscan desafíos, que no temen al trabajo duro 
+            y que sueñan con representar a su país en una competencia internacional.
+          </p>
+          <a href="https://wa.me/593993340103?text=Hola,%20mi%20hijo%20está%20interesado%20en%20RoboPro,%20¿podemos%20conversar?" 
+             target="_blank" class="inline-block bg-white text-orange-600 font-bold px-8 py-3 rounded-full 
+             hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl">
+            <i class="fab fa-whatsapp mr-2"></i> Hablar con un coach
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-800 text-gray-300 py-10 text-center">
+  <div class="max-w-4xl mx-auto px-4">
+    <p>&copy; 2026 RoboWorks. Todos los derechos reservados.</p>
+    <p class="mt-2">Diseñado con ❤️ para inspirar a los pequeños inventores.</p>
+    
+    <div class="mt-6 pt-6 border-t border-gray-700 mobile-center">
+      <p class="text-sm mb-2">¿Listo para el desafío RoboPro?</p>
+      <a href="mailto:info@roboworks.com?subject=Consulta%20RoboPro" class="text-orange-400 hover:text-orange-300 transition-colors duration-300">
+        info@roboworks.com
+      </a>
+      <p class="mt-2 text-sm">
+        <i class="fab fa-whatsapp mr-1"></i>
+        <a href="https://wa.me/593993340103?text=Hola,%20tengo%20preguntas%20sobre%20RoboPro" 
+           class="text-green-400 hover:text-green-300 transition-colors duration-300">
+          WhatsApp: +593 99 334 0103
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="js/main.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animaciones de entrada
+    const animatedElements = document.querySelectorAll('.program-description, .program-highlights, .program-image, .tech-card');
+    animatedElements.forEach((el, index) => {
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, index * 100);
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+
+    // FAQ interactivo
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', function() {
+        const answer = this.nextElementSibling;
+        const icon = this.querySelector('i');
+        
+        // Toggle respuesta actual
+        const isHidden = answer.classList.contains('hidden');
+        
+        // Cerrar todas las respuestas
+        document.querySelectorAll('.faq-answer').forEach(ans => {
+          ans.classList.add('hidden');
+          ans.previousElementSibling.querySelector('i').classList.remove('fa-chevron-up');
+          ans.previousElementSibling.querySelector('i').classList.add('fa-chevron-down');
+        });
+        
+        // Abrir la actual si estaba cerrada
+        if (isHidden) {
+          answer.classList.remove('hidden');
+          icon.classList.remove('fa-chevron-down');
+          icon.classList.add('fa-chevron-up');
+        }
+      });
+    });
+
+    // Efectos hover en tarjetas de tecnología
+    document.querySelectorAll('.tech-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-8px)';
+        this.style.boxShadow = '0 15px 30px rgba(249, 115, 22, 0.15)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '';
+      });
+    });
+
+    // Contador animado para logros
+    const counters = document.querySelectorAll('.text-3xl.font-bold');
+    counters.forEach(counter => {
+      const target = parseInt(counter.textContent);
+      let current = 0;
+      const increment = target / 50;
+      const updateCounter = () => {
+        if (current < target) {
+          current += increment;
+          counter.textContent = Math.ceil(current);
+          setTimeout(updateCounter, 30);
+        } else {
+          counter.textContent = target;
+        }
+      };
+      
+      // Activar cuando sea visible
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            updateCounter();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      observer.observe(counter);
+    });
+  });
+
+  // Efecto parallax para el hero
+  window.addEventListener('scroll', function() {
+    const scrolled = window.pageYOffset;
+    const hero = document.querySelector('.program-hero');
+    if (hero) {
+      const rate = scrolled * -0.5;
+      hero.style.transform = `translate3d(0, ${rate}px, 0)`;
+    }
+  });
+</script>
+
+<style>
+  .program-hero {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  
+  .tech-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Animaciones para elementos competitivos */
+  @keyframes pulseTrophy {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+  
+  .trophy-pulse {
+    animation: pulseTrophy 2s ease-in-out infinite;
+  }
+  
+  /* Efecto de gradiente animado */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .gradient-animated {
+    background: linear-gradient(-45deg, #fb923c, #f97316, #dc2626, #fb923c);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+  }
+  
+  /* Efecto de brillo en botones competitivos */
+  .competitive-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .competitive-glow::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      transparent 20%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 80%
+    );
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+  }
+  
+  @keyframes shine {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 200%;
+    }
+  }
+</style>
+</body>
+</html>

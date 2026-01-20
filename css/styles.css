@@ -1,0 +1,1185 @@
+/* ======================================================
+   styles.css – Estilos personalizados RoboWorks
+   ====================================================== */
+
+/* =========================
+   VARIABLES DE MARCA
+   ========================= */
+:root {
+  --robo-blue: #3b82f6;
+  --robo-purple: #8b5cf6;
+  --robo-yellow: #fbbf24;
+  --robo-green: #10b981;
+  --robo-orange: #fb923c;
+  --soft-bg: #f8fafc;
+  --shadow-light: rgba(59, 130, 246, 0.15);
+  --shadow-medium: rgba(59, 130, 246, 0.25);
+}
+
+/* =========================
+   ANIMACIONES
+   ========================= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes waveMove {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1000px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes robotGlow {
+  0%, 100% {
+    box-shadow: 0 20px 60px var(--shadow-light);
+  }
+  50% {
+    box-shadow: 0 25px 80px var(--shadow-medium);
+  }
+}
+
+/* =========================
+   CLASES DE ANIMACIÓN
+   ========================= */
+.fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.robot-glow {
+  animation: robotGlow 4s ease-in-out infinite;
+}
+
+/* =========================
+   UTILIDADES DE CENTRADO PARA MÓVIL
+   ========================= */
+
+/* Centrado de texto en móvil */
+.mobile-center {
+  text-align: center !important;
+}
+
+@media (min-width: 769px) {
+  .mobile-center {
+    text-align: left !important;
+  }
+}
+
+/* Flexbox centrado en móvil */
+.mobile-flex-center {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+@media (min-width: 769px) {
+  .mobile-flex-center {
+    display: block !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+}
+
+/* Logo centrado en móvil */
+.mobile-logo-center {
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+@media (min-width: 769px) {
+  .mobile-logo-center {
+    justify-content: flex-start !important;
+    margin: 0 !important;
+  }
+}
+
+/* Margen automático en móvil */
+.mobile-margin-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (min-width: 769px) {
+  .mobile-margin-auto {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Display block centrado en móvil */
+.mobile-block-center {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (min-width: 769px) {
+  .mobile-block-center {
+    display: inline-block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Grid centrado en móvil */
+.mobile-justify-center {
+  justify-items: center !important;
+}
+
+@media (min-width: 769px) {
+  .mobile-justify-center {
+    justify-items: stretch !important;
+  }
+}
+
+/* Contenedor centrado en móvil */
+.mobile-container-center {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (min-width: 769px) {
+  .mobile-container-center {
+    max-width: 1280px !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+}
+
+/* =========================
+   COMPONENTES REUTILIZABLES
+   ========================= */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.btn-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.btn-hover:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   HERO – ONDAS CURVAS
+   ========================= */
+.hero-wave {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-wave::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 200%;
+  height: 120px;
+  background-image: url("data:image/svg+xml,%3Csvg width='1440' height='120' viewBox='0 0 1440 120' xmlns='http://www.w3.org2000/svg'%3E%3Cpath d='M0,64 C240,96 480,32 720,32 C960,32 1200,96 1440,64 L1440,120 L0,120 Z' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  animation: waveMove 30s linear infinite;
+}
+
+/* =========================
+   CONTENEDOR ROBOT 3D
+   ========================= */
+#robot-hero {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  box-shadow: 0 20px 60px var(--shadow-light);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+}
+
+#robot-hero:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 80px var(--shadow-medium);
+}
+
+#robot-hero canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 24px;
+  transition: opacity 0.5s ease;
+}
+
+/* Estados de carga del robot */
+#robot-hero.loading {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+#robot-hero.loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(59, 130, 246, 0.1);
+  border-top: 4px solid var(--robo-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 10;
+}
+
+#robot-hero.loading::after {
+  content: 'Cargando robot...';
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: var(--robo-blue);
+  font-weight: 600;
+  font-size: 14px;
+  z-index: 10;
+}
+
+#robot-hero.loading canvas {
+  opacity: 0.3;
+  filter: blur(2px);
+}
+
+#robot-hero.loaded canvas {
+  animation: robotGlow 4s ease-in-out infinite;
+}
+
+/* Indicador de interacción */
+.robot-instructions {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+#robot-hero:hover .robot-instructions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.robot-instructions span {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #4b5563;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.robot-instructions i {
+  color: var(--robo-blue);
+  font-size: 14px;
+}
+
+/* Fallback para cuando el 3D no carga */
+.robot-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.robot-fallback i {
+  font-size: 80px;
+  color: var(--robo-blue);
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.robot-fallback p {
+  color: #4b5563;
+  margin: 0;
+}
+
+.robot-fallback .title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.robot-fallback .subtitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* =========================
+   IMÁGENES
+   ========================= */
+.image-rounded {
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+.image-soft {
+  filter: saturate(1.05) contrast(1.05);
+}
+
+/* Lazy load support */
+.lazy-image {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+}
+
+/* =========================
+   TIPOGRAFÍA AJUSTES FINOS
+   ========================= */
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
+
+p {
+  line-height: 1.7;
+}
+
+/* =========================
+   SECCIÓN PROGRAMAS
+   ========================= */
+.program-card img {
+  transition: transform 0.4s ease;
+}
+
+.program-card:hover img {
+  transform: scale(1.05);
+}
+
+/* =========================
+   SECCIÓN CONFIANZA
+   ========================= */
+.trust-item {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.trust-item:hover {
+  transform: translateY(-6px);
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+footer {
+  background: linear-gradient(135deg, #1f2937, #111827);
+}
+
+/* =========================
+   HEADER RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  .header-mobile {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+  }
+  
+  .header-mobile .logo-container {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+  
+  .header-mobile nav {
+    width: 100% !important;
+    justify-content: center !important;
+    gap: 1.5rem !important;
+  }
+  
+  .header-mobile nav a {
+    font-size: 1rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+/* =========================
+   HERO RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  .hero-content {
+    text-align: center !important;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .hero-content p {
+    font-size: 1.1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .hero-badge {
+    display: inline-block !important;
+    margin: 0 auto 1.5rem !important;
+  }
+}
+
+/* =========================
+   PROGRAMAS RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  .programs-grid {
+    justify-items: center !important;
+  }
+  
+  .program-card {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .program-card-content {
+    text-align: center !important;
+    padding: 1.5rem !important;
+  }
+  
+  .program-card h3 {
+    font-size: 1.3rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .program-card p {
+    font-size: 0.95rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .program-card .btn {
+    display: block !important;
+    width: fit-content !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* =========================
+   CONFIANZA RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  .trust-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    justify-items: center !important;
+  }
+  
+  .trust-item {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 1.5rem !important;
+    text-align: center !important;
+  }
+  
+  .trust-item i {
+    margin: 0 auto 1rem !important;
+    display: block !important;
+  }
+  
+  .trust-item p {
+    font-size: 1rem !important;
+  }
+}
+
+/* =========================
+   ROBOT 3D RESPONSIVE
+   ========================= */
+
+/* Tablet (768px y menos) */
+@media (max-width: 768px) {
+  #robot-hero {
+    height: 400px;
+    max-width: 90%;
+    margin: 0 auto 2rem;
+    order: -1;
+  }
+  
+  .robot-instructions {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .robot-instructions span {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  
+  /* Optimizaciones de rendimiento para móvil */
+  #robot-hero {
+    box-shadow: 0 15px 40px var(--shadow-light);
+  }
+  
+  #robot-hero:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 50px var(--shadow-medium);
+  }
+}
+
+/* Móvil (480px y menos) */
+@media (max-width: 480px) {
+  #robot-hero {
+    height: 350px;
+    border-radius: 20px;
+  }
+  
+  .robot-fallback i {
+    font-size: 60px;
+  }
+  
+  .robot-fallback .title {
+    font-size: 1rem;
+  }
+  
+  .robot-fallback .subtitle {
+    font-size: 0.8rem;
+  }
+  
+  #robot-hero.loading::before {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .mobile-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .mobile-text-center {
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+}
+
+/* Pantallas grandes (1200px+) */
+@media (min-width: 1200px) {
+  #robot-hero {
+    height: 550px;
+    max-width: 650px;
+  }
+}
+
+/* =========================
+   PADDING Y ESPACIADO RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .mobile-py-8 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .mobile-px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .mobile-mt-6 {
+    margin-top: 1.5rem !important;
+  }
+  
+  .mobile-mb-6 {
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* =========================
+   TAMAÑOS DE TEXTO RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  .mobile-text-xl {
+    font-size: 1.25rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  .mobile-text-lg {
+    font-size: 1.125rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  .mobile-text-base {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  .mobile-text-sm {
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  .mobile-text-xs {
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+  }
+}
+
+/* =========================
+   BOTONES RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  .mobile-btn {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+    width: 100% !important;
+    max-width: 300px !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  .mobile-btn-sm {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    width: auto !important;
+  }
+}
+
+/* =========================
+   GRID RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  .mobile-grid-1 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .mobile-grid-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  .mobile-order-1 {
+    order: 1 !important;
+  }
+  
+  .mobile-order-2 {
+    order: 2 !important;
+  }
+  
+  .mobile-order-first {
+    order: -1 !important;
+  }
+}
+
+/* =========================
+   OPTIMIZACIONES DE RENDIMIENTO
+   ========================= */
+.performance-optimize {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#robot-hero,
+#robot-hero canvas {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Deshabilitar animaciones en dispositivos que prefieren reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  #robot-hero,
+  .card-hover,
+  .btn-hover,
+  .trust-item {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  #robot-hero:hover {
+    transform: none !important;
+  }
+  
+  .hero-wave::after {
+    animation: none !important;
+  }
+}
+
+/* Modo oscuro (opcional) */
+@media (prefers-color-scheme: dark) {
+  #robot-hero {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+  
+  #robot-hero.loading {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  }
+  
+  .robot-fallback {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  }
+  
+  .robot-fallback p {
+    color: #cbd5e1;
+  }
+  
+  .robot-instructions span {
+    background: rgba(30, 41, 59, 0.9);
+    color: #cbd5e1;
+  }
+}
+
+/* =========================
+   ACCESIBILIDAD
+   ========================= */
+#robot-hero:focus-visible {
+  outline: 3px solid var(--robo-blue);
+  outline-offset: 4px;
+}
+
+/* Mejora de contraste para texto sobre el robot */
+.robot-instructions span {
+  color: #1f2937;
+}
+
+@media (prefers-color-scheme: dark) {
+  .robot-instructions span {
+    color: #f3f4f6;
+  }
+}
+
+/* =========================
+   ANIMACIONES DE ENTRADA ESCALONADA
+   ========================= */
+.fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+.fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+.fade-in-up:nth-child(4) { animation-delay: 0.4s; }
+.fade-in-up:nth-child(5) { animation-delay: 0.5s; }
+
+/* =========================
+   UTILIDADES DE DISEÑO
+   ========================= */
+.gradient-text {
+  background: linear-gradient(135deg, var(--robo-blue), var(--robo-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.soft-shadow {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.hardware-icon {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* =========================
+   FOOTER RESPONSIVE
+   ========================= */
+@media (max-width: 768px) {
+  footer {
+    padding: 2rem 1rem !important;
+    text-align: center !important;
+  }
+  
+  footer p {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  footer .contact-info {
+    margin-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+/* =========================
+   UTILIDADES GENERALES PARA MÓVIL
+   ========================= */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  .mobile-block {
+    display: block !important;
+  }
+  
+  .mobile-flex {
+    display: flex !important;
+  }
+  
+  .mobile-flex-col {
+    flex-direction: column !important;
+  }
+  
+  .mobile-w-full {
+    width: 100% !important;
+  }
+  
+  .mobile-w-auto {
+    width: auto !important;
+  }
+  
+  .mobile-mx-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  .mobile-my-4 {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .mobile-gap-4 {
+    gap: 1rem !important;
+  }
+}
+
+/* =========================
+   FIXES ESPECÍFICOS PARA IOS
+   ========================= */
+@supports (-webkit-touch-callout: none) {
+  #robot-hero canvas {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  .btn-hover:hover {
+    transform: none;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-5px);
+  }
+}
+
+/* =========================
+   LOADING STATES MEJORADOS
+   ========================= */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* =========================
+   TRANSICIONES SUAVES
+   ========================= */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-transition-slow {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-transition-fast {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================
+   PÁGINAS DE PROGRAMA - ESTILOS
+   ========================= */
+
+/* Hero de páginas de programa */
+.program-hero {
+  padding: 5rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.program-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+  z-index: 1;
+}
+
+.program-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Colores específicos para cada programa */
+.robo-start-hero {
+  background: linear-gradient(135deg, var(--robo-green) 0%, #34d399 100%);
+}
+
+.robo-sense-hero {
+  background: linear-gradient(135deg, var(--robo-yellow) 0%, #fbbf24 100%);
+}
+
+.robo-care-hero {
+  background: linear-gradient(135deg, var(--robo-blue) 0%, #60a5fa 100%);
+}
+
+.robo-english-hero {
+  background: linear-gradient(135deg, var(--robo-purple) 0%, #a78bfa 100%);
+}
+
+.robo-pro-hero {
+  background: linear-gradient(135deg, var(--robo-orange) 0%, #fb923c 100%);
+}
+
+.code-works-hero {
+  background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+}
+
+/* Contenido del programa */
+.program-content {
+  padding: 4rem 1rem;
+  background: white;
+}
+
+.program-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.program-image {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.program-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.program-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.program-age {
+  display: inline-block;
+  background: #f3f4f6;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.program-description {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #4b5563;
+  margin-bottom: 2rem;
+}
+
+.program-description p {
+  margin-bottom: 1.5rem;
+}
+
+.program-highlights {
+  background: #f9fafb;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 3rem 0;
+}
+
+.program-highlights h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.highlight-icon {
+  background: var(--robo-blue);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.highlight-text {
+  flex: 1;
+}
+
+/* Botones de acción */
+.program-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: #f3f4f6;
+  color: #4b5563;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: #e5e7eb;
+  transform: translateX(-5px);
+}
+
+.whatsapp-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: #10b981;
+  color: white;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-button:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+}
+
+/* Responsive para páginas de programa */
+@media (max-width: 768px) {
+  .program-hero {
+    padding: 3rem 1rem;
+  }
+  
+  .program-title {
+    font-size: 2rem;
+  }
+  
+  .program-image img {
+    height: 300px;
+  }
+  
+  .program-actions {
+    flex-direction: column;
+  }
+  
+  .back-button,
+  .whatsapp-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Animaciones para contenido de programa */
+.program-content > * {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.program-content > *:nth-child(1) { animation-delay: 0.1s; }
+.program-content > *:nth-child(2) { animation-delay: 0.2s; }
+.program-content > *:nth-child(3) { animation-delay: 0.3s; }
+.program-content > *:nth-child(4) { animation-delay: 0.4s; }
+.program-content > *:nth-child(5) { animation-delay: 0.5s; }

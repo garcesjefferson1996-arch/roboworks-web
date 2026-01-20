@@ -1,0 +1,15 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Node / npm (por si luego se usa)
+node_modules/
+npm-debug.log*
+
+# Archivos de producción
+*.min.css
+*.min.js
+
+# Configuración local
+.env
+.vscode/

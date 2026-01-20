@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoboSense - Robótica inclusiva para desarrollo emocional | RoboWorks</title>
+  <meta name="description" content="RoboSense: Programa especializado de robótica inclusiva con enfoque terapéutico. Legoterapia, desarrollo emocional y social para niños con necesidades especiales." />
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Configuración Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif']
+          },
+          colors: {
+            'robo-blue': '#3b82f6',
+            'robo-purple': '#8b5cf6',
+            'robo-yellow': '#fbbf24',
+            'robo-green': '#10b981',
+            'robo-orange': '#fb923c',
+            'sense-yellow': '#fbbf24',
+            'sense-soft': '#fef3c7',
+            'sense-warm': '#fde68a'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-gray-50 font-poppins text-gray-700">
+
+<!-- HEADER -->
+<header class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center md:flex-row flex-col md:space-y-0 space-y-4">
+    <!-- Logo -->
+    <div class="flex items-center gap-3 mobile-logo-center w-full md:w-auto justify-center md:justify-start">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/icons/logo.png" alt="RoboWorks Logo" class="h-10 w-auto">
+        <span class="text-2xl font-bold text-robo-blue text-center md:text-left">
+          Robo<span class="text-robo-orange">Works</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="flex gap-6 font-medium mobile-center w-full md:w-auto justify-center md:justify-end">
+      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300">Programas</a>
+      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300">¿Por qué RoboWorks?</a>
+      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO DEL PROGRAMA -->
+<section class="program-hero robo-sense-hero relative overflow-hidden">
+  <!-- Elementos decorativos suaves -->
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+    <div class="absolute top-1/4 left-1/4 w-24 h-24 bg-yellow-100 rounded-full opacity-20"></div>
+    <div class="absolute bottom-1/3 right-1/3 w-32 h-32 bg-amber-100 rounded-full opacity-15"></div>
+    <div class="absolute top-1/2 left-1/3 w-16 h-16 bg-yellow-50 rounded-full opacity-25"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto relative z-10">
+    <div class="program-hero-content text-center text-gray-800">
+      <span class="inline-block bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6 font-medium">
+        🧠 Programa RoboSense
+      </span>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+        RoboSense – Robótica inclusiva para el desarrollo emocional y social
+      </h1>
+      <p class="text-xl md:text-2xl mb-8">
+        Un espacio seguro donde aprender y sonreír
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="index.html#programas" class="back-button">
+          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboSense" 
+           target="_blank" class="whatsapp-button bg-yellow-500 hover:bg-yellow-600">
+          <i class="fab fa-whatsapp mr-2"></i> Consultar cupos
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENIDO DEL PROGRAMA -->
+<section class="program-content">
+  <div class="max-w-6xl mx-auto">
+    <div class="program-detail-container">
+      
+      <!-- Imagen del programa -->
+      <div class="program-image">
+        <img src="images/programs/robo-sense.jpg" alt="RoboSense - Robótica inclusiva" 
+             onerror="this.src='images/optimized/fot2.jpg'">
+      </div>
+
+      <!-- Mensaje importante -->
+      <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-2xl mb-8 border-l-4 border-yellow-500">
+        <div class="flex items-start">
+          <div class="text-2xl text-yellow-600 mr-4">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Tecnología con corazón, aprendizaje con sentido</h3>
+            <p class="text-gray-700">
+              RoboSense está diseñado específicamente para niños que se benefician de un enfoque más tranquilo, 
+              estructurado y personalizado. Cada actividad está pensada para celebrar la neurodiversidad y 
+              potenciar las capacidades únicas de cada niño.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Descripción principal -->
+      <div class="program-description">
+        <h2 class="program-title">Donde cada bloque construye confianza</h2>
+        
+        <p>
+          <strong>RoboSense</strong> es un programa pensado para acompañar a niños que necesitan 
+          un entorno <span class="text-yellow-600 font-semibold">tranquilo, estructurado y seguro</span> para aprender.
+        </p>
+
+        <p>
+          A través de la robótica y la construcción guiada, se fortalecen la comunicación, 
+          la atención, las habilidades sociales y la autoestima. Las actividades están inspiradas 
+          en enfoques como la <span class="text-yellow-600 font-semibold">legoterapia</span>, 
+          promoviendo el trabajo cooperativo, los turnos y la expresión emocional desde el juego.
+        </p>
+
+        <p>
+          Aquí no hay presión, hay <span class="text-yellow-600 font-semibold">acompañamiento</span>. 
+          Cada pequeño logro se celebra. Cada bloque colocado es un paso hacia la confianza. 
+          Cada robot terminado es una victoria compartida.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6 mt-8">
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-yellow-100">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mr-4">
+                <i class="fas fa-brain"></i>
+              </div>
+              <h4 class="text-lg font-bold">Enfoque Neurodiverso</h4>
+            </div>
+            <p class="text-gray-600">Celebramos las diferentes formas de pensar, aprender y procesar información.</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-yellow-100">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mr-4">
+                <i class="fas fa-hands-helping"></i>
+              </div>
+              <h4 class="text-lg font-bold">Desarrollo Integral</h4>
+            </div>
+            <p class="text-gray-600">Trabajamos habilidades cognitivas, emocionales, sociales y motoras.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ¿Para quién es? -->
+      <div class="program-highlights mt-10">
+        <h3>RoboSense es ideal para niños con:</h3>
+        
+        <div class="grid md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border border-yellow-200">
+            <h4 class="font-bold text-lg mb-3 flex items-center">
+              <i class="fas fa-user-clock mr-3 text-yellow-600"></i>
+              Necesidades de Atención
+            </h4>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>TDAH (Déficit de atención)</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Dificultades de concentración</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Hiperactividad controlada</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border border-yellow-200">
+            <h4 class="font-bold text-lg mb-3 flex items-center">
+              <i class="fas fa-comments mr-3 text-yellow-600"></i>
+              Desafíos en Comunicación
+            </h4>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>TEA (Trastorno del Espectro Autista)</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Dificultades en interacción social</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Timidez extrema o selectividad</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border border-yellow-200">
+            <h4 class="font-bold text-lg mb-3 flex items-center">
+              <i class="fas fa-hand-paper mr-3 text-yellow-600"></i>
+              Sensibilidades Especiales
+            </h4>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Alta sensibilidad sensorial</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Ansiedad social o escolar</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Dificultades de aprendizaje</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl border border-yellow-200">
+            <h4 class="font-bold text-lg mb-3 flex items-center">
+              <i class="fas fa-users mr-3 text-yellow-600"></i>
+              Desarrollo Social
+            </h4>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Dificultades para hacer amigos</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Baja autoestima académica</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-2"></i>
+                <span>Necesidad de reforzar habilidades sociales</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nuestra metodología -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Metodología RoboSense: Terapia a través de la tecnología</h3>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-yellow-100">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-puzzle-piece"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Legoterapia Integrada</h4>
+            <p class="text-gray-600 text-sm">Usamos LEGO® como herramienta terapéutica para desarrollar comunicación, turnos y trabajo en equipo estructurado.</p>
+          </div>
+          
+          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-yellow-100">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-sun"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Ambiente Sensorial Adaptado</h4>
+            <p class="text-gray-600 text-sm">Luz natural suave, sonidos controlados, espacios organizados y predecibles que reducen la sobrecarga sensorial.</p>
+          </div>
+          
+          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-yellow-100">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Rutinas Visuales</h4>
+            <p class="text-gray-600 text-sm">Agendas visuales, secuencias paso a paso y anticipación de actividades para brindar seguridad y estructura.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legoterapia explicada -->
+      <div class="program-highlights mt-10">
+        <h3 class="flex items-center">
+          <i class="fas fa-cubes mr-3 text-yellow-600"></i>
+          Legoterapia: Construyendo conexiones
+        </h3>
+        
+        <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl mt-6">
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h4 class="font-bold text-lg mb-4 text-gray-800">¿Qué es la legoterapia?</h4>
+              <p class="text-gray-700 mb-4">
+                Es una intervención terapéutica que utiliza los bloques LEGO® para desarrollar 
+                habilidades sociales, comunicación y trabajo en equipo. En RoboSense, la integramos 
+                con robótica educativa para potenciar sus beneficios.
+              </p>
+              <p class="text-gray-700">
+                Los niños asumen roles específicos (constructor, proveedor, ingeniero) y deben 
+                comunicarse efectivamente para completar proyectos, promoviendo la colaboración 
+                natural y estructurada.
+              </p>
+            </div>
+            
+            <div>
+              <h4 class="font-bold text-lg mb-4 text-gray-800">Beneficios terapéuticos</h4>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                  <span><strong>Comunicación</strong>: Aprenden a dar y seguir instrucciones claras</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                  <span><strong>Atención conjunta</strong>: Enfocarse en una tarea compartida</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                  <span><strong>Resolución de problemas</strong>: Encuentran soluciones juntos</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                  <span><strong>Autoestima</strong>: Logros tangibles que construyen confianza</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nuestro enfoque -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Nuestro enfoque personalizado</h3>
+        
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold mr-4">
+              1
+            </div>
+            <div>
+              <h4 class="font-bold text-lg mb-2">Evaluación Inicial Personalizada</h4>
+              <p class="text-gray-600">Entrevista con padres, observación del niño y coordinación con terapeutas o especialistas si es necesario.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold mr-4">
+              2
+            </div>
+            <div>
+              <h4 class="font-bold text-lg mb-2">Plan Individualizado</h4>
+              <p class="text-gray-600">Diseñamos objetivos específicos según las necesidades de cada niño: comunicación, atención, habilidades sociales o regulación emocional.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold mr-4">
+              3
+            </div>
+            <div>
+              <h4 class="font-bold text-lg mb-2">Grupos Reducidos</h4>
+              <p class="text-gray-600">Máximo 4 niños por instructor, con composición cuidadosa para asegurar compatibilidad y apoyo mutuo.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold mr-4">
+              4
+            </div>
+            <div>
+              <h4 class="font-bold text-lg mb-2">Seguimiento Continuo</h4>
+              <p class="text-gray-600">Informes periódicos para padres, ajustes al plan según progreso y comunicación abierta con la familia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Habilidades que desarrollan -->
+      <div class="program-highlights mt-10">
+        <h3>Habilidades que potenciamos en RoboSense</h3>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-3 mx-auto">
+              <i class="fas fa-eye"></i>
+            </div>
+            <p class="font-medium text-sm">Atención Sostenida</p>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-3 mx-auto">
+              <i class="fas fa-comment-alt"></i>
+            </div>
+            <p class="font-medium text-sm">Comunicación</p>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-3 mx-auto">
+              <i class="fas fa-users"></i>
+            </div>
+            <p class="font-medium text-sm">Habilidades Sociales</p>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-3 mx-auto">
+              <i class="fas fa-hands"></i>
+            </div>
+            <p class="font-medium text-sm">Motricidad Fina</p>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-3 mx-auto">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <p class="font-medium text-sm">Resolución de Problemas</p>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-3 mx-auto">
+              <i class="fas fa-user-check"></i>
+            </div>
+            <p class="font-medium text-sm">Autoestima</p>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-3 mx-auto">
+              <i class="fas fa-clock"></i>
+            </div>
+            <p class="font-medium text-sm">Paciencia</p>
+          </div>
+          
+          <div class="bg-white p-4 rounded-lg border border-yellow-100 text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-xl mb-3 mx-auto">
+              <i class="fas fa-robot"></i>
+            </div>
+            <p class="font-medium text-sm">Pensamiento Lógico</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonio -->
+      <div class="bg-gradient-to-r from-yellow-100 to-amber-100 p-8 rounded-2xl mt-10">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/4 mb-6 md:mb-0 text-center">
+            <div class="w-20 h-20 bg-yellow-200 rounded-full flex items-center justify-center text-2xl text-yellow-700 mx-auto mb-4">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <h4 class="font-bold">María González</h4>
+            <p class="text-sm text-gray-600">Madre de Lucas, 8 años (TEA)</p>
+          </div>
+          <div class="md:w-3/4 md:pl-8">
+            <div class="text-3xl text-yellow-300 mb-4">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="text-gray-700 text-lg italic mb-6">
+              "Lucas siempre había tenido dificultades para interactuar con otros niños. Después de probar 
+              varias terapias, encontramos RoboSense. En solo 3 meses, no solo construyó su primer robot, 
+              sino que hizo su primer amigo. Ahora espera con ansias cada sesión y nosotros vemos cambios 
+              que nunca imaginamos posibles."
+            </p>
+            <div class="flex items-center">
+              <div class="flex text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <span class="ml-4 text-sm text-gray-600">Estudiante desde hace 6 meses</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nuestro equipo -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Nuestro equipo especializado</h3>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-yellow-100">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Educadores Certificados</h4>
+            <p class="text-gray-600 text-sm">Especialistas en educación especial, psicología educativa y pedagogía terapéutica.</p>
+          </div>
+          
+          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-yellow-100">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-heartbeat"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Formación Continua</h4>
+            <p class="text-gray-600 text-sm">Capacitación constante en neurodiversidad, TEA, TDAH y estrategias inclusivas.</p>
+          </div>
+          
+          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-yellow-100">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-2xl mb-4 mx-auto">
+              <i class="fas fa-hands-helping"></i>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Enfoque Empatético</h4>
+            <p class="text-gray-600 text-sm">Cada instructor entiende que el ritmo de aprendizaje es único y personal.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detalles prácticos -->
+      <div class="program-highlights mt-10">
+        <h3>Información práctica</h3>
+        
+        <div class="grid md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-white p-6 rounded-xl border border-yellow-100">
+            <h4 class="font-bold text-lg mb-4 flex items-center">
+              <i class="fas fa-calendar-alt mr-3 text-yellow-600"></i>
+              Sesiones y horarios
+            </h4>
+            <ul class="space-y-3">
+              <li class="flex items-center">
+                <i class="fas fa-clock text-yellow-500 mr-3"></i>
+                <div>
+                  <p class="font-medium">Duración: 60 minutos</p>
+                  <p class="text-sm text-gray-500">Sesiones cortas para mantener la atención</p>
+                </div>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-users text-yellow-500 mr-3"></i>
+                <div>
+                  <p class="font-medium">Grupos: 2-4 niños</p>
+                  <p class="text-sm text-gray-500">Composición cuidadosa por edades y necesidades</p>
+                </div>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-calendar text-yellow-500 mr-3"></i>
+                <div>
+                  <p class="font-medium">Frecuencia: 1-2 veces por semana</p>
+                  <p class="text-sm text-gray-500">Según necesidades individuales</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl border border-yellow-100">
+            <h4 class="font-bold text-lg mb-4 flex items-center">
+              <i class="fas fa-home mr-3 text-yellow-600"></i>
+              Nuestro espacio
+            </h4>
+            <ul class="space-y-3">
+              <li class="flex items-center">
+                <i class="fas fa-lightbulb text-yellow-500 mr-3"></i>
+                <div>
+                  <p class="font-medium">Iluminación suave</p>
+                  <p class="text-sm text-gray-500">Sin luces fluorescentes brillantes</p>
+                </div>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-volume-mute text-yellow-500 mr-3"></i>
+                <div>
+                  <p class="font-medium">Ambiente tranquilo</p>
+                  <p class="text-sm text-gray-500">Sonidos controlados y predecibles</p>
+                </div>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-th-large text-yellow-500 mr-3"></i>
+                <div>
+                  <p class="font-medium">Espacios definidos</p>
+                  <p class="text-sm text-gray-500">Áreas claras para cada actividad</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proceso de admisión -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Proceso de admisión cuidadoso</h3>
+        
+        <div class="bg-gradient-to-r from-yellow-50 to-amber-50 p-6 rounded-xl">
+          <div class="space-y-8">
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold text-lg mr-4">
+                1
+              </div>
+              <div>
+                <h4 class="font-bold text-lg mb-2">Consulta inicial gratuita</h4>
+                <p class="text-gray-700">Conversación con los padres para entender necesidades, expectativas y hacer preguntas abiertamente.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold text-lg mr-4">
+                2
+              </div>
+              <div>
+                <h4 class="font-bold text-lg mb-2">Sesión de observación</h4>
+                <p class="text-gray-700">El niño participa en una actividad mientras observamos su estilo de aprendizaje, intereses y necesidades de apoyo.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold text-lg mr-4">
+                3
+              </div>
+              <div>
+                <h4 class="font-bold text-lg mb-2">Plan personalizado</h4>
+                <p class="text-gray-700">Creamos objetivos específicos y recomendamos frecuencia, horarios y grupo adecuado.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold text-lg mr-4">
+                4
+              </div>
+              <div>
+                <h4 class="font-bold text-lg mb-2">Período de adaptación</h4>
+                <p class="text-gray-700">2 semanas para evaluar comodidad y ajustar el plan antes del compromiso completo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta importante -->
+      <div class="bg-yellow-50 p-6 rounded-2xl mt-10 border border-yellow-200">
+        <div class="text-center">
+          <div class="text-4xl mb-4">❓</div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">
+            ¿RoboSense reemplaza la terapia tradicional?
+          </h3>
+          <p class="text-gray-700">
+            <strong>No, es un complemento valioso.</strong> RoboSense no sustituye terapias ocupacionales, 
+            de lenguaje o psicológicas. Es una actividad extracurricular que refuerza habilidades en un 
+            contexto diferente, aplicando lo aprendido en terapia a proyectos concretos de robótica. 
+            Trabajamos en coordinación con los especialistas del niño cuando los padres lo autorizan.
+          </p>
+        </div>
+      </div>
+
+      <!-- Inversión -->
+      <div class="program-description mt-10">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Inversión con propósito</h3>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white p-8 rounded-xl shadow-lg border border-yellow-200 text-center">
+            <h4 class="text-xl font-bold mb-4">Sesiones Individuales</h4>
+            <div class="text-3xl font-bold text-yellow-600 mb-2">Desde $35</div>
+            <p class="text-gray-500 mb-6">por sesión de 60 min</p>
+            <ul class="space-y-3 text-left mb-6">
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-3"></i>
+                <span class="text-sm">Atención 100% personalizada</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-3"></i>
+                <span class="text-sm">Horario flexible</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-green-500 text-xs mr-3"></i>
+                <span class="text-sm">Objetivos específicos</span>
+              </li>
+            </ul>
+            <a href="https://wa.me/593993340103?text=Hola,%20quisiera%20información%20sobre%20sesiones%20individuales%20de%20RoboSense" 
+               class="text-yellow-600 font-semibold hover:text-yellow-700 text-sm">
+              Consultar disponibilidad →
+            </a>
+          </div>
+          
+          <div class="bg-gradient-to-br from-yellow-500 to-amber-500 p-8 rounded-xl shadow-lg text-white text-center relative">
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+              <span class="bg-white text-yellow-600 px-3 py-1 rounded-full text-xs font-bold">
+                RECOMENDADO
+              </span>
+            </div>
+            <h4 class="text-xl font-bold mb-4">Grupos Pequeños</h4>
+            <div class="text-3xl font-bold mb-2">$120</div>
+            <p class="opacity-90 mb-6">mensual (4 sesiones)</p>
+            <ul class="space-y-3 text-left mb-6">
+              <li class="flex items-center">
+                <i class="fas fa-check text-xs mr-3"></i>
+                <span class="text-sm">Grupos de 3-4 niños</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-xs mr-3"></i>
+                <span class="text-sm">Desarrollo de habilidades sociales</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-xs mr-3"></i>
+                <span class="text-sm">Interacción guiada</span>
+              </li>
+            </ul>
+            <a href="https://wa.me/593993340103?text=Hola,%20quisiera%20información%20sobre%20grupos%20de%20RoboSense" 
+               class="bg-white text-yellow-600 font-bold py-2 px-6 rounded-full hover:bg-gray-100 transition-colors inline-block">
+              Consultar cupos
+            </a>
+          </div>
+          
+          <div class="bg-white p-8 rounded-xl shadow-lg border border-yellow-200 text-center">
+            <h4 class="text-xl font-bold mb-4">Becas de Inclusión</h4>
+            <div class="text-3xl font-bold text-yellow-600 mb-2">Disponibles</div>
+            <p class="text-gray-500 mb-6">para casos específicos</p>
+            <ul class="space-y-3 text-left mb-6">
+              <li class="flex items-center">
+                <i class="fas fa-heart text-red-400 text-xs mr-3"></i>
+                <span class="text-sm">Evaluación caso por caso</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-heart text-red-400 text-xs mr-3"></i>
+                <span class="text-sm">Becas parciales y completas</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-heart text-red-400 text-xs mr-3"></i>
+                <span class="text-sm">Compromiso con la accesibilidad</span>
+              </li>
+            </ul>
+            <a href="https://wa.me/593993340103?text=Hola,%20quisiera%20información%20sobre%20becas%20para%20RoboSense" 
+               class="text-yellow-600 font-semibold hover:text-yellow-700 text-sm">
+              Solicitar información →
+            </a>
+          </div>
+        </div>
+        
+        <div class="mt-8 text-center">
+          <p class="text-gray-600">
+            <i class="fas fa-info-circle text-yellow-500 mr-2"></i>
+            Todos los materiales, equipos y certificaciones están incluidos. No hay costos de inscripción.
+          </p>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="program-actions mt-12">
+        <a href="index.html#programas" class="back-button">
+          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboSense,%20quisiera%20más%20información" 
+           target="_blank" class="whatsapp-button bg-yellow-500 hover:bg-yellow-600">
+          <i class="fab fa-whatsapp mr-2"></i> Consultar cupos disponibles
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20quiero%20agendar%20una%20consulta%20inicial%20para%20RoboSense" 
+           target="_blank" class="back-button bg-green-100 text-green-700 hover:bg-green-200 border border-green-200">
+          <i class="fas fa-calendar-check mr-2"></i> Agendar consulta inicial
+        </a>
+      </div>
+
+      <!-- FAQ -->
+      <div class="program-description mt-12 pt-8 border-t border-gray-200">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Preguntas frecuentes sobre RoboSense</h3>
+        
+        <div class="space-y-4">
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Necesito un diagnóstico médico para inscribir a mi hijo?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p><strong>No es obligatorio.</strong> Trabajamos con niños con y sin diagnóstico formal. 
+              Lo importante es identificar si RoboSense puede beneficiar a tu hijo. En la consulta inicial 
+              evaluamos sus necesidades y te orientamos honestamente sobre si nuestro programa es adecuado.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Puedo asistir a las sesiones con mi hijo?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Durante las primeras sesiones, permitimos y recomendamos que los padres estén presentes 
+              para facilitar la adaptación. Luego, según la comodidad del niño, hacemos una transición 
+              gradual hacia mayor independencia. Siempre tenemos una sala de espera cómoda donde los 
+              padres pueden esperar y observar a través de ventanas unidireccionales si lo desean.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Qué pasa si mi hijo tiene una crisis o se siente abrumado?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Nuestros instructores están capacitados en estrategias de regulación emocional. 
+              Tenemos un <strong>"rincón tranquilo"</strong> con cojines, luces tenues y materiales sensoriales 
+              donde los niños pueden tomar un descanso. Trabajamos con planes de comunicación visual 
+              para que los niños puedan expresar cuando necesitan una pausa. La seguridad emocional 
+              es nuestra prioridad.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p=4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Cómo comunican el progreso de mi hijo?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Proporcionamos <strong>informes mensuales detallados</strong> que incluyen:
+              <br>1. Logros específicos en habilidades objetivo
+              <br>2. Observaciones sobre interacciones sociales
+              <br>3. Recomendaciones para trabajar en casa
+              <br>4. Fotos/videos (con autorización) del trabajo realizado
+              <br>Además, estamos disponibles para reuniones en cualquier momento.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Llamado final -->
+      <div class="mt-12 text-center">
+        <div class="bg-gradient-to-r from-yellow-400 to-amber-500 text-white p-8 rounded-2xl">
+          <h3 class="text-2xl font-bold mb-4">Cada niño tiene su propio ritmo, y eso es perfecto</h3>
+          <p class="text-lg mb-6 opacity-90">
+            En RoboSense no comparamos, no apuramos, no estandarizamos. 
+            Acompañamos, celebramos y construimos confianza, un bloque a la vez.
+          </p>
+          <a href="https://wa.me/593993340103?text=Hola,%20quiero%20agendar%20una%20consulta%20para%20RoboSense" 
+             target="_blank" class="inline-block bg-white text-yellow-600 font-bold px-8 py-3 rounded-full 
+             hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl">
+            <i class="fas fa-comments mr-2"></i> Hablar con un especialista
+          </a>
+          <p class="mt-4 text-sm opacity-75">
+            Consulta inicial gratuita • Sin compromiso • Enfocada en entender tus necesidades
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-800 text-gray-300 py-10 text-center">
+  <div class="max-w-4xl mx-auto px-4">
+    <p>&copy; 2026 RoboWorks. Todos los derechos reservados.</p>
+    <p class="mt-2">Diseñado con ❤️ para inspirar a los pequeños inventores.</p>
+    
+    <div class="mt-6 pt-6 border-t border-gray-700 mobile-center">
+      <p class="text-sm mb-2">¿Tienes preguntas sobre RoboSense?</p>
+      <a href="mailto:info@roboworks.com?subject=Consulta%20RoboSense" class="text-yellow-400 hover:text-yellow-300 transition-colors duration-300">
+        info@roboworks.com
+      </a>
+      <p class="mt-2 text-sm">
+        <i class="fab fa-whatsapp mr-1"></i>
+        <a href="https://wa.me/593993340103?text=Hola,%20tengo%20preguntas%20sobre%20RoboSense" 
+           class="text-green-400 hover:text-green-300 transition-colors duration-300">
+          WhatsApp: +593 99 334 0103
+        </a>
+      </p>
+      <p class="mt-4 text-xs text-gray-400">
+        <i class="fas fa-shield-alt mr-1"></i>
+        Nuestros instructores tienen certificación en primeros auxilios psicológicos y manejo de crisis
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="js/main.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animaciones suaves de entrada
+    const animatedElements = document.querySelectorAll('.program-description, .program-highlights, .program-image');
+    animatedElements.forEach((el, index) => {
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, index * 150);
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    });
+
+    // FAQ interactivo
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', function() {
+        const answer = this.nextElementSibling;
+        const icon = this.querySelector('i');
+        
+        // Toggle respuesta actual
+        const isHidden = answer.classList.contains('hidden');
+        
+        // Cerrar todas las respuestas
+        document.querySelectorAll('.faq-answer').forEach(ans => {
+          ans.classList.add('hidden');
+          ans.previousElementSibling.querySelector('i').classList.remove('fa-chevron-up');
+          ans.previousElementSibling.querySelector('i').classList.add('fa-chevron-down');
+        });
+        
+        // Abrir la actual si estaba cerrada
+        if (isHidden) {
+          answer.classList.remove('hidden');
+          icon.classList.remove('fa-chevron-down');
+          icon.classList.add('fa-chevron-up');
+          
+          // Animación suave
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+          answer.style.opacity = '1';
+        }
+      });
+    });
+
+    // Inicializar alturas FAQ
+    document.querySelectorAll('.faq-answer').forEach(answer => {
+      answer.style.transition = 'max-height 0.5s ease, opacity 0.5s ease';
+      if (answer.classList.contains('hidden')) {
+        answer.style.maxHeight = '0';
+        answer.style.opacity = '0';
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        answer.style.opacity = '1';
+      }
+    });
+
+    // Efecto hover suave en tarjetas
+    document.querySelectorAll('.bg-white.rounded-lg').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-4px)';
+        this.style.boxShadow = '0 10px 25px rgba(251, 191, 36, 0.1)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '';
+      });
+    });
+
+    // Contadores suaves para estadísticas (si las tuvieras)
+    const counters = document.querySelectorAll('.text-3xl.font-bold');
+    counters.forEach(counter => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const target = parseInt(counter.textContent);
+            let current = 0;
+            const increment = target / 30;
+            const updateCounter = () => {
+              if (current < target) {
+                current += increment;
+                counter.textContent = Math.ceil(current);
+                setTimeout(updateCounter, 40);
+              } else {
+                counter.textContent = target;
+              }
+            };
+            updateCounter();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      observer.observe(counter);
+    });
+  });
+
+  // Efecto de partículas suaves
+  function createGentleParticles() {
+    const container = document.querySelector('.program-hero');
+    if (!container) return;
+    
+    for (let i = 0; i < 10; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'absolute rounded-full';
+      particle.style.width = Math.random() * 6 + 3 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.backgroundColor = `rgba(251, 191, 36, ${Math.random() * 0.2 + 0.1})`;
+      particle.style.animation = `floatGentle ${Math.random() * 25 + 15}s linear infinite`;
+      container.appendChild(particle);
+    }
+  }
+
+  window.addEventListener('load', createGentleParticles);
+</script>
+
+<style>
+  @keyframes floatGentle {
+    0%, 100% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+      opacity: 0.3;
+    }
+    25% {
+      transform: translateY(-15px) translateX(10px) rotate(90deg);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(-30px) translateX(-5px) rotate(180deg);
+      opacity: 0.3;
+    }
+    75% {
+      transform: translateY(-15px) translateX(5px) rotate(270deg);
+      opacity: 0.5;
+    }
+  }
+  
+  .program-hero {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  }
+  
+  .bg-white.rounded-lg {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Efectos de calidez y suavidad */
+  .warm-glow {
+    box-shadow: 0 10px 30px rgba(251, 191, 36, 0.15);
+  }
+  
+  .soft-transition {
+    transition: all 0.5s ease;
+  }
+  
+  /* Efecto de pulsación suave para elementos importantes */
+  @keyframes gentlePulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 5px 15px rgba(251, 191, 36, 0.1);
+    }
+    50% {
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(251, 191, 36, 0.2);
+    }
+  }
+  
+  .gentle-pulse {
+    animation: gentlePulse 3s ease-in-out infinite;
+  }
+  
+  /* Estilos para elementos de accesibilidad */
+  .high-contrast {
+    filter: contrast(1.1);
+  }
+  
+  .clear-text {
+    letter-spacing: 0.5px;
+    line-height: 1.8;
+  }
+</style>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoboWorks - Robótica educativa para niños</title>
+  <meta name="description" content="RoboWorks: Robótica educativa para niños, con propósito y corazón. Aprender, crear y crecer a través de la tecnología." />
+
+  <!-- Three.js (necesario para el robot 3D) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Configuración Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif']
+          },
+          colors: {
+            'robo-blue': '#3b82f6',
+            'robo-purple': '#8b5cf6',
+            'robo-yellow': '#fbbf24',
+            'robo-green': '#10b981',
+            'robo-orange': '#fb923c'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/styles.css" />
+  
+  <style>
+    /* Estilos adicionales para el robot */
+    #robot-hero {
+      width: 100%;
+      height: 500px;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-robot {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    
+    /* Responsive - Móvil */
+    @media (max-width: 768px) {
+      #robot-hero {
+        height: 400px;
+        max-width: 90%;
+        margin: 0 auto 2rem;
+      }
+      
+      /* Centrar todo en móvil */
+      .mobile-center {
+        text-align: center !important;
+      }
+      
+      .mobile-flex-center {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      
+      .mobile-logo-center {
+        justify-content: center !important;
+        margin: 0 auto;
+      }
+      
+      .mobile-margin-auto {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      
+      .mobile-block-center {
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #robot-hero {
+        height: 350px;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 font-poppins text-gray-700">
+
+<!-- HEADER - CENTRADO EN MÓVIL -->
+<header class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center md:flex-row flex-col md:space-y-0 space-y-4">
+    <!-- Logo centrado en móvil -->
+    <div class="flex items-center gap-3 mobile-logo-center w-full md:w-auto justify-center md:justify-start">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/icons/logo.png" alt="RoboWorks Logo" class="h-10 w-auto">
+        <span class="text-2xl font-bold text-robo-blue text-center md:text-left">
+          Robo<span class="text-robo-orange">Works</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- Navegación centrada en móvil -->
+    <nav class="flex gap-6 font-medium mobile-center w-full md:w-auto justify-center md:justify-end">
+      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300">Programas</a>
+      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300">¿Por qué RoboWorks?</a>
+      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO CON ONDAS Y ROBOT 3D - CENTRADO EN MÓVIL -->
+<section class="hero-wave bg-gradient-to-br from-blue-50 to-purple-50 py-12 md:py-20 px-4">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+    <!-- Contenido de texto - Centrado en móvil -->
+    <div class="fade-in-up mobile-center">
+      <span class="inline-block bg-blue-100 text-robo-blue px-4 py-2 rounded-full mb-4 md:mb-6 font-medium mobile-block-center">
+        Inscripciones abiertas
+      </span>
+      
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-6 mobile-center leading-tight">
+        Robótica educativa para niños,<br>
+        con <span class="text-robo-blue">propósito</span> y <span class="text-robo-orange">corazón</span>
+      </h1>
+      
+      <p class="text-lg md:text-xl mb-6 md:mb-8 mobile-center text-gray-600">
+        Aprender, crear y crecer a través de la tecnología
+      </p>
+
+      <div class="mobile-flex-center">
+        <a href="https://wa.me/593993340103" target="_blank"
+          class="btn-hover inline-block bg-gradient-to-r from-robo-blue to-robo-purple text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 mobile-margin-auto">
+          <i class="fab fa-whatsapp mr-2"></i> Inscribirse ahora
+        </a>
+      </div>
+      
+      <p class="mt-6 text-sm text-gray-600 mobile-center">
+        <i class="fas fa-robot text-robo-blue mr-2"></i>
+        Interactúa con nuestro robot 3D: arrastra para rotar, usa la rueda del mouse para zoom
+      </p>
+    </div>
+
+    <!-- Robot 3D - Centrado en móvil -->
+    <div class="fade-in-up order-first lg:order-last mobile-center">
+      <div id="robot-hero" class="hero-robot mobile-margin-auto">
+        <!-- El robot 3D se renderizará aquí -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMAS - CENTRADO EN MÓVIL -->
+<section id="programas" class="py-16 md:py-20 px-4 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <!-- Título centrado -->
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-14 mobile-center">
+      Nuestros <span class="text-robo-blue">Programas</span>
+    </h2>
+
+    <!-- Grid de programas - Centrado en móvil -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 justify-items-center">
+
+      <!-- RoboStart -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-green-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto">
+        <img src="images/optimized/fot1.jpg" alt="RoboStart" class="w-full h-48 md:h-56 object-cover">
+        <div class="p-5 md:p-6 mobile-center">
+          <h3 class="text-xl md:text-2xl font-bold mb-1">🤖 RoboStart</h3>
+          <p class="text-sm text-gray-500 mb-3">5 a 7 años</p>
+          <p class="font-medium mb-2 mobile-center">Primer contacto con la robótica a través del juego y la imaginación.</p>
+          <p class="text-sm mb-4 md:mb-5 mobile-center">Aprenden jugando, creando y compartiendo.</p>
+          <div class="mobile-flex-center">
+            <a href="robo-start.html" class="bg-robo-green text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-green-600 transition-colors mobile-block-center">
+              Más información
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RoboSense -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-yellow-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto">
+        <img src="images/optimized/fot2.jpg" alt="RoboSense" class="w-full h-48 md:h-56 object-cover">
+        <div class="p-5 md:p-6 mobile-center">
+          <h3 class="text-xl md:text-2xl font-bold mb-2">🧠 RoboSense</h3>
+          <p class="font-medium mb-2 mobile-center">Robótica inclusiva para el desarrollo emocional y social.</p>
+          <p class="text-sm mb-3 mobile-center">Apoyo en atención, comunicación y habilidades sociales.</p>
+          <p class="italic text-sm mb-4 md:mb-5 mobile-center">Un espacio seguro donde aprender y sonreír.</p>
+          <div class="mobile-flex-center">
+            <a href="robo-sense.html" class="bg-robo-yellow text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-yellow-600 transition-colors mobile-block-center">
+              Consultar cupos
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RoboCare -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-blue-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto">
+        <img src="images/optimized/fot3.jpg" alt="RoboCare" class="w-full h-48 md:h-56 object-cover">
+        <div class="p-5 md:p-6 mobile-center">
+          <h3 class="text-xl md:text-2xl font-bold mb-1">🧩 RoboCare</h3>
+          <p class="text-sm text-gray-500 mb-3">6 a 10 años</p>
+          <p class="font-medium mb-2 mobile-center">Construcción guiada con LEGO en entornos tranquilos.</p>
+          <p class="italic text-sm mb-4 md:mb-5 mobile-center">Aprender con las manos, crecer con el corazón.</p>
+          <div class="mobile-flex-center">
+            <a href="robo-care.html" class="bg-robo-blue text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-blue-600 transition-colors mobile-block-center">
+              Más información
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RoboEnglish -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-purple-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto">
+        <img src="images/optimized/fot4.jpg" alt="RoboEnglish" class="w-full h-48 md:h-56 object-cover">
+        <div class="p-5 md:p-6 mobile-center">
+          <h3 class="text-xl md:text-2xl font-bold mb-1">🌍 RoboEnglish</h3>
+          <p class="text-sm text-gray-500 mb-3">7 a 11 años</p>
+          <p class="font-medium mb-4 md:mb-5 mobile-center">Inglés práctico mientras construyen y programan robots.</p>
+          <div class="mobile-flex-center">
+            <a href="robo-english.html" class="bg-robo-purple text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-purple-600 transition-colors mobile-block-center">
+              Conocer programa
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RoboPro -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-orange-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto">
+        <img src="images/optimized/fot5.jpg" alt="RoboPro" class="w-full h-48 md:h-56 object-cover">
+        <div class="p-5 md:p-6 mobile-center">
+          <h3 class="text-xl md:text-2xl font-bold mb-1">🏆 RoboPro</h3>
+          <p class="text-sm text-gray-500 mb-3">10 a 17 años</p>
+          <p class="font-medium mb-2 mobile-center">Robótica de competencia y alto nivel.</p>
+          <p class="italic text-sm mb-4 md:mb-5 mobile-center">Competir con propósito.</p>
+          <div class="mobile-flex-center">
+            <a href="robo-pro.html" class="bg-robo-orange text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-orange-600 transition-colors mobile-block-center">
+              Más información
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CodeWorks -->
+<div class="program-card rounded-3xl shadow-lg overflow-hidden bg-gray-100 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto">
+  <!-- Reemplazado el emoji por tu foto -->
+  <div class="h-48 md:h-56 flex items-center justify-center overflow-hidden">
+    <img src="images/optimized/fot6.jpg" alt="CodeWorks - Programación virtual" 
+         class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+  </div>
+  <div class="p-5 md:p-6 mobile-center">
+    <h3 class="text-xl md:text-2xl font-bold mb-1">CodeWorks</h3>
+    <p class="text-sm text-gray-500 mb-3">10 a 18 años · Virtual</p>
+    <p class="font-medium mb-4 md:mb-5 mobile-center">Programación de videojuegos, lógica computacional y Python.</p>
+    <div class="mobile-flex-center">
+      <a href="code-works.html" class="bg-gray-800 text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-gray-900 transition-colors mobile-block-center">
+        Inscripción online
+      </a>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN CONFIANZA - CENTRADO EN MÓVIL -->
+<section id="confianza" class="py-16 md:py-20 px-4 bg-gray-50">
+  <div class="max-w-6xl mx-auto">
+    <!-- Título centrado -->
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 md:mb-12 mobile-center">
+      ¿Por qué elegir <span class="text-robo-blue">RoboWorks</span>?
+    </h2>
+
+    <!-- Grid de confianza - Centrado en móvil -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
+      <div class="trust-item p-6 bg-white rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
+        <div class="mobile-flex-center mb-4">
+          <i class="fas fa-heart text-3xl text-robo-orange"></i>
+        </div>
+        <p class="font-medium mobile-center">Educación con enfoque humano y emocional</p>
+      </div>
+      
+      <div class="trust-item p-6 bg-white rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
+        <div class="mobile-flex-center mb-4">
+          <i class="fas fa-robot text-3xl text-robo-blue"></i>
+        </div>
+        <p class="font-medium mobile-center">Aprendizaje práctico con robótica real</p>
+      </div>
+      
+      <div class="trust-item p-6 bg-white rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
+        <div class="mobile-flex-center mb-4">
+          <i class="fas fa-users text-3xl text-robo-green"></i>
+        </div>
+        <p class="font-medium mobile-center">Grupos pequeños y atención personalizada</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER - SIEMPRE CENTRADO -->
+<footer id="contacto" class="bg-gray-800 text-gray-300 py-10 text-center">
+  <div class="max-w-4xl mx-auto px-4">
+    <p>&copy; 2026 RoboWorks. Todos los derechos reservados.</p>
+    <p class="mt-2">Diseñado con ❤️ para inspirar a los pequeños inventores.</p>
+    
+    <!-- Contacto adicional centrado -->
+    <div class="mt-6 pt-6 border-t border-gray-700 mobile-center">
+      <p class="text-sm mb-2">¿Tienes preguntas? Contáctanos</p>
+      <a href="mailto:info@roboworks.com" class="text-robo-blue hover:text-blue-300 transition-colors duration-300">
+        info@roboworks.com
+      </a>
+      <p class="mt-2 text-sm">
+        <i class="fab fa-whatsapp mr-1"></i>
+        <a href="https://wa.me/593993340103" class="text-green-400 hover:text-green-300 transition-colors duration-300">
+          WhatsApp: +593 99 334 0103
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="js/robot-hero.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+  // Script para asegurar que el robot se cargue correctamente
+  document.addEventListener('DOMContentLoaded', function() {
+    // Asegurar que el contenedor del robot tenga tamaño
+    const robotContainer = document.getElementById('robot-hero');
+    if (robotContainer && robotContainer.clientHeight === 0) {
+      robotContainer.style.height = '500px';
+    }
+    
+    // Precarga mejorada para móviles
+    if ('ontouchstart' in window) {
+      console.log('Dispositivo táctil detectado - optimizando robot 3D');
+    }
+    
+    // Añadir clase de centrado automático para elementos móviles
+    const mobileElements = document.querySelectorAll('h1, h2, h3, p, .program-card, .trust-item');
+    mobileElements.forEach(el => {
+      el.classList.add('md:text-left', 'mobile-center');
+    });
+  });
+  
+  // Detectar si es móvil
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+  
+  // Actualizar clases en redimensionamiento
+  window.addEventListener('resize', function() {
+    if (isMobile()) {
+      document.body.classList.add('mobile-view');
+    } else {
+      document.body.classList.remove('mobile-view');
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoboCare - Tecnología guiada para aprender con calma | RoboWorks</title>
+  <meta name="description" content="RoboCare: Robótica aplicada con LEGO en entornos tranquilos para niños de 6 a 10 años. Aprender con las manos, crecer con el corazón." />
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Configuración Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif']
+          },
+          colors: {
+            'robo-blue': '#3b82f6',
+            'robo-purple': '#8b5cf6',
+            'robo-yellow': '#fbbf24',
+            'robo-green': '#10b981',
+            'robo-orange': '#fb923c'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-gray-50 font-poppins text-gray-700">
+
+<!-- HEADER -->
+<header class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center md:flex-row flex-col md:space-y-0 space-y-4">
+    <!-- Logo -->
+    <div class="flex items-center gap-3 mobile-logo-center w-full md:w-auto justify-center md:justify-start">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/icons/logo.png" alt="RoboWorks Logo" class="h-10 w-auto">
+        <span class="text-2xl font-bold text-robo-blue text-center md:text-left">
+          Robo<span class="text-robo-orange">Works</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="flex gap-6 font-medium mobile-center w-full md:w-auto justify-center md:justify-end">
+      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300">Programas</a>
+      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300">¿Por qué RoboWorks?</a>
+      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO DEL PROGRAMA -->
+<section class="program-hero robo-care-hero">
+  <div class="max-w-6xl mx-auto">
+    <div class="program-hero-content text-center text-white">
+      <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6 font-medium">
+        🧩 Programa RoboCare
+      </span>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+        RoboCare – Tecnología guiada para aprender con calma
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 opacity-90">
+        Aprender con las manos, crecer con el corazón
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="index.html#programas" class="back-button">
+          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboCare" 
+           target="_blank" class="whatsapp-button">
+          <i class="fab fa-whatsapp mr-2"></i> Más información
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENIDO DEL PROGRAMA -->
+<section class="program-content">
+  <div class="max-w-6xl mx-auto">
+    <div class="program-detail-container">
+      
+      <!-- Imagen del programa -->
+      <div class="program-image">
+        <img src="images/programs/robo-care.jpg" alt="RoboCare - Construcción guiada con LEGO" 
+             onerror="this.src='images/optimized/fot3.jpg'">
+      </div>
+
+      <!-- Edad -->
+      <div class="program-age">
+        <i class="fas fa-child mr-2"></i> Edad: 6 a 10 años
+      </div>
+
+      <!-- Descripción -->
+      <div class="program-description">
+        <h2 class="program-title">Tecnología que acompaña, no que abruma</h2>
+        
+        <p>
+          <strong>RoboCare</strong> es un programa de robótica aplicada pensado para niños que 
+          aprenden mejor con <span class="text-robo-blue font-semibold">procesos claros y acompañamiento cercano</span>.
+        </p>
+
+        <p>
+          Los estudiantes trabajan con <span class="text-robo-blue font-semibold">programación visual en mBlock, 
+          electrónica básica con Arduino y ESP32</span>, y primeros proyectos de domótica. 
+          Todo se desarrolla paso a paso, en un ambiente tranquilo, donde la tecnología acompaña y no abruma.
+        </p>
+
+        <p>
+          Aquí no hay carreras contra el reloj. No hay comparaciones. Solo hay <span class="text-robo-blue font-semibold">progreso 
+          a tu propio ritmo</span>, con la seguridad de que cada paso está bien dado y cada concepto bien entendido.
+        </p>
+
+        <p class="text-xl italic text-robo-blue border-l-4 border-robo-blue pl-4 mt-6">
+          Aprender tecnología con calma, propósito y corazón.
+        </p>
+      </div>
+
+      <!-- Lo que aprenden -->
+      <div class="program-highlights">
+        <h3>¿Qué hace especial a RoboCare?</h3>
+        
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-brain"></i>
+          </div>
+          <div class="highlight-text">
+            <strong>Ritmo personalizado</strong> - Cada niño avanza a su velocidad
+          </div>
+        </div>
+
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-volume-mute"></i>
+          </div>
+          <div class="highlight-text">
+            <strong>Ambiente tranquilo</strong> - Sin estímulos excesivos ni presión
+          </div>
+        </div>
+
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-hands"></i>
+          </div>
+          <div class="highlight-text">
+            <strong>Construcción guiada</strong> - Instrucciones paso a paso con LEGO
+          </div>
+        </div>
+
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-microchip"></i>
+          </div>
+          <div class="highlight-text">
+            <strong>Electrónica básica</strong> - Introducción a Arduino y ESP32
+          </div>
+        </div>
+
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="highlight-text">
+            <strong>Proyectos prácticos</strong> - Domótica y automatización simple
+          </div>
+        </div>
+      </div>
+
+      <!-- Metodología -->
+      <div class="program-description">
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">Nuestra metodología "Paso a Paso"</h3>
+        
+        <div class="grid md:grid-cols-3 gap-6 mt-6">
+          <div class="bg-blue-50 p-6 rounded-xl">
+            <div class="w-12 h-12 bg-robo-blue rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
+              1
+            </div>
+            <h4 class="font-bold text-lg mb-2">Observación</h4>
+            <p class="text-gray-600">Primero vemos, entendemos y exploramos sin prisa.</p>
+          </div>
+          
+          <div class="bg-blue-50 p-6 rounded-xl">
+            <div class="w-12 h-12 bg-robo-blue rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
+              2
+            </div>
+            <h4 class="font-bold text-lg mb-2">Construcción</h4>
+            <p class="text-gray-600">Manos a la obra, siguiendo guías visuales claras.</p>
+          </div>
+          
+          <div class="bg-blue-50 p-6 rounded-xl">
+            <div class="w-12 h-12 bg-robo-blue rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
+              3
+            </div>
+            <h4 class="font-bold text-lg mb-2">Programación</h4>
+            <p class="text-gray-600">Damos vida al robot con programación visual sencilla.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tecnologías que usamos -->
+      <div class="program-description mt-8">
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">Tecnologías que utilizamos</h3>
+        
+        <div class="flex flex-wrap gap-4 mt-4">
+          <span class="bg-blue-100 text-robo-blue px-4 py-2 rounded-full font-medium">
+            <i class="fas fa-cube mr-2"></i> LEGO Education
+          </span>
+          <span class="bg-blue-100 text-robo-blue px-4 py-2 rounded-full font-medium">
+            <i class="fas fa-code mr-2"></i> mBlock (Scratch)
+          </span>
+          <span class="bg-blue-100 text-robo-blue px-4 py-2 rounded-full font-medium">
+            <i class="fas fa-microchip mr-2"></i> Arduino
+          </span>
+          <span class="bg-blue-100 text-robo-blue px-4 py-2 rounded-full font-medium">
+            <i class="fas fa-wifi mr-2"></i> ESP32
+          </span>
+          <span class="bg-blue-100 text-robo-blue px-4 py-2 rounded-full font-medium">
+            <i class="fas fa-home mr-2"></i> Domótica básica
+          </span>
+        </div>
+      </div>
+
+      <!-- Para quién es ideal -->
+      <div class="program-highlights mt-8">
+        <h3>RoboCare es ideal para niños que:</h3>
+        
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="highlight-text">
+            Prefieren <strong>observar antes de actuar</strong>
+          </div>
+        </div>
+
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="highlight-text">
+            Necesitan <strong>más tiempo para procesar</strong> información nueva
+          </div>
+        </div>
+
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-hand-paper"></i>
+          </div>
+          <div class="highlight-text">
+            Se sienten <strong>abrumados con estímulos múltiples</strong>
+          </div>
+        </div>
+
+        <div class="highlight-item">
+          <div class="highlight-icon" style="background-color: #3b82f6;">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="highlight-text">
+            Disfrutan de la <strong>satisfacción de completar proyectos</strong> paso a paso
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonio -->
+      <div class="bg-blue-50 p-6 rounded-xl mt-8 border-l-4 border-robo-blue">
+        <div class="flex items-start">
+          <div class="text-3xl text-robo-blue mr-4">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <div>
+            <p class="text-gray-700 italic">
+              "Mi hijo siempre se sentía presionado en actividades grupales. En RoboCare encontró 
+              un espacio donde puede aprender a su ritmo. Ahora construye robots con confianza 
+              y cada semana viene feliz a mostrar lo que logró."
+            </p>
+            <p class="mt-4 font-semibold text-gray-800">
+              — Madre de Santiago, 8 años
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detalles prácticos -->
+      <div class="program-description mt-8">
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">Detalles prácticos</h3>
+        
+        <div class="grid md:grid-cols-2 gap-6 mt-4">
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 bg-robo-blue/10 rounded-full flex items-center justify-center text-robo-blue mr-3">
+                <i class="fas fa-users"></i>
+              </div>
+              <h4 class="font-bold text-lg">Grupos</h4>
+            </div>
+            <p class="text-gray-600">Máximo 5 niños por sesión para asegurar atención personalizada.</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 bg-robo-blue/10 rounded-full flex items-center justify-center text-robo-blue mr-3">
+                <i class="fas fa-clock"></i>
+              </div>
+              <h4 class="font-bold text-lg">Duración</h4>
+            </div>
+            <p class="text-gray-600">Sesiones de 90 minutos, una vez por semana.</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 bg-robo-blue/10 rounded-full flex items-center justify-center text-robo-blue mr-3">
+                <i class="fas fa-tools"></i>
+              </div>
+              <h4 class="font-bold text-lg">Materiales</h4>
+            </div>
+            <p class="text-gray-600">Todo el equipo y materiales incluidos. Solo traer curiosidad.</p>
+          </div>
+          
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 bg-robo-blue/10 rounded-full flex items-center justify-center text-robo-blue mr-3">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <h4 class="font-bold text-lg">Inicio</h4>
+            </div>
+            <p class="text-gray-600">Nuevos grupos cada mes. Inscripciones abiertas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="program-actions mt-10">
+        <a href="index.html#programas" class="back-button">
+          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboCare,%20quisiera%20más%20información" 
+           target="_blank" class="whatsapp-button">
+          <i class="fab fa-whatsapp mr-2"></i> Solicitar información detallada
+        </a>
+        <a href="https://wa.me/593993340103?text=Hola,%20quiero%20agendar%20una%20clase%20muestra%20para%20RoboCare" 
+           target="_blank" class="back-button bg-green-100 text-green-700 hover:bg-green-200">
+          <i class="fas fa-calendar-check mr-2"></i> Agendar clase muestra
+        </a>
+      </div>
+
+      <!-- FAQ -->
+      <div class="program-description mt-12 pt-8 border-t border-gray-200">
+        <h3 class="text-2xl font-bold mb-6 text-gray-800">Preguntas frecuentes</h3>
+        
+        <div class="space-y-4">
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Mi hijo necesita tener conocimientos previos de robótica?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>No, para nada. RoboCare está diseñado precisamente para niños que están comenzando. Partimos desde cero y avanzamos al ritmo de cada niño.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Puedo asistir a una clase de prueba?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Sí, ofrecemos una clase muestra gratuita para que tu hijo experimente la metodología y decida si le gusta. Contáctanos para agendar.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+              <span>¿Qué pasa si mi hijo no se adapta?</span>
+              <i class="fas fa-chevron-down transition-transform"></i>
+            </button>
+            <div class="faq-answer p-4 bg-white hidden">
+              <p>Tenemos un período de adaptación de 2 semanas. Si ves que no es lo adecuado, podemos evaluar otros programas o hacer un reembolso proporcional.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-800 text-gray-300 py-10 text-center">
+  <div class="max-w-4xl mx-auto px-4">
+    <p>&copy; 2026 RoboWorks. Todos los derechos reservados.</p>
+    <p class="mt-2">Diseñado con ❤️ para inspirar a los pequeños inventores.</p>
+    
+    <div class="mt-6 pt-6 border-t border-gray-700 mobile-center">
+      <p class="text-sm mb-2">¿Tienes preguntas sobre RoboCare?</p>
+      <a href="mailto:info@roboworks.com" class="text-robo-blue hover:text-blue-300 transition-colors duration-300">
+        info@roboworks.com
+      </a>
+      <p class="mt-2 text-sm">
+        <i class="fab fa-whatsapp mr-1"></i>
+        <a href="https://wa.me/593993340103?text=Hola,%20tengo%20preguntas%20sobre%20RoboCare" 
+           class="text-green-400 hover:text-green-300 transition-colors duration-300">
+          WhatsApp: +593 XX XXX XXXX
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="js/main.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animación de entrada
+    const elements = document.querySelectorAll('.program-description, .program-highlights, .program-image');
+    elements.forEach((el, index) => {
+      el.style.animationDelay = `${index * 0.15}s`;
+      el.classList.add('fade-in-up');
+    });
+
+    // FAQ interactivo
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', function() {
+        const answer = this.nextElementSibling;
+        const icon = this.querySelector('i');
+        
+        // Cerrar otras respuestas
+        document.querySelectorAll('.faq-answer').forEach(otherAnswer => {
+          if (otherAnswer !== answer && !otherAnswer.classList.contains('hidden')) {
+            otherAnswer.classList.add('hidden');
+            otherAnswer.previousElementSibling.querySelector('i').classList.remove('fa-chevron-up');
+            otherAnswer.previousElementSibling.querySelector('i').classList.add('fa-chevron-down');
+          }
+        });
+        
+        // Alternar respuesta actual
+        answer.classList.toggle('hidden');
+        icon.classList.toggle('fa-chevron-down');
+        icon.classList.toggle('fa-chevron-up');
+      });
+    });
+
+    // Resaltar elementos al hacer scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+        }
+      });
+    }, observerOptions);
+
+    // Observar secciones importantes
+    document.querySelectorAll('.program-highlights, .program-description > h3').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+
+<style>
+  .animate__animated {
+    animation-duration: 0.6s;
+  }
+  
+  .animate__fadeInUp {
+    animation-name: fadeInUp;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .faq-question {
+    transition: background-color 0.3s ease;
+  }
+  
+  .faq-answer {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+</body>
+</html>

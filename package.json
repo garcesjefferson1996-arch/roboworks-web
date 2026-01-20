@@ -1,0 +1,22 @@
+{
+  "name": "roboworks-web",
+  "version": "1.0.0",
+  "description": "Sitio web institucional para RoboWorks",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000",
+    "build": "npm run minify-css && npm run minify-js",
+    "minify-css": "cleancss -o css/styles.min.css css/styles.css",
+    "minify-js": "terser js/main.js -o js/main.min.js --compress --mangle",
+    "optimize-images": "imagemin images/* --out-dir=images/optimized",
+    "lint": "eslint js/",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "clean-css-cli": "^5.6.1",
+    "terser": "^5.16.1",
+    "eslint": "^8.38.0",
+    "prettier": "^2.8.7"
+  }
+}
