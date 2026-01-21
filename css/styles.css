@@ -83,106 +83,79 @@
 }
 
 /* =========================
-   UTILIDADES DE CENTRADO PARA MÓVIL
+   UTILIDADES DE CENTRADO PARA MÓVIL - CORREGIDAS
    ========================= */
 
-/* Centrado de texto en móvil */
+/* Centrado de texto en móvil - CORRECCIÓN: Solo centrar en móvil */
 .mobile-center {
-  text-align: center !important;
+  text-align: center;
 }
 
 @media (min-width: 769px) {
-  .mobile-center {
-    text-align: left !important;
+  /* Eliminado: .mobile-center { text-align: left !important; } */
+  /* En su lugar, para títulos que deben estar centrados en desktop: */
+  .center-on-desktop.mobile-center {
+    text-align: center;
   }
 }
 
-/* Flexbox centrado en móvil */
+/* Flexbox centrado en móvil - MODIFICADO */
 .mobile-flex-center {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 @media (min-width: 769px) {
   .mobile-flex-center {
-    display: block !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    text-align: left !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 }
 
 /* Logo centrado en móvil */
 .mobile-logo-center {
-  justify-content: center !important;
-  margin: 0 auto !important;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 @media (min-width: 769px) {
   .mobile-logo-center {
-    justify-content: flex-start !important;
-    margin: 0 !important;
+    justify-content: flex-start;
+    margin: 0;
   }
 }
 
 /* Margen automático en móvil */
 .mobile-margin-auto {
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 769px) {
   .mobile-margin-auto {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
 /* Display block centrado en móvil */
 .mobile-block-center {
-  display: block !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 769px) {
   .mobile-block-center {
-    display: inline-block !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-}
-
-/* Grid centrado en móvil */
-.mobile-justify-center {
-  justify-items: center !important;
-}
-
-@media (min-width: 769px) {
-  .mobile-justify-center {
-    justify-items: stretch !important;
-  }
-}
-
-/* Contenedor centrado en móvil */
-.mobile-container-center {
-  width: 100% !important;
-  max-width: 100% !important;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-@media (min-width: 769px) {
-  .mobile-container-center {
-    max-width: 1280px !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
@@ -224,7 +197,7 @@
   left: 0;
   width: 200%;
   height: 120px;
-  background-image: url("data:image/svg+xml,%3Csvg width='1440' height='120' viewBox='0 0 1440 120' xmlns='http://www.w3.org2000/svg'%3E%3Cpath d='M0,64 C240,96 480,32 720,32 C960,32 1200,96 1440,64 L1440,120 L0,120 Z' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='1440' height='120' viewBox='0 0 1440 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,64 C240,96 480,32 720,32 C960,32 1200,96 1440,64 L1440,120 L0,120 Z' fill='%23ffffff'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
   animation: waveMove 30s linear infinite;
 }
@@ -253,8 +226,8 @@
 
 #robot-hero canvas {
   display: block;
-  width: 100% !important;
-  height: 100% !important;
+  width: 100%;
+  height: 100%;
   border-radius: 24px;
   transition: opacity 0.5s ease;
 }
@@ -446,25 +419,25 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .header-mobile {
-    flex-direction: column !important;
-    gap: 1rem !important;
-    padding: 1rem !important;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
   }
   
   .header-mobile .logo-container {
-    justify-content: center !important;
-    width: 100% !important;
+    justify-content: center;
+    width: 100%;
   }
   
   .header-mobile nav {
-    width: 100% !important;
-    justify-content: center !important;
-    gap: 1.5rem !important;
+    width: 100%;
+    justify-content: center;
+    gap: 1.5rem;
   }
   
   .header-mobile nav a {
-    font-size: 1rem !important;
-    padding: 0.5rem 1rem !important;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
   }
 }
 
@@ -473,23 +446,23 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .hero-content {
-    text-align: center !important;
+    text-align: center;
   }
   
   .hero-content h1 {
-    font-size: 2rem !important;
-    line-height: 1.2 !important;
-    margin-bottom: 1rem !important;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
   }
   
   .hero-content p {
-    font-size: 1.1rem !important;
-    margin-bottom: 1.5rem !important;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
   }
   
   .hero-badge {
-    display: inline-block !important;
-    margin: 0 auto 1.5rem !important;
+    display: inline-block;
+    margin: 0 auto 1.5rem;
   }
 }
 
@@ -498,34 +471,34 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .programs-grid {
-    justify-items: center !important;
+    justify-items: center;
   }
   
   .program-card {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin-bottom: 1.5rem !important;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 1.5rem;
   }
   
   .program-card-content {
-    text-align: center !important;
-    padding: 1.5rem !important;
+    text-align: center;
+    padding: 1.5rem;
   }
   
   .program-card h3 {
-    font-size: 1.3rem !important;
-    margin-bottom: 0.5rem !important;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
   }
   
   .program-card p {
-    font-size: 0.95rem !important;
-    margin-bottom: 1rem !important;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
   }
   
   .program-card .btn {
-    display: block !important;
-    width: fit-content !important;
-    margin: 0 auto !important;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
   }
 }
 
@@ -534,25 +507,25 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .trust-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
-    justify-items: center !important;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    justify-items: center;
   }
   
   .trust-item {
-    max-width: 100% !important;
-    width: 100% !important;
-    padding: 1.5rem !important;
-    text-align: center !important;
+    max-width: 100%;
+    width: 100%;
+    padding: 1.5rem;
+    text-align: center;
   }
   
   .trust-item i {
-    margin: 0 auto 1rem !important;
-    display: block !important;
+    margin: 0 auto 1rem;
+    display: block;
   }
   
   .trust-item p {
-    font-size: 1rem !important;
+    font-size: 1rem;
   }
 }
 
@@ -641,28 +614,28 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .section-padding {
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   .mobile-py-8 {
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
   
   .mobile-px-4 {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   .mobile-mt-6 {
-    margin-top: 1.5rem !important;
+    margin-top: 1.5rem;
   }
   
   .mobile-mb-6 {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -671,28 +644,28 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .mobile-text-xl {
-    font-size: 1.25rem !important;
-    line-height: 1.4 !important;
+    font-size: 1.25rem;
+    line-height: 1.4;
   }
   
   .mobile-text-lg {
-    font-size: 1.125rem !important;
-    line-height: 1.4 !important;
+    font-size: 1.125rem;
+    line-height: 1.4;
   }
   
   .mobile-text-base {
-    font-size: 1rem !important;
-    line-height: 1.5 !important;
+    font-size: 1rem;
+    line-height: 1.5;
   }
   
   .mobile-text-sm {
-    font-size: 0.875rem !important;
-    line-height: 1.4 !important;
+    font-size: 0.875rem;
+    line-height: 1.4;
   }
   
   .mobile-text-xs {
-    font-size: 0.75rem !important;
-    line-height: 1.4 !important;
+    font-size: 0.75rem;
+    line-height: 1.4;
   }
 }
 
@@ -701,19 +674,19 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .mobile-btn {
-    padding: 0.75rem 1.5rem !important;
-    font-size: 1rem !important;
-    width: 100% !important;
-    max-width: 300px !important;
-    display: block !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .mobile-btn-sm {
-    padding: 0.5rem 1rem !important;
-    font-size: 0.875rem !important;
-    width: auto !important;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    width: auto;
   }
 }
 
@@ -722,24 +695,24 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .mobile-grid-1 {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
   }
   
   .mobile-grid-2 {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1rem !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
   
   .mobile-order-1 {
-    order: 1 !important;
+    order: 1;
   }
   
   .mobile-order-2 {
-    order: 2 !important;
+    order: 2;
   }
   
   .mobile-order-first {
-    order: -1 !important;
+    order: -1;
   }
 }
 
@@ -764,16 +737,16 @@ footer {
   .card-hover,
   .btn-hover,
   .trust-item {
-    transition: none !important;
-    animation: none !important;
+    transition: none;
+    animation: none;
   }
   
   #robot-hero:hover {
-    transform: none !important;
+    transform: none;
   }
   
   .hero-wave::after {
-    animation: none !important;
+    animation: none;
   }
 }
 
@@ -853,19 +826,19 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   footer {
-    padding: 2rem 1rem !important;
-    text-align: center !important;
+    padding: 2rem 1rem;
+    text-align: center;
   }
   
   footer p {
-    font-size: 0.9rem !important;
-    margin-bottom: 0.5rem !important;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
   }
   
   footer .contact-info {
-    margin-top: 1.5rem !important;
-    padding-top: 1.5rem !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -874,41 +847,41 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .mobile-hidden {
-    display: none !important;
+    display: none;
   }
   
   .mobile-block {
-    display: block !important;
+    display: block;
   }
   
   .mobile-flex {
-    display: flex !important;
+    display: flex;
   }
   
   .mobile-flex-col {
-    flex-direction: column !important;
+    flex-direction: column;
   }
   
   .mobile-w-full {
-    width: 100% !important;
+    width: 100%;
   }
   
   .mobile-w-auto {
-    width: auto !important;
+    width: auto;
   }
   
   .mobile-mx-auto {
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .mobile-my-4 {
-    margin-top: 1rem !important;
-    margin-bottom: 1rem !important;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
   
   .mobile-gap-4 {
-    gap: 1rem !important;
+    gap: 1rem;
   }
 }
 
@@ -1183,3 +1156,23 @@ footer {
 .program-content > *:nth-child(3) { animation-delay: 0.3s; }
 .program-content > *:nth-child(4) { animation-delay: 0.4s; }
 .program-content > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* =========================
+   CLASE ESPECIAL PARA TÍTULOS QUE DEBEN ESTAR CENTRADOS EN DESKTOP
+   ========================= */
+.title-center-desktop {
+  text-align: center !important;
+}
+
+/* =========================
+   CLASE PARA ELEMENTOS QUE DEBEN ESTAR CENTRADOS EN MÓVIL PERO NO EN DESKTOP
+   ========================= */
+.mobile-center-only {
+  text-align: center;
+}
+
+@media (min-width: 769px) {
+  .mobile-center-only {
+    text-align: left;
+  }
+}
