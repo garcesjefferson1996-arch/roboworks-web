@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Clase - RoboWorks</title>
+    <link rel="stylesheet" href="../../css/plataforma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Usamos la misma fuente de tu web para consistencia -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+</head>
+<body class="plataforma-body">
+    <!-- Cabecera -->
+    <header class="plataforma-header">
+        <a href="index.html" class="header-back">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="header-logo">
+            <img src="../../assets/icons/logo.png" alt="RoboWorks Logo" height="30">
+        </div>
+        <div class="header-user">
+            <span class="user-avatar">DF</span> <!-- Iniciales del usuario -->
+        </div>
+    </header>
+
+    <main class="clase-container">
+        <!-- Encabezado de la Clase -->
+        <section class="clase-hero">
+            <span class="clase-etiqueta">Módulo 1 · Clase 1</span>
+            <h1 class="clase-titulo">Bienvenido al Mundo Roblox</h1>
+            <p class="clase-subtitulo">La aventura de crear tecnología con valores y propósito.</p>
+            
+            <div class="clase-info-horario">
+                <div class="info-item">
+                    <i class="far fa-calendar"></i>
+                    <span>Lunes, 10 de Junio</span>
+                </div>
+                <div class="info-item">
+                    <i class="far fa-clock"></i>
+                    <span>4:00 PM - 5:30 PM (90 min)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tarjeta de Objetivo -->
+        <section class="clase-card card-objetivo">
+            <h2><i class="fas fa-bullseye"></i> Objetivo de la Clase</h2>
+            <p>Acompañar al estudiante en su primer encuentro con Roblox Studio, ayudándolo a descubrir el entorno digital con <strong>confianza, curiosidad y asombro</strong>, comprendiendo que la tecnología es un espacio para crear con sentido, no solo para consumir.</p>
+            <div class="mensaje-destacado">
+                <i class="fas fa-heart"></i>
+                <p><em>“Aquí no hay errores, solo intentos.”</em></p>
+            </div>
+        </section>
+
+        <!-- Tarjeta de Acceso a Zoom (LO MÁS IMPORTANTE) -->
+        <section class="clase-card card-zoom">
+            <h2><i class="fas fa-video"></i> Acceso a la Clase Virtual</h2>
+            <p>Tu sesión en vivo está programada. El enlace se activará 10 minutos antes del inicio.</p>
+            
+            <div class="zoom-countdown">
+                <i class="fas fa-hourglass-half"></i>
+                <div>
+                    <p class="countdown-text">La clase comienza en:</p>
+                    <p class="countdown-tiempo">Próximamente</p>
+                    <!-- Aquí iría un contador JavaScript. Por ahora es texto estático. -->
+                </div>
+            </div>
+            
+            <!-- 🎯 BOTÓN PRINCIPAL - ENLACE A ZOOM -->
+            <a href="#" id="boton-zoom" class="btn btn-primario btn-grande" target="_blank">
+                <i class="fas fa-door-open"></i> Unirme a la Clase en Zoom
+            </a>
+            <p class="nota-zoom"><small><i class="fas fa-info-circle"></i> Necesitarás tener instalada la aplicación Zoom.</small></p>
+            
+            <div class="zoom-preparacion">
+                <h3><i class="fas fa-clipboard-check"></i> Preparación Recomendada:</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Tener instalado <strong>Roblox Studio</strong>.</li>
+                    <li><i class="fas fa-check-circle"></i> Conexión estable a internet.</li>
+                    <li><i class="fas fa-check-circle"></i> Auriculares (opcional, pero recomendado).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tarjeta de Contenidos -->
+        <section class="clase-card card-contenidos">
+            <h2><i class="fas fa-map-signs"></i> Lo que Exploraremos Hoy</h2>
+            <ul class="lista-contenidos">
+                <li><i class="fas fa-compass"></i> <strong>¿Qué es Roblox?</strong> Más que jugar, es crear.</li>
+                <li><i class="fas fa-desktop"></i> <strong>Primer contacto con Roblox Studio:</strong> La puerta a tu creatividad.</li>
+                <li><i class="fas fa-gamepad"></i> <strong>Interfaz, cámara y movimiento:</strong> Conoce tu nuevo taller.</li>
+                <li><i class="fas fa-play-circle"></i> <strong>Exploración guiada y Play/Stop:</strong> Aprender probando.</li>
+            </ul>
+            <blockquote class="cita-filosofia">
+                <p>“Todo gran proyecto empieza entendiendo el lugar donde estás.”</p>
+            </blockquote>
+        </section>
+
+        <!-- Tarjeta de Materiales -->
+        <section class="clase-card card-materiales">
+            <h2><i class="fas fa-paperclip"></i> Materiales de esta Clase</h2>
+            <p>Descarga estos recursos para prepararte o repasar.</p>
+            <div class="materiales-lista">
+                <a href="#" class="material-item">
+                    <div class="material-icono">
+                        <i class="far fa-file-pdf"></i>
+                    </div>
+                    <div class="material-info">
+                        <h4>Guía: Primeros pasos en Roblox Studio</h4>
+                        <p>PDF · 2.1 MB</p>
+                    </div>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="#" class="material-item">
+                    <div class="material-icono">
+                        <i class="far fa-play-circle"></i>
+                    </div>
+                    <div class="material-info">
+                        <h4>Video: Tour por la interfaz</h4>
+                        <p>MP4 · 5 min</p>
+                    </div>
+                    <i class="fas fa-download"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Mensaje Final / Cierre -->
+        <section class="clase-card card-cierre">
+            <div class="cierre-contenido">
+                <i class="fas fa-seedling icono-cierre"></i>
+                <h3>Recuerda</h3>
+                <p>“Hoy no aprendimos a programar todavía. Hoy aprendimos algo más importante: <strong>que somos capaces de entrar a un mundo nuevo sin miedo.”</strong></p>
+                <p class="texto-pequeno">Este módulo es la semilla del curso. Si aquí te sientes valorado, acompañado y seguro, todo florece.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Menú de Navegación Inferior (Mobile) -->
+    <nav class="plataforma-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="curso.html" class="nav-item">
+            <i class="fas fa-book-open"></i>
+            <span>Mi Curso</span>
+        </a>
+        <a href="clase.html" class="nav-item activo">
+            <i class="fas fa-video"></i>
+            <span>Clase</span>
+        </a>
+        <a href="recursos.html" class="nav-item">
+            <i class="fas fa-folder-open"></i>
+            <span>Recursos</span>
+        </a>
+        <a href="progreso.html" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Progreso</span>
+        </a>
+    </nav>
+
+    <script src="../../js/plataforma-login.js"></script>
+    <!-- Script específico para esta página (para el contador y enlace dinámico) -->
+    <script>
+        // Este es un ejemplo. Cuando tengas el enlace real de Zoom Pro, lo colocas aquí.
+        const enlaceZoom = "https://zoom.us/j/1234567890"; // 🎯 REEMPLAZA ESTO CON TU ENLACE REAL
+        document.getElementById('boton-zoom').href = enlaceZoom;
+
+        // Ejemplo simple de lógica para el contador/estado del enlace
+        const ahora = new Date();
+        const horaClase = new Date();
+        horaClase.setHours(16, 0, 0); // Supongamos que la clase es a las 4:00 PM
+
+        const diferenciaMs = horaClase - ahora;
+        const diferenciaMin = Math.floor(diferenciaMs / (1000 * 60));
+
+        const contadorElem = document.querySelector('.countdown-tiempo');
+        const botonZoom = document.getElementById('boton-zoom');
+
+        if (diferenciaMin > 10) {
+            contadorElem.textContent = `En ${Math.floor(diferenciaMin / 60)}h ${diferenciaMin % 60}m`;
+            botonZoom.classList.add('btn-deshabilitado');
+            botonZoom.innerHTML = '<i class="fas fa-lock"></i> El enlace estará disponible pronto';
+            botonZoom.removeAttribute('href');
+            botonZoom.onclick = (e) => e.preventDefault();
+        } else if (diferenciaMin > 0) {
+            contadorElem.textContent = `En ${diferenciaMin} minutos`;
+            // El enlace ya está activo (se activa 10 min antes)
+        } else {
+            contadorElem.textContent = '¡Clase en progreso!';
+            // El enlace está activo
+        }
+    </script>
+</body>
+</html>

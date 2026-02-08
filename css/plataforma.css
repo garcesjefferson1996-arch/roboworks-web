@@ -1,0 +1,494 @@
+/* plataforma.css - Estilos principales de la Plataforma RoboWorks */
+:root {
+    /* Paleta de colores basada en tu web (roboworks.site) */
+    --color-primario: #6a3bc2;  /* Morado/violeta principal */
+    --color-secundario: #ff7b42; /* Naranja/accent */
+    --color-acento: #2dd4bf;     /* Turquesa */
+    --color-fondo: #f8f9ff;      /* Fondo claro azulado muy suave */
+    --color-texto: #333344;
+    --color-texto-suave: #666677;
+    --color-borde: #dde1f0;
+    --color-blanco: #ffffff;
+    --color-exito: #10b981;
+    --color-alerta: #f59e0b;
+    --color-peligro: #ef4444;
+
+    /* Sombras */
+    --sombra-suave: 0 4px 12px rgba(106, 59, 194, 0.08);
+    --sombra-media: 0 6px 20px rgba(106, 59, 194, 0.12);
+
+    /* Tipografía */
+    --fuente-titulos: 'Poppins', sans-serif;
+    --fuente-texto: 'Open Sans', sans-serif;
+}
+
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.plataforma-body {
+    font-family: var(--fuente-texto);
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+    line-height: 1.6;
+    max-width: 100vw;
+    min-height: 100vh;
+    padding-bottom: 80px; /* Espacio para el menú inferior */
+}
+
+/* ----- CABECERA ----- */
+.plataforma-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--color-blanco);
+    box-shadow: var(--sombra-suave);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-back {
+    color: var(--color-primario);
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.header-logo img {
+    height: 30px;
+    width: auto;
+}
+
+.header-user .user-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+    color: white;
+    border-radius: 50%;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ----- CONTENEDOR PRINCIPAL DE CLASE ----- */
+.clase-container {
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Hero/Encabezado de la clase */
+.clase-hero {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.clase-etiqueta {
+    display: inline-block;
+    background-color: rgba(106, 59, 194, 0.1);
+    color: var(--color-primario);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.clase-titulo {
+    font-family: var(--fuente-titulos);
+    font-size: 1.8rem;
+    color: var(--color-texto);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.clase-subtitulo {
+    color: var(--color-texto-suave);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.clase-info-horario {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-texto-suave);
+    font-size: 0.9rem;
+}
+
+.info-item i {
+    color: var(--color-primario);
+}
+
+/* Tarjetas generales */
+.clase-card {
+    background-color: var(--color-blanco);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--sombra-suave);
+    border: 1px solid var(--color-borde);
+}
+
+.clase-card h2 {
+    font-family: var(--fuente-titulos);
+    font-size: 1.3rem;
+    color: var(--color-primario);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.clase-card h2 i {
+    font-size: 1.1rem;
+}
+
+/* Tarjeta específica de Objetivo */
+.card-objetivo {
+    border-left: 4px solid var(--color-acento);
+}
+
+.mensaje-destacado {
+    background-color: rgba(45, 212, 191, 0.08);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+}
+
+.mensaje-destacado i {
+    color: var(--color-acento);
+    font-size: 1.2rem;
+    margin-top: 0.1rem;
+}
+
+.mensaje-destacado p {
+    margin: 0;
+    font-style: italic;
+    color: var(--color-texto);
+}
+
+/* Tarjeta específica de Zoom */
+.card-zoom {
+    border-left: 4px solid var(--color-secundario);
+}
+
+.zoom-countdown {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: rgba(255, 123, 66, 0.05);
+    border-radius: 12px;
+    padding: 1.2rem;
+    margin: 1.2rem 0;
+}
+
+.zoom-countdown i {
+    font-size: 2rem;
+    color: var(--color-secundario);
+}
+
+.countdown-text {
+    font-size: 0.9rem;
+    color: var(--color-texto-suave);
+    margin-bottom: 0.2rem;
+}
+
+.countdown-tiempo {
+    font-family: var(--fuente-titulos);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-secundario);
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-family: var(--fuente-titulos);
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primario {
+    background: linear-gradient(135deg, var(--color-primario), #8a5cde);
+    color: white;
+}
+
+.btn-secundario {
+    background-color: transparent;
+    color: var(--color-primario);
+    border: 2px solid var(--color-primario);
+}
+
+.btn-grande {
+    width: 100%;
+    padding: 1.1rem;
+    font-size: 1.1rem;
+    margin: 1rem 0;
+}
+
+.btn-deshabilitado {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #ccc;
+}
+
+.btn:hover:not(.btn-deshabilitado) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(106, 59, 194, 0.2);
+}
+
+.nota-zoom {
+    color: var(--color-texto-suave);
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.zoom-preparacion {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--color-borde);
+}
+
+.zoom-preparacion h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: var(--color-texto);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.zoom-preparacion ul {
+    list-style: none;
+    padding-left: 0.5rem;
+}
+
+.zoom-preparacion li {
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+}
+
+.zoom-preparacion li i.fa-check-circle {
+    color: var(--color-exito);
+    margin-top: 0.2rem;
+}
+
+/* Tarjeta de Contenidos */
+.lista-contenidos {
+    list-style: none;
+    padding-left: 0;
+}
+
+.lista-contenidos li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--color-borde);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.lista-contenidos li:last-child {
+    border-bottom: none;
+}
+
+.lista-contenidos li i {
+    color: var(--color-primario);
+    margin-top: 0.2rem;
+}
+
+.cita-filosofia {
+    margin-top: 1.5rem;
+    padding: 1rem 1rem 1rem 1.5rem;
+    border-left: 3px solid var(--color-primario);
+    background-color: rgba(106, 59, 194, 0.03);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--color-texto);
+}
+
+/* Tarjeta de Materiales */
+.materiales-lista {
+    margin-top: 1rem;
+}
+
+.material-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--color-borde);
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.material-item:hover {
+    border-color: var(--color-primario);
+    background-color: rgba(106, 59, 194, 0.03);
+}
+
+.material-icono {
+    font-size: 1.8rem;
+    color: var(--color-primario);
+    margin-right: 1rem;
+    width: 40px;
+    text-align: center;
+}
+
+.material-info h4 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+    color: var(--color-texto);
+}
+
+.material-info p {
+    font-size: 0.85rem;
+    color: var(--color-texto-suave);
+}
+
+.material-item .fa-download {
+    margin-left: auto;
+    color: var(--color-texto-suave);
+}
+
+/* Tarjeta de Cierre */
+.card-cierre {
+    background: linear-gradient(135deg, rgba(106, 59, 194, 0.05), rgba(255, 123, 66, 0.05));
+    border: 1px solid rgba(106, 59, 194, 0.15);
+    text-align: center;
+}
+
+.cierre-contenido {
+    padding: 0.5rem;
+}
+
+.icono-cierre {
+    font-size: 2.5rem;
+    color: var(--color-primario);
+    margin-bottom: 1rem;
+}
+
+.card-cierre h3 {
+    color: var(--color-primario);
+    margin-bottom: 0.8rem;
+}
+
+.texto-pequeno {
+    font-size: 0.85rem;
+    color: var(--color-texto-suave);
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+/* ----- MENÚ INFERIOR (MOBILE) ----- */
+.plataforma-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-blanco);
+    display: flex;
+    justify-content: space-around;
+    padding: 0.8rem 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    z-index: 200;
+    border-top: 1px solid var(--color-borde);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-texto-suave);
+    font-size: 0.75rem;
+    flex: 1;
+    transition: color 0.2s;
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.nav-item.activo {
+    color: var(--color-primario);
+    font-weight: 600;
+}
+
+.nav-item:hover {
+    color: var(--color-primario);
+}
+
+/* ----- RESPONSIVE: Para pantallas más grandes ----- */
+@media (min-width: 768px) {
+    .plataforma-body {
+        padding-bottom: 0;
+    }
+
+    .plataforma-nav {
+        position: static;
+        border-top: none;
+        box-shadow: none;
+        padding: 1.5rem;
+        justify-content: flex-start;
+        gap: 2rem;
+        background-color: transparent;
+        margin-top: 2rem;
+    }
+
+    .nav-item {
+        flex-direction: row;
+        gap: 0.7rem;
+        font-size: 1rem;
+        flex: 0;
+    }
+
+    .nav-item i {
+        margin-bottom: 0;
+        font-size: 1.1rem;
+    }
+
+    .clase-titulo {
+        font-size: 2.2rem;
+    }
+
+    .clase-info-horario {
+        justify-content: flex-start;
+        gap: 2rem;
+    }
+
+    .btn-grande {
+        width: auto;
+        padding: 1rem 2.5rem;
+        display: inline-block;
+    }
+}
