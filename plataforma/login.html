@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso a la Plataforma - RoboWorks</title>
+    <link rel="stylesheet" href="/css/plataforma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <style>
+        /* Estilos específicos para la página de login */
+        .login-body {
+            background: linear-gradient(135deg, #6a3bc2 0%, #8a5cde 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-logo img {
+            height: 50px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .login-logo h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: #333344;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-logo p {
+            color: #666677;
+            font-size: 0.95rem;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333344;
+            font-size: 0.9rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #dde1f0;
+            border-radius: 12px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #6a3bc2;
+            box-shadow: 0 0 0 3px rgba(106, 59, 194, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #6a3bc2, #8a5cde);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            margin-top: 0.5rem;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(106, 59, 194, 0.3);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .login-message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .message-error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border-left: 4px solid #dc2626;
+        }
+        
+        .message-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border-left: 4px solid #059669;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            color: #666677;
+            font-size: 0.85rem;
+        }
+        
+        .login-footer a {
+            color: #6a3bc2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666677;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .login-logo h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="/assets/icons/logo.png" alt="RoboWorks Logo">
+            <h1>Acceso a la Plataforma</h1>
+            <p>Ingresa con tus credenciales para continuar tu aventura</p>
+        </div>
+        
+        <!-- Mensajes de estado -->
+        <div id="login-message" class="login-message">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="message-text"></span>
+        </div>
+        
+        <!-- Formulario de Login -->
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="username" class="form-label">
+                    <i class="fas fa-user"></i> Usuario
+                </label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    class="form-input" 
+                    placeholder="ejemplo: david.fiallos"
+                    required
+                    autocomplete="username"
+                >
+                <small class="form-hint">Usa el usuario que te proporcionamos</small>
+            </div>
+            
+            <div class="form-group password-toggle">
+                <label for="password" class="form-label">
+                    <i class="fas fa-lock"></i> Contraseña
+                </label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="form-input" 
+                    placeholder="Tu contraseña"
+                    required
+                    autocomplete="current-password"
+                >
+                <button type="button" class="toggle-password" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <small class="form-hint">La misma que usas en clase</small>
+            </div>
+            
+            <button type="submit" class="login-btn" id="submitBtn">
+                <i class="fas fa-sign-in-alt"></i>
+                <span id="btnText">Ingresar a la Plataforma</span>
+            </button>
+        </form>
+        
+        <div class="login-footer">
+            <p>¿Problemas para acceder? <a href="mailto:soporte@roboworks.site">Contáctanos</a></p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+                <i class="fas fa-shield-alt"></i> Tu acceso es seguro y privado
+            </p>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const loginMessage = document.getElementById('login-message');
+        const messageText = document.getElementById('message-text');
+        
+        // BASE DE DATOS DE USUARIOS (para el MVP)
+        // En el futuro, esto se conectará a un backend real
+        const usuariosValidos = {
+            // 👇 AGREGA AQUÍ LOS USUARIOS REALES
+            'david.fiallos': { 
+                password: 'robotics2024', 
+                nombre: 'David',
+                tipo: 'estudiante',
+                redirect: '/plataforma/estudiante/clase.html?user=david.fiallos'
+            },
+            'daniel.fiallos': { 
+                password: 'robotics2024', 
+                nombre: 'Daniel',
+                tipo: 'estudiante',
+                redirect: '/plataforma/estudiante/clase.html?user=daniel.fiallos'
+            },
+            'batia.fiallos': { 
+                password: 'robotics2024', 
+                nombre: 'Batia',
+                tipo: 'estudiante', 
+                redirect: '/plataforma/estudiante/clase.html?user=batia.fiallos'
+            },
+            // Puedes agregar más usuarios aquí:
+            // 'nuevo.usuario': { password: 'clave123', ... }
+        };
+        
+        // Mostrar/ocultar contraseña
+        togglePasswordBtn.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+        
+        // Mostrar mensaje
+        function showMessage(text, type) {
+            messageText.textContent = text;
+            loginMessage.className = `login-message message-${type}`;
+            loginMessage.style.display = 'block';
+            
+            const icon = loginMessage.querySelector('i');
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else {
+                icon.className = 'fas fa-check-circle';
+            }
+            
+            // Ocultar mensaje después de 5 segundos
+            setTimeout(() => {
+                loginMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Validar login
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+            
+            // Validaciones básicas
+            if (!username || !password) {
+                showMessage('Por favor, completa todos los campos', 'error');
+                return;
+            }
+            
+            // Cambiar estado del botón
+            submitBtn.disabled = true;
+            btnText.textContent = 'Verificando...';
+            
+            // Simular delay de red (solo para efecto)
+            setTimeout(() => {
+                // Verificar usuario
+                if (usuariosValidos[username]) {
+                    if (usuariosValidos[username].password === password) {
+                        // ✅ LOGIN EXITOSO
+                        showMessage(`¡Bienvenido ${usuariosValidos[username].nombre}! Redirigiendo...`, 'success');
+                        btnText.textContent = '✓ Acceso concedido';
+                        
+                        // Redirigir después de 1.5 segundos
+                        setTimeout(() => {
+                            window.location.href = usuariosValidos[username].redirect;
+                        }, 1500);
+                        
+                        // Guardar sesión en localStorage (simple)
+                        localStorage.setItem('roboworks_user', JSON.stringify({
+                            username: username,
+                            nombre: usuariosValidos[username].nombre,
+                            tipo: usuariosValidos[username].tipo,
+                            timestamp: new Date().getTime()
+                        }));
+                        
+                    } else {
+                        // ❌ Contraseña incorrecta
+                        showMessage('Contraseña incorrecta. Intenta nuevamente.', 'error');
+                        submitBtn.disabled = false;
+                        btnText.textContent = 'Ingresar a la Plataforma';
+                        passwordInput.focus();
+                        passwordInput.select();
+                    }
+                } else {
+                    // ❌ Usuario no existe
+                    showMessage('Usuario no reconocido. Verifica tus datos.', 'error');
+                    submitBtn.disabled = false;
+                    btnText.textContent = 'Ingresar a la Plataforma';
+                    usernameInput.focus();
+                    usernameInput.select();
+                }
+            }, 800); // Simular delay de servidor
+        });
+        
+        // Autocompletar para pruebas (QUITA ESTO EN PRODUCCIÓN)
+        // Solo para hacer pruebas más rápidas
+        if (window.location.href.includes('localhost') || window.location.href.includes('127.0.0.1')) {
+            usernameInput.value = 'david.fiallos';
+            passwordInput.value = 'robotics2024';
+        }
+        
+        // Verificar si ya hay una sesión activa
+        const sessionData = localStorage.getItem('roboworks_user');
+        if (sessionData) {
+            try {
+                const user = JSON.parse(sessionData);
+                // Si la sesión es de hace menos de 8 horas, redirigir automáticamente
+                const eightHours = 8 * 60 * 60 * 1000;
+                if (new Date().getTime() - user.timestamp < eightHours) {
+                    showMessage(`Hola de nuevo ${user.nombre}. Redirigiendo...`, 'success');
+                    setTimeout(() => {
+                        window.location.href = `/plataforma/estudiante/clase.html?user=${user.username}`;
+                    }, 1000);
+                } else {
+                    // Sesión expirada, limpiar
+                    localStorage.removeItem('roboworks_user');
+                }
+            } catch (e) {
+                localStorage.removeItem('roboworks_user');
+            }
+        }
+        
+        // Enfoque automático en el campo de usuario
+        usernameInput.focus();
+    });
+    </script>
+</body>
+</html>
