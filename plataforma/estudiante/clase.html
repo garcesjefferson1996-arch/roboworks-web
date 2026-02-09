@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Clase - RoboWorks</title>
-    <link rel="stylesheet" href="../../css/plataforma.css">
+    <link rel="stylesheet" href="/css/plataforma.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Usamos la misma fuente de tu web para consistencia -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
 </head>
 <body class="plataforma-body">
     <!-- Cabecera -->
@@ -19,10 +18,11 @@
             <i class="fas fa-arrow-left"></i>
         </a>
         <div class="header-logo">
-            <img src="../../assets/icons/logo.png" alt="RoboWorks Logo" height="30">
+            <img src="/assets/icons/logo.png" alt="RoboWorks Logo" height="30">
+            <span class="logo-text">RoboWorks</span>
         </div>
         <div class="header-user">
-            <span class="user-avatar">DF</span> <!-- Iniciales del usuario -->
+            <span class="user-avatar" id="user-avatar">DF</span>
         </div>
     </header>
 
@@ -30,13 +30,13 @@
         <!-- Encabezado de la Clase -->
         <section class="clase-hero">
             <span class="clase-etiqueta">Módulo 1 · Clase 1</span>
-            <h1 class="clase-titulo">Bienvenido al Mundo Roblox</h1>
+            <h1 class="clase-titulo" id="titulo-personalizado">Bienvenido al Mundo Roblox</h1>
             <p class="clase-subtitulo">La aventura de crear tecnología con valores y propósito.</p>
             
             <div class="clase-info-horario">
                 <div class="info-item">
                     <i class="far fa-calendar"></i>
-                    <span>Lunes, 10 de Junio</span>
+                    <span id="fecha-hoy">Cargando fecha...</span>
                 </div>
                 <div class="info-item">
                     <i class="far fa-clock"></i>
@@ -55,21 +55,20 @@
             </div>
         </section>
 
-        <!-- Tarjeta de Acceso a Zoom (LO MÁS IMPORTANTE) -->
+        <!-- Tarjeta de Acceso a Zoom -->
         <section class="clase-card card-zoom">
             <h2><i class="fas fa-video"></i> Acceso a la Clase Virtual</h2>
             <p>Tu sesión en vivo está programada. El enlace se activará 10 minutos antes del inicio.</p>
             
             <div class="zoom-countdown">
-                <i class="fas fa-hourglass-half"></i>
+                <i class="fas fa-hourglass-half" id="icono-estado"></i>
                 <div>
-                    <p class="countdown-text">La clase comienza en:</p>
-                    <p class="countdown-tiempo">Próximamente</p>
-                    <!-- Aquí iría un contador JavaScript. Por ahora es texto estático. -->
+                    <p class="countdown-text" id="texto-estado">Estado de la clase:</p>
+                    <p class="countdown-tiempo" id="contador-tiempo">Calculando...</p>
                 </div>
             </div>
             
-            <!-- 🎯 BOTÓN PRINCIPAL - ENLACE A ZOOM -->
+            <!-- BOTÓN PRINCIPAL - ENLACE A ZOOM -->
             <a href="#" id="boton-zoom" class="btn btn-primario btn-grande" target="_blank">
                 <i class="fas fa-door-open"></i> Unirme a la Clase en Zoom
             </a>
@@ -132,7 +131,7 @@
             <div class="cierre-contenido">
                 <i class="fas fa-seedling icono-cierre"></i>
                 <h3>Recuerda</h3>
-                <p>“Hoy no aprendimos a programar todavía. Hoy aprendimos algo más importante: <strong>que somos capaces de entrar a un mundo nuevo sin miedo.”</strong></p>
+                <p>"Hoy no aprendimos a programar todavía. Hoy aprendimos algo más importante: <strong>que somos capaces de entrar a un mundo nuevo sin miedo."</strong></p>
                 <p class="texto-pequeno">Este módulo es la semilla del curso. Si aquí te sientes valorado, acompañado y seguro, todo florece.</p>
             </div>
         </section>
@@ -162,37 +161,151 @@
         </a>
     </nav>
 
-    <script src="../../js/plataforma-login.js"></script>
-    <!-- Script específico para esta página (para el contador y enlace dinámico) -->
+    <!-- Script con todas las funciones automáticas -->
     <script>
-        // Este es un ejemplo. Cuando tengas el enlace real de Zoom Pro, lo colocas aquí.
-        const enlaceZoom = "https://zoom.us/j/1234567890"; // 🎯 REEMPLAZA ESTO CON TU ENLACE REAL
-        document.getElementById('boton-zoom').href = enlaceZoom;
+        // CONFIGURACIÓN - ¡REEMPLAZA ESTO!
+        const CONFIG = {
+            enlaceZoom: "https://zoom.us/j/1234567890", // 🎯 PON TU ENLACE ZOOM PRO AQUÍ
+            horaClase: 16, // 4:00 PM (formato 24h)
+            duracionClase: 90, // minutos
+            usuarioActual: "david.fiallos" // Cambia según quién entre
+        };
 
-        // Ejemplo simple de lógica para el contador/estado del enlace
-        const ahora = new Date();
-        const horaClase = new Date();
-        horaClase.setHours(16, 0, 0); // Supongamos que la clase es a las 4:00 PM
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. FECHA AUTOMÁTICA EN ESPAÑOL
+            function mostrarFechaActual() {
+                const opciones = { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                };
+                const fecha = new Date();
+                const fechaFormateada = fecha.toLocaleDateString('es-EC', opciones);
+                const fechaCapitalizada = fechaFormateada.charAt(0).toUpperCase() + 
+                                        fechaFormateada.slice(1);
+                document.getElementById('fecha-hoy').textContent = fechaCapitalizada;
+            }
 
-        const diferenciaMs = horaClase - ahora;
-        const diferenciaMin = Math.floor(diferenciaMs / (1000 * 60));
+            // 2. ESTADO INTELIGENTE DE LA CLASE
+            function actualizarEstadoClase() {
+                const ahora = new Date();
+                const horaClase = new Date();
+                
+                // Configurar hora de la clase (4:00 PM)
+                horaClase.setHours(CONFIG.horaClase, 0, 0, 0);
+                const horaFinClase = new Date(horaClase.getTime() + CONFIG.duracionClase * 60000);
+                
+                const diferenciaMs = horaClase - ahora;
+                const diferenciaMin = Math.floor(diferenciaMs / (1000 * 60));
+                const diferenciaHoras = Math.floor(diferenciaMin / 60);
+                
+                const contadorElem = document.getElementById('contador-tiempo');
+                const textoEstadoElem = document.getElementById('texto-estado');
+                const iconoEstadoElem = document.getElementById('icono-estado');
+                const botonZoom = document.getElementById('boton-zoom');
+                
+                // Configurar enlace de Zoom
+                botonZoom.href = CONFIG.enlaceZoom;
+                
+                // Determinar estado
+                if (ahora < horaClase) {
+                    // CLASE FUTURA
+                    if (diferenciaMin > 10) {
+                        textoEstadoElem.textContent = "La clase comienza en:";
+                        if (diferenciaHoras > 0) {
+                            contadorElem.textContent = `${diferenciaHoras}h ${diferenciaMin % 60}m`;
+                        } else {
+                            contadorElem.textContent = `${diferenciaMin} minutos`;
+                        }
+                        iconoEstadoElem.className = "fas fa-hourglass-half";
+                        contadorElem.style.color = "var(--color-alerta)";
+                        
+                        botonZoom.classList.add('btn-deshabilitado');
+                        botonZoom.innerHTML = '<i class="fas fa-lock"></i> El enlace se activará 10 min antes';
+                        botonZoom.onclick = (e) => e.preventDefault();
+                    } else {
+                        // Menos de 10 minutos antes
+                        textoEstadoElem.textContent = "¡La clase empieza pronto!";
+                        contadorElem.textContent = `En ${diferenciaMin} minutos`;
+                        iconoEstadoElem.className = "fas fa-hourglass-end";
+                        contadorElem.style.color = "var(--color-secundario)";
+                        
+                        botonZoom.classList.remove('btn-deshabilitado');
+                        botonZoom.innerHTML = '<i class="fas fa-door-open"></i> Unirme a la Clase en Zoom';
+                    }
+                } else if (ahora >= horaClase && ahora <= horaFinClase) {
+                    // CLASE EN PROGRESO
+                    textoEstadoElem.textContent = "¡Clase en sesión!";
+                    const minutosTranscurridos = Math.floor((ahora - horaClase) / 60000);
+                    contadorElem.textContent = `Minuto ${minutosTranscurridos} de ${CONFIG.duracionClase}`;
+                    iconoEstadoElem.className = "fas fa-play-circle";
+                    contadorElem.style.color = "var(--color-exito)";
+                    
+                    botonZoom.classList.remove('btn-deshabilitado');
+                    botonZoom.innerHTML = '<i class="fas fa-door-open"></i> Unirme a la Clase en Zoom';
+                } else {
+                    // CLASE FINALIZADA
+                    textoEstadoElem.textContent = "Clase completada";
+                    contadorElem.textContent = "Finalizó hace " + Math.abs(Math.floor((ahora - horaFinClase) / 60000)) + " min";
+                    iconoEstadoElem.className = "fas fa-check-circle";
+                    contadorElem.style.color = "var(--color-texto-suave)";
+                    
+                    botonZoom.classList.add('btn-deshabilitado');
+                    botonZoom.innerHTML = '<i class="fas fa-check-circle"></i> Clase Finalizada';
+                    botonZoom.removeAttribute('href');
+                    botonZoom.onclick = (e) => e.preventDefault();
+                }
+            }
 
-        const contadorElem = document.querySelector('.countdown-tiempo');
-        const botonZoom = document.getElementById('boton-zoom');
+            // 3. CONFIGURAR USUARIO PERSONALIZADO
+            function configurarUsuario() {
+                const usuario = CONFIG.usuarioActual;
+                const partes = usuario.split('.');
+                const iniciales = partes[0].charAt(0).toUpperCase() + 
+                                 (partes[1] ? partes[1].charAt(0).toUpperCase() : '');
+                
+                // Actualizar avatar
+                const avatarElement = document.getElementById('user-avatar');
+                if (avatarElement) {
+                    avatarElement.textContent = iniciales;
+                    avatarElement.title = `Usuario: ${usuario}`;
+                }
+                
+                // Personalizar saludo para David
+                if (usuario === 'david.fiallos') {
+                    const nombre = partes[0].charAt(0).toUpperCase() + partes[0].slice(1);
+                    document.getElementById('titulo-personalizado').innerHTML = 
+                        `Bienvenido al Mundo Roblox, <span style="color: var(--color-primario);">${nombre}</span>`;
+                }
+            }
 
-        if (diferenciaMin > 10) {
-            contadorElem.textContent = `En ${Math.floor(diferenciaMin / 60)}h ${diferenciaMin % 60}m`;
-            botonZoom.classList.add('btn-deshabilitado');
-            botonZoom.innerHTML = '<i class="fas fa-lock"></i> El enlace estará disponible pronto';
-            botonZoom.removeAttribute('href');
-            botonZoom.onclick = (e) => e.preventDefault();
-        } else if (diferenciaMin > 0) {
-            contadorElem.textContent = `En ${diferenciaMin} minutos`;
-            // El enlace ya está activo (se activa 10 min antes)
-        } else {
-            contadorElem.textContent = '¡Clase en progreso!';
-            // El enlace está activo
-        }
+            // EJECUTAR TODAS LAS FUNCIONES
+            mostrarFechaActual();
+            actualizarEstadoClase();
+            configurarUsuario();
+            
+            // Actualizar cada minuto
+            setInterval(actualizarEstadoClase, 60000);
+            
+            // Actualizar la hora cada minuto (solo visual)
+            setInterval(() => {
+                const ahora = new Date();
+                document.getElementById('fecha-hoy').textContent = 
+                    ahora.toLocaleDateString('es-EC', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    }).charAt(0).toUpperCase() + 
+                    ahora.toLocaleDateString('es-EC', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    }).slice(1);
+            }, 60000);
+        });
     </script>
 </body>
 </html>
