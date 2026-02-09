@@ -95,8 +95,8 @@
   <link rel="manifest" href="assets/icons/site.webmanifest">
   
   <!-- Color theme para navegadores móviles -->
-  <meta name="theme-color" content="#3b82f6">
-  <meta name="msapplication-TileColor" content="#3b82f6">
+  <meta name="theme-color" content="#6a3bc2">
+  <meta name="msapplication-TileColor" content="#6a3bc2">
   <meta name="msapplication-TileImage" content="assets/icons/mstile-150x150.png">
 
   <!-- Three.js (necesario para el robot 3D) -->
@@ -117,11 +117,11 @@
             poppins: ['Poppins', 'sans-serif']
           },
           colors: {
-            'robo-blue': '#3b82f6',
-            'robo-purple': '#8b5cf6',
-            'robo-yellow': '#fbbf24',
-            'robo-green': '#10b981',
-            'robo-orange': '#fb923c'
+            'robo-blue': '#6a3bc2',
+            'robo-purple': '#8a5cde',
+            'robo-yellow': '#ff7b42',
+            'robo-green': '#2dd4bf',
+            'robo-orange': '#ff7b42'
           }
         }
       }
@@ -154,7 +154,7 @@
       width: 100%;
       height: 100%;
       border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 20px 60px rgba(106, 59, 194, 0.3);
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     }
     
@@ -203,7 +203,7 @@
     
     /* Estilo para resaltar ubicación */
     .location-badge {
-      background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+      background: linear-gradient(135deg, #2dd4bf 0%, #6a3bc2 100%);
       color: white;
       padding: 8px 16px;
       border-radius: 20px;
@@ -231,10 +231,18 @@
     </div>
 
     <!-- Navegación centrada en móvil -->
-    <nav class="flex gap-6 font-medium mobile-center w-full md:w-auto justify-center md:justify-end" aria-label="Navegación principal">
-      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300">Programas</a>
-      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300">¿Por qué RoboWorks?</a>
-      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300">Contacto</a>
+    <nav class="flex flex-wrap gap-4 md:gap-6 font-medium items-center mobile-center w-full md:w-auto justify-center md:justify-end" aria-label="Navegación principal">
+      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">Programas</a>
+      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">¿Por qué RoboWorks?</a>
+      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">Contacto</a>
+      
+      <!-- 🆕 BOTÓN "ACCESO ESTUDIANTES" -->
+      <a href="/plataforma/login.html" 
+         class="btn-plataforma flex items-center gap-2 bg-gradient-to-r from-robo-blue to-robo-purple text-white font-semibold py-2 px-4 md:py-3 md:px-6 rounded-full hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 ml-0 md:ml-2 mt-2 md:mt-0"
+         aria-label="Acceso a la plataforma virtual para estudiantes">
+        <i class="fas fa-user-graduate text-sm md:text-base"></i>
+        <span class="text-sm md:text-base">Acceso Estudiantes</span>
+      </a>
     </nav>
   </div>
 </header>
@@ -555,5 +563,12 @@ En RoboWorks acercamos la robótica a todos los niños, especialmente a quienes 
     }
   });
 </script>
+
+<!-- Botón flotante para móvil -->
+<a href="/plataforma/login.html" class="btn-flotante-movil fixed bottom-6 right-6 bg-gradient-to-r from-robo-blue to-robo-purple text-white w-14 h-14 rounded-full flex items-center justify-center text-xl shadow-lg hover:shadow-xl transition-all duration-300 z-40 md:hidden"
+   aria-label="Acceso rápido a la plataforma virtual">
+  <i class="fas fa-user-graduate"></i>
+</a>
+
 </body>
 </html>
