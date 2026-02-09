@@ -95,8 +95,8 @@
   <link rel="manifest" href="assets/icons/site.webmanifest">
   
   <!-- Color theme para navegadores móviles -->
-  <meta name="theme-color" content="#6a3bc2">
-  <meta name="msapplication-TileColor" content="#6a3bc2">
+  <meta name="theme-color" content="#00a8e8">
+  <meta name="msapplication-TileColor" content="#00a8e8">
   <meta name="msapplication-TileImage" content="assets/icons/mstile-150x150.png">
 
   <!-- Three.js (necesario para el robot 3D) -->
@@ -117,7 +117,8 @@
             poppins: ['Poppins', 'sans-serif']
           },
           colors: {
-            'robo-blue': '#6a3bc2',
+            'robo-blue': '#00a8e8',
+            'robo-light-blue': '#6a3bc2',
             'robo-purple': '#8a5cde',
             'robo-yellow': '#ff7b42',
             'robo-green': '#2dd4bf',
@@ -135,12 +136,75 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- CSS personalizado -->
-  <link rel="stylesheet" href="css/styles.css" />
   
   <style>
-    /* Estilos adicionales para el robot */
+    /* ESTILOS PRINCIPALES PARA EL HEADER MOBILE */
+    
+    /* HEADER CON FONDO BLANCO */
+    .header-mobile {
+      background-color: white;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    /* Logo con color celeste en "Robo" */
+    .logo-celeste {
+      color: #00a8e8 !important;
+    }
+    
+    /* Menú móvil - solo muestra botón Acceso Estudiantes */
+    .mobile-menu-simple {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    
+    /* Botón Acceso Estudiantes */
+    .btn-estudiante-mobile {
+      background-color: #00a8e8;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn-estudiante-mobile:hover {
+      background-color: #0092cc;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 168, 232, 0.2);
+    }
+    
+    /* Menú de escritorio (se oculta en móvil) */
+    .nav-desktop-completo {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    
+    .nav-desktop-completo a {
+      text-decoration: none;
+      color: #555555;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s;
+      padding: 0.5rem 0;
+    }
+    
+    .nav-desktop-completo a:hover {
+      color: #00a8e8;
+    }
+    
+    /* Robot 3D */
     #robot-hero {
       width: 100%;
       height: 500px;
@@ -154,12 +218,21 @@
       width: 100%;
       height: 100%;
       border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(106, 59, 194, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 168, 232, 0.3);
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     }
     
     /* Responsive - Móvil */
     @media (max-width: 768px) {
+      /* Menú móvil - ocultar todos excepto Acceso Estudiantes */
+      .nav-desktop-completo {
+        display: none !important;
+      }
+      
+      .mobile-menu-simple {
+        display: flex !important;
+      }
+      
       #robot-hero {
         height: 400px;
         max-width: 90%;
@@ -193,17 +266,45 @@
         margin-left: auto !important;
         margin-right: auto !important;
       }
+      
+      /* Botón flotante para móvil */
+      .btn-flotante-movil {
+        display: flex !important;
+      }
+    }
+    
+    /* Escritorio */
+    @media (min-width: 769px) {
+      .mobile-menu-simple {
+        display: none !important;
+      }
+      
+      .nav-desktop-completo {
+        display: flex !important;
+      }
+      
+      .btn-flotante-movil {
+        display: none !important;
+      }
     }
     
     @media (max-width: 480px) {
       #robot-hero {
         height: 350px;
       }
+      
+      .header-mobile {
+        padding: 0.8rem 1rem;
+      }
+      
+      .logo-text {
+        font-size: 1.5rem !important;
+      }
     }
     
     /* Estilo para resaltar ubicación */
     .location-badge {
-      background: linear-gradient(135deg, #2dd4bf 0%, #6a3bc2 100%);
+      background: linear-gradient(135deg, #2dd4bf 0%, #00a8e8 100%);
       color: white;
       padding: 8px 16px;
       border-radius: 20px;
@@ -211,39 +312,89 @@
       display: inline-block;
       margin-top: 10px;
     }
+    
+    /* Animaciones */
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 168, 232, 0.3);
+    }
   </style>
 </head>
 
 <body class="bg-gray-50 font-poppins text-gray-700" itemscope itemtype="https://schema.org/EducationalOrganization">
 
-<!-- HEADER - CENTRADO EN MÓVIL -->
-<header class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center md:flex-row flex-col md:space-y-0 space-y-4">
-    <!-- Logo centrado en móvil -->
-    <div class="flex items-center gap-3 mobile-logo-center w-full md:w-auto justify-center md:justify-start">
-      <a href="index.html" class="flex items-center gap-3" aria-label="RoboWorks Ambato - Inicio">
-        <img src="assets/icons/logo.png" alt="RoboWorks Logo - Centro de robótica educativa en Ambato" class="h-10 w-auto">
-        <span class="text-2xl font-bold text-robo-blue text-center md:text-left">
-          Robo<span class="text-robo-orange">Works</span>
-          <span class="block text-xs font-normal text-gray-600">Ambato, Ecuador</span>
-        </span>
+<!-- HEADER MOBILE OPTIMIZADO -->
+<header class="header-mobile">
+  <div class="max-w-7xl mx-auto">
+    <!-- Menú móvil simplificado -->
+    <div class="mobile-menu-simple md:hidden">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3" aria-label="RoboWorks Ambato - Inicio">
+          <i class="fas fa-robot text-2xl logo-celeste"></i>
+          <span class="text-2xl font-bold logo-text">
+            <span class="logo-celeste">Robo</span><span class="text-gray-800">Works</span>
+          </span>
+        </a>
+      </div>
+      
+      <!-- Solo botón Acceso Estudiantes en móvil -->
+      <a href="/plataforma/login.html" class="btn-estudiante-mobile flex items-center gap-2"
+         aria-label="Acceso a la plataforma virtual para estudiantes">
+        <i class="fas fa-user-graduate"></i>
+        <span>Acceso Estudiantes</span>
       </a>
     </div>
-
-    <!-- Navegación centrada en móvil -->
-    <nav class="flex flex-wrap gap-4 md:gap-6 font-medium items-center mobile-center w-full md:w-auto justify-center md:justify-end" aria-label="Navegación principal">
-      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">Programas</a>
-      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">¿Por qué RoboWorks?</a>
-      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">Contacto</a>
+    
+    <!-- Menú completo para escritorio -->
+    <div class="hidden md:flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3" aria-label="RoboWorks Ambato - Inicio">
+          <i class="fas fa-robot text-3xl logo-celeste"></i>
+          <span class="text-3xl font-bold logo-text">
+            <span class="logo-celeste">Robo</span><span class="text-gray-800">Works</span>
+            <span class="block text-sm font-normal text-gray-600">Ambato, Ecuador</span>
+          </span>
+        </a>
+      </div>
       
-      <!-- 🆕 BOTÓN "ACCESO ESTUDIANTES" -->
-      <a href="/plataforma/login.html" 
-         class="btn-plataforma flex items-center gap-2 bg-gradient-to-r from-robo-blue to-robo-purple text-white font-semibold py-2 px-4 md:py-3 md:px-6 rounded-full hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 ml-0 md:ml-2 mt-2 md:mt-0"
-         aria-label="Acceso a la plataforma virtual para estudiantes">
-        <i class="fas fa-user-graduate text-sm md:text-base"></i>
-        <span class="text-sm md:text-base">Acceso Estudiantes</span>
-      </a>
-    </nav>
+      <nav class="nav-desktop-completo" aria-label="Navegación principal">
+        <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">Programas</a>
+        <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">¿Por qué RoboWorks?</a>
+        <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">Contacto</a>
+        
+        <!-- Botón Acceso Estudiantes -->
+        <a href="/plataforma/login.html" 
+           class="btn-estudiante-mobile flex items-center gap-2"
+           aria-label="Acceso a la plataforma virtual para estudiantes">
+          <i class="fas fa-user-graduate"></i>
+          <span>Acceso Estudiantes</span>
+        </a>
+      </nav>
+    </div>
   </div>
 </header>
 
@@ -268,7 +419,7 @@
       
       <div class="mobile-flex-center">
         <a href="https://wa.me/593993340103" target="_blank"
-          class="btn-hover inline-block bg-gradient-to-r from-robo-blue to-robo-purple text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 mobile-margin-auto"
+          class="btn-hover inline-block bg-gradient-to-r from-robo-blue to-robo-light-blue text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 mobile-margin-auto"
           aria-label="Contáctanos por WhatsApp para inscripciones en RoboWorks Ambato">
           <i class="fab fa-whatsapp mr-2"></i> Inscribirse en Ambato
         </a>
@@ -313,7 +464,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 justify-items-center">
 
       <!-- RoboStart -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-green-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto" 
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-green-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto" 
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot1.jpg" alt="RoboStart - Clases de robótica para niños de 5 a 7 años en Ambato" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -331,7 +482,7 @@
       </div>
 
       <!-- RoboSense -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-yellow-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto"
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-yellow-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot2.jpg" alt="RoboSense - Robótica inclusiva para niños en Ambato, Ecuador" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -349,7 +500,7 @@
       </div>
 
       <!-- RoboCare -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-blue-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto"
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-blue-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot3.jpg" alt="RoboCare - Construcción con LEGO para niños de 6 a 10 años en Ambato" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -367,7 +518,7 @@
       </div>
 
       <!-- RoboEnglish -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-purple-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto"
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-purple-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot4.jpg" alt="RoboEnglish - Inglés y robótica para niños de 7 a 11 años en Ambato" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -384,7 +535,7 @@
       </div>
 
       <!-- RoboPro -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-orange-50 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto"
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-orange-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot5.jpg" alt="RoboPro - Robótica de competencia para jóvenes en Ambato" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -402,7 +553,7 @@
       </div>
 
       <!-- CodeWorks -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-gray-100 card-hover transition-all duration-300 hover:shadow-xl hover:-translate-y-2 w-full max-w-md mobile-margin-auto"
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-gray-100 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <div class="h-48 md:h-56 flex items-center justify-center overflow-hidden">
           <img src="images/optimized/fot6.jpg" alt="CodeWorks - Programación virtual para niños y jóvenes en Ecuador" 
@@ -436,7 +587,7 @@
     <!-- Descripción para SEO -->
     <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
       Creemos en una tecnología que no apague el alma.
-En RoboWorks acercamos la robótica a todos los niños, especialmente a quienes enfrentan barreras económicas o desafíos especiales, formando capacidades, virtudes y esperanza.
+      En RoboWorks acercamos la robótica a todos los niños, especialmente a quienes enfrentan barreras económicas o desafíos especiales, formando capacidades, virtudes y esperanza.
     </p>
 
     <!-- Grid de confianza - Centrado en móvil -->
@@ -467,10 +618,10 @@ En RoboWorks acercamos la robótica a todos los niños, especialmente a quienes 
     </div>
     
     <!-- Información de ubicación para SEO local -->
-    <div class="mt-16 p-6 bg-gradient-to-r from-robo-blue to-robo-purple rounded-2xl text-white text-center">
+    <div class="mt-16 p-6 bg-gradient-to-r from-robo-blue to-robo-light-blue rounded-2xl text-white text-center">
       <h3 class="text-2xl font-bold mb-4">📍 Ubicación Conveniente en Ambato</h3>
       <p class="mb-2">Nuestro centro está estratégicamente ubicado en Ambato, Tungurahua</p>
-      <p class="mb-4">Facil acceso para familias de toda la provincia</p>
+      <p class="mb-4">Fácil acceso para familias de toda la provincia</p>
       <div class="flex flex-wrap justify-center gap-4 mt-4">
         <span class="bg-white/20 px-4 py-2 rounded-full">🤖 Competencias y desafíos</span>
         <span class="bg-white/20 px-4 py-2 rounded-full">🏫 Zona Segura</span>
@@ -547,6 +698,12 @@ En RoboWorks acercamos la robótica a todos los niños, especialmente a quienes 
     
     // Actualizar título dinámico con ubicación
     document.title = "RoboWorks Ambato | " + document.title;
+    
+    // Forzar color celeste en el logo
+    const roboElements = document.querySelectorAll('.logo-celeste');
+    roboElements.forEach(el => {
+      el.style.color = '#00a8e8';
+    });
   });
   
   // Detectar si es móvil
@@ -562,10 +719,15 @@ En RoboWorks acercamos la robótica a todos los niños, especialmente a quienes 
       document.body.classList.remove('mobile-view');
     }
   });
+  
+  // Inicializar
+  if (isMobile()) {
+    document.body.classList.add('mobile-view');
+  }
 </script>
 
 <!-- Botón flotante para móvil -->
-<a href="/plataforma/login.html" class="btn-flotante-movil fixed bottom-6 right-6 bg-gradient-to-r from-robo-blue to-robo-purple text-white w-14 h-14 rounded-full flex items-center justify-center text-xl shadow-lg hover:shadow-xl transition-all duration-300 z-40 md:hidden"
+<a href="/plataforma/login.html" class="btn-flotante-movil fixed bottom-6 right-6 bg-gradient-to-r from-robo-blue to-robo-light-blue text-white w-14 h-14 rounded-full flex items-center justify-center text-xl shadow-lg hover:shadow-xl transition-all duration-300 z-40"
    aria-label="Acceso rápido a la plataforma virtual">
   <i class="fas fa-user-graduate"></i>
 </a>
