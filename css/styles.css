@@ -1732,3 +1732,58 @@ header.sticky {
         display: none;
     }
 }
+
+/* =========================
+   CORRECCIÓN DE COLORES DEL LOGO
+   ========================= */
+
+/* Asegurar que "Robo" sea azul y "Works" naranja */
+.text-\[#6a3bc2\] {
+    color: #6a3bc2 !important; /* Azul Robo */
+}
+
+.text-\[#ff7b42\] {
+    color: #ff7b42 !important; /* Naranja Works */
+}
+
+/* Hover colors para consistencia */
+.hover\:text-\[#6a3bc2\]:hover {
+    color: #6a3bc2 !important;
+}
+
+/* Ajustes específicos para el logo en móvil */
+@media (max-width: 768px) {
+    .mobile-logo-center .text-2xl {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    
+    .mobile-logo-center .text-xs {
+        font-size: 0.7rem;
+        margin-top: 2px;
+    }
+}
+
+/* Asegurar que el gradiente del botón use los colores correctos */
+.bg-gradient-to-r.from-\[#6a3bc2\].to-\[#8a5cde\] {
+    background: linear-gradient(135deg, #6a3bc2 0%, #8a5cde 100%) !important;
+}
+
+/* Corrección de colores hover en navegación */
+nav a:hover {
+    color: #6a3bc2 !important;
+}
+
+/* Estilos específicos para el logo link */
+header a[aria-label*="RoboWorks"] span {
+    transition: opacity 0.3s ease;
+}
+
+header a[aria-label*="RoboWorks"]:hover span {
+    opacity: 0.9;
+}
+
+/* Ajuste para el texto "Ambato, Ecuador" */
+.text-gray-600 {
+    color: #666677 !important;
+}
