@@ -17,6 +17,135 @@
 }
 
 /* =========================
+   HEADER MOBILE - MOSTRAR SOLO ACCESO ESTUDIANTES
+   ========================= */
+
+/* HEADER CON FONDO BLANCO */
+.header-mobile {
+    background-color: white !important;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Logo con color celeste en "Robo" */
+.logo-celeste {
+    color: #00a8e8 !important;
+}
+
+/* Menú móvil - solo muestra botón Acceso Estudiantes */
+.mobile-menu-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Botón Acceso Estudiantes en móvil */
+.btn-estudiante-mobile {
+    background-color: #00a8e8;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-estudiante-mobile:hover {
+    background-color: #0092cc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 168, 232, 0.2);
+}
+
+/* Menú de escritorio (se oculta en móvil) */
+.nav-desktop-completo {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-desktop-completo a {
+    text-decoration: none;
+    color: #555555;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s;
+    padding: 0.5rem 0;
+}
+
+.nav-desktop-completo a:hover {
+    color: #00a8e8;
+}
+
+/* =========================
+   MEDIA QUERIES PARA CONTROLAR VISIBILIDAD HEADER
+   ========================= */
+
+/* En móvil: OCULTAR menú completo y MOSTRAR menú simple */
+@media (max-width: 768px) {
+    /* Ocultar el menú de escritorio con todos los botones */
+    .nav-desktop-completo {
+        display: none !important;
+    }
+    
+    /* Mostrar solo el menú simple (logo + Acceso Estudiantes) */
+    .mobile-menu-simple {
+        display: flex !important;
+    }
+    
+    /* Asegurar que el header tenga fondo blanco */
+    .header-mobile {
+        background-color: white !important;
+    }
+    
+    /* Ajustar tamaño del logo en móvil */
+    .logo-text {
+        font-size: 1.6rem !important;
+    }
+    
+    /* Ajustar padding en móvil */
+    .header-mobile {
+        padding: 0.8rem 1rem;
+    }
+}
+
+/* En escritorio: MOSTRAR menú completo y OCULTAR menú simple */
+@media (min-width: 769px) {
+    /* Ocultar el menú simple (solo para móvil) */
+    .mobile-menu-simple {
+        display: none !important;
+    }
+    
+    /* Mostrar el menú completo con todos los botones */
+    .nav-desktop-completo {
+        display: flex !important;
+    }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 1.5rem !important;
+    }
+    
+    .btn-estudiante-mobile {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .header-mobile {
+        padding: 0.7rem 0.8rem;
+    }
+}
+
+/* =========================
    ANIMACIONES
    ========================= */
 @keyframes fadeInUp {
