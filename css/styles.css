@@ -2122,3 +2122,102 @@ header a[aria-label*="RoboWorks"]:hover span {
     z-index: 1000 !important;
   }
 }
+
+/* ======================================================
+   CORRECCIONES ESPECÍFICAS PARA PROBLEMAS VISUALES
+   ====================================================== */
+
+/* 1. ELIMINAR FONDO GRIS DETRÁS DE LAS CARDS EN MÓVIL */
+@media (max-width: 768px) {
+  /* Fuerza fondo blanco en toda la sección de programas */
+  #programas {
+    background-color: white !important;
+    padding: 2rem 1rem !important;
+  }
+  
+  /* Fondo blanco en cada card individual */
+  .program-card {
+    background-color: white !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  /* Fondo blanco en el contenedor interno */
+  .program-card > div {
+    background-color: white !important;
+  }
+  
+  /* Elimina cualquier fondo de color */
+  .bg-green-50,
+  .bg-yellow-50,
+  .bg-blue-50,
+  .bg-purple-50,
+  .bg-orange-50,
+  .bg-gray-100 {
+    background-color: white !important;
+  }
+}
+
+/* 2. ELIMINAR BOTONES DE NAVEGACIÓN DENTRO DE LAS CARDS */
+/* Estos botones aparecen por un problema en tu HTML/JavaScript */
+
+/* Opción A: Ocultar específicamente los botones problema */
+.program-card nav,
+.program-card .nav-desktop-completo,
+.program-card .mobile-menu-simple,
+.program-card .btn-plataforma:not(.program-btn) {
+  display: none !important;
+}
+
+/* Opción B (MEJOR): Resetear completamente el interior de las cards */
+@media (max-width: 768px) {
+  .program-card * {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* Solo mostrar elementos específicos de la card */
+  .program-card h3,
+  .program-card p,
+  .program-card a:not([href*="#"]):not([href*="/plataforma"]) {
+    display: block !important;
+  }
+  
+  /* Ocultar cualquier enlace de navegación general */
+  .program-card a[href*="#programas"],
+  .program-card a[href*="#confianza"],
+  .program-card a[href*="#contacto"] {
+    display: none !important;
+  }
+}
+
+/* 3. CORREGIR ESPECÍFICAMENTE LA CARD DE ROBOSTART */
+/* (La que se ve en tu captura) */
+.program-card:has(h3:contains("RoboStart")) {
+  background-color: white !important;
+}
+
+.program-card:has(h3:contains("RoboStart")) > div {
+  background-color: white !important;
+}
+
+/* 4. FORZAR DISPLAY CORRECTO EN MÓVIL */
+@media (max-width: 768px) {
+  /* Eliminar cualquier elemento de navegación duplicado */
+  #programas nav,
+  #programas .nav-desktop-completo,
+  #programas .mobile-menu-simple {
+    display: none !important;
+  }
+  
+  /* Asegurar que solo se vean los botones de acción */
+  #programas a[href*="robo-"],
+  #programas a[href*="code-"] {
+    display: inline-block !important;
+    margin: 1rem auto !important;
+    width: 85% !important;
+    max-width: 220px !important;
+    text-align: center !important;
+  }
+}
