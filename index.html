@@ -138,9 +138,57 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <style>
-    /* ESTILOS PRINCIPALES PARA EL HEADER MOBILE */
+    /* ======================================================
+       CORRECCIONES CRÍTICAS PARA MÓVIL - DIRECTAMENTE AQUÍ
+       ====================================================== */
     
-    /* HEADER CON FONDO BLANCO */
+    /* 1. ELIMINAR FONDO GRIS EN MÓVIL */
+    @media (max-width: 768px) {
+      body.bg-gray-50 {
+        background-color: white !important;
+      }
+      
+      /* Fondo blanco para sección de programas en móvil */
+      #programas.bg-white {
+        background-color: white !important;
+      }
+      
+      /* Fondo blanco para cada card individual */
+      .program-card,
+      .program-card > div {
+        background-color: white !important;
+      }
+      
+      /* Eliminar clases de color de Tailwind en móvil */
+      .bg-green-50,
+      .bg-yellow-50,
+      .bg-blue-50,
+      .bg-purple-50,
+      .bg-orange-50,
+      .bg-gray-100 {
+        background-color: white !important;
+      }
+      
+      /* Fondo blanco para sección confianza */
+      #confianza.bg-gray-50 {
+        background-color: white !important;
+      }
+      
+      .trust-item.bg-white {
+        background-color: white !important;
+      }
+    }
+    
+    /* 2. PREVENIR QUE JS CLONE ELEMENTOS EN LAS CARDS */
+    .program-card nav,
+    .program-card .btn-plataforma,
+    .program-card a[href*="#programas"],
+    .program-card a[href*="#confianza"],
+    .program-card a[href*="#contacto"] {
+      display: none !important;
+    }
+    
+    /* 3. ESTILOS PRINCIPALES PARA EL HEADER MOBILE */
     .header-mobile {
       background-color: white;
       padding: 1rem 1.5rem;
@@ -270,6 +318,19 @@
       /* Botón flotante para móvil */
       .btn-flotante-movil {
         display: flex !important;
+      }
+      
+      /* CORRECCIÓN EXTRA: Asegurar que los botones de las cards sean visibles */
+      .program-card a:not([href*="#"]):not([href*="/plataforma"]) {
+        display: inline-block !important;
+        margin: 1rem auto 0 auto !important;
+        padding: 0.75rem 1.5rem !important;
+        background-color: #00a8e8 !important;
+        color: white !important;
+        border-radius: 50px !important;
+        font-weight: 600 !important;
+        text-align: center !important;
+        min-width: 180px !important;
       }
     }
     
@@ -427,7 +488,8 @@
 </section>
 
 <!-- PROGRAMAS - CENTRADO EN MÓVIL -->
-<section id="programas" class="py-16 md:py-20 px-4 bg-white">
+<!-- CAMBIO IMPORTANTE: Eliminé bg-white de aquí y lo controlo con CSS -->
+<section id="programas" class="py-16 md:py-20 px-4">
   <div class="max-w-7xl mx-auto">
     <!-- Título centrado optimizado para SEO local -->
     <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-14 mobile-center">
@@ -443,8 +505,8 @@
     <!-- Grid de programas - Centrado en móvil -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 justify-items-center">
 
-      <!-- RoboStart -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-green-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto" 
+      <!-- RoboStart - ELIMINÉ LAS CLASES bg-green-50 -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto" 
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot1.jpg" alt="RoboStart - Clases de robótica para niños de 5 a 7 años en Ambato" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -461,8 +523,8 @@
         </div>
       </div>
 
-      <!-- RoboSense -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-yellow-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
+      <!-- RoboSense - ELIMINÉ bg-yellow-50 -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot2.jpg" alt="RoboSense - Robótica inclusiva para niños en Ambato, Ecuador" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -479,8 +541,8 @@
         </div>
       </div>
 
-      <!-- RoboCare -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-blue-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
+      <!-- RoboCare - ELIMINÉ bg-blue-50 -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot3.jpg" alt="RoboCare - Construcción con LEGO para niños de 6 a 10 años en Ambato" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -497,8 +559,8 @@
         </div>
       </div>
 
-      <!-- RoboEnglish -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-purple-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
+      <!-- RoboEnglish - ELIMINÉ bg-purple-50 -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot4.jpg" alt="RoboEnglish - Inglés y robótica para niños de 7 a 11 años en Ambato" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -514,8 +576,8 @@
         </div>
       </div>
 
-      <!-- RoboPro -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-orange-50 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
+      <!-- RoboPro - ELIMINÉ bg-orange-50 -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <img src="images/optimized/fot5.jpg" alt="RoboPro - Robótica de competencia para jóvenes en Ambato" class="w-full h-48 md:h-56 object-cover">
         <div class="p-5 md:p-6 mobile-center">
@@ -532,8 +594,8 @@
         </div>
       </div>
 
-      <!-- CodeWorks -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden bg-gray-100 card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
+      <!-- CodeWorks - ELIMINÉ bg-gray-100 -->
+      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
            itemscope itemtype="https://schema.org/Product">
         <div class="h-48 md:h-56 flex items-center justify-center overflow-hidden">
           <img src="images/optimized/fot6.jpg" alt="CodeWorks - Programación virtual para niños y jóvenes en Ecuador" 
@@ -557,7 +619,8 @@
 </section>
 
 <!-- SECCIÓN CONFIANZA - CENTRADO EN MÓVIL -->
-<section id="confianza" class="py-16 md:py-20 px-4 bg-gray-50">
+<!-- CAMBIO: Eliminé bg-gray-50 de aquí -->
+<section id="confianza" class="py-16 md:py-20 px-4">
   <div class="max-w-6xl mx-auto">
     <!-- Título centrado optimizado -->
     <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 md:mb-12 mobile-center">
@@ -572,7 +635,7 @@
 
     <!-- Grid de confianza - Centrado en móvil -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
-      <div class="trust-item p-6 bg-white rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
+      <div class="trust-item p-6 rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
         <div class="mobile-flex-center mb-4">
           <i class="fas fa-heart text-3xl text-robo-orange"></i>
         </div>
@@ -580,7 +643,7 @@
         <p class="font-medium mobile-center">Educación con enfoque humano y emocional en Ambato</p>
       </div>
       
-      <div class="trust-item p-6 bg-white rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
+      <div class="trust-item p-6 rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
         <div class="mobile-flex-center mb-4">
           <i class="fas fa-robot text-3xl text-robo-blue"></i>
         </div>
@@ -588,7 +651,7 @@
         <p class="font-medium mobile-center">Aprendizaje práctico con robótica real en Tungurahua</p>
       </div>
       
-      <div class="trust-item p-6 bg-white rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
+      <div class="trust-item p-6 rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
         <div class="mobile-flex-center mb-4">
           <i class="fas fa-users text-3xl text-robo-green"></i>
         </div>
@@ -656,30 +719,76 @@
 <script src="js/robot-hero.js"></script>
 <script src="js/main.js"></script>
 
+<!-- SCRIPT CORREGIDO PARA PREVENIR PROBLEMAS -->
 <script>
-  // Script para asegurar que el robot se cargue correctamente
   document.addEventListener('DOMContentLoaded', function() {
-    // Asegurar que el contenedor del robot tenga tamaño
+    // 1. Asegurar que el robot se cargue correctamente
     const robotContainer = document.getElementById('robot-hero');
     if (robotContainer && robotContainer.clientHeight === 0) {
       robotContainer.style.height = '500px';
     }
     
-    // Precarga mejorada para móviles
-    if ('ontouchstart' in window) {
-      console.log('Dispositivo táctil detectado - optimizando robot 3D');
-    }
+    // 2. DETENER CUALQUIER JS QUE ESTÉ CLONANDO ELEMENTOS EN LAS CARDS
+    // Esto previene que aparezcan botones de navegación dentro de las cards
+    const programCards = document.querySelectorAll('.program-card');
     
-    // Añadir clase de centrado automático para elementos móviles
-    const mobileElements = document.querySelectorAll('h1, h2, h3, p, .program-card, .trust-item');
-    mobileElements.forEach(el => {
-      el.classList.add('md:text-left', 'mobile-center');
+    // Limpiar cualquier elemento no deseado dentro de las cards
+    programCards.forEach(card => {
+      // Eliminar cualquier nav, header, o botones de navegación
+      const unwantedElements = card.querySelectorAll('nav, header, .btn-plataforma, a[href*="#programas"], a[href*="#confianza"], a[href*="#contacto"]');
+      unwantedElements.forEach(el => {
+        if (!el.closest('.mobile-flex-center')) { // No eliminar el botón de acción
+          el.remove();
+        }
+      });
+      
+      // Asegurar fondo blanco
+      card.style.backgroundColor = 'white';
+      const innerDiv = card.querySelector('div');
+      if (innerDiv) {
+        innerDiv.style.backgroundColor = 'white';
+      }
     });
     
-    // Actualizar título dinámico con ubicación
+    // 3. Forzar fondo blanco en móvil
+    function forceWhiteBackground() {
+      if (window.innerWidth <= 768) {
+        document.body.style.backgroundColor = 'white';
+        
+        // Fondo blanco para secciones
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          section.style.backgroundColor = 'white';
+        });
+        
+        // Fondo blanco para cards
+        programCards.forEach(card => {
+          card.style.backgroundColor = 'white';
+          const innerDiv = card.querySelector('div');
+          if (innerDiv) innerDiv.style.backgroundColor = 'white';
+        });
+        
+        // Fondo blanco para trust items
+        const trustItems = document.querySelectorAll('.trust-item');
+        trustItems.forEach(item => {
+          item.style.backgroundColor = 'white';
+        });
+      }
+    }
+    
+    // Ejecutar al cargar y al redimensionar
+    forceWhiteBackground();
+    window.addEventListener('resize', forceWhiteBackground);
+    
+    // 4. Precarga mejorada para móviles
+    if ('ontouchstart' in window) {
+      console.log('Dispositivo táctil detectado - optimizando para móvil');
+    }
+    
+    // 5. Actualizar título dinámico con ubicación
     document.title = "RoboWorks Ambato | " + document.title;
     
-    // Forzar color celeste en el logo
+    // 6. Forzar color celeste en el logo
     const roboElements = document.querySelectorAll('.logo-celeste');
     roboElements.forEach(el => {
       el.style.color = '#00a8e8';
@@ -695,6 +804,8 @@
   window.addEventListener('resize', function() {
     if (isMobile()) {
       document.body.classList.add('mobile-view');
+      // Forzar fondo blanco cada vez que se redimensione a móvil
+      document.body.style.backgroundColor = 'white';
     } else {
       document.body.classList.remove('mobile-view');
     }
@@ -703,6 +814,7 @@
   // Inicializar
   if (isMobile()) {
     document.body.classList.add('mobile-view');
+    document.body.style.backgroundColor = 'white';
   }
 </script>
 
