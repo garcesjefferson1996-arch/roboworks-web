@@ -1,12 +1,14 @@
 /* ======================================================
    styles.css – Estilos personalizados RoboWorks
+   CORREGIDO PARA VERSIÓN MÓVIL
    ====================================================== */
 
 /* =========================
    VARIABLES DE MARCA
    ========================= */
 :root {
-  --robo-blue: #6a3bc2;
+  --robo-blue: #00a8e8;
+  --robo-light-blue: #6a3bc2;
   --robo-purple: #8a5cde;
   --robo-yellow: #ff7b42;
   --robo-green: #2dd4bf;
@@ -14,6 +16,93 @@
   --soft-bg: #f8fafc;
   --shadow-light: rgba(106, 59, 194, 0.15);
   --shadow-medium: rgba(106, 59, 194, 0.25);
+}
+
+/* =========================
+   CORRECCIONES GLOBALES PARA FONDO BLANCO EN MÓVIL
+   ========================= */
+
+/* Fondo blanco para todo el cuerpo en móvil */
+@media (max-width: 768px) {
+  body.bg-gray-50 {
+    background-color: white !important;
+  }
+  
+  /* Fondo blanco para secciones específicas */
+  section.bg-white {
+    background-color: white !important;
+  }
+  
+  section.bg-gray-50 {
+    background-color: white !important;
+  }
+  
+  /* Fondo blanco para las cards de programa */
+  .program-card {
+    background-color: white !important;
+  }
+  
+  /* Asegurar que los elementos dentro de las cards tengan fondo blanco */
+  .program-card > div {
+    background-color: white !important;
+  }
+  
+  .bg-green-50 { background-color: white !important; }
+  .bg-yellow-50 { background-color: white !important; }
+  .bg-blue-50 { background-color: white !important; }
+  .bg-purple-50 { background-color: white !important; }
+  .bg-orange-50 { background-color: white !important; }
+  .bg-gray-100 { background-color: white !important; }
+  
+  /* Fondo blanco para trust items */
+  .trust-item {
+    background-color: white !important;
+  }
+}
+
+/* =========================
+   CORRECCIONES PARA BOTONES EN MÓVIL
+   ========================= */
+
+@media (max-width: 768px) {
+  /* Centrar y asegurar visibilidad de todos los botones */
+  .mobile-block-center,
+  .program-card a,
+  .trust-item a,
+  .btn-hover,
+  .btn-plataforma,
+  .mobile-btn {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: fit-content !important;
+    min-width: 200px !important;
+    text-align: center !important;
+  }
+  
+  /* Botones específicos de programas */
+  .program-card a {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    border-radius: 50px !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Espaciado entre botones */
+  .program-card > div {
+    padding-bottom: 1.5rem !important;
+  }
+  
+  /* Asegurar que los botones no se corten */
+  .program-card {
+    overflow: visible !important;
+  }
+  
+  .mobile-margin-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 }
 
 /* =========================
@@ -113,6 +202,13 @@
     /* Ajustar padding en móvil */
     .header-mobile {
         padding: 0.8rem 1rem;
+    }
+    
+    /* Botón de plataforma centrado en móvil */
+    .btn-plataforma {
+        margin: 0 auto !important;
+        display: flex !important;
+        justify-content: center !important;
     }
 }
 
@@ -227,25 +323,27 @@
    ========================= */
 
 /* Centrado de texto en móvil - CORRECCIÓN: Solo centrar en móvil */
-.mobile-center {
-  text-align: center;
+@media (max-width: 768px) {
+  .mobile-center {
+    text-align: center !important;
+  }
 }
 
 @media (min-width: 769px) {
-  /* Eliminado: .mobile-center { text-align: left !important; } */
-  /* En su lugar, para títulos que deben estar centrados en desktop: */
-  .center-on-desktop.mobile-center {
-    text-align: center;
+  .mobile-center {
+    text-align: left;
   }
 }
 
 /* Flexbox centrado en móvil - MODIFICADO */
-.mobile-flex-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+@media (max-width: 768px) {
+  .mobile-flex-center {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
 }
 
 @media (min-width: 769px) {
@@ -259,9 +357,12 @@
 }
 
 /* Logo centrado en móvil */
-.mobile-logo-center {
-  justify-content: center;
-  margin: 0 auto;
+@media (max-width: 768px) {
+  .mobile-logo-center {
+    justify-content: center !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
 }
 
 @media (min-width: 769px) {
@@ -272,9 +373,12 @@
 }
 
 /* Margen automático en móvil */
-.mobile-margin-auto {
-  margin-left: auto;
-  margin-right: auto;
+@media (max-width: 768px) {
+  .mobile-margin-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+  }
 }
 
 @media (min-width: 769px) {
@@ -285,10 +389,12 @@
 }
 
 /* Display block centrado en móvil */
-.mobile-block-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+@media (max-width: 768px) {
+  .mobile-block-center {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 }
 
 @media (min-width: 769px) {
@@ -522,7 +628,7 @@ p {
 }
 
 /* =========================
-   SECCIÓN PROGRAMAS
+   SECCIÓN PROGRAMAS - CORRECCIONES MÓVIL
    ========================= */
 .program-card img {
   transition: transform 0.4s ease;
@@ -530,6 +636,29 @@ p {
 
 .program-card:hover img {
   transform: scale(1.05);
+}
+
+/* Fondo blanco para tarjetas en móvil */
+@media (max-width: 768px) {
+  .program-card {
+    background-color: white !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #f0f0f0 !important;
+  }
+  
+  .program-card > div {
+    background-color: white !important;
+    padding: 1.5rem !important;
+  }
+  
+  .program-card a {
+    display: block !important;
+    margin: 1rem auto 0 auto !important;
+    width: 85% !important;
+    max-width: 250px !important;
+    text-align: center !important;
+    padding: 0.75rem 1.5rem !important;
+  }
 }
 
 /* =========================
@@ -547,38 +676,20 @@ p {
   transform: translateY(-6px);
 }
 
+/* Fondo blanco en móvil */
+@media (max-width: 768px) {
+  .trust-item {
+    background-color: white !important;
+    margin: 0 auto 1.5rem auto !important;
+    max-width: 90% !important;
+  }
+}
+
 /* =========================
    FOOTER
    ========================= */
 footer {
   background: linear-gradient(135deg, #1f2937, #111827);
-}
-
-/* =========================
-   HEADER RESPONSIVE
-   ========================= */
-@media (max-width: 768px) {
-  .header-mobile {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-  }
-  
-  .header-mobile .logo-container {
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .header-mobile nav {
-    width: 100%;
-    justify-content: center;
-    gap: 1.5rem;
-  }
-  
-  .header-mobile nav a {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-  }
 }
 
 /* =========================
@@ -607,7 +718,7 @@ footer {
 }
 
 /* =========================
-   PROGRAMAS RESPONSIVE
+   PROGRAMAS RESPONSIVE - CORRECCIONES
    ========================= */
 @media (max-width: 768px) {
   .programs-grid {
@@ -615,30 +726,48 @@ footer {
   }
   
   .program-card {
-    max-width: 100%;
-    width: 100%;
-    margin-bottom: 1.5rem;
+    max-width: 100% !important;
+    width: 90% !important;
+    margin-bottom: 2rem !important;
+    background-color: white !important;
   }
   
   .program-card-content {
-    text-align: center;
-    padding: 1.5rem;
+    text-align: center !important;
+    padding: 1.5rem !important;
+    background-color: white !important;
   }
   
   .program-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.3rem !important;
+    margin-bottom: 0.5rem !important;
+    color: #333 !important;
   }
   
   .program-card p {
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
+    font-size: 0.95rem !important;
+    margin-bottom: 1rem !important;
+    color: #555 !important;
   }
   
   .program-card .btn {
-    display: block;
-    width: fit-content;
-    margin: 0 auto;
+    display: block !important;
+    width: fit-content !important;
+    min-width: 180px !important;
+    margin: 1rem auto 0 auto !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Fondo blanco específico para cada tipo de card */
+  .bg-green-50, 
+  .bg-yellow-50, 
+  .bg-blue-50, 
+  .bg-purple-50, 
+  .bg-orange-50, 
+  .bg-gray-100 {
+    background-color: white !important;
   }
 }
 
@@ -647,25 +776,27 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .trust-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    justify-items: center;
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    justify-items: center !important;
   }
   
   .trust-item {
-    max-width: 100%;
-    width: 100%;
-    padding: 1.5rem;
-    text-align: center;
+    max-width: 90% !important;
+    width: 90% !important;
+    padding: 1.5rem !important;
+    text-align: center !important;
+    background-color: white !important;
   }
   
   .trust-item i {
-    margin: 0 auto 1rem;
-    display: block;
+    margin: 0 auto 1rem !important;
+    display: block !important;
   }
   
   .trust-item p {
-    font-size: 1rem;
+    font-size: 1rem !important;
+    color: #333 !important;
   }
 }
 
@@ -676,76 +807,78 @@ footer {
 /* Tablet (768px y menos) */
 @media (max-width: 768px) {
   #robot-hero {
-    height: 400px;
-    max-width: 90%;
-    margin: 0 auto 2rem;
-    order: -1;
+    height: 400px !important;
+    max-width: 90% !important;
+    margin: 0 auto 2rem !important;
+    order: -1 !important;
+    background-color: #f8fafc !important;
   }
   
   .robot-instructions {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1 !important;
+    transform: translateY(0) !important;
   }
   
   .robot-instructions span {
-    font-size: 11px;
-    padding: 6px 12px;
+    font-size: 11px !important;
+    padding: 6px 12px !important;
   }
   
   /* Optimizaciones de rendimiento para móvil */
   #robot-hero {
-    box-shadow: 0 15px 40px var(--shadow-light);
+    box-shadow: 0 15px 40px var(--shadow-light) !important;
   }
   
   #robot-hero:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 50px var(--shadow-medium);
+    transform: translateY(-3px) !important;
+    box-shadow: 0 20px 50px var(--shadow-medium) !important;
   }
 }
 
 /* Móvil (480px y menos) */
 @media (max-width: 480px) {
   #robot-hero {
-    height: 350px;
-    border-radius: 20px;
+    height: 350px !important;
+    border-radius: 20px !important;
+    background-color: #f8fafc !important;
   }
   
   .robot-fallback i {
-    font-size: 60px;
+    font-size: 60px !important;
   }
   
   .robot-fallback .title {
-    font-size: 1rem;
+    font-size: 1rem !important;
   }
   
   .robot-fallback .subtitle {
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
   }
   
   #robot-hero.loading::before {
-    width: 50px;
-    height: 50px;
+    width: 50px !important;
+    height: 50px !important;
   }
   
   .mobile-padding {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
 
   .mobile-text-center {
-    text-align: center;
+    text-align: center !important;
   }
 
   h1 {
-    font-size: 2.2rem;
+    font-size: 2.2rem !important;
   }
 }
 
 /* Pantallas grandes (1200px+) */
 @media (min-width: 1200px) {
   #robot-hero {
-    height: 550px;
-    max-width: 650px;
+    height: 550px !important;
+    max-width: 650px !important;
   }
 }
 
@@ -754,28 +887,28 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .section-padding {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
   
   .mobile-py-8 {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
   }
   
   .mobile-px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
   
   .mobile-mt-6 {
-    margin-top: 1.5rem;
+    margin-top: 1.5rem !important;
   }
   
   .mobile-mb-6 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem !important;
   }
 }
 
@@ -784,49 +917,68 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .mobile-text-xl {
-    font-size: 1.25rem;
-    line-height: 1.4;
+    font-size: 1.25rem !important;
+    line-height: 1.4 !important;
   }
   
   .mobile-text-lg {
-    font-size: 1.125rem;
-    line-height: 1.4;
+    font-size: 1.125rem !important;
+    line-height: 1.4 !important;
   }
   
   .mobile-text-base {
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
   }
   
   .mobile-text-sm {
-    font-size: 0.875rem;
-    line-height: 1.4;
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
   }
   
   .mobile-text-xs {
-    font-size: 0.75rem;
-    line-height: 1.4;
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
   }
 }
 
 /* =========================
-   BOTONES RESPONSIVE
+   BOTONES RESPONSIVE - CORREGIDOS
    ========================= */
 @media (max-width: 768px) {
   .mobile-btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 300px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+    width: 85% !important;
+    max-width: 280px !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 50px !important;
+    text-align: center !important;
   }
   
   .mobile-btn-sm {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    width: auto;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    width: auto !important;
+  }
+  
+  /* Botones específicos en cards */
+  .bg-robo-green,
+  .bg-robo-yellow,
+  .bg-robo-blue,
+  .bg-robo-purple,
+  .bg-robo-orange,
+  .bg-gray-800 {
+    display: block !important;
+    margin: 1rem auto 0 auto !important;
+    width: 85% !important;
+    max-width: 220px !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    text-align: center !important;
+    font-weight: 600 !important;
   }
 }
 
@@ -835,24 +987,24 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .mobile-grid-1 {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
   
   .mobile-grid-2 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
   }
   
   .mobile-order-1 {
-    order: 1;
+    order: 1 !important;
   }
   
   .mobile-order-2 {
-    order: 2;
+    order: 2 !important;
   }
   
   .mobile-order-first {
-    order: -1;
+    order: -1 !important;
   }
 }
 
@@ -913,6 +1065,23 @@ footer {
     background: rgba(30, 41, 59, 0.9);
     color: #cbd5e1;
   }
+  
+  /* Fondo blanco también en modo oscuro para móvil */
+  @media (max-width: 768px) {
+    .program-card,
+    .program-card > div,
+    .trust-item {
+      background-color: #1a1a1a !important;
+      color: #f0f0f0 !important;
+    }
+    
+    .program-card h3,
+    .program-card p,
+    .trust-item h3,
+    .trust-item p {
+      color: #f0f0f0 !important;
+    }
+  }
 }
 
 /* =========================
@@ -966,19 +1135,19 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   footer {
-    padding: 2rem 1rem;
-    text-align: center;
+    padding: 2rem 1rem !important;
+    text-align: center !important;
   }
   
   footer p {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
   }
   
   footer .contact-info {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
 }
 
@@ -987,41 +1156,41 @@ footer {
    ========================= */
 @media (max-width: 768px) {
   .mobile-hidden {
-    display: none;
+    display: none !important;
   }
   
   .mobile-block {
-    display: block;
+    display: block !important;
   }
   
   .mobile-flex {
-    display: flex;
+    display: flex !important;
   }
   
   .mobile-flex-col {
-    flex-direction: column;
+    flex-direction: column !important;
   }
   
   .mobile-w-full {
-    width: 100%;
+    width: 100% !important;
   }
   
   .mobile-w-auto {
-    width: auto;
+    width: auto !important;
   }
   
   .mobile-mx-auto {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   
   .mobile-my-4 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
   }
   
   .mobile-gap-4 {
-    gap: 1rem;
+    gap: 1rem !important;
   }
 }
 
@@ -1283,6 +1452,11 @@ footer {
     width: 100%;
     justify-content: center;
   }
+  
+  /* Fondo blanco para contenido de programa en móvil */
+  .program-content {
+    background-color: white !important;
+  }
 }
 
 /* Animaciones para contenido de programa */
@@ -1307,8 +1481,10 @@ footer {
 /* =========================
    CLASE PARA ELEMENTOS QUE DEBEN ESTAR CENTRADOS EN MÓVIL PERO NO EN DESKTOP
    ========================= */
-.mobile-center-only {
-  text-align: center;
+@media (max-width: 768px) {
+  .mobile-center-only {
+    text-align: center !important;
+  }
 }
 
 @media (min-width: 769px) {
@@ -1325,89 +1501,92 @@ footer {
 
 /* Botón principal en header */
 .btn-plataforma {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, var(--robo-blue), var(--robo-purple));
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: linear-gradient(135deg, var(--robo-blue), var(--robo-purple)) !important;
     color: white !important;
-    padding: 10px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+    padding: 10px 20px !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid transparent !important;
 }
 
 .btn-plataforma:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(106, 59, 194, 0.3);
-    background: linear-gradient(135deg, #5a2bb2, #7a4cce);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 15px rgba(106, 59, 194, 0.3) !important;
+    background: linear-gradient(135deg, #5a2bb2, #7a4cce) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .btn-plataforma i {
-    font-size: 1rem;
+    font-size: 1rem !important;
 }
 
 /* Botón flotante para móvil */
 .btn-flotante-movil {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: linear-gradient(135deg, var(--robo-blue), var(--robo-purple));
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    box-shadow: 0 4px 15px rgba(106, 59, 194, 0.4);
-    z-index: 1000;
-    text-decoration: none;
-    transition: all 0.3s ease;
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    background: linear-gradient(135deg, var(--robo-blue), var(--robo-purple)) !important;
+    color: white !important;
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.5rem !important;
+    box-shadow: 0 4px 15px rgba(106, 59, 194, 0.4) !important;
+    z-index: 1000 !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
 }
 
 .btn-flotante-movil:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(106, 59, 194, 0.6);
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 20px rgba(106, 59, 194, 0.6) !important;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     /* Header en móvil */
     .btn-plataforma {
-        margin: 10px 0 0 0;
-        padding: 12px 24px;
-        width: 100%;
-        justify-content: center;
-        order: 3;
-        border-radius: 12px;
+        margin: 10px 0 0 0 !important;
+        padding: 12px 24px !important;
+        width: 90% !important;
+        max-width: 280px !important;
+        justify-content: center !important;
+        order: 3 !important;
+        border-radius: 12px !important;
+        display: flex !important;
     }
     
     /* Mostrar botón flotante en móvil */
     .btn-flotante-movil {
-        display: flex;
+        display: flex !important;
     }
     
     /* Ajustar navegación en móvil */
     nav {
-        flex-direction: column;
-        width: 100%;
+        flex-direction: column !important;
+        width: 100% !important;
+        align-items: center !important;
     }
     
     nav a:not(.btn-plataforma) {
-        width: 100%;
-        text-align: center;
-        padding: 12px;
-        border-bottom: 1px solid #f0f0f0;
+        width: 90% !important;
+        text-align: center !important;
+        padding: 12px !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+        margin: 0 auto !important;
     }
     
     nav a:last-child:not(.btn-plataforma) {
-        border-bottom: none;
+        border-bottom: none !important;
     }
 }
 
@@ -1420,26 +1599,26 @@ footer {
 /* Mejoras para hover en desktop */
 @media (min-width: 769px) {
     .btn-plataforma {
-        position: relative;
-        overflow: hidden;
+        position: relative !important;
+        overflow: hidden !important;
     }
     
     .btn-plataforma::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 5px;
-        height: 5px;
-        background: rgba(255, 255, 255, 0.5);
-        opacity: 0;
-        border-radius: 100%;
-        transform: scale(1, 1) translate(-50%);
-        transform-origin: 50% 50%;
+        content: '' !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        width: 5px !important;
+        height: 5px !important;
+        background: rgba(255, 255, 255, 0.5) !important;
+        opacity: 0 !important;
+        border-radius: 100% !important;
+        transform: scale(1, 1) translate(-50%) !important;
+        transform-origin: 50% 50% !important;
     }
     
     .btn-plataforma:hover::after {
-        animation: ripple 1s ease-out;
+        animation: ripple 1s ease-out !important;
     }
 }
 
@@ -1474,17 +1653,18 @@ footer {
    AJUSTES DE ESPACIADO PARA EL HEADER
    ========================= */
 header nav {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
 }
 
 @media (max-width: 768px) {
     header nav {
-        flex-direction: column;
-        width: 100%;
-        gap: 0.5rem;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0.5rem !important;
+        align-items: center !important;
     }
 }
 
@@ -1492,14 +1672,14 @@ header nav {
    ESTILOS PARA LOS ENLACES DE NAVEGACIÓN
    ========================= */
 nav a {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.3s ease;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.3s ease !important;
 }
 
 nav a:hover {
-    background-color: rgba(106, 59, 194, 0.1);
-    color: var(--robo-blue);
+    background-color: rgba(106, 59, 194, 0.1) !important;
+    color: var(--robo-blue) !important;
 }
 
 /* =========================
@@ -1508,30 +1688,35 @@ nav a:hover {
 @media (max-width: 768px) {
     /* Asegurar que el botón tenga buen espaciado en móvil */
     .btn-plataforma {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
     }
     
     /* Mejorar la jerarquía visual en móvil */
     nav a:not(.btn-plataforma) {
-        font-size: 1.1rem;
-        padding: 1rem;
-        background-color: rgba(106, 59, 194, 0.05);
-        border-radius: 0.75rem;
-        width: 100%;
-        text-align: center;
+        font-size: 1.1rem !important;
+        padding: 1rem !important;
+        background-color: rgba(106, 59, 194, 0.05) !important;
+        border-radius: 0.75rem !important;
+        width: 90% !important;
+        text-align: center !important;
+        display: block !important;
+        margin: 0.25rem auto !important;
     }
     
     /* Separar visualmente el botón de plataforma */
     .btn-plataforma {
-        background: linear-gradient(135deg, var(--robo-blue), var(--robo-purple));
+        background: linear-gradient(135deg, var(--robo-blue), var(--robo-purple)) !important;
         color: white !important;
-        font-weight: 700;
-        font-size: 1.1rem;
-        padding: 1.2rem;
-        margin-top: 1.5rem;
-        border-radius: 1rem;
-        box-shadow: 0 4px 12px rgba(106, 59, 194, 0.2);
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        padding: 1.2rem !important;
+        margin-top: 1.5rem !important;
+        margin-bottom: 0.5rem !important;
+        border-radius: 1rem !important;
+        box-shadow: 0 4px 12px rgba(106, 59, 194, 0.2) !important;
+        width: 90% !important;
+        max-width: 300px !important;
     }
 }
 
@@ -1551,32 +1736,32 @@ nav a:hover {
 }
 
 .btn-flotante-movil {
-    animation: pulse 2s infinite;
+    animation: pulse 2s infinite !important;
 }
 
 /* =========================
    ESTILOS PARA EL TOOLTIP DEL BOTÓN FLOTANTE
    ========================= */
 .btn-flotante-movil::before {
-    content: 'Acceso Estudiantes';
-    position: absolute;
-    right: 70px;
-    background: var(--robo-texto);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    white-space: nowrap;
-    opacity: 0;
-    transform: translateX(10px);
-    transition: all 0.3s ease;
-    pointer-events: none;
+    content: 'Acceso Estudiantes' !important;
+    position: absolute !important;
+    right: 70px !important;
+    background: var(--robo-texto) !important;
+    color: white !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    opacity: 0 !important;
+    transform: translateX(10px) !important;
+    transition: all 0.3s ease !important;
+    pointer-events: none !important;
 }
 
 .btn-flotante-movil:hover::before {
-    opacity: 1;
-    transform: translateX(0);
+    opacity: 1 !important;
+    transform: translateX(0) !important;
 }
 
 /* =========================
@@ -1584,29 +1769,29 @@ nav a:hover {
    ========================= */
 .btn-plataforma:focus,
 .btn-flotante-movil:focus {
-    outline: 3px solid var(--robo-blue);
-    outline-offset: 3px;
+    outline: 3px solid var(--robo-blue) !important;
+    outline-offset: 3px !important;
 }
 
 /* =========================
    ESTADOS DE CARGA MEJORADOS PARA EL BOTÓN
    ========================= */
 .btn-plataforma.loading {
-    opacity: 0.7;
-    cursor: wait;
-    pointer-events: none;
+    opacity: 0.7 !important;
+    cursor: wait !important;
+    pointer-events: none !important;
 }
 
 .btn-plataforma.loading::after {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-left: 8px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    content: '' !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin-left: 8px !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-top: 2px solid white !important;
+    border-radius: 50% !important;
+    animation: spin 1s linear infinite !important;
 }
 
 /* =========================
@@ -1625,11 +1810,11 @@ nav a:hover {
 }
 
 .btn-plataforma.success {
-    background: linear-gradient(135deg, var(--robo-exito), #059669);
+    background: linear-gradient(135deg, var(--robo-exito), #059669) !important;
 }
 
 .btn-plataforma.success i {
-    animation: checkmark 0.5s ease;
+    animation: checkmark 0.5s ease !important;
 }
 
 /* =========================
@@ -1637,22 +1822,23 @@ nav a:hover {
    ========================= */
 @media (max-width: 480px) {
     .btn-plataforma {
-        font-size: 1rem;
-        padding: 1rem 1.5rem;
+        font-size: 1rem !important;
+        padding: 1rem 1.5rem !important;
+        width: 95% !important;
     }
     
     .btn-flotante-movil {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-        bottom: 15px;
-        right: 15px;
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.2rem !important;
+        bottom: 15px !important;
+        right: 15px !important;
     }
     
     .btn-flotante-movil::before {
-        font-size: 0.7rem;
-        right: 60px;
-        padding: 6px 10px;
+        font-size: 0.7rem !important;
+        right: 60px !important;
+        padding: 6px 10px !important;
     }
 }
 
@@ -1661,19 +1847,19 @@ nav a:hover {
    ========================= */
 @media (prefers-color-scheme: dark) {
     .btn-plataforma {
-        box-shadow: 0 4px 15px rgba(106, 59, 194, 0.3);
+        box-shadow: 0 4px 15px rgba(106, 59, 194, 0.3) !important;
     }
     
     .btn-plataforma:hover {
-        box-shadow: 0 6px 20px rgba(106, 59, 194, 0.5);
+        box-shadow: 0 6px 20px rgba(106, 59, 194, 0.5) !important;
     }
     
     nav a:hover {
-        background-color: rgba(106, 59, 194, 0.2);
+        background-color: rgba(106, 59, 194, 0.2) !important;
     }
     
     .btn-flotante-movil {
-        box-shadow: 0 4px 15px rgba(106, 59, 194, 0.5);
+        box-shadow: 0 4px 15px rgba(106, 59, 194, 0.5) !important;
     }
 }
 
@@ -1683,21 +1869,21 @@ nav a:hover {
 .btn-plataforma,
 .btn-flotante-movil,
 nav a {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* =========================
    ESTILOS PARA EL HEADER STICKY
    ========================= */
 header.sticky {
-    backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px) !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 @media (prefers-color-scheme: dark) {
     header.sticky {
-        background-color: rgba(30, 30, 40, 0.95);
+        background-color: rgba(30, 30, 40, 0.95) !important;
     }
 }
 
@@ -1706,8 +1892,8 @@ header.sticky {
    ========================= */
 .btn-plataforma,
 .btn-flotante-movil {
-    will-change: transform, box-shadow;
-    transform: translateZ(0);
+    will-change: transform, box-shadow !important;
+    transform: translateZ(0) !important;
 }
 
 /* =========================
@@ -1716,20 +1902,20 @@ header.sticky {
 @media (prefers-reduced-motion: reduce) {
     .btn-plataforma,
     .btn-flotante-movil {
-        transition: none;
-        animation: none;
+        transition: none !important;
+        animation: none !important;
     }
     
     .btn-plataforma:hover {
-        transform: none;
+        transform: none !important;
     }
     
     .btn-flotante-movil {
-        animation: none;
+        animation: none !important;
     }
     
     .btn-plataforma::after {
-        display: none;
+        display: none !important;
     }
 }
 
@@ -1754,13 +1940,13 @@ header.sticky {
 /* Ajustes específicos para el logo en móvil */
 @media (max-width: 768px) {
     .mobile-logo-center .text-2xl {
-        font-size: 1.75rem;
-        line-height: 1.2;
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
     }
     
     .mobile-logo-center .text-xs {
-        font-size: 0.7rem;
-        margin-top: 2px;
+        font-size: 0.7rem !important;
+        margin-top: 2px !important;
     }
 }
 
@@ -1776,14 +1962,163 @@ nav a:hover {
 
 /* Estilos específicos para el logo link */
 header a[aria-label*="RoboWorks"] span {
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease !important;
 }
 
 header a[aria-label*="RoboWorks"]:hover span {
-    opacity: 0.9;
+    opacity: 0.9 !important;
 }
 
 /* Ajuste para el texto "Ambato, Ecuador" */
 .text-gray-600 {
     color: #666677 !important;
+}
+
+/* =========================
+   CORRECCIONES FINALES PARA ASEGURAR FONDO BLANCO
+   ========================= */
+
+/* Fuerza el fondo blanco en todas las secciones relevantes en móvil */
+@media (max-width: 768px) {
+  /* Sección de programas */
+  #programas,
+  #programas > div,
+  #programas .grid {
+    background-color: white !important;
+  }
+  
+  /* Cards individuales - override cualquier clase de color */
+  .program-card,
+  .program-card > *,
+  .program-card div {
+    background-color: white !important;
+    background-image: none !important;
+  }
+  
+  /* Remove cualquier gradiente en móvil */
+  .bg-gradient-to-br,
+  .bg-gradient-to-r,
+  .bg-gradient-to-l {
+    background: white !important;
+  }
+  
+  /* Sección confianza */
+  #confianza,
+  #confianza > div,
+  #confianza .grid {
+    background-color: white !important;
+  }
+  
+  /* Hero section - mantener gradiente solo en escritorio */
+  .hero-wave {
+    background: white !important;
+  }
+  
+  /* Asegurar visibilidad del texto */
+  .text-gray-700,
+  .text-gray-600,
+  .text-gray-800 {
+    color: #333 !important;
+  }
+}
+
+/* =========================
+   MEJORAS DE VISIBILIDAD PARA BOTONES EN MÓVIL
+   ========================= */
+
+@media (max-width: 768px) {
+  /* Aumentar tamaño y visibilidad de botones */
+  .program-card a {
+    font-size: 1.1rem !important;
+    padding: 0.9rem 1.8rem !important;
+    min-height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 1.5rem auto 0 auto !important;
+    border-radius: 25px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Colores de botones más vibrantes */
+  .bg-robo-green { background-color: #2dd4bf !important; }
+  .bg-robo-yellow { background-color: #ff7b42 !important; }
+  .bg-robo-blue { background-color: #00a8e8 !important; }
+  .bg-robo-purple { background-color: #8a5cde !important; }
+  .bg-robo-orange { background-color: #ff7b42 !important; }
+  .bg-gray-800 { background-color: #4b5563 !important; }
+  
+  /* Efecto hover para móvil (touch) */
+  .program-card a:active {
+    transform: scale(0.98) !important;
+    opacity: 0.9 !important;
+  }
+  
+  /* Espaciado mejorado en cards */
+  .program-card > div {
+    padding-bottom: 2rem !important;
+  }
+}
+
+/* =========================
+   CORRECCIÓN PARA BOTONES QUE VAN A LA CABEZA
+   ========================= */
+
+/* En móvil, asegurar que los botones de "ir arriba" o similar sean visibles */
+@media (max-width: 768px) {
+  .btn-flotante-movil {
+    bottom: 80px !important; /* Espacio para no interferir con otros botones flotantes */
+  }
+  
+  /* Si tienes botones de scroll to top */
+  .scroll-to-top {
+    position: fixed !important;
+    bottom: 140px !important;
+    right: 20px !important;
+    background: var(--robo-blue) !important;
+    color: white !important;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.2rem !important;
+    z-index: 999 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+/* =========================
+   ÚLTIMAS CORRECCIONES DE COMPATIBILIDAD
+   ========================= */
+
+/* Asegurar que !important no rompa funcionalidades esenciales */
+@media (max-width: 768px) {
+  /* Mantener algunas funcionalidades de Tailwind */
+  .grid {
+    display: grid !important;
+  }
+  
+  .grid-cols-1 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .gap-8 {
+    gap: 2rem !important;
+  }
+  
+  /* Asegurar que los enlaces sean clickeables */
+  a, button {
+    cursor: pointer !important;
+  }
+  
+  /* Prevenir problemas de superposición */
+  .z-50, .z-40, .z-30 {
+    z-index: auto !important;
+  }
+  
+  .btn-flotante-movil {
+    z-index: 1000 !important;
+  }
 }
