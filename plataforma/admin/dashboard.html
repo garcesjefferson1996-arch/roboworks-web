@@ -745,7 +745,7 @@
             <h1><i class="fas fa-cog"></i> RoboWorks Admin</h1>
             <div class="user-info">
                 <i class="fas fa-user-circle"></i>
-                <span id="userName">Cargando...</span>
+                <span id="userName">Administrador</span>
             </div>
         </div>
         <button class="logout-btn" onclick="logout()">
@@ -1064,7 +1064,7 @@
                 <div class="form-group">
                     <label>Profesor</label>
                     <select id="classTeacher" required>
-                        <option value="2">Administrador (por ahora)</option>
+                        <option value="2">Administrador</option>
                     </select>
                 </div>
 
@@ -1132,7 +1132,7 @@
                     </small>
                     <small style="display: block; margin-top: 0.2rem; color: #10b981;">
                         <i class="fas fa-whatsapp"></i> 
-                        Si se proporciona, enviaremos las credenciales por WhatsApp
+                        (Solo informativo, WhatsApp no disponible)
                     </small>
                 </div>
 
@@ -1224,7 +1224,7 @@
                 <div class="form-group material-field" id="field-file" style="display: none;">
                     <label>Archivo *</label>
                     <input type="file" id="materialFile" accept=".pdf,.doc,.docx,.zip,.rar,.jpg,.png">
-                    <small>Máximo 10MB</small>
+                    <small>Máximo 10MB (solo enlace)</small>
                 </div>
                 
                 <div class="form-group">
@@ -1298,162 +1298,114 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN DE API - CORREGIDA ✅
+        // VARIABLES GLOBALES Y DATOS INICIALES
         // ============================================
-        const API_CONFIG = {
-            baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:3000/api'
-                : 'https://plataforma.roboworks.site/api'  // ✅ URL CORRECTA DE PRODUCCIÓN
-        };
-
-        console.log('🌍 Entorno:', API_CONFIG.baseURL.includes('localhost') ? 'LOCAL' : 'PRODUCCIÓN');
-        console.log('🔗 API URL:', API_CONFIG.baseURL);
-
-        const apiClient = {
-            async get(endpoint) {
-                try {
-                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
-                        method: 'GET',
-                        headers: { 'Content-Type': 'application/json' },
-                        credentials: 'include'
-                    });
-
-                    if (!response.ok) {
-                        if (response.status === 401) {
-                            console.log('🔒 Sesión expirada');
-                            window.location.href = '../login.html';
-                            throw new Error('Sesión expirada');
-                        }
-                        const error = await response.json().catch(() => ({}));
-                        throw new Error(error.message || `Error ${response.status}`);
-                    }
-
-                    return await response.json();
-                } catch (error) {
-                    console.error('❌ Error en GET:', error);
-                    throw error;
-                }
-            },
-
-            async post(endpoint, data) {
-                try {
-                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        credentials: 'include',
-                        body: data ? JSON.stringify(data) : undefined
-                    });
-
-                    if (!response.ok) {
-                        if (response.status === 401) {
-                            window.location.href = '../login.html';
-                            throw new Error('Sesión expirada');
-                        }
-                        const error = await response.json().catch(() => ({}));
-                        throw new Error(error.message || `Error ${response.status}`);
-                    }
-
-                    return await response.json();
-                } catch (error) {
-                    console.error('❌ Error en POST:', error);
-                    throw error;
-                }
-            },
-
-            async put(endpoint, data) {
-                try {
-                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        credentials: 'include',
-                        body: JSON.stringify(data)
-                    });
-
-                    if (!response.ok) {
-                        if (response.status === 401) {
-                            window.location.href = '../login.html';
-                            throw new Error('Sesión expirada');
-                        }
-                        const error = await response.json().catch(() => ({}));
-                        throw new Error(error.message || `Error ${response.status}`);
-                    }
-
-                    return await response.json();
-                } catch (error) {
-                    console.error('❌ Error en PUT:', error);
-                    throw error;
-                }
-            },
-
-            async delete(endpoint) {
-                try {
-                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
-                        method: 'DELETE',
-                        credentials: 'include'
-                    });
-
-                    if (!response.ok) {
-                        if (response.status === 401) {
-                            window.location.href = '../login.html';
-                            throw new Error('Sesión expirada');
-                        }
-                        const error = await response.json().catch(() => ({}));
-                        throw new Error(error.message || `Error ${response.status}`);
-                    }
-
-                    return await response.json();
-                } catch (error) {
-                    console.error('❌ Error en DELETE:', error);
-                    throw error;
-                }
-            }
-        };
-
-        // Variables globales
         let programs = [];
         let courses = [];
         let classes = [];
+        let students = [];
+        let materials = [];
+        let categories = [];
 
         // ============================================
-        // VERIFICAR SESIÓN AL CARGAR
+        // INICIALIZACIÓN - Cargar datos de localStorage
         // ============================================
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                console.log('🔍 Verificando sesión de administrador...');
-                const session = await apiClient.get('/auth/verify');
-                console.log('✅ Sesión válida:', session.user);
-                
-                document.getElementById('userName').textContent = session.user.full_name || 'Administrador';
-                
-                // Verificar que el usuario sea admin
-                if (session.user.role !== 'super_admin' && session.user.role !== 'academy_admin') {
-                    console.error('❌ Acceso denegado: No es administrador');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Inicializando panel de administración...');
+            
+            // Verificar si es admin (simplificado)
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            if (!isAdmin) {
+                const adminPass = prompt('Ingresa la contraseña de administrador:');
+                if (adminPass === 'admin123') {
+                    localStorage.setItem('isAdmin', 'true');
+                } else {
+                    alert('Contraseña incorrecta');
                     window.location.href = '../login.html';
                     return;
                 }
-                
-                // Cargar datos iniciales
-                await loadPrograms();
-                await loadCourses();
-                await loadClasses();
-                
-            } catch (error) {
-                console.error('❌ Error de sesión:', error);
-                window.location.href = '../login.html';
             }
+            
+            document.getElementById('userName').textContent = 'Administrador';
+            
+            // Cargar datos guardados
+            loadAllData();
+            
+            // Mostrar pestaña inicial
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            document.getElementById('programs-tab').style.display = 'block';
         });
+
+        function loadAllData() {
+            // Cargar programas
+            const savedPrograms = localStorage.getItem('roboworks_programs');
+            if (savedPrograms) {
+                programs = JSON.parse(savedPrograms);
+            } else {
+                // Datos iniciales de programas
+                programs = [
+                    { id: 1, name: 'CodeWorks', description: 'Programación creativa con Roblox, Scratch y más', icon: 'fa-code', color: '#3498db', total_classes: 0 },
+                    { id: 2, name: 'Robo-Pro', description: 'Robótica educativa con LEGO y Arduino', icon: 'fa-robot', color: '#e74c3c', total_classes: 0 },
+                    { id: 3, name: 'Robo-Care', description: 'Tecnología para cuidar el planeta', icon: 'fa-leaf', color: '#2ecc71', total_classes: 0 },
+                    { id: 4, name: 'Robo-English', description: 'Aprende inglés creando con tecnología', icon: 'fa-language', color: '#f39c12', total_classes: 0 },
+                    { id: 5, name: 'Robo-Sense', description: 'Arte y creatividad digital', icon: 'fa-paint-brush', color: '#9b59b6', total_classes: 0 },
+                    { id: 6, name: 'Robo-Start', description: 'Iniciación a la tecnología para los más pequeños', icon: 'fa-star', color: '#1abc9c', total_classes: 0 }
+                ];
+                localStorage.setItem('roboworks_programs', JSON.stringify(programs));
+            }
+            
+            // Cargar cursos
+            const savedCourses = localStorage.getItem('roboworks_courses');
+            if (savedCourses) {
+                courses = JSON.parse(savedCourses);
+            } else {
+                courses = [];
+                localStorage.setItem('roboworks_courses', JSON.stringify(courses));
+            }
+            
+            // Cargar clases
+            const savedClasses = localStorage.getItem('roboworks_classes');
+            if (savedClasses) {
+                classes = JSON.parse(savedClasses);
+            } else {
+                classes = [];
+                localStorage.setItem('roboworks_classes', JSON.stringify(classes));
+            }
+            
+            // Cargar estudiantes
+            const savedStudents = localStorage.getItem('roboworks_students');
+            if (savedStudents) {
+                students = JSON.parse(savedStudents);
+            } else {
+                students = [];
+                localStorage.setItem('roboworks_students', JSON.stringify(students));
+            }
+            
+            // Cargar materiales
+            const savedMaterials = localStorage.getItem('roboworks_materials');
+            if (savedMaterials) {
+                materials = JSON.parse(savedMaterials);
+            } else {
+                materials = [];
+                localStorage.setItem('roboworks_materials', JSON.stringify(materials));
+            }
+            
+            // Cargar categorías
+            const savedCategories = localStorage.getItem('roboworks_categories');
+            if (savedCategories) {
+                categories = JSON.parse(savedCategories);
+            } else {
+                categories = [];
+                localStorage.setItem('roboworks_categories', JSON.stringify(categories));
+            }
+        }
 
         // ============================================
         // FUNCIÓN DE LOGOUT
         // ============================================
-        async function logout() {
-            try {
-                await apiClient.post('/auth/logout');
-                window.location.href = '../login.html';
-            } catch (error) {
-                console.error('Error al cerrar sesión:', error);
-                window.location.href = '../login.html';
-            }
+        function logout() {
+            localStorage.removeItem('isAdmin');
+            window.location.href = '../login.html';
         }
 
         // ============================================
@@ -1491,51 +1443,44 @@
         // ============================================
         // PROGRAMAS
         // ============================================
-        async function loadPrograms() {
-            try {
-                console.log('📥 Cargando programas...');
-                
-                document.getElementById('programsLoading').style.display = 'block';
-                document.getElementById('programsGrid').style.display = 'none';
-                
-                programs = await apiClient.get('/admin/programs');
-                console.log('✅ Programas cargados:', programs);
-                
-                const grid = document.getElementById('programsGrid');
-                grid.innerHTML = '';
-                
-                if (programs.length === 0) {
-                    grid.innerHTML = '<p style="text-align: center; padding: 2rem;">No hay programas creados aún. Crea tu primer programa.</p>';
-                } else {
-                    programs.forEach(program => {
-                        const icon = program.icon || 'fa-robot';
-                        const color = program.color || '#667eea';
-                        
-                        const card = document.createElement('div');
-                        card.className = 'program-card';
-                        card.onclick = () => filterClasses(program.id);
-                        card.innerHTML = `
-                            <div class="program-icon" style="background: ${color}">
-                                <i class="fas ${icon}"></i>
-                            </div>
-                            <div class="program-name">${program.name}</div>
-                            <div class="program-description">${program.description || ''}</div>
-                            <div class="program-stats">
-                                <span><i class="fas fa-users"></i> ${program.total_classes || 0} clases</span>
-                            </div>
-                        `;
-                        grid.appendChild(card);
-                    });
-                }
-                
-                document.getElementById('programsLoading').style.display = 'none';
-                grid.style.display = 'grid';
-                
-            } catch (error) {
-                console.error('❌ Error al cargar programas:', error);
-                showAlert('Error al cargar programas: ' + error.message, 'error');
-                document.getElementById('programsLoading').style.display = 'none';
+        function loadPrograms() {
+            document.getElementById('programsLoading').style.display = 'block';
+            document.getElementById('programsGrid').style.display = 'none';
+            
+            // Actualizar total de clases
+            programs.forEach(program => {
+                program.total_classes = classes.filter(c => c.program_id === program.id).length;
+            });
+            
+            const grid = document.getElementById('programsGrid');
+            grid.innerHTML = '';
+            
+            if (programs.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; padding: 2rem;">No hay programas creados aún. Crea tu primer programa.</p>';
+            } else {
+                programs.forEach(program => {
+                    const icon = program.icon || 'fa-robot';
+                    const color = program.color || '#667eea';
+                    
+                    const card = document.createElement('div');
+                    card.className = 'program-card';
+                    card.onclick = () => filterClasses(program.id);
+                    card.innerHTML = `
+                        <div class="program-icon" style="background: ${color}">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        <div class="program-name">${program.name}</div>
+                        <div class="program-description">${program.description || ''}</div>
+                        <div class="program-stats">
+                            <span><i class="fas fa-users"></i> ${program.total_classes || 0} clases</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
             }
+            
+            document.getElementById('programsLoading').style.display = 'none';
+            grid.style.display = 'grid';
         }
 
         function openProgramModal(program = null) {
@@ -1553,75 +1498,62 @@
             document.getElementById('programForm').reset();
         }
 
-        async function saveProgram(event) {
+        function saveProgram(event) {
             event.preventDefault();
             
             const programData = {
+                id: Date.now(),
                 name: document.getElementById('programName').value,
                 description: document.getElementById('programDescription').value,
                 icon: document.getElementById('programIcon').value,
                 color: document.getElementById('programColor').value
             };
             
-            try {
-                await apiClient.post('/admin/programs', programData);
-                showAlert('Programa creado exitosamente', 'success');
-                closeProgramModal();
-                loadPrograms();
-            } catch (error) {
-                showAlert('Error al crear programa', 'error');
-            }
+            programs.push(programData);
+            localStorage.setItem('roboworks_programs', JSON.stringify(programs));
+            
+            showAlert('Programa creado exitosamente', 'success');
+            closeProgramModal();
+            loadPrograms();
         }
 
         // ============================================
         // CURSOS DE CODEWORKS
         // ============================================
-        async function loadCourses() {
-            try {
-                console.log('📥 Cargando cursos...');
-                
-                document.getElementById('coursesLoading').style.display = 'block';
-                document.getElementById('coursesTable').style.display = 'none';
-                
-                courses = await apiClient.get('/admin/codeworks-courses');
-                console.log('✅ Cursos cargados:', courses);
-                
-                const tbody = document.getElementById('coursesList');
-                tbody.innerHTML = '';
-                
-                if (courses.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay cursos creados aún</td></tr>';
-                } else {
-                    courses.forEach(course => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${course.name}</td>
-                            <td>${course.description || ''}</td>
-                            <td><i class="fas ${course.icon || 'fa-code'}"></i></td>
-                            <td>0 clases</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit-btn" onclick="editCourse(${course.id})">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn delete-btn" onclick="deleteCourse(${course.id})">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                }
-                
-                document.getElementById('coursesLoading').style.display = 'none';
-                document.getElementById('coursesTable').style.display = 'block';
-                
-            } catch (error) {
-                console.error('❌ Error al cargar cursos:', error);
-                showAlert('Error al cargar cursos', 'error');
-                document.getElementById('coursesLoading').style.display = 'none';
+        function loadCourses() {
+            document.getElementById('coursesLoading').style.display = 'block';
+            document.getElementById('coursesTable').style.display = 'none';
+            
+            const tbody = document.getElementById('coursesList');
+            tbody.innerHTML = '';
+            
+            if (courses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay cursos creados aún</td></tr>';
+            } else {
+                courses.forEach(course => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${course.name}</td>
+                        <td>${course.description || ''}</td>
+                        <td><i class="fas ${course.icon || 'fa-code'}"></i></td>
+                        <td>${classes.filter(c => c.codeworks_course_id === course.id).length} clases</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit-btn" onclick="editCourse(${course.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-btn" onclick="deleteCourse(${course.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
             }
+            
+            document.getElementById('coursesLoading').style.display = 'none';
+            document.getElementById('coursesTable').style.display = 'block';
         }
 
         function openCourseModal() {
@@ -1638,85 +1570,86 @@
             document.getElementById('courseForm').reset();
         }
 
-        async function saveCourse(event) {
-            e.preventDefault();
+        function saveCourse(event) {
+            event.preventDefault();
             
             const courseData = {
+                id: Date.now(),
                 name: document.getElementById('courseName').value,
                 description: document.getElementById('courseDescription').value,
-                icon: document.getElementById('courseIcon').value
+                icon: document.getElementById('courseIcon').value,
+                program_id: 1 // CodeWorks
             };
             
-            try {
-                await apiClient.post('/admin/codeworks-courses', courseData);
-                showAlert('Curso creado exitosamente', 'success');
-                closeCourseModal();
-                loadCourses();
-            } catch (error) {
-                showAlert('Error al crear curso', 'error');
-            }
+            courses.push(courseData);
+            localStorage.setItem('roboworks_courses', JSON.stringify(courses));
+            
+            showAlert('Curso creado exitosamente', 'success');
+            closeCourseModal();
+            loadCourses();
+        }
+
+        function editCourse(id) {
+            showAlert('Función en desarrollo', 'warning');
+        }
+
+        function deleteCourse(id) {
+            if (!confirm('¿Estás seguro de eliminar este curso?')) return;
+            courses = courses.filter(c => c.id !== id);
+            localStorage.setItem('roboworks_courses', JSON.stringify(courses));
+            loadCourses();
+            showAlert('Curso eliminado', 'success');
         }
 
         // ============================================
         // CLASES
         // ============================================
-        async function loadClasses(programFilter = 'all') {
-            try {
-                console.log('📥 Cargando clases...');
-                
-                document.getElementById('classesLoading').style.display = 'block';
-                document.getElementById('classesTable').style.display = 'none';
-                
-                classes = await apiClient.get('/admin/classes');
-                console.log('✅ Clases cargadas:', classes);
-                
-                const tbody = document.getElementById('classesList');
-                tbody.innerHTML = '';
-                
-                if (classes.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No hay clases creadas aún</td></tr>';
-                } else {
-                    classes.forEach(cls => {
-                        const program = programs.find(p => p.id === cls.program_id);
-                        const enrolled = cls.enrolled_students || 0;
-                        const max = cls.max_students || 4;
-                        const status = enrolled >= max ? 'full' : 'active';
-                        
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${program?.name || '-'}</td>
-                            <td>${cls.course_name || '-'}</td>
-                            <td>${cls.name}</td>
-                            <td>${formatDay(cls.schedule_day) || ''} ${cls.schedule_time || ''}</td>
-                            <td>${enrolled}/${max}</td>
-                            <td>
-                                <span class="status-badge status-${status}">
-                                    ${status === 'full' ? 'Completo' : 'Disponible'}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit-btn" onclick="editClass(${cls.id})">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn delete-btn" onclick="deleteClass(${cls.id})">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                }
-                
-                document.getElementById('classesLoading').style.display = 'none';
-                document.getElementById('classesTable').style.display = 'block';
-                
-            } catch (error) {
-                console.error('❌ Error al cargar clases:', error);
-                showAlert('Error al cargar clases', 'error');
-                document.getElementById('classesLoading').style.display = 'none';
+        function loadClasses(programFilter = 'all') {
+            document.getElementById('classesLoading').style.display = 'block';
+            document.getElementById('classesTable').style.display = 'none';
+            
+            const tbody = document.getElementById('classesList');
+            tbody.innerHTML = '';
+            
+            if (classes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No hay clases creadas aún</td></tr>';
+            } else {
+                classes.forEach(cls => {
+                    const program = programs.find(p => p.id === cls.program_id);
+                    const course = courses.find(c => c.id === cls.codeworks_course_id);
+                    const enrolled = students.filter(s => s.class_ids && s.class_ids.includes(cls.id)).length;
+                    const max = cls.max_students || 4;
+                    const status = enrolled >= max ? 'full' : 'active';
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${program?.name || '-'}</td>
+                        <td>${course?.name || '-'}</td>
+                        <td>${cls.name}</td>
+                        <td>${formatDay(cls.schedule_day) || ''} ${cls.schedule_time || ''}</td>
+                        <td>${enrolled}/${max}</td>
+                        <td>
+                            <span class="status-badge status-${status}">
+                                ${status === 'full' ? 'Completo' : 'Disponible'}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit-btn" onclick="editClass(${cls.id})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-btn" onclick="deleteClass(${cls.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
             }
+            
+            document.getElementById('classesLoading').style.display = 'none';
+            document.getElementById('classesTable').style.display = 'block';
         }
 
         function formatDay(day) {
@@ -1744,11 +1677,10 @@
             }
         }
 
-        async function loadCoursesSelect() {
+        function loadCoursesSelect() {
             const select = document.getElementById('classCourse');
             select.innerHTML = '<option value="">Seleccionar curso...</option>';
             
-            const courses = await apiClient.get('/admin/codeworks-courses');
             courses.forEach(course => {
                 const option = document.createElement('option');
                 option.value = course.id;
@@ -1761,7 +1693,6 @@
             document.getElementById('classModalTitle').textContent = 'Nueva Clase';
             document.getElementById('classForm').reset();
             
-            // Cargar programas en el select
             const programSelect = document.getElementById('classProgram');
             programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
             programs.forEach(program => {
@@ -1779,29 +1710,28 @@
             document.getElementById('classForm').reset();
         }
 
-        async function saveClass(event) {
+        function saveClass(event) {
             event.preventDefault();
             
             const classData = {
-                program_id: document.getElementById('classProgram').value,
-                codeworks_course_id: document.getElementById('classCourse').value || null,
+                id: Date.now(),
+                program_id: parseInt(document.getElementById('classProgram').value),
+                codeworks_course_id: parseInt(document.getElementById('classCourse').value) || null,
                 name: document.getElementById('className').value,
                 teacher_id: 2,
                 zoom_link: document.getElementById('classZoom').value,
                 schedule_day: document.getElementById('classDay').value,
                 schedule_time: document.getElementById('classTime').value,
                 description: document.getElementById('classDescription').value,
-                max_students: document.getElementById('classMaxStudents').value
+                max_students: parseInt(document.getElementById('classMaxStudents').value)
             };
             
-            try {
-                await apiClient.post('/admin/classes', classData);
-                showAlert('Clase creada exitosamente', 'success');
-                closeClassModal();
-                loadClasses();
-            } catch (error) {
-                showAlert('Error al crear clase', 'error');
-            }
+            classes.push(classData);
+            localStorage.setItem('roboworks_classes', JSON.stringify(classes));
+            
+            showAlert('Clase creada exitosamente', 'success');
+            closeClassModal();
+            loadClasses();
         }
 
         function filterClasses(programId) {
@@ -1810,83 +1740,75 @@
             loadClasses(programId);
         }
 
+        function editClass(id) {
+            showAlert('Función en desarrollo', 'warning');
+        }
+
+        function deleteClass(id) {
+            if (!confirm('¿Estás seguro de eliminar esta clase?')) return;
+            classes = classes.filter(c => c.id !== id);
+            localStorage.setItem('roboworks_classes', JSON.stringify(classes));
+            loadClasses();
+            showAlert('Clase eliminada', 'success');
+        }
+
         // ============================================
         // ESTUDIANTES
         // ============================================
-        async function loadStudents() {
-            try {
-                console.log('📥 Cargando estudiantes...');
-                
-                document.getElementById('studentsLoading').style.display = 'block';
-                document.getElementById('studentsTable').style.display = 'none';
-                
-                const students = await apiClient.get('/admin/students');
-                console.log('✅ Estudiantes cargados:', students);
-                
-                const tbody = document.getElementById('studentsList');
-                tbody.innerHTML = '';
-                
-                if (students.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay estudiantes registrados</td></tr>';
-                } else {
-                    students.forEach(student => {
-                        const row = document.createElement('tr');
-                        
-                        // Columna de foto
-                        const photoColumn = student.profile_photo 
-                            ? `<img src="${student.profile_photo}" alt="Foto" class="student-photo" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fas fa-user-circle\' style=\'font-size: 2rem; color: #667eea;\'></i>';">`
-                            : '<i class="fas fa-user-circle" style="font-size: 2rem; color: #667eea;"></i>';
-                        
-                        // Columna de teléfono
-                        const phoneColumn = student.parent_phone 
-                            ? `<a href="https://wa.me/${student.parent_phone.replace('+', '')}" target="_blank" style="color: #25D366; text-decoration: none;">
-                                 <i class="fab fa-whatsapp"></i> ${student.parent_phone}
-                               </a>`
-                            : '<span style="color: #999;">No registrado</span>';
-                        
-                        row.innerHTML = `
-                            <td>${photoColumn}</td>
-                            <td>${student.full_name}</td>
-                            <td>${student.username}</td>
-                            <td>${phoneColumn}</td>
-                            <td><code style="background: #f0f0f0; padding: 0.2rem 0.5rem; border-radius: 4px;">${student.invitation_code || 'N/A'}</code></td>
-                            <td>${student.total_classes || 0} clases</td>
-                            <td>
-                                <span class="status-badge ${student.temporary_password ? 'status-warning' : 'status-active'}">
-                                    ${student.temporary_password ? '⏳ Pendiente' : '✅ Activo'}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn edit-btn" onclick="viewStudent(${student.id})" title="Ver detalles">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="action-btn delete-btn" onclick="deleteStudent(${student.id})" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                }
-                
-                document.getElementById('studentsLoading').style.display = 'none';
-                document.getElementById('studentsTable').style.display = 'block';
-                
-            } catch (error) {
-                console.error('❌ Error al cargar estudiantes:', error);
-                showAlert('Error al cargar estudiantes', 'error');
-                document.getElementById('studentsLoading').style.display = 'none';
+        function loadStudents() {
+            document.getElementById('studentsLoading').style.display = 'block';
+            document.getElementById('studentsTable').style.display = 'none';
+            
+            const tbody = document.getElementById('studentsList');
+            tbody.innerHTML = '';
+            
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay estudiantes registrados</td></tr>';
+            } else {
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+                    
+                    const photoColumn = '<i class="fas fa-user-circle" style="font-size: 2rem; color: #667eea;"></i>';
+                    
+                    const phoneColumn = student.parent_phone 
+                        ? `<span style="color: #25D366;"><i class="fab fa-whatsapp"></i> ${student.parent_phone}</span>`
+                        : '<span style="color: #999;">No registrado</span>';
+                    
+                    row.innerHTML = `
+                        <td>${photoColumn}</td>
+                        <td>${student.full_name}</td>
+                        <td>${student.username}</td>
+                        <td>${phoneColumn}</td>
+                        <td><code style="background: #f0f0f0; padding: 0.2rem 0.5rem; border-radius: 4px;">${student.invitation_code || 'N/A'}</code></td>
+                        <td>${student.class_ids?.length || 0} clases</td>
+                        <td>
+                            <span class="status-badge ${student.temporary_password ? 'status-warning' : 'status-active'}">
+                                ${student.temporary_password ? '⏳ Pendiente' : '✅ Activo'}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit-btn" onclick="viewStudent(${student.id})" title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn delete-btn" onclick="deleteStudent(${student.id})" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
             }
+            
+            document.getElementById('studentsLoading').style.display = 'none';
+            document.getElementById('studentsTable').style.display = 'block';
         }
 
-        async function openStudentModal() {
-            // Resetear formulario
+        function openStudentModal() {
             document.getElementById('studentForm').reset();
             document.getElementById('availableClasses').innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
             
-            // Cargar programas
             const programSelect = document.getElementById('studentProgram');
             programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
             
@@ -1905,7 +1827,7 @@
             document.getElementById('studentForm').reset();
         }
 
-        async function loadAvailableClasses() {
+        function loadAvailableClasses() {
             const programId = document.getElementById('studentProgram').value;
             const container = document.getElementById('availableClasses');
             
@@ -1914,211 +1836,158 @@
                 return;
             }
             
-            try {
-                const classes = await apiClient.get(`/admin/classes?program_id=${programId}`);
+            const filteredClasses = classes.filter(c => c.program_id == programId);
+            
+            if (filteredClasses.length === 0) {
+                container.innerHTML = '<p style="color: #666;">No hay clases disponibles para este programa</p>';
+                return;
+            }
+            
+            let html = '';
+            filteredClasses.forEach(cls => {
+                const enrolled = students.filter(s => s.class_ids && s.class_ids.includes(cls.id)).length;
+                const max = cls.max_students || 4;
+                const available = max - enrolled;
                 
-                if (classes.length === 0) {
-                    container.innerHTML = '<p style="color: #666;">No hay clases disponibles para este programa</p>';
-                    return;
-                }
-                
-                let html = '';
-                classes.forEach(cls => {
-                    const enrolled = cls.enrolled_students || 0;
-                    const max = cls.max_students || 4;
-                    const available = max - enrolled;
-                    
-                    html += `
-                        <div class="class-item ${available <= 0 ? 'disabled' : ''}">
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: ${available > 0 ? 'pointer' : 'not-allowed'};">
-                                <input type="checkbox" value="${cls.id}" ${available > 0 ? '' : 'disabled'}>
-                                <div class="class-info">
-                                    <div class="class-name">${cls.name}</div>
-                                    <div class="class-details">
-                                        ${formatDay(cls.schedule_day)} ${cls.schedule_time || ''} | 
-                                        Cupo: ${enrolled}/${max} 
-                                        ${available > 0 ? `(${available} disponible${available !== 1 ? 's' : ''})` : '(Completo)'}
-                                    </div>
+                html += `
+                    <div class="class-item ${available <= 0 ? 'disabled' : ''}">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: ${available > 0 ? 'pointer' : 'not-allowed'};">
+                            <input type="checkbox" value="${cls.id}" ${available > 0 ? '' : 'disabled'}>
+                            <div class="class-info">
+                                <div class="class-name">${cls.name}</div>
+                                <div class="class-details">
+                                    ${formatDay(cls.schedule_day)} ${cls.schedule_time || ''} | 
+                                    Cupo: ${enrolled}/${max} 
+                                    ${available > 0 ? `(${available} disponible${available !== 1 ? 's' : ''})` : '(Completo)'}
                                 </div>
-                            </label>
-                        </div>
-                    `;
-                });
-                
-                container.innerHTML = html;
-                
-            } catch (error) {
-                console.error('Error al cargar clases:', error);
-                container.innerHTML = '<p style="color: #dc2626;">Error al cargar clases</p>';
-            }
-        }
-
-        async function saveStudent(event) {
-            event.preventDefault();
-            
-            // Obtener clases seleccionadas
-            const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
-            const classIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
-            
-            // Obtener teléfono (puede estar vacío)
-            const parentPhone = document.getElementById('parentPhone').value.trim();
-            
-            const studentData = {
-                full_name: document.getElementById('studentName').value,
-                program_id: parseInt(document.getElementById('studentProgram').value),
-                class_ids: classIds,
-                parent_phone: parentPhone || null
-            };
-            
-            // Mostrar loading
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creando...';
-            submitBtn.disabled = true;
-            
-            try {
-                const result = await apiClient.post('/admin/students', studentData);
-                
-                // Mensaje de éxito
-                let successMessage = `✅ Estudiante creado exitosamente!\n📝 Usuario: ${result.student.username}\n🔑 Contraseña temporal: ${result.student.temp_password}\n🎫 Código: ${result.student.invitation_code}`;
-                
-                // Agregar info de WhatsApp si aplica
-                if (result.whatsapp) {
-                    if (result.whatsapp.sent) {
-                        successMessage += `\n📱 WhatsApp enviado a ${result.student.parent_phone}`;
-                    } else {
-                        successMessage += `\n⚠️ No se pudo enviar WhatsApp: ${result.whatsapp.message}`;
-                    }
-                }
-                
-                alert(successMessage);
-                
-                closeStudentModal();
-                loadStudents();
-                
-            } catch (error) {
-                showAlert('Error al crear estudiante: ' + error.message, 'error');
-            } finally {
-                // Restaurar botón
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }
-        }
-
-        async function viewStudent(studentId) {
-            try {
-                const student = await apiClient.get(`/admin/students/${studentId}`);
-                
-                let classesHtml = '';
-                if (student.classes && student.classes.length > 0) {
-                    classesHtml = student.classes.map(c => `
-                        <div class="class-chip">
-                            <strong>${c.name}</strong> (${c.program_name})
-                            <div style="font-size: 0.85rem; color: #666;">
-                                ${formatDay(c.schedule_day)} ${c.schedule_time || ''}
                             </div>
-                        </div>
-                    `).join('');
-                } else {
-                    classesHtml = '<p style="color: #666;">No está inscrito en ninguna clase</p>';
-                }
-                
-                // Foto en los detalles
-                const photoHtml = student.profile_photo 
-                    ? `<img src="${student.profile_photo}" alt="Foto" style="width: 100%; height: 100%; object-fit: cover;">`
-                    : '<i class="fas fa-user-graduate"></i>';
-                
-                // Teléfono en detalles
-                const phoneHtml = student.parent_phone 
-                    ? `<p><i class="fab fa-whatsapp" style="color: #25D366;"></i> 
-                        <a href="https://wa.me/${student.parent_phone.replace('+', '')}" target="_blank" style="color: #25D366; text-decoration: none;">
-                          ${student.parent_phone}
-                        </a>
-                       </p>`
-                    : '<p style="color: #999;">No registró teléfono</p>';
-                
-                const content = `
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <div class="student-avatar">
-                            ${photoHtml}
-                        </div>
-                        <h2 style="margin-bottom: 0.5rem;">${student.full_name}</h2>
-                        <p style="color: #666;">Usuario: ${student.username}</p>
-                        ${phoneHtml}
-                    </div>
-                    
-                    <div class="credentials-box">
-                        <h3 style="margin-bottom: 1rem; color: #667eea;">
-                            <i class="fas fa-ticket-alt"></i> Credenciales de acceso
-                        </h3>
-                        <p><strong>Código de invitación:</strong> <code style="background: white; padding: 0.2rem 0.5rem; border-radius: 4px;">${student.invitation_code}</code></p>
-                        <p><strong>Estado:</strong> ${student.temporary_password ? '⏳ Pendiente (debe cambiar contraseña)' : '✅ Activo'}</p>
-                    </div>
-                    
-                    <div class="classes-box">
-                        <h3 style="margin-bottom: 1rem; color: #667eea;">
-                            <i class="fas fa-calendar-alt"></i> Clases inscritas (${student.classes?.length || 0})
-                        </h3>
-                        ${classesHtml}
+                        </label>
                     </div>
                 `;
-                
-                document.getElementById('studentDetailContent').innerHTML = content;
-                document.getElementById('studentDetailModal').classList.add('active');
-                
-            } catch (error) {
-                showAlert('Error al cargar detalles del estudiante', 'error');
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function saveStudent(event) {
+            event.preventDefault();
+            
+            const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
+            const classIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            const parentPhone = document.getElementById('parentPhone').value.trim();
+            
+            const username = 'est_' + Math.floor(Math.random() * 10000);
+            const tempPassword = 'robo' + Math.floor(Math.random() * 1000);
+            const invitationCode = 'ROBO-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            
+            const studentData = {
+                id: Date.now(),
+                full_name: document.getElementById('studentName').value,
+                username: username,
+                password: tempPassword,
+                parent_phone: parentPhone || null,
+                program_id: parseInt(document.getElementById('studentProgram').value),
+                class_ids: classIds,
+                invitation_code: invitationCode,
+                temporary_password: true,
+                created_at: new Date().toISOString()
+            };
+            
+            students.push(studentData);
+            localStorage.setItem('roboworks_students', JSON.stringify(students));
+            
+            alert(`✅ Estudiante creado!\n📝 Usuario: ${username}\n🔑 Contraseña: ${tempPassword}\n🎫 Código: ${invitationCode}`);
+            
+            closeStudentModal();
+            loadStudents();
+        }
+
+        function viewStudent(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (!student) return;
+            
+            const studentClasses = classes.filter(c => student.class_ids?.includes(c.id));
+            
+            let classesHtml = '';
+            if (studentClasses.length > 0) {
+                classesHtml = studentClasses.map(c => `
+                    <div class="class-chip">
+                        <strong>${c.name}</strong>
+                        <div style="font-size: 0.85rem; color: #666;">
+                            ${formatDay(c.schedule_day)} ${c.schedule_time || ''}
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                classesHtml = '<p style="color: #666;">No está inscrito en ninguna clase</p>';
             }
+            
+            const content = `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div class="student-avatar">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h2 style="margin-bottom: 0.5rem;">${student.full_name}</h2>
+                    <p style="color: #666;">Usuario: ${student.username}</p>
+                </div>
+                
+                <div class="credentials-box">
+                    <h3 style="margin-bottom: 1rem; color: #667eea;">
+                        <i class="fas fa-ticket-alt"></i> Credenciales de acceso
+                    </h3>
+                    <p><strong>Contraseña:</strong> <code>${student.password}</code></p>
+                    <p><strong>Código de invitación:</strong> <code>${student.invitation_code}</code></p>
+                </div>
+                
+                <div class="classes-box">
+                    <h3 style="margin-bottom: 1rem; color: #667eea;">
+                        <i class="fas fa-calendar-alt"></i> Clases inscritas (${studentClasses.length})
+                    </h3>
+                    ${classesHtml}
+                </div>
+            `;
+            
+            document.getElementById('studentDetailContent').innerHTML = content;
+            document.getElementById('studentDetailModal').classList.add('active');
         }
 
         function closeStudentDetailModal() {
             document.getElementById('studentDetailModal').classList.remove('active');
         }
 
-        async function deleteStudent(studentId) {
-            if (!confirm('¿Estás seguro de eliminar este estudiante? Esta acción no se puede deshacer.')) {
-                return;
-            }
+        function deleteStudent(studentId) {
+            if (!confirm('¿Estás seguro de eliminar este estudiante?')) return;
             
-            try {
-                await apiClient.delete(`/admin/students/${studentId}`);
-                showAlert('Estudiante eliminado exitosamente', 'success');
-                loadStudents();
-            } catch (error) {
-                showAlert('Error al eliminar estudiante', 'error');
-            }
+            students = students.filter(s => s.id !== studentId);
+            localStorage.setItem('roboworks_students', JSON.stringify(students));
+            
+            showAlert('Estudiante eliminado', 'success');
+            loadStudents();
         }
 
         // ============================================
-        // FUNCIONES PARA MATERIALES
+        // MATERIALES
         // ============================================
         let currentClassId = null;
         let currentMaterials = [];
         let currentCategories = [];
         let currentFilter = 'all';
 
-        async function loadClassesForMaterials() {
-            try {
-                const classes = await apiClient.get('/admin/classes');
-                const select = document.getElementById('materialClassSelect');
-                
-                select.innerHTML = '<option value="">Seleccionar clase...</option>';
-                
-                classes.forEach(cls => {
-                    const option = document.createElement('option');
-                    option.value = cls.id;
-                    option.textContent = `${cls.name} (${cls.program_name || 'Sin programa'})`;
-                    select.appendChild(option);
-                });
-                
-            } catch (error) {
-                console.error('Error cargando clases:', error);
-                showAlert('Error al cargar clases', 'error');
-            }
+        function loadClassesForMaterials() {
+            const select = document.getElementById('materialClassSelect');
+            select.innerHTML = '<option value="">Seleccionar clase...</option>';
+            
+            classes.forEach(cls => {
+                const program = programs.find(p => p.id === cls.program_id);
+                const option = document.createElement('option');
+                option.value = cls.id;
+                option.textContent = `${cls.name} (${program?.name || 'Sin programa'})`;
+                select.appendChild(option);
+            });
         }
 
-        async function loadClassMaterials() {
-            const classId = document.getElementById('materialClassSelect').value;
+        function loadClassMaterials() {
+            const classId = parseInt(document.getElementById('materialClassSelect').value);
             
             if (!classId) {
                 document.getElementById('materialManagement').style.display = 'none';
@@ -2130,29 +1999,24 @@
             document.getElementById('materialsLoading').style.display = 'block';
             document.getElementById('materialsContainer').innerHTML = '';
             
-            try {
-                const data = await apiClient.get(`/materials/class/${classId}?includeInactive=true`);
-                
-                currentMaterials = data.materials || [];
-                currentCategories = data.categories || [];
-                
-                document.getElementById('selectedClassName').innerHTML = `
-                    <i class="fas fa-book"></i> ${data.class.name}
-                `;
-                document.getElementById('selectedClassDetails').innerHTML = `
-                    <strong>Programa:</strong> ${data.class.program_name || 'N/A'} | 
-                    <strong>Total materiales:</strong> ${currentMaterials.length}
-                `;
-                
-                displayCategories();
-                displayMaterials();
-                
-            } catch (error) {
-                console.error('Error cargando materiales:', error);
-                showAlert('Error al cargar materiales', 'error');
-            } finally {
-                document.getElementById('materialsLoading').style.display = 'none';
-            }
+            currentMaterials = materials.filter(m => m.class_id === classId);
+            currentCategories = categories.filter(c => c.class_id === classId);
+            
+            const cls = classes.find(c => c.id === classId);
+            const program = programs.find(p => p.id === cls?.program_id);
+            
+            document.getElementById('selectedClassName').innerHTML = `
+                <i class="fas fa-book"></i> ${cls?.name || ''}
+            `;
+            document.getElementById('selectedClassDetails').innerHTML = `
+                <strong>Programa:</strong> ${program?.name || 'N/A'} | 
+                <strong>Total materiales:</strong> ${currentMaterials.length}
+            `;
+            
+            displayCategories();
+            displayMaterials();
+            
+            document.getElementById('materialsLoading').style.display = 'none';
         }
 
         function displayCategories() {
@@ -2209,14 +2073,13 @@
             
             let html = '';
             
-            // Agrupar por categoría
             const byCategory = {};
             filtered.forEach(material => {
                 const catId = material.category_id || 'uncategorized';
                 if (!byCategory[catId]) {
                     byCategory[catId] = {
-                        name: material.category_name || 'Sin categoría',
-                        color: material.category_color || '#ccc',
+                        name: currentCategories.find(c => c.id === material.category_id)?.name || 'Sin categoría',
+                        color: currentCategories.find(c => c.id === material.category_id)?.color || '#ccc',
                         materials: []
                     };
                 }
@@ -2268,8 +2131,6 @@
                             </div>
                             <div class="material-meta">
                                 <span><i class="fas fa-align-left"></i> ${m.description || 'Sin descripción'}</span>
-                                <span><i class="fas fa-calendar"></i> ${new Date(m.uploaded_at).toLocaleDateString()}</span>
-                                <span><i class="fas fa-user"></i> ${m.uploaded_by_name || 'Admin'}</span>
                             </div>
                         </div>
                     `;
@@ -2281,7 +2142,6 @@
             container.innerHTML = html;
         }
 
-        // Funciones para materiales
         function openMaterialModal(material = null) {
             document.getElementById('materialModalTitle').textContent = material ? 'Editar Material' : 'Nuevo Material';
             document.getElementById('materialId').value = material?.id || '';
@@ -2291,7 +2151,6 @@
             document.getElementById('materialOrder').value = material?.display_order || 0;
             document.getElementById('materialActive').checked = material?.is_active !== false;
             
-            // Cargar categorías en el select
             const catSelect = document.getElementById('materialCategory');
             catSelect.innerHTML = '<option value="">Sin categoría</option>';
             currentCategories.forEach(cat => {
@@ -2305,7 +2164,6 @@
                 catSelect.value = material.category_id;
             }
             
-            // Seleccionar tipo según el material
             if (material) {
                 showMaterialType(material.material_type);
                 if (material.material_type === 'link') {
@@ -2324,33 +2182,29 @@
         }
 
         function showMaterialType(type) {
-            // Actualizar tabs
             document.querySelectorAll('[id^="tab-"]').forEach(tab => tab.classList.remove('active'));
             document.getElementById(`tab-${type}`).classList.add('active');
             
-            // Ocultar todos los campos
             document.querySelectorAll('.material-field').forEach(field => field.style.display = 'none');
-            
-            // Mostrar campo correspondiente
             document.getElementById(`field-${type}`).style.display = 'block';
             document.getElementById('materialType').value = type;
         }
 
-        async function saveMaterial(event) {
+        function saveMaterial(event) {
             event.preventDefault();
             
             const type = document.getElementById('materialType').value;
             const formData = {
+                id: Date.now(),
                 class_id: currentClassId,
                 category_id: document.getElementById('materialCategory').value || null,
                 title: document.getElementById('materialTitle').value,
                 description: document.getElementById('materialDescription').value,
                 material_type: type,
-                display_order: document.getElementById('materialOrder').value,
+                display_order: parseInt(document.getElementById('materialOrder').value),
                 is_active: document.getElementById('materialActive').checked
             };
             
-            // Agregar campo según tipo
             if (type === 'link') {
                 formData.external_link = document.getElementById('materialLink').value;
                 if (!formData.external_link) {
@@ -2362,79 +2216,50 @@
             } else if (type === 'code') {
                 formData.external_link = document.getElementById('materialCode').value;
             } else if (type === 'file') {
-                alert('La subida de archivos estará disponible pronto');
+                alert('Por ahora solo puedes agregar enlaces. Los archivos se pueden subir a Google Drive y pegar el enlace.');
                 return;
             }
             
-            const materialId = document.getElementById('materialId').value;
+            materials.push(formData);
+            localStorage.setItem('roboworks_materials', JSON.stringify(materials));
             
-            try {
-                if (materialId) {
-                    await apiClient.put(`/materials/${materialId}`, formData);
-                    showAlert('Material actualizado', 'success');
-                } else {
-                    await apiClient.post('/materials', formData);
-                    showAlert('Material creado', 'success');
-                }
-                
-                closeMaterialModal();
-                loadClassMaterials();
-                
-            } catch (error) {
-                console.error('Error guardando material:', error);
-                showAlert('Error al guardar material', 'error');
-            }
+            showAlert('Material creado', 'success');
+            closeMaterialModal();
+            loadClassMaterials();
         }
 
-        async function viewMaterial(id) {
-            try {
-                const material = currentMaterials.find(m => m.id === id);
-                
-                let content = '';
-                
-                if (material.material_type === 'link') {
+        function viewMaterial(id) {
+            const material = currentMaterials.find(m => m.id === id);
+            if (!material) return;
+            
+            let content = '';
+            
+            if (material.material_type === 'link') {
+                content = `
+                    <div style="margin-bottom: 1rem;">
+                        <strong>URL:</strong><br>
+                        <a href="${material.external_link}" target="_blank">${material.external_link}</a>
+                    </div>
+                `;
+            } else if (material.material_type === 'video' && material.external_link) {
+                const videoId = extractYoutubeId(material.external_link);
+                if (videoId) {
                     content = `
-                        <div style="margin-bottom: 1rem;">
-                            <strong>URL:</strong><br>
-                            <a href="${material.external_link}" target="_blank">${material.external_link}</a>
-                        </div>
-                    `;
-                } else if (material.material_type === 'video' && material.external_link) {
-                    const videoId = extractYoutubeId(material.external_link);
-                    if (videoId) {
-                        content = `
-                            <div class="video-container">
-                                <iframe src="https://www.youtube.com/embed/${videoId}" 
-                                        frameborder="0" allowfullscreen></iframe>
-                            </div>
-                        `;
-                    }
-                } else if (material.material_type === 'file') {
-                    content = `
-                        <div style="margin-bottom: 1rem;">
-                            <strong>Archivo:</strong><br>
-                            <a href="${material.file_url}" target="_blank" style="display: inline-block; padding: 0.5rem 1rem; background: #667eea; color: white; border-radius: 8px; text-decoration: none;">
-                                <i class="fas fa-download"></i> Descargar ${material.file_name || 'archivo'}
-                            </a>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/${videoId}" 
+                                    frameborder="0" allowfullscreen></iframe>
                         </div>
                     `;
                 }
-                
-                document.getElementById('viewMaterialTitle').textContent = material.title;
-                document.getElementById('viewMaterialContent').innerHTML = `
-                    <p style="margin-bottom: 1rem;">${material.description || 'Sin descripción'}</p>
-                    ${content}
-                    <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
-                        Tipo: ${material.material_type} | 
-                        Subido: ${new Date(material.uploaded_at).toLocaleString()}
-                    </p>
-                `;
-                
-                document.getElementById('viewMaterialModal').classList.add('active');
-                
-            } catch (error) {
-                console.error('Error:', error);
             }
+            
+            document.getElementById('viewMaterialTitle').textContent = material.title;
+            document.getElementById('viewMaterialContent').innerHTML = `
+                <p style="margin-bottom: 1rem;">${material.description || 'Sin descripción'}</p>
+                ${content}
+            `;
+            
+            document.getElementById('viewMaterialModal').classList.add('active');
         }
 
         function extractYoutubeId(url) {
@@ -2450,23 +2275,20 @@
             }
         }
 
-        async function deleteMaterial(id) {
+        function deleteMaterial(id) {
             if (!confirm('¿Estás seguro de eliminar este material?')) return;
             
-            try {
-                await apiClient.delete(`/materials/${id}`);
-                showAlert('Material eliminado', 'success');
-                loadClassMaterials();
-            } catch (error) {
-                showAlert('Error al eliminar', 'error');
-            }
+            materials = materials.filter(m => m.id !== id);
+            localStorage.setItem('roboworks_materials', JSON.stringify(materials));
+            
+            showAlert('Material eliminado', 'success');
+            loadClassMaterials();
         }
 
         function closeViewMaterialModal() {
             document.getElementById('viewMaterialModal').classList.remove('active');
         }
 
-        // Categorías
         function openCategoryModal() {
             document.getElementById('categoryModal').classList.add('active');
         }
@@ -2476,54 +2298,39 @@
             document.getElementById('categoryForm').reset();
         }
 
-        async function saveCategory(event) {
+        function saveCategory(event) {
             event.preventDefault();
             
             const categoryData = {
+                id: Date.now(),
                 class_id: currentClassId,
                 name: document.getElementById('categoryName').value,
                 description: document.getElementById('categoryDescription').value,
                 color: document.getElementById('categoryColor').value,
-                display_order: document.getElementById('categoryOrder').value
+                display_order: parseInt(document.getElementById('categoryOrder').value)
             };
             
-            try {
-                await apiClient.post('/materials/categories', categoryData);
-                showAlert('Categoría creada', 'success');
-                closeCategoryModal();
-                loadClassMaterials();
-            } catch (error) {
-                showAlert('Error al crear categoría', 'error');
-            }
-        }
-
-        async function deleteCategory(id) {
-            if (!confirm('¿Eliminar categoría? Los materiales se quedarán sin categoría')) return;
+            categories.push(categoryData);
+            localStorage.setItem('roboworks_categories', JSON.stringify(categories));
             
-            try {
-                await apiClient.delete(`/materials/categories/${id}`);
-                showAlert('Categoría eliminada', 'success');
-                loadClassMaterials();
-            } catch (error) {
-                showAlert('Error al eliminar', 'error');
-            }
+            showAlert('Categoría creada', 'success');
+            closeCategoryModal();
+            loadClassMaterials();
         }
 
-        // Funciones placeholder para editar/eliminar
-        function editCourse(id) {
-            showAlert('Función en desarrollo', 'warning');
-        }
-
-        function deleteCourse(id) {
-            showAlert('Función en desarrollo', 'warning');
-        }
-
-        function editClass(id) {
-            showAlert('Función en desarrollo', 'warning');
-        }
-
-        function deleteClass(id) {
-            showAlert('Función en desarrollo', 'warning');
+        function deleteCategory(id) {
+            if (!confirm('¿Eliminar categoría?')) return;
+            
+            categories = categories.filter(c => c.id !== id);
+            materials.forEach(m => {
+                if (m.category_id === id) m.category_id = null;
+            });
+            
+            localStorage.setItem('roboworks_categories', JSON.stringify(categories));
+            localStorage.setItem('roboworks_materials', JSON.stringify(materials));
+            
+            showAlert('Categoría eliminada', 'success');
+            loadClassMaterials();
         }
     </script>
 </body>
