@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
     <style>
-        /* Estilos específicos para la página de login */
         .login-body {
             background: linear-gradient(135deg, #6a3bc2 0%, #8a5cde 100%);
             min-height: 100vh;
@@ -228,69 +227,9 @@
             .login-container {
                 padding: 2rem 1.5rem;
             }
-            
             .login-logo h1 {
                 font-size: 1.5rem;
             }
-        }
-
-        /* Indicador de conexión */
-        .connection-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 0.5rem 1rem;
-            background-color: white;
-            border-radius: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            z-index: 1000;
-        }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #ddd;
-        }
-        
-        .status-dot.connected {
-            background-color: #10b981;
-            animation: pulse 2s infinite;
-        }
-        
-        .status-dot.disconnected {
-            background-color: #ef4444;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Mejoras de accesibilidad */
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
-        
-        .form-input:focus-visible {
-            outline: 3px solid #6a3bc2;
-            outline-offset: 2px;
-        }
-        
-        .login-btn:focus-visible {
-            outline: 3px solid #fff;
-            outline-offset: 2px;
         }
     </style>
 </head>
@@ -302,181 +241,43 @@
             <p>Ingresa tus datos para continuar tu aventura</p>
         </div>
         
-        <!-- Mensajes de estado -->
         <div id="login-message" class="login-message" role="alert" aria-live="polite">
             <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
             <span id="message-text"></span>
         </div>
         
-        <!-- Formulario de Login -->
         <form id="loginForm" class="login-form" novalidate>
             <div class="form-group">
                 <label for="username" class="form-label">
-                    <i class="fas fa-user" aria-hidden="true"></i> 
-                    Usuario
+                    <i class="fas fa-user" aria-hidden="true"></i> Usuario
                 </label>
-                <input 
-                    type="text" 
-                    id="username" 
-                    name="username"
-                    class="form-input" 
-                    placeholder="ejemplo: robo-1234"
-                    required
-                    autocomplete="username"
-                    aria-describedby="username-hint"
-                >
-                <small id="username-hint" class="form-hint">
-                    <i class="fas fa-info-circle" aria-hidden="true"></i>
-                    Usa el código que te dio tu instructor
-                </small>
+                <input type="text" id="username" name="username" class="form-input" placeholder="ejemplo: robo-1234" required>
             </div>
             
             <div class="form-group password-toggle">
                 <label for="password" class="form-label">
-                    <i class="fas fa-lock" aria-hidden="true"></i> 
-                    Contraseña
+                    <i class="fas fa-lock" aria-hidden="true"></i> Contraseña
                 </label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password"
-                    class="form-input" 
-                    placeholder="Tu contraseña secreta"
-                    required
-                    autocomplete="current-password"
-                    aria-describedby="password-hint"
-                >
-                <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar u ocultar contraseña">
-                    <i class="fas fa-eye" aria-hidden="true"></i>
+                <input type="password" id="password" name="password" class="form-input" placeholder="Tu contraseña secreta" required>
+                <button type="button" class="toggle-password" id="togglePassword">
+                    <i class="fas fa-eye"></i>
                 </button>
-                <small id="password-hint" class="form-hint">
-                    <i class="fas fa-info-circle" aria-hidden="true"></i>
-                    La misma que usas en clase
-                </small>
             </div>
             
-            <button type="submit" class="login-btn" id="submitBtn" aria-live="polite">
-                <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+            <button type="submit" class="login-btn" id="submitBtn">
+                <i class="fas fa-sign-in-alt"></i>
                 <span id="btnText">Ingresar a la Plataforma</span>
-                <span id="btnSpinner" class="spinner" style="display: none;" role="status" aria-hidden="true"></span>
+                <span id="btnSpinner" class="spinner" style="display: none;"></span>
             </button>
         </form>
         
         <div class="login-footer">
-            <p>¿Problemas para acceder? <a href="mailto:soporte@roboworks.site" aria-label="Enviar correo a soporte">Contáctanos</a></p>
-            <p style="margin-top: 0.5rem; font-size: 0.8rem;">
-                <i class="fas fa-shield-alt" aria-hidden="true"></i> 
-                Tu acceso es seguro y privado
-            </p>
+            <p>¿Problemas para acceder? <a href="mailto:soporte@roboworks.site">Contáctanos</a></p>
         </div>
     </div>
 
-    <!-- Indicador de conexión con el backend -->
-    <div class="connection-status" id="connectionStatus" role="status" aria-live="polite">
-        <span class="status-dot" id="statusDot"></span>
-        <span id="statusText">Conectando...</span>
-    </div>
-
-    <!-- API Configuration - VERSIÓN INTELIGENTE (funciona en local y producción) -->
-    <script>
-        // 🔥 CONFIGURACIÓN INTELIGENTE - CORREGIDA ✅
-        const isLocalhost = window.location.hostname === 'localhost' || 
-                           window.location.hostname === '127.0.0.1' ||
-                           window.location.hostname.includes('192.168.') ||
-                           window.location.hostname.includes('10.0.');
-        
-        const API_CONFIG = {
-            baseURL: isLocalhost 
-                ? 'http://localhost:3000/api' 
-                : 'https://plataforma.roboworks.site/api', // ✅ URL CORRECTA DE PRODUCCIÓN
-            
-            timeout: 10000,
-            isLocal: isLocalhost
-        };
-
-        console.log('🌍 Entorno:', isLocalhost ? 'LOCAL' : 'PRODUCCIÓN');
-        console.log('🔗 API URL:', API_CONFIG.baseURL);
-
-        const apiClient = {
-            async post(endpoint, data) {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
-
-                try {
-                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        credentials: 'include',
-                        signal: controller.signal,
-                        body: JSON.stringify(data)
-                    });
-
-                    clearTimeout(timeoutId);
-
-                    let responseData;
-                    try {
-                        responseData = await response.json();
-                    } catch (e) {
-                        responseData = { message: 'Error en el servidor' };
-                    }
-
-                    if (!response.ok) {
-                        throw new Error(responseData.message || `Error ${response.status}`);
-                    }
-
-                    return responseData;
-
-                } catch (error) {
-                    clearTimeout(timeoutId);
-                    
-                    if (error.name === 'AbortError') {
-                        throw new Error('Tiempo de espera agotado. Verifica tu conexión.');
-                    }
-                    
-                    if (!navigator.onLine) {
-                        throw new Error('No hay conexión a internet');
-                    }
-                    
-                    throw error;
-                }
-            },
-
-            async get(endpoint) {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
-
-                try {
-                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        credentials: 'include',
-                        signal: controller.signal
-                    });
-
-                    clearTimeout(timeoutId);
-
-                    if (!response.ok) {
-                        const errorData = await response.json().catch(() => ({}));
-                        throw new Error(errorData.message || `Error ${response.status}`);
-                    }
-
-                    return await response.json();
-
-                } catch (error) {
-                    clearTimeout(timeoutId);
-                    throw error;
-                }
-            }
-        };
-    </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Elementos del DOM
             const loginForm = document.getElementById('loginForm');
             const usernameInput = document.getElementById('username');
             const passwordInput = document.getElementById('password');
@@ -486,25 +287,13 @@
             const btnSpinner = document.getElementById('btnSpinner');
             const loginMessage = document.getElementById('login-message');
             const messageText = document.getElementById('message-text');
-            const connectionStatus = document.getElementById('connectionStatus');
-            const statusDot = document.getElementById('statusDot');
-            const statusText = document.getElementById('statusText');
 
             let isSubmitting = false;
 
-            // Verificar conexión con el backend al cargar
-            checkBackendConnection();
-
-            // Verificar sesión existente
-            checkExistingSession();
-
-            // Mostrar/ocultar contraseña
             togglePasswordBtn.addEventListener('click', function() {
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
-                const icon = this.querySelector('i');
-                icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-                this.setAttribute('aria-label', type === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña');
+                this.querySelector('i').className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
             });
 
             function showMessage(text, type = 'error') {
@@ -512,201 +301,55 @@
                 loginMessage.className = `login-message message-${type}`;
                 loginMessage.style.display = 'block';
                 
-                const icon = loginMessage.querySelector('i');
-                switch(type) {
-                    case 'error': icon.className = 'fas fa-exclamation-circle'; break;
-                    case 'success': icon.className = 'fas fa-check-circle'; break;
-                    case 'warning': icon.className = 'fas fa-exclamation-triangle'; break;
-                }
-
                 if (type === 'success') {
-                    setTimeout(() => {
-                        loginMessage.style.display = 'none';
-                    }, 3000);
+                    setTimeout(() => loginMessage.style.display = 'none', 3000);
                 }
-            }
-
-            function validateForm() {
-                let isValid = true;
-                const username = usernameInput.value.trim();
-                const password = passwordInput.value;
-
-                usernameInput.classList.remove('error');
-                passwordInput.classList.remove('error');
-
-                if (!username) {
-                    usernameInput.classList.add('error');
-                    showMessage('Por favor, ingresa tu usuario', 'error');
-                    isValid = false;
-                } else if (!password) {
-                    passwordInput.classList.add('error');
-                    showMessage('Por favor, ingresa tu contraseña', 'error');
-                    isValid = false;
-                } else if (password.length < 4) {
-                    passwordInput.classList.add('error');
-                    showMessage('La contraseña debe tener al menos 4 caracteres', 'error');
-                    isValid = false;
-                }
-
-                return isValid;
             }
 
             function setLoadingState(isLoading) {
                 isSubmitting = isLoading;
                 submitBtn.disabled = isLoading;
-                
-                if (isLoading) {
-                    btnText.style.display = 'none';
-                    btnSpinner.style.display = 'inline-block';
-                } else {
-                    btnText.style.display = 'inline';
-                    btnSpinner.style.display = 'none';
-                }
+                btnText.style.display = isLoading ? 'none' : 'inline';
+                btnSpinner.style.display = isLoading ? 'inline-block' : 'none';
             }
 
-            async function checkBackendConnection() {
-                try {
-                    statusText.textContent = 'Verificando conexión...';
-                    statusDot.className = 'status-dot';
-                    
-                    await apiClient.get('/health');
-                    
-                    statusDot.className = 'status-dot connected';
-                    statusText.textContent = API_CONFIG.isLocal ? 'Conectado (Local)' : 'Conectado';
-                    
-                    setTimeout(() => {
-                        connectionStatus.style.opacity = '0.5';
-                    }, 3000);
-                    
-                } catch (error) {
-                    console.error('Error de conexión:', error);
-                    statusDot.className = 'status-dot disconnected';
-                    
-                    if (API_CONFIG.isLocal) {
-                        statusText.textContent = 'Backend local no disponible';
-                        showMessage('⚠️ El servidor local no está corriendo. Ejecuta "node server.js" en backend/', 'warning');
-                    } else {
-                        statusText.textContent = 'Servidor no disponible';
-                        showMessage('⚠️ El servidor está en mantenimiento. Intenta en unos minutos.', 'warning');
-                    }
-                }
-            }
-
-            async function checkExistingSession() {
-                try {
-                    const response = await apiClient.get('/auth/verify');
-                    
-                    if (response.user) {
-                        showMessage(`¡Hola de nuevo! Redirigiendo...`, 'success');
-                        
-                        setTimeout(() => {
-                            if (response.user.role === 'student') {
-                                window.location.href = 'dashboard.html';
-                            } else if (response.user.role === 'teacher') {
-                                window.location.href = 'profesor/dashboard.html';
-                            } else {
-                                window.location.href = 'admin/dashboard.html';
-                            }
-                        }, 1000);
-                    }
-                } catch (error) {
-                    console.log('No hay sesión activa');
-                }
-            }
-
-            loginForm.addEventListener('submit', async function(e) {
+            loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-
                 if (isSubmitting) return;
-                if (!validateForm()) return;
 
                 const username = usernameInput.value.trim();
                 const password = passwordInput.value;
 
+                if (!username || !password) {
+                    showMessage('Por favor, ingresa usuario y contraseña', 'error');
+                    return;
+                }
+
                 setLoadingState(true);
-                loginMessage.style.display = 'none';
 
-                try {
-                    const response = await apiClient.post('/auth/login', {
-                        username: username,
-                        password: password
-                    });
+                setTimeout(() => {
+                    // Verificar admin
+                    if (username === 'admin' && password === 'admin123') {
+                        localStorage.setItem('isAdmin', 'true');
+                        showMessage('Bienvenido Administrador', 'success');
+                        setTimeout(() => window.location.href = 'admin/dashboard.html', 1000);
+                        return;
+                    }
 
-                    showMessage(`¡Bienvenido ${response.user.full_name || ''}!`, 'success');
+                    // Verificar estudiantes
+                    const students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
+                    const student = students.find(s => s.username === username && s.password === password);
 
-                    if (response.user.temporary_password) {
-                        setTimeout(() => {
-                            window.location.href = 'change-password.html';
-                        }, 1000);
+                    if (student) {
+                        localStorage.setItem('currentStudent', JSON.stringify(student));
+                        showMessage(`¡Bienvenido ${student.full_name}!`, 'success');
+                        setTimeout(() => window.location.href = 'dashboard.html', 1000);
                     } else {
-                        setTimeout(() => {
-                            if (response.user.role === 'student') {
-                                window.location.href = 'dashboard.html';
-                            } else if (response.user.role === 'teacher') {
-                                window.location.href = 'profesor/dashboard.html';
-                            } else {
-                                window.location.href = 'admin/dashboard.html';
-                            }
-                        }, 1000);
+                        showMessage('Usuario o contraseña incorrectos', 'error');
+                        passwordInput.value = '';
+                        setLoadingState(false);
                     }
-
-                } catch (error) {
-                    console.error('Error en login:', error);
-                    
-                    let errorMessage = error.message;
-                    
-                    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                        if (API_CONFIG.isLocal) {
-                            errorMessage = 'No se pudo conectar con el backend local. ¿Ejecutaste "node server.js"?';
-                        } else {
-                            errorMessage = 'No se pudo conectar con el servidor. Verifica tu conexión.';
-                        }
-                    } else if (error.message.includes('401')) {
-                        errorMessage = 'Usuario o contraseña incorrectos';
-                    } else if (error.message.includes('timeout')) {
-                        errorMessage = 'El servidor está tardando en responder. Intenta de nuevo.';
-                    }
-                    
-                    showMessage(errorMessage, 'error');
-                    
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                    
-                } finally {
-                    setLoadingState(false);
-                }
-            });
-
-            usernameInput.addEventListener('blur', function() {
-                const username = this.value.trim();
-                if (username && !/^[a-zA-Z0-9._-]+$/.test(username)) {
-                    showMessage('El usuario solo puede contener letras, números, puntos, guiones y guiones bajos', 'warning');
-                }
-            });
-
-            usernameInput.focus();
-
-            usernameInput.addEventListener('paste', function(e) {
-                e.preventDefault();
-                const text = (e.clipboardData || window.clipboardData).getData('text');
-                this.value = text.trim();
-            });
-
-            passwordInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !isSubmitting) {
-                    loginForm.dispatchEvent(new Event('submit'));
-                }
-            });
-
-            window.addEventListener('online', function() {
-                showMessage('¡Conexión restablecida!', 'success');
-                checkBackendConnection();
-            });
-
-            window.addEventListener('offline', function() {
-                showMessage('Sin conexión a internet', 'error');
-                statusDot.className = 'status-dot disconnected';
-                statusText.textContent = 'Sin conexión';
+                }, 500);
             });
         });
     </script>
