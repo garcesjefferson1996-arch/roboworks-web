@@ -116,63 +116,66 @@ app.use((err, req, res, next) => {
 // Iniciar servidor (AHORA CON MANEJO DE ERRORES MEJORADO)
 const startServer = async () => {
     try {
-        // Intentamos conectar a la DB, pero si falla, solo lo registramos y continuamos
-        const connected = await db.testConnection();
-
-        if (!connected) {
-            console.error('\n⚠️ ADVERTENCIA: No se pudo conectar a MySQL. El servidor iniciará, pero las funciones de BD fallarán.');
-            console.error('   Revisa: Host, Puerto, Usuario, Contraseña y Nombre de DB en las variables de entorno.');
-            console.error('   Variables actuales:');
-            console.error(`   - DB_HOST: ${process.env.DB_HOST || 'no definido'}`);
-            console.error(`   - DB_PORT: ${process.env.DB_PORT || 'no definido'}`);
-            console.error(`   - DB_USER: ${process.env.DB_USER || 'no definido'}`);
-            console.error(`   - DB_NAME: ${process.env.DB_NAME || 'no definido'}`);
-            console.error('   ⚠️ La contraseña no se muestra por seguridad\n');
-        }
-
-        // El servidor se inicia SIEMPRE, haya o no DB
+        // PRIMERO: Iniciamos el servidor (SIEMPRE)
         const PORT = process.env.PORT || 3000;
-        app.listen(PORT, '0.0.0.0', () => { // 👈 IMPORTANTE: Escuchar en 0.0.0.0
+        const server = app.listen(PORT, '0.0.0.0', () => {
             console.log('\n=================================');
-            console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`);
+            console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
             console.log(`🌍 Modo: ${isProduction ? 'PRODUCCIÓN' : 'DESARROLLO'}`);
             console.log(`🔗 Ruta de prueba: http://localhost:${PORT}/api/health`);
-            console.log('📦 Estado DB:', connected ? '✅ Conectada' : '❌ Desconectada');
-            
-            if (connected) {
-                console.log('\n📦 Rutas API disponibles:');
-                console.log('   ✅ POST  /api/auth/login');
-                console.log('   ✅ GET   /api/auth/verify');
-                console.log('   ✅ POST  /api/auth/logout');
-                console.log('   ✅ POST  /api/auth/change-password');
-                console.log('   ✅ GET   /api/admin/programs');
-                console.log('   ✅ POST  /api/admin/programs');
-                console.log('   ✅ GET   /api/admin/codeworks-courses');
-                console.log('   ✅ POST  /api/admin/codeworks-courses');
-                console.log('   ✅ GET   /api/admin/classes');
-                console.log('   ✅ POST  /api/admin/classes');
-                console.log('   ✅ GET   /api/admin/students');
-                console.log('   ✅ POST  /api/admin/students');
-                console.log('   ✅ GET   /api/student/*');
-                console.log('   ✅ POST  /api/upload/*');
-                console.log('   ✅ GET   /api/whatsapp/*');
-                console.log('   ✅ GET   /api/materials/*');
-            } else {
-                console.log('\n⚠️  Rutas API disponibles (pero las que requieren DB fallarán):');
-                console.log('   ✅ /api/health (para verificar estado)');
-                console.log('   ❌ Las rutas que requieren base de datos no funcionarán');
-                console.log('\n📝 Para diagnosticar el error de conexión:');
-                console.log('   1. Verifica que MySQL esté corriendo');
-                console.log('   2. Verifica las credenciales en el archivo .env');
-                console.log('   3. Comprueba que el host sea accesible');
-            }
             console.log('=================================\n');
+            
+            // DESPUÉS: Probamos la conexión a DB (pero no detenemos el server)
+            setTimeout(async () => {
+                console.log('🔌 Verificando conexión a base de datos...');
+                const connected = await db.testConnection();
+                
+                if (connected) {
+                    console.log('✅ Conexión a MySQL establecida correctamente\n');
+                    console.log('📦 Rutas API disponibles:');
+                    console.log('   ✅ POST  /api/auth/login');
+                    console.log('   ✅ GET   /api/auth/verify');
+                    console.log('   ✅ POST  /api/auth/logout');
+                    console.log('   ✅ POST  /api/auth/change-password');
+                    console.log('   ✅ GET   /api/admin/programs');
+                    console.log('   ✅ POST  /api/admin/programs');
+                    console.log('   ✅ GET   /api/admin/codeworks-courses');
+                    console.log('   ✅ POST  /api/admin/codeworks-courses');
+                    console.log('   ✅ GET   /api/admin/classes');
+                    console.log('   ✅ POST  /api/admin/classes');
+                    console.log('   ✅ GET   /api/admin/students');
+                    console.log('   ✅ POST  /api/admin/students');
+                    console.log('   ✅ GET   /api/student/*');
+                    console.log('   ✅ POST  /api/upload/*');
+                    console.log('   ✅ GET   /api/whatsapp/*');
+                    console.log('   ✅ GET   /api/materials/*');
+                    console.log('=================================\n');
+                } else {
+                    console.error('\n⚠️  ADVERTENCIA: No se pudo conectar a MySQL.');
+                    console.error('   La aplicación funcionará, pero las funciones que requieren base de datos fallarán.');
+                    console.error('\n📊 Diagnóstico de conexión:');
+                    console.error(`   - DB_HOST: ${process.env.DB_HOST || 'no definido'}`);
+                    console.error(`   - DB_PORT: ${process.env.DB_PORT || 'no definido'}`);
+                    console.error(`   - DB_USER: ${process.env.DB_USER || 'no definido'}`);
+                    console.error(`   - DB_NAME: ${process.env.DB_NAME || 'no definido'}`);
+                    console.error('   ⚠️ La contraseña no se muestra por seguridad');
+                    console.error('\n🔍 Para solucionar el problema:');
+                    console.error('   1. Verifica que MySQL esté corriendo:');
+                    console.error('      - Windows: Revisa servicios (services.msc)');
+                    console.error('      - Linux/Mac: Ejecuta "sudo systemctl status mysql"');
+                    console.error('   2. Verifica las credenciales en el archivo .env');
+                    console.error('   3. Comprueba que el host y puerto sean accesibles');
+                    console.error('   4. Asegúrate que la base de datos existe');
+                    console.error('\n⚠️  El servidor web sigue funcionando en el puerto ' + PORT);
+                    console.error('   Puedes acceder a /api/health para verificar el estado\n');
+                }
+            }, 1000); // Pequeño delay para no bloquear el inicio
         });
 
     } catch (error) {
-        console.error('❌ Error crítico al iniciar servidor:', error);
-        process.exit(1); // Solo salimos si hay un error GRAVE que no sea la DB
+        console.error('❌ Error CRÍTICO al iniciar servidor:', error);
+        process.exit(1);
     }
 };
 
-startServer();
+startServer();git 
