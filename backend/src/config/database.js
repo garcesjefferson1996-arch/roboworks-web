@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 // Lista de IPs de salida de Render (actualizadas)
 const RENDER_OUTBOUND_IPS = [
     '54.173.175.145',
-    '54.173.175.146', 
+    '54.173.175.146',
     '54.173.175.147',
     '54.173.175.148',
     '54.173.175.149',
@@ -12,33 +12,48 @@ const RENDER_OUTBOUND_IPS = [
     '54.173.175.152'
 ];
 
-// Configuración mejorada con timeout más largo y debug
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 5,
-    queueLimit: 0,
-    connectTimeout: 30000, // ⬅️ AUMENTADO A 30 SEGUNDOS
-    ssl: process.env.NODE_ENV === 'production' ? {
-        rejectUnauthorized: false
-    } : undefined,
-    enableKeepAlive: true,
-    keepAliveInitialDelay: 30000, // ⬅️ AUMENTADO A 30 SEGUNDOS
-    
-    // Estrategia de reintentos
-    connectionLimit: 10, // ⬅️ AUMENTADO PARA MÁS CONEXIONES SIMULTÁNEAS
-    queueLimit: 10, // ⬅️ AÑADIDO PARA MANEJO DE COLAS
-    
-    // Timeouts adicionales
-    acquireTimeout: 30000, // ⬅️ TIEMPO PARA OBTENER CONEXIÓN
-    timeout: 30000 // ⬅️ TIMEOUT GENERAL
-});
+let pool;
+let promisePool;
 
-const promisePool = pool.promise();
+// Configuración mejorada con timeout más largo y debug
+if (process.env.DATABASE_URL) {
+    // ✅ Usar URL de conexión completa (recomendado para evitar errores)
+    console.log('\n📦 Usando DATABASE_URL para la conexión...');
+    pool = mysql.createPool(process.env.DATABASE_URL, {
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 10,
+        connectTimeout: 30000,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 30000,
+        ssl: process.env.NODE_ENV === 'production' ? {
+            rejectUnauthorized: false
+        } : undefined
+    });
+} else {
+    // ⚠️ Usar variables separadas (si no hay DATABASE_URL)
+    console.log('\n📦 Usando variables separadas para la conexión...');
+    pool = mysql.createPool({
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 10,
+        connectTimeout: 30000,
+        ssl: process.env.NODE_ENV === 'production' ? {
+            rejectUnauthorized: false
+        } : undefined,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 30000,
+        acquireTimeout: 30000,
+        timeout: 30000
+    });
+}
+
+promisePool = pool.promise();
 
 // Función para ejecutar queries con reintentos automáticos
 async function queryWithRetry(sql, params, maxRetries = 3) {
@@ -71,13 +86,20 @@ async function queryWithRetry(sql, params, maxRetries = 3) {
 // Versión mejorada de testConnection con diagnóstico detallado
 const testConnection = async () => {
     console.log('\n🔍 DIAGNÓSTICO DE CONEXIÓN A MySQL:');
-    console.log(`   Host: ${process.env.DB_HOST}`);
-    console.log(`   Puerto: ${process.env.DB_PORT}`);
-    console.log(`   Usuario: ${process.env.DB_USER}`);
-    console.log(`   Base de datos: ${process.env.DB_NAME}`);
+    
+    if (process.env.DATABASE_URL) {
+        console.log(`   Modo: Usando DATABASE_URL`);
+        // No mostramos la URL completa por seguridad
+    } else {
+        console.log(`   Host: ${process.env.DB_HOST}`);
+        console.log(`   Puerto: ${process.env.DB_PORT}`);
+        console.log(`   Usuario: ${process.env.DB_USER}`);
+        console.log(`   Base de datos: ${process.env.DB_NAME}`);
+    }
+    
     console.log(`   Modo SSL: ${process.env.NODE_ENV === 'production' ? '✅ Activado' : '❌ Desactivado'}`);
     
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL) {
         console.log('\n🔒 IPs de Render que deben estar autorizadas en Aiven:');
         RENDER_OUTBOUND_IPS.forEach(ip => {
             console.log(`   • ${ip}/32`);
@@ -122,8 +144,8 @@ const testConnection = async () => {
         if (error.code === 'ETIMEDOUT') {
             console.error('\n   🔍 ANÁLISIS: Timeout - Posibles causas:');
             console.error('      • Las IPs de Render no están autorizadas en Aiven');
-            console.error('      • Firewall bloqueando el puerto 18269');
-            console.error('      • Latencia entre regiones (Render vs Aiven)');
+            console.error('      • Firewall bloqueando el puerto');
+            console.error('      • Latencia entre regiones');
             console.error('\n   ✅ SOLUCIÓN: Agrega estas IPs en Aiven:');
             RENDER_OUTBOUND_IPS.forEach(ip => {
                 console.error(`      • ${ip}/32`);
@@ -149,8 +171,8 @@ const checkNetworkConnectivity = async () => {
     return new Promise((resolve) => {
         const net = require('net');
         const socket = net.createConnection({
-            host: process.env.DB_HOST,
-            port: parseInt(process.env.DB_PORT),
+            host: process.env.DB_HOST || 'roboworks-db-eu-roboworks-db.b.aivencloud.com',
+            port: parseInt(process.env.DB_PORT || 18273),
             timeout: 10000
         }, () => {
             console.log('✅ CONEXIÓN TCP EXITOSA al puerto');
@@ -175,8 +197,8 @@ const checkNetworkConnectivity = async () => {
 module.exports = {
     pool: promisePool,
     query: (sql, params) => promisePool.query(sql, params),
-    queryWithRetry, // ⬅️ NUEVO: función con reintentos automáticos
+    queryWithRetry,
     testConnection,
-    checkNetworkConnectivity, // ⬅️ NUEVO: verifica conectividad TCP
-    RENDER_OUTBOUND_IPS // ⬅️ NUEVO: lista de IPs para referencia
+    checkNetworkConnectivity,
+    RENDER_OUTBOUND_IPS
 };
