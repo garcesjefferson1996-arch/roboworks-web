@@ -379,29 +379,24 @@
 
     <!-- API Configuration - VERSIÓN INTELIGENTE (funciona en local y producción) -->
     <script>
-        // 🔥 CONFIGURACIÓN INTELIGENTE - NO TOCAR 🔥
-        // Detecta automáticamente si estamos en localhost o en producción
+        // 🔥 CONFIGURACIÓN INTELIGENTE - CORREGIDA ✅
         const isLocalhost = window.location.hostname === 'localhost' || 
                            window.location.hostname === '127.0.0.1' ||
                            window.location.hostname.includes('192.168.') ||
                            window.location.hostname.includes('10.0.');
         
-        // URLs de la API según el entorno
         const API_CONFIG = {
-            // En local: usa localhost:3000
-            // En producción: usa la URL de tu backend en la nube
             baseURL: isLocalhost 
                 ? 'http://localhost:3000/api' 
-                : 'https://tu-backend-en-render.com/api', // 🔴 CAMBIA ESTO cuando despliegues
+                : 'https://plataforma.roboworks.site/api', // ✅ URL CORRECTA DE PRODUCCIÓN
             
-            timeout: 10000, // 10 segundos
+            timeout: 10000,
             isLocal: isLocalhost
         };
 
         console.log('🌍 Entorno:', isLocalhost ? 'LOCAL' : 'PRODUCCIÓN');
         console.log('🔗 API URL:', API_CONFIG.baseURL);
 
-        // Cliente API simplificado para el login
         const apiClient = {
             async post(endpoint, data) {
                 const controller = new AbortController();
@@ -413,14 +408,13 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        credentials: 'include', // ¡IMPORTANTE! Para enviar/recibir cookies
+                        credentials: 'include',
                         signal: controller.signal,
                         body: JSON.stringify(data)
                     });
 
                     clearTimeout(timeoutId);
 
-                    // Intentar parsear JSON, incluso en errores
                     let responseData;
                     try {
                         responseData = await response.json();
@@ -496,7 +490,6 @@
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
 
-            // Estado
             let isSubmitting = false;
 
             // Verificar conexión con el backend al cargar
@@ -511,14 +504,9 @@
                 passwordInput.setAttribute('type', type);
                 const icon = this.querySelector('i');
                 icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-                
-                // Anunciar para lectores de pantalla
-                this.setAttribute('aria-label', 
-                    type === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña'
-                );
+                this.setAttribute('aria-label', type === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña');
             });
 
-            // Función para mostrar mensajes
             function showMessage(text, type = 'error') {
                 messageText.textContent = text;
                 loginMessage.className = `login-message message-${type}`;
@@ -526,18 +514,11 @@
                 
                 const icon = loginMessage.querySelector('i');
                 switch(type) {
-                    case 'error':
-                        icon.className = 'fas fa-exclamation-circle';
-                        break;
-                    case 'success':
-                        icon.className = 'fas fa-check-circle';
-                        break;
-                    case 'warning':
-                        icon.className = 'fas fa-exclamation-triangle';
-                        break;
+                    case 'error': icon.className = 'fas fa-exclamation-circle'; break;
+                    case 'success': icon.className = 'fas fa-check-circle'; break;
+                    case 'warning': icon.className = 'fas fa-exclamation-triangle'; break;
                 }
 
-                // Auto-ocultar mensajes de éxito después de 3 segundos
                 if (type === 'success') {
                     setTimeout(() => {
                         loginMessage.style.display = 'none';
@@ -545,13 +526,11 @@
                 }
             }
 
-            // Función para validar el formulario
             function validateForm() {
                 let isValid = true;
                 const username = usernameInput.value.trim();
                 const password = passwordInput.value;
 
-                // Resetear estilos de error
                 usernameInput.classList.remove('error');
                 passwordInput.classList.remove('error');
 
@@ -572,7 +551,6 @@
                 return isValid;
             }
 
-            // Función para cambiar estado del botón durante el envío
             function setLoadingState(isLoading) {
                 isSubmitting = isLoading;
                 submitBtn.disabled = isLoading;
@@ -586,7 +564,6 @@
                 }
             }
 
-            // Función para verificar conexión con backend
             async function checkBackendConnection() {
                 try {
                     statusText.textContent = 'Verificando conexión...';
@@ -607,7 +584,7 @@
                     
                     if (API_CONFIG.isLocal) {
                         statusText.textContent = 'Backend local no disponible';
-                        showMessage('⚠️ El servidor local no está corriendo. Ejecuta "npm run dev" en backend/', 'warning');
+                        showMessage('⚠️ El servidor local no está corriendo. Ejecuta "node server.js" en backend/', 'warning');
                     } else {
                         statusText.textContent = 'Servidor no disponible';
                         showMessage('⚠️ El servidor está en mantenimiento. Intenta en unos minutos.', 'warning');
@@ -615,13 +592,11 @@
                 }
             }
 
-            // Función para verificar sesión existente
             async function checkExistingSession() {
                 try {
                     const response = await apiClient.get('/auth/verify');
                     
                     if (response.user) {
-                        // Hay sesión activa, redirigir según rol
                         showMessage(`¡Hola de nuevo! Redirigiendo...`, 'success');
                         
                         setTimeout(() => {
@@ -635,19 +610,14 @@
                         }, 1000);
                     }
                 } catch (error) {
-                    // No hay sesión activa, continuar normalmente
                     console.log('No hay sesión activa');
                 }
             }
 
-            // Manejador del submit
             loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                // Prevenir múltiples envíos
                 if (isSubmitting) return;
-
-                // Validar formulario
                 if (!validateForm()) return;
 
                 const username = usernameInput.value.trim();
@@ -657,23 +627,18 @@
                 loginMessage.style.display = 'none';
 
                 try {
-                    // Intentar login con el backend real
                     const response = await apiClient.post('/auth/login', {
                         username: username,
                         password: password
                     });
 
-                    // Login exitoso
                     showMessage(`¡Bienvenido ${response.user.full_name || ''}!`, 'success');
 
-                    // Verificar si necesita cambiar contraseña
                     if (response.user.temporary_password) {
-                        // Redirigir a página de cambio de contraseña
                         setTimeout(() => {
                             window.location.href = 'change-password.html';
                         }, 1000);
                     } else {
-                        // Redirigir según rol
                         setTimeout(() => {
                             if (response.user.role === 'student') {
                                 window.location.href = 'dashboard.html';
@@ -688,12 +653,11 @@
                 } catch (error) {
                     console.error('Error en login:', error);
                     
-                    // Mensajes de error amigables
                     let errorMessage = error.message;
                     
                     if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
                         if (API_CONFIG.isLocal) {
-                            errorMessage = 'No se pudo conectar con el backend local. ¿Ejecutaste "npm run dev"?';
+                            errorMessage = 'No se pudo conectar con el backend local. ¿Ejecutaste "node server.js"?';
                         } else {
                             errorMessage = 'No se pudo conectar con el servidor. Verifica tu conexión.';
                         }
@@ -705,7 +669,6 @@
                     
                     showMessage(errorMessage, 'error');
                     
-                    // Limpiar campos sensibles
                     passwordInput.value = '';
                     passwordInput.focus();
                     
@@ -714,7 +677,6 @@
                 }
             });
 
-            // Validación en tiempo real del campo usuario
             usernameInput.addEventListener('blur', function() {
                 const username = this.value.trim();
                 if (username && !/^[a-zA-Z0-9._-]+$/.test(username)) {
@@ -722,24 +684,20 @@
                 }
             });
 
-            // Autofocus en el campo usuario
             usernameInput.focus();
 
-            // Prevenir pegado de espacios en blanco
             usernameInput.addEventListener('paste', function(e) {
                 e.preventDefault();
                 const text = (e.clipboardData || window.clipboardData).getData('text');
                 this.value = text.trim();
             });
 
-            // Mejora: Enter en campo password hace submit
             passwordInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && !isSubmitting) {
                     loginForm.dispatchEvent(new Event('submit'));
                 }
             });
 
-            // Detectar cambios en la conexión de red
             window.addEventListener('online', function() {
                 showMessage('¡Conexión restablecida!', 'success');
                 checkBackendConnection();

@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -32,6 +32,7 @@
             display: flex;
             align-items: center;
             gap: 2rem;
+            flex-wrap: wrap;
         }
 
         .header-left h1 {
@@ -461,6 +462,94 @@
             border: 2px solid #ff6b6b;
         }
 
+        /* Clases disponibles en el modal */
+        .class-item {
+            margin-bottom: 0.8rem;
+            padding: 0.5rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .class-item label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .class-item.disabled label {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .class-info {
+            flex: 1;
+        }
+
+        .class-name {
+            font-weight: 600;
+        }
+
+        .class-details {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Detalles del estudiante */
+        .student-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            overflow: hidden;
+        }
+
+        .student-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .credentials-box {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .classes-box {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .class-chip {
+            background: white;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+        }
+
+        /* Foto de perfil en tabla */
+        .student-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #667eea;
+        }
+
+        .student-photo-placeholder {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
         /* Modal */
         .modal {
             display: none;
@@ -484,7 +573,7 @@
             border-radius: 20px;
             padding: 2rem;
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             animation: slideIn 0.3s ease-out;
@@ -607,94 +696,6 @@
             color: white;
         }
 
-        /* Clases disponibles en el modal */
-        .class-item {
-            margin-bottom: 0.8rem;
-            padding: 0.5rem;
-            border: 1px solid #eee;
-            border-radius: 8px;
-        }
-
-        .class-item label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .class-item.disabled label {
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .class-info {
-            flex: 1;
-        }
-
-        .class-name {
-            font-weight: 600;
-        }
-
-        .class-details {
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        /* Detalles del estudiante */
-        .student-avatar {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-            overflow: hidden;
-        }
-
-        .student-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .credentials-box {
-            background: #f8f9ff;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .classes-box {
-            background: #f8f9ff;
-            border-radius: 10px;
-            padding: 1.5rem;
-        }
-
-        .class-chip {
-            background: white;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            border-radius: 8px;
-        }
-
-        /* Foto de perfil en tabla */
-        .student-photo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #667eea;
-        }
-
-        .student-photo-placeholder {
-            font-size: 2rem;
-            color: #667eea;
-        }
-
         @keyframes slideIn {
             from { transform: translateY(-50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
@@ -723,15 +724,14 @@
             }
 
             .tab-btn {
-                flex: 1 1 auto;
-                padding: 0.8rem;
+                padding: 0.8rem 1rem;
                 font-size: 0.9rem;
             }
 
             .form-row {
                 grid-template-columns: 1fr;
             }
-
+            
             .card-header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -755,19 +755,19 @@
 
     <!-- Pestañas de navegación -->
     <div class="admin-tabs">
-        <button class="tab-btn active" onclick="showTab('programs')">
+        <button class="tab-btn active" onclick="showTab('programs', event)">
             <i class="fas fa-th-large"></i> Programas
         </button>
-        <button class="tab-btn" onclick="showTab('courses')">
+        <button class="tab-btn" onclick="showTab('courses', event)">
             <i class="fas fa-code"></i> Cursos CodeWorks
         </button>
-        <button class="tab-btn" onclick="showTab('classes')">
+        <button class="tab-btn" onclick="showTab('classes', event)">
             <i class="fas fa-calendar-alt"></i> Clases
         </button>
-        <button class="tab-btn" onclick="showTab('students')">
+        <button class="tab-btn" onclick="showTab('students', event)">
             <i class="fas fa-users"></i> Estudiantes
         </button>
-        <button class="tab-btn" onclick="showTab('materials')">
+        <button class="tab-btn" onclick="showTab('materials', event)">
             <i class="fas fa-folder-open"></i> Materiales
         </button>
     </div>
@@ -977,7 +977,7 @@
                 <h3 id="programModalTitle">Nuevo Programa</h3>
                 <button class="close-modal" onclick="closeProgramModal()">&times;</button>
             </div>
-            <form id="programForm">
+            <form id="programForm" onsubmit="saveProgram(event)">
                 <input type="hidden" id="programId">
                 <div class="form-group">
                     <label>Nombre del Programa</label>
@@ -1011,7 +1011,7 @@
                 <h3 id="courseModalTitle">Nuevo Curso en CodeWorks</h3>
                 <button class="close-modal" onclick="closeCourseModal()">&times;</button>
             </div>
-            <form id="courseForm">
+            <form id="courseForm" onsubmit="saveCourse(event)">
                 <input type="hidden" id="courseId">
                 <div class="form-group">
                     <label>Nombre del Curso</label>
@@ -1039,7 +1039,7 @@
                 <h3 id="classModalTitle">Nueva Clase</h3>
                 <button class="close-modal" onclick="closeClassModal()">&times;</button>
             </div>
-            <form id="classForm">
+            <form id="classForm" onsubmit="saveClass(event)">
                 <input type="hidden" id="classId">
                 
                 <div class="form-group">
@@ -1115,7 +1115,7 @@
                 <h3>Nuevo Estudiante</h3>
                 <button class="close-modal" onclick="closeStudentModal()">&times;</button>
             </div>
-            <form id="studentForm">
+            <form id="studentForm" onsubmit="saveStudent(event)">
                 <div class="form-group">
                     <label>Nombre completo</label>
                     <input type="text" id="studentName" placeholder="Ej: Juan Pérez" required>
@@ -1131,7 +1131,7 @@
                         Incluir código de país, ej: +58 414 1234567 (Venezuela), +52 1 55 1234 5678 (México)
                     </small>
                     <small style="display: block; margin-top: 0.2rem; color: #10b981;">
-                        <i class="fab fa-whatsapp"></i> 
+                        <i class="fas fa-whatsapp"></i> 
                         Si se proporciona, enviaremos las credenciales por WhatsApp
                     </small>
                 </div>
@@ -1178,10 +1178,10 @@
             
             <!-- Tabs para tipo de material -->
             <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid #eee; flex-wrap: wrap;">
-                <button class="tab-btn" onclick="showMaterialType('link')" id="tab-link">🔗 Enlace</button>
-                <button class="tab-btn" onclick="showMaterialType('file')" id="tab-file">📁 Archivo</button>
-                <button class="tab-btn" onclick="showMaterialType('video')" id="tab-video">🎥 Video</button>
-                <button class="tab-btn" onclick="showMaterialType('code')" id="tab-code">💻 Código</button>
+                <button class="btn-secondary" onclick="showMaterialType('link')" id="tab-link" style="margin-bottom: 0.5rem;">🔗 Enlace</button>
+                <button class="btn-secondary" onclick="showMaterialType('file')" id="tab-file" style="margin-bottom: 0.5rem;">📁 Archivo</button>
+                <button class="btn-secondary" onclick="showMaterialType('video')" id="tab-video" style="margin-bottom: 0.5rem;">🎥 Video</button>
+                <button class="btn-secondary" onclick="showMaterialType('code')" id="tab-code" style="margin-bottom: 0.5rem;">💻 Código</button>
             </div>
             
             <form id="materialForm" onsubmit="saveMaterial(event)">
@@ -1258,9 +1258,6 @@
             </div>
             
             <form id="categoryForm" onsubmit="saveCategory(event)">
-                <input type="hidden" id="categoryId">
-                <input type="hidden" id="categoryClassId">
-                
                 <div class="form-group">
                     <label>Nombre *</label>
                     <input type="text" id="categoryName" required>
@@ -1301,36 +1298,39 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN DE API
+        // CONFIGURACIÓN DE API - CORREGIDA ✅
         // ============================================
         const API_CONFIG = {
-            baseURL: 'http://localhost:3000/api',
-            timeout: 10000
+            baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000/api'
+                : 'https://plataforma.roboworks.site/api'  // ✅ URL CORRECTA DE PRODUCCIÓN
         };
+
+        console.log('🌍 Entorno:', API_CONFIG.baseURL.includes('localhost') ? 'LOCAL' : 'PRODUCCIÓN');
+        console.log('🔗 API URL:', API_CONFIG.baseURL);
 
         const apiClient = {
             async get(endpoint) {
                 try {
                     const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
                         method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         credentials: 'include'
                     });
 
                     if (!response.ok) {
                         if (response.status === 401) {
+                            console.log('🔒 Sesión expirada');
                             window.location.href = '../login.html';
                             throw new Error('Sesión expirada');
                         }
                         const error = await response.json().catch(() => ({}));
-                        throw new Error(error.message || 'Error en la petición');
+                        throw new Error(error.message || `Error ${response.status}`);
                     }
 
                     return await response.json();
                 } catch (error) {
-                    console.error('Error en GET:', error);
+                    console.error('❌ Error en GET:', error);
                     throw error;
                 }
             },
@@ -1339,11 +1339,9 @@
                 try {
                     const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         credentials: 'include',
-                        body: JSON.stringify(data)
+                        body: data ? JSON.stringify(data) : undefined
                     });
 
                     if (!response.ok) {
@@ -1352,12 +1350,12 @@
                             throw new Error('Sesión expirada');
                         }
                         const error = await response.json().catch(() => ({}));
-                        throw new Error(error.message || 'Error en la petición');
+                        throw new Error(error.message || `Error ${response.status}`);
                     }
 
                     return await response.json();
                 } catch (error) {
-                    console.error('Error en POST:', error);
+                    console.error('❌ Error en POST:', error);
                     throw error;
                 }
             },
@@ -1366,9 +1364,7 @@
                 try {
                     const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
                         method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         credentials: 'include',
                         body: JSON.stringify(data)
                     });
@@ -1379,12 +1375,12 @@
                             throw new Error('Sesión expirada');
                         }
                         const error = await response.json().catch(() => ({}));
-                        throw new Error(error.message || 'Error en la petición');
+                        throw new Error(error.message || `Error ${response.status}`);
                     }
 
                     return await response.json();
                 } catch (error) {
-                    console.error('Error en PUT:', error);
+                    console.error('❌ Error en PUT:', error);
                     throw error;
                 }
             },
@@ -1393,9 +1389,6 @@
                 try {
                     const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
                         method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
                         credentials: 'include'
                     });
 
@@ -1405,12 +1398,12 @@
                             throw new Error('Sesión expirada');
                         }
                         const error = await response.json().catch(() => ({}));
-                        throw new Error(error.message || 'Error en la petición');
+                        throw new Error(error.message || `Error ${response.status}`);
                     }
 
                     return await response.json();
                 } catch (error) {
-                    console.error('Error en DELETE:', error);
+                    console.error('❌ Error en DELETE:', error);
                     throw error;
                 }
             }
@@ -1426,13 +1419,20 @@
         // ============================================
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                console.log('🔍 Verificando sesión...');
+                console.log('🔍 Verificando sesión de administrador...');
                 const session = await apiClient.get('/auth/verify');
                 console.log('✅ Sesión válida:', session.user);
                 
                 document.getElementById('userName').textContent = session.user.full_name || 'Administrador';
                 
-                // Cargar datos
+                // Verificar que el usuario sea admin
+                if (session.user.role !== 'super_admin' && session.user.role !== 'academy_admin') {
+                    console.error('❌ Acceso denegado: No es administrador');
+                    window.location.href = '../login.html';
+                    return;
+                }
+                
+                // Cargar datos iniciales
                 await loadPrograms();
                 await loadCourses();
                 await loadClasses();
@@ -1448,10 +1448,7 @@
         // ============================================
         async function logout() {
             try {
-                await fetch(`${API_CONFIG.baseURL}/auth/logout`, {
-                    method: 'POST',
-                    credentials: 'include'
-                });
+                await apiClient.post('/auth/logout');
                 window.location.href = '../login.html';
             } catch (error) {
                 console.error('Error al cerrar sesión:', error);
@@ -1462,18 +1459,33 @@
         // ============================================
         // MOSTRAR PESTAÑAS
         // ============================================
-        function showTab(tabName) {
+        function showTab(tabName, event) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
             
             event.target.classList.add('active');
             document.getElementById(`${tabName}-tab`).style.display = 'block';
             
+            // Cargar datos según la pestaña
             if (tabName === 'programs') loadPrograms();
             if (tabName === 'courses') loadCourses();
             if (tabName === 'classes') loadClasses();
             if (tabName === 'students') loadStudents();
             if (tabName === 'materials') loadClassesForMaterials();
+        }
+
+        // ============================================
+        // FUNCIÓN PARA MOSTRAR ALERTAS
+        // ============================================
+        function showAlert(message, type) {
+            const alert = document.getElementById('alertMessage');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
         }
 
         // ============================================
@@ -1541,8 +1553,8 @@
             document.getElementById('programForm').reset();
         }
 
-        document.getElementById('programForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        async function saveProgram(event) {
+            event.preventDefault();
             
             const programData = {
                 name: document.getElementById('programName').value,
@@ -1559,7 +1571,7 @@
             } catch (error) {
                 showAlert('Error al crear programa', 'error');
             }
-        });
+        }
 
         // ============================================
         // CURSOS DE CODEWORKS
@@ -1626,7 +1638,7 @@
             document.getElementById('courseForm').reset();
         }
 
-        document.getElementById('courseForm').addEventListener('submit', async (e) => {
+        async function saveCourse(event) {
             e.preventDefault();
             
             const courseData = {
@@ -1643,7 +1655,7 @@
             } catch (error) {
                 showAlert('Error al crear curso', 'error');
             }
-        });
+        }
 
         // ============================================
         // CLASES
@@ -1675,7 +1687,7 @@
                             <td>${program?.name || '-'}</td>
                             <td>${cls.course_name || '-'}</td>
                             <td>${cls.name}</td>
-                            <td>${cls.schedule_day || ''} ${cls.schedule_time || ''}</td>
+                            <td>${formatDay(cls.schedule_day) || ''} ${cls.schedule_time || ''}</td>
                             <td>${enrolled}/${max}</td>
                             <td>
                                 <span class="status-badge status-${status}">
@@ -1705,6 +1717,18 @@
                 showAlert('Error al cargar clases', 'error');
                 document.getElementById('classesLoading').style.display = 'none';
             }
+        }
+
+        function formatDay(day) {
+            const days = {
+                'monday': 'Lunes',
+                'tuesday': 'Martes',
+                'wednesday': 'Miércoles',
+                'thursday': 'Jueves',
+                'friday': 'Viernes',
+                'saturday': 'Sábado'
+            };
+            return days[day] || day;
         }
 
         function toggleCourseField() {
@@ -1755,8 +1779,8 @@
             document.getElementById('classForm').reset();
         }
 
-        document.getElementById('classForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        async function saveClass(event) {
+            event.preventDefault();
             
             const classData = {
                 program_id: document.getElementById('classProgram').value,
@@ -1778,7 +1802,7 @@
             } catch (error) {
                 showAlert('Error al crear clase', 'error');
             }
-        });
+        }
 
         function filterClasses(programId) {
             document.querySelectorAll('.program-card').forEach(card => card.classList.remove('selected'));
@@ -1787,7 +1811,7 @@
         }
 
         // ============================================
-        // ESTUDIANTES (ACTUALIZADO CON TELÉFONO)
+        // ESTUDIANTES
         // ============================================
         async function loadStudents() {
             try {
@@ -1876,6 +1900,11 @@
             document.getElementById('studentModal').classList.add('active');
         }
 
+        function closeStudentModal() {
+            document.getElementById('studentModal').classList.remove('active');
+            document.getElementById('studentForm').reset();
+        }
+
         async function loadAvailableClasses() {
             const programId = document.getElementById('studentProgram').value;
             const container = document.getElementById('availableClasses');
@@ -1900,13 +1929,13 @@
                     const available = max - enrolled;
                     
                     html += `
-                        <div class="class-item ${available <= 0 ? 'disabled' : ''}" style="margin-bottom: 0.8rem; padding: 0.5rem; border: 1px solid #eee; border-radius: 8px;">
+                        <div class="class-item ${available <= 0 ? 'disabled' : ''}">
                             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: ${available > 0 ? 'pointer' : 'not-allowed'};">
                                 <input type="checkbox" value="${cls.id}" ${available > 0 ? '' : 'disabled'}>
                                 <div class="class-info">
                                     <div class="class-name">${cls.name}</div>
                                     <div class="class-details">
-                                        ${cls.schedule_day || ''} ${cls.schedule_time || ''} | 
+                                        ${formatDay(cls.schedule_day)} ${cls.schedule_time || ''} | 
                                         Cupo: ${enrolled}/${max} 
                                         ${available > 0 ? `(${available} disponible${available !== 1 ? 's' : ''})` : '(Completo)'}
                                     </div>
@@ -1924,14 +1953,8 @@
             }
         }
 
-        function closeStudentModal() {
-            document.getElementById('studentModal').classList.remove('active');
-            document.getElementById('studentForm').reset();
-            document.getElementById('availableClasses').innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
-        }
-
-        document.getElementById('studentForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        async function saveStudent(event) {
+            event.preventDefault();
             
             // Obtener clases seleccionadas
             const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
@@ -1944,11 +1967,11 @@
                 full_name: document.getElementById('studentName').value,
                 program_id: parseInt(document.getElementById('studentProgram').value),
                 class_ids: classIds,
-                parent_phone: parentPhone || null  // Enviar null si está vacío
+                parent_phone: parentPhone || null
             };
             
             // Mostrar loading
-            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const submitBtn = event.target.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creando...';
             submitBtn.disabled = true;
@@ -1980,7 +2003,7 @@
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }
-        });
+        }
 
         async function viewStudent(studentId) {
             try {
@@ -1992,7 +2015,7 @@
                         <div class="class-chip">
                             <strong>${c.name}</strong> (${c.program_name})
                             <div style="font-size: 0.85rem; color: #666;">
-                                ${c.schedule_day || ''} ${c.schedule_time || ''}
+                                ${formatDay(c.schedule_day)} ${c.schedule_time || ''}
                             </div>
                         </div>
                     `).join('');
@@ -2067,20 +2090,13 @@
         }
 
         // ============================================
-        // FUNCIONES DE MATERIALES
-        // ============================================
-
-        // ============================================
-        // VARIABLES GLOBALES PARA MATERIALES
+        // FUNCIONES PARA MATERIALES
         // ============================================
         let currentClassId = null;
         let currentMaterials = [];
         let currentCategories = [];
         let currentFilter = 'all';
 
-        // ============================================
-        // CARGAR CLASES PARA EL SELECTOR DE MATERIALES
-        // ============================================
         async function loadClassesForMaterials() {
             try {
                 const classes = await apiClient.get('/admin/classes');
@@ -2101,9 +2117,6 @@
             }
         }
 
-        // ============================================
-        // CARGAR MATERIALES DE UNA CLASE
-        // ============================================
         async function loadClassMaterials() {
             const classId = document.getElementById('materialClassSelect').value;
             
@@ -2118,13 +2131,11 @@
             document.getElementById('materialsContainer').innerHTML = '';
             
             try {
-                // Cargar materiales y categorías
                 const data = await apiClient.get(`/materials/class/${classId}?includeInactive=true`);
                 
                 currentMaterials = data.materials || [];
                 currentCategories = data.categories || [];
                 
-                // Mostrar información de la clase
                 document.getElementById('selectedClassName').innerHTML = `
                     <i class="fas fa-book"></i> ${data.class.name}
                 `;
@@ -2133,10 +2144,7 @@
                     <strong>Total materiales:</strong> ${currentMaterials.length}
                 `;
                 
-                // Mostrar categorías
                 displayCategories();
-                
-                // Mostrar materiales
                 displayMaterials();
                 
             } catch (error) {
@@ -2147,9 +2155,6 @@
             }
         }
 
-        // ============================================
-        // MOSTRAR CATEGORÍAS
-        // ============================================
         function displayCategories() {
             const container = document.getElementById('categoriesList');
             
@@ -2162,9 +2167,10 @@
             
             currentCategories.forEach(cat => {
                 html += `
-                    <div style="background: ${cat.color || '#667eea'}; color: white; padding: 0.5rem 1rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <div class="category-chip" style="background: ${cat.color || '#667eea'}20; color: ${cat.color || '#667eea'};">
+                        <span class="color-dot" style="background: ${cat.color || '#667eea'};"></span>
                         <span>${cat.name}</span>
-                        <button onclick="deleteCategory(${cat.id})" style="background: none; border: none; color: white; cursor: pointer; opacity: 0.8;">
+                        <button onclick="deleteCategory(${cat.id})" style="background: none; border: none; color: inherit; cursor: pointer; margin-left: 0.3rem;">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -2175,13 +2181,14 @@
             container.innerHTML = html;
         }
 
-        // ============================================
-        // MOSTRAR MATERIALES
-        // ============================================
+        function filterMaterials(type) {
+            currentFilter = type;
+            displayMaterials();
+        }
+
         function displayMaterials() {
             const container = document.getElementById('materialsContainer');
             
-            // Filtrar según el filtro actual
             let filtered = currentMaterials;
             if (currentFilter !== 'all') {
                 filtered = currentMaterials.filter(m => m.material_type === currentFilter);
@@ -2189,8 +2196,8 @@
             
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; background: #f8f9ff; border-radius: 15px;">
-                        <i class="fas fa-folder-open" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
                         <p>No hay materiales ${currentFilter !== 'all' ? 'de este tipo' : ''}</p>
                         <button class="btn-primary" onclick="openMaterialModal()" style="margin-top: 1rem;">
                             <i class="fas fa-plus"></i> Crear primer material
@@ -2199,6 +2206,8 @@
                 `;
                 return;
             }
+            
+            let html = '';
             
             // Agrupar por categoría
             const byCategory = {};
@@ -2214,15 +2223,12 @@
                 byCategory[catId].materials.push(material);
             });
             
-            let html = '';
-            
             for (const [catId, category] of Object.entries(byCategory)) {
                 html += `
                     <div style="margin-bottom: 2rem;">
                         <h4 style="color: ${category.color}; border-left: 4px solid ${category.color}; padding-left: 1rem; margin-bottom: 1rem;">
                             ${category.name} (${category.materials.length})
                         </h4>
-                        <div style="display: grid; gap: 1rem;">
                 `;
                 
                 category.materials.forEach(m => {
@@ -2233,62 +2239,49 @@
                         'code': '💻'
                     }[m.material_type] || '📄';
                     
-                    const activeClass = m.is_active ? '' : 'inactive-material';
+                    const typeClass = {
+                        'link': 'type-link',
+                        'file': 'type-file',
+                        'video': 'type-video',
+                        'code': 'type-code'
+                    }[m.material_type] || '';
                     
                     html += `
-                        <div class="material-item ${activeClass}" style="
-                            background: #f8f9ff;
-                            border-radius: 10px;
-                            padding: 1rem;
-                            display: flex;
-                            align-items: center;
-                            gap: 1rem;
-                            border: 2px solid ${m.is_active ? 'transparent' : '#ff6b6b'};
-                            opacity: ${m.is_active ? 1 : 0.7};
-                        ">
-                            <div style="font-size: 2rem;">${icon}</div>
-                            <div style="flex: 1;">
-                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                                    <strong>${m.title}</strong>
+                        <div class="material-item ${m.is_active ? '' : 'inactive-material'}">
+                            <div class="material-header">
+                                <div class="material-title">
+                                    <span>${icon}</span> ${m.title}
+                                    <span class="material-type ${typeClass}">${m.material_type}</span>
                                     ${!m.is_active ? '<span style="background: #ff6b6b; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">INACTIVO</span>' : ''}
                                 </div>
-                                <div style="font-size: 0.9rem; color: #666;">
-                                    ${m.description || 'Sin descripción'} | 
-                                    Subido: ${new Date(m.uploaded_at).toLocaleDateString()}
+                                <div class="material-actions">
+                                    <button class="action-btn edit-btn" onclick="viewMaterial(${m.id})" title="Ver">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" onclick="editMaterial(${m.id})" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" onclick="deleteMaterial(${m.id})" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="action-btn edit-btn" onclick="viewMaterial(${m.id})" title="Ver">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn edit-btn" onclick="editMaterial(${m.id})" title="Editar">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteMaterial(${m.id})" title="Eliminar">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                            <div class="material-meta">
+                                <span><i class="fas fa-align-left"></i> ${m.description || 'Sin descripción'}</span>
+                                <span><i class="fas fa-calendar"></i> ${new Date(m.uploaded_at).toLocaleDateString()}</span>
+                                <span><i class="fas fa-user"></i> ${m.uploaded_by_name || 'Admin'}</span>
                             </div>
                         </div>
                     `;
                 });
                 
-                html += '</div></div>';
+                html += '</div>';
             }
             
             container.innerHTML = html;
         }
 
-        // ============================================
-        // FILTRAR MATERIALES
-        // ============================================
-        function filterMaterials(type) {
-            currentFilter = type;
-            displayMaterials();
-        }
-
-        // ============================================
-        // MODAL DE MATERIAL
-        // ============================================
+        // Funciones para materiales
         function openMaterialModal(material = null) {
             document.getElementById('materialModalTitle').textContent = material ? 'Editar Material' : 'Nuevo Material';
             document.getElementById('materialId').value = material?.id || '';
@@ -2343,9 +2336,6 @@
             document.getElementById('materialType').value = type;
         }
 
-        // ============================================
-        // GUARDAR MATERIAL
-        // ============================================
         async function saveMaterial(event) {
             event.preventDefault();
             
@@ -2371,17 +2361,18 @@
                 formData.external_link = document.getElementById('materialVideo').value;
             } else if (type === 'code') {
                 formData.external_link = document.getElementById('materialCode').value;
+            } else if (type === 'file') {
+                alert('La subida de archivos estará disponible pronto');
+                return;
             }
             
             const materialId = document.getElementById('materialId').value;
             
             try {
                 if (materialId) {
-                    // Actualizar
                     await apiClient.put(`/materials/${materialId}`, formData);
                     showAlert('Material actualizado', 'success');
                 } else {
-                    // Crear
                     await apiClient.post('/materials', formData);
                     showAlert('Material creado', 'success');
                 }
@@ -2395,9 +2386,6 @@
             }
         }
 
-        // ============================================
-        // VER/EDITAR MATERIAL
-        // ============================================
         async function viewMaterial(id) {
             try {
                 const material = currentMaterials.find(m => m.id === id);
@@ -2412,13 +2400,11 @@
                         </div>
                     `;
                 } else if (material.material_type === 'video' && material.external_link) {
-                    // Embed de YouTube
                     const videoId = extractYoutubeId(material.external_link);
                     if (videoId) {
                         content = `
-                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 1rem;">
-                                <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-                                        src="https://www.youtube.com/embed/${videoId}" 
+                            <div class="video-container">
+                                <iframe src="https://www.youtube.com/embed/${videoId}" 
                                         frameborder="0" allowfullscreen></iframe>
                             </div>
                         `;
@@ -2480,9 +2466,7 @@
             document.getElementById('viewMaterialModal').classList.remove('active');
         }
 
-        // ============================================
-        // CATEGORÍAS
-        // ============================================
+        // Categorías
         function openCategoryModal() {
             document.getElementById('categoryModal').classList.add('active');
         }
@@ -2507,7 +2491,7 @@
                 await apiClient.post('/materials/categories', categoryData);
                 showAlert('Categoría creada', 'success');
                 closeCategoryModal();
-                loadClassMaterials(); // Recargar para mostrar la nueva categoría
+                loadClassMaterials();
             } catch (error) {
                 showAlert('Error al crear categoría', 'error');
             }
@@ -2523,20 +2507,6 @@
             } catch (error) {
                 showAlert('Error al eliminar', 'error');
             }
-        }
-
-        // ============================================
-        // UTILIDADES
-        // ============================================
-        function showAlert(message, type) {
-            const alert = document.getElementById('alertMessage');
-            alert.textContent = message;
-            alert.className = `alert alert-${type}`;
-            alert.style.display = 'block';
-            
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 3000);
         }
 
         // Funciones placeholder para editar/eliminar

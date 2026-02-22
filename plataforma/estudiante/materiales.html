@@ -499,20 +499,43 @@
     </nav>
 
     <script>
-        // Configuración API
+        // ============================================
+        // CONFIGURACIÓN DE API - CORREGIDA ✅
+        // ============================================
         const API_CONFIG = {
-            baseURL: window.location.hostname === 'localhost' 
-                ? 'http://localhost:3000/api' 
-                : 'https://tu-backend.com/api'
+            baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000/api'
+                : 'https://plataforma.roboworks.site/api'  // ✅ URL CORRECTA DE PRODUCCIÓN
         };
+
+        console.log('🌍 API Config:', API_CONFIG);
 
         const apiClient = {
             async get(endpoint) {
-                const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
-                    credentials: 'include'
-                });
-                if (!response.ok) throw new Error('Error');
-                return await response.json();
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            console.log('🔒 Sesión expirada, redirigiendo a login...');
+                            window.location.href = 'login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || `Error ${response.status}`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('❌ Error en GET:', error);
+                    throw error;
+                }
             }
         };
 
@@ -525,27 +548,36 @@
         // Cargar datos al iniciar
         document.addEventListener('DOMContentLoaded', async () => {
             try {
+                console.log('🔍 Iniciando materiales...');
                 await loadStudentClasses();
                 await loadUserInfo();
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error al cargar:', error);
+                if (!window.location.href.includes('login.html')) {
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                }
             }
         });
 
         async function loadUserInfo() {
             try {
                 const session = await apiClient.get('/auth/verify');
+                console.log('✅ Usuario verificado:', session.user);
+                
                 if (session.user?.profile_photo) {
                     document.getElementById('userAvatar').innerHTML = 
                         `<img src="${session.user.profile_photo}" style="width: 100%; height: 100%; object-fit: cover;">`;
                 }
             } catch (error) {
-                console.error('Error cargando usuario:', error);
+                console.error('❌ Error cargando usuario:', error);
             }
         }
 
         async function loadStudentClasses() {
             try {
+                console.log('📥 Cargando clases del estudiante...');
                 const dashboard = await apiClient.get('/student/dashboard');
                 studentClasses = dashboard.classes || [];
                 
@@ -559,8 +591,11 @@
                     select.appendChild(option);
                 });
                 
+                console.log(`✅ ${studentClasses.length} clases cargadas`);
+                
             } catch (error) {
-                console.error('Error cargando clases:', error);
+                console.error('❌ Error cargando clases:', error);
+                document.getElementById('classSelect').innerHTML = '<option value="">Error al cargar clases</option>';
             }
         }
 
@@ -577,12 +612,14 @@
             document.getElementById('materialsGrid').innerHTML = '';
             
             try {
+                console.log(`📥 Cargando materiales para clase ${classId}...`);
                 const data = await apiClient.get(`/student/class/${classId}/materials`);
                 
                 document.getElementById('className').textContent = data.class.name;
                 document.getElementById('programName').textContent = data.class.program_name;
                 
                 currentMaterials = data.materials || [];
+                console.log(`✅ ${currentMaterials.length} materiales cargados`);
                 
                 // Extraer categorías únicas
                 const categories = {};
@@ -604,7 +641,7 @@
                 displayMaterials();
                 
             } catch (error) {
-                console.error('Error cargando materiales:', error);
+                console.error('❌ Error cargando materiales:', error);
                 document.getElementById('materialsGrid').innerHTML = `
                     <div style="text-align: center; padding: 2rem; color: #dc2626;">
                         <i class="fas fa-exclamation-circle"></i> Error al cargar materiales

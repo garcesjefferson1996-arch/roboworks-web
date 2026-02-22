@@ -10,25 +10,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    
+    <!-- Script de configuración centralizada -->
+    <script src="/plataforma/js/config.js"></script>
 </head>
 <body class="plataforma-body">
     <header class="plataforma-header">
-        <a href="index.html" class="header-back">
+        <a href="dashboard.html" class="header-back">
             <i class="fas fa-arrow-left"></i>
         </a>
         <div class="header-logo">
             <img src="/assets/icons/logo.png" alt="Logo" height="30">
         </div>
         <div class="header-user">
-            <span class="user-avatar" id="user-avatar">DF</span>
+            <span class="user-avatar" id="user-avatar">
+                <i class="fas fa-robot"></i>
+            </span>
         </div>
     </header>
 
     <main class="clase-container">
         <section class="clase-hero">
-            <span class="clase-etiqueta">Módulo 1 · Clase 1</span>
-            <h1 class="clase-titulo">Bienvenido al Mundo Roblox</h1>
-            <p class="clase-subtitulo">La aventura de crear tecnología con valores y propósito.</p>
+            <span class="clase-etiqueta" id="clase-etiqueta">Cargando clase...</span>
+            <h1 class="clase-titulo" id="clase-titulo">Bienvenido a tu clase</h1>
+            <p class="clase-subtitulo" id="clase-subtitulo">Preparando tu experiencia robotista...</p>
             
             <div class="clase-info-horario">
                 <div class="info-item">
@@ -37,17 +42,17 @@
                 </div>
                 <div class="info-item">
                     <i class="far fa-clock"></i>
-                    <span>4:00 PM - 5:30 PM</span>
+                    <span id="clase-horario">-</span>
                 </div>
             </div>
         </section>
 
         <section class="clase-card card-objetivo">
             <h2><i class="fas fa-bullseye"></i> Objetivo de la Clase</h2>
-            <p>Acompañar al estudiante en su primer encuentro con Roblox Studio, ayudándolo a descubrir el entorno digital con <strong>confianza, curiosidad y asombro</strong>.</p>
+            <p id="clase-objetivo">Cargando información de la clase...</p>
         </section>
 
-        <!-- 🎯 SECCIÓN ZOOM DINÁMICA -->
+        <!-- SECCIÓN ZOOM DINÁMICA -->
         <section class="clase-card card-zoom" id="zoom-section">
             <h2><i class="fas fa-video"></i> Acceso a la Clase Virtual</h2>
             
@@ -69,8 +74,8 @@
             
             <div class="zoom-preparacion">
                 <h3><i class="fas fa-clipboard-check"></i> Preparación:</h3>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Tener instalado <strong>Roblox Studio</strong></li>
+                <ul id="lista-preparacion">
+                    <li><i class="fas fa-check-circle"></i> Tener instalado el software necesario</li>
                     <li><i class="fas fa-check-circle"></i> Conexión estable a internet</li>
                 </ul>
             </div>
@@ -78,16 +83,23 @@
 
         <section class="clase-card card-contenidos">
             <h2><i class="fas fa-map-signs"></i> Lo que Exploraremos Hoy</h2>
-            <ul class="lista-contenidos">
-                <li><i class="fas fa-compass"></i> <strong>¿Qué es Roblox?</strong></li>
-                <li><i class="fas fa-desktop"></i> <strong>Primer contacto con Roblox Studio</strong></li>
-                <li><i class="fas fa-gamepad"></i> <strong>Interfaz, cámara y movimiento</strong></li>
+            <ul class="lista-contenidos" id="lista-contenidos">
+                <li><i class="fas fa-compass"></i> <strong>Cargando contenidos...</strong></li>
             </ul>
+        </section>
+        
+        <!-- Enlace a materiales -->
+        <section class="clase-card card-materiales">
+            <h2><i class="fas fa-folder-open"></i> Materiales de la Clase</h2>
+            <p>Accede a guías, códigos y recursos adicionales para esta clase.</p>
+            <a href="materiales.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem;">
+                <i class="fas fa-book"></i> Ver materiales
+            </a>
         </section>
     </main>
 
     <nav class="plataforma-nav">
-        <a href="index.html" class="nav-item">
+        <a href="dashboard.html" class="nav-item">
             <i class="fas fa-home"></i>
             <span>Inicio</span>
         </a>
@@ -95,37 +107,207 @@
             <i class="fas fa-video"></i>
             <span>Clase</span>
         </a>
-        <a href="recursos.html" class="nav-item">
+        <a href="materiales.html" class="nav-item">
             <i class="fas fa-folder-open"></i>
-            <span>Recursos</span>
+            <span>Materiales</span>
         </a>
     </nav>
 
-    <!-- ZOOM DATA: Admin actualiza esto -->
-    <script type="application/json" id="zoom-data">
-    {
-        "clases": [
-            {
-                "fecha": "2024-06-10",
-                "hora": "16:00",
-                "duracion": 90,
-                "enlace": "https://zoom.us/j/1234567890",
-                "activa": true
-            },
-            {
-                "fecha": "2024-06-17",
-                "hora": "16:00",
-                "duracion": 90,
-                "enlace": "https://zoom.us/j/9876543210",
-                "activa": true
-            }
-        ]
-    }
-    </script>
-
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // 1. FECHA ACTUAL
+        // ============================================
+        // CONFIGURACIÓN DE API - CORREGIDA ✅
+        // ============================================
+        const API_CONFIG = {
+            baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000/api'
+                : 'https://plataforma.roboworks.site/api'  // ✅ URL CORRECTA DE PRODUCCIÓN
+        };
+
+        console.log('🌍 API Config:', API_CONFIG);
+
+        const apiClient = {
+            async get(endpoint) {
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            console.log('🔒 Sesión expirada, redirigiendo a login...');
+                            window.location.href = 'login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || `Error ${response.status}`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('❌ Error en GET:', error);
+                    throw error;
+                }
+            }
+        };
+
+        // Variables globales
+        let claseActual = null;
+        let studentClasses = [];
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                console.log('🔍 Iniciando página de clase...');
+                
+                // Verificar sesión
+                const session = await apiClient.get('/auth/verify');
+                console.log('✅ Sesión válida:', session.user);
+                
+                // Actualizar avatar si tiene foto
+                if (session.user?.profile_photo) {
+                    document.getElementById('user-avatar').innerHTML = 
+                        `<img src="${session.user.profile_photo}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                }
+                
+                // Cargar datos del estudiante
+                await loadStudentData();
+                
+                // Mostrar fecha actual
+                mostrarFecha();
+                
+                // Actualizar cada minuto el estado del Zoom
+                setInterval(actualizarZoom, 60000);
+                
+            } catch (error) {
+                console.error('❌ Error al cargar:', error);
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }
+        });
+
+        // ============================================
+        // CARGAR DATOS DEL ESTUDIANTE
+        // ============================================
+        async function loadStudentData() {
+            try {
+                console.log('📥 Cargando dashboard del estudiante...');
+                const dashboard = await apiClient.get('/student/dashboard');
+                console.log('✅ Dashboard cargado:', dashboard);
+                
+                studentClasses = dashboard.classes || [];
+                
+                // Si hay clases, mostrar la primera (o la próxima)
+                if (studentClasses.length > 0) {
+                    // Buscar la próxima clase (la primera en el array podría ser la próxima)
+                    claseActual = studentClasses[0];
+                    updateClassInfo(claseActual);
+                    
+                    // Configurar datos de Zoom
+                    setupZoomData(claseActual);
+                } else {
+                    // No hay clases
+                    document.getElementById('clase-titulo').textContent = 'No tienes clases asignadas';
+                    document.getElementById('clase-subtitulo').textContent = 'Contacta al administrador';
+                    document.getElementById('zoom-section').style.display = 'none';
+                }
+                
+            } catch (error) {
+                console.error('❌ Error cargando datos:', error);
+            }
+        }
+
+        // ============================================
+        // ACTUALIZAR INFORMACIÓN DE LA CLASE
+        // ============================================
+        function updateClassInfo(clase) {
+            document.getElementById('clase-etiqueta').textContent = clase.program_name || 'Clase';
+            document.getElementById('clase-titulo').textContent = clase.name;
+            document.getElementById('clase-subtitulo').textContent = clase.description || 'Prepárate para tu clase de robótica';
+            
+            // Formatear horario
+            const dias = {
+                'monday': 'Lunes',
+                'tuesday': 'Martes',
+                'wednesday': 'Miércoles',
+                'thursday': 'Jueves',
+                'friday': 'Viernes',
+                'saturday': 'Sábado'
+            };
+            const dia = dias[clase.schedule_day] || clase.schedule_day;
+            document.getElementById('clase-horario').textContent = `${dia} ${clase.schedule_time || ''}`;
+            
+            // Objetivo (usamos la descripción)
+            document.getElementById('clase-objetivo').textContent = clase.description || 'Aprender y divertirse con robótica';
+            
+            // Contenidos (podrías personalizarlos según el programa)
+            const contenidos = {
+                'CodeWorks': [
+                    'Introducción a la programación',
+                    'Primeros pasos con Roblox Studio',
+                    'Creando tu primer objeto'
+                ],
+                'Robo-Pro': [
+                    'Ensamblaje de robots básicos',
+                    'Programación de movimientos',
+                    'Sensores y actuadores'
+                ]
+            };
+            
+            const listaContenidos = document.getElementById('lista-contenidos');
+            const items = contenidos[clase.program_name] || [
+                'Explorando nuevos conceptos',
+                'Actividad práctica',
+                'Proyecto de la clase'
+            ];
+            
+            listaContenidos.innerHTML = items.map(item => 
+                `<li><i class="fas fa-compass"></i> <strong>${item}</strong></li>`
+            ).join('');
+        }
+
+        // ============================================
+        // CONFIGURAR DATOS DE ZOOM
+        // ============================================
+        function setupZoomData(clase) {
+            // Crear objeto Zoom con datos de la clase
+            const zoomData = {
+                clases: [
+                    {
+                        fecha: new Date().toISOString().split('T')[0], // Hoy (para prueba)
+                        hora: clase.schedule_time || '16:00',
+                        duracion: 90,
+                        enlace: clase.zoom_link || '#',
+                        activa: true
+                    }
+                ]
+            };
+            
+            // Guardar en el elemento script
+            const scriptElement = document.getElementById('zoom-data');
+            if (!scriptElement) {
+                const newScript = document.createElement('script');
+                newScript.id = 'zoom-data';
+                newScript.type = 'application/json';
+                newScript.textContent = JSON.stringify(zoomData);
+                document.body.appendChild(newScript);
+            } else {
+                scriptElement.textContent = JSON.stringify(zoomData);
+            }
+            
+            // Actualizar Zoom
+            actualizarZoom();
+        }
+
+        // ============================================
+        // FECHA ACTUAL
+        // ============================================
         function mostrarFecha() {
             const hoy = new Date();
             const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -134,17 +316,21 @@
                 fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1);
         }
 
-        // 2. LÓGICA INTELIGENTE DE ZOOM
+        // ============================================
+        // LÓGICA INTELIGENTE DE ZOOM
+        // ============================================
         function actualizarZoom() {
             const hoy = new Date();
-            const hoyStr = hoy.toISOString().split('T')[0]; // YYYY-MM-DD
-            const ahora = hoy.getHours() * 60 + hoy.getMinutes(); // Minutos del día
+            const hoyStr = hoy.toISOString().split('T')[0];
+            const ahora = hoy.getHours() * 60 + hoy.getMinutes();
             
             try {
-                const zoomData = JSON.parse(document.getElementById('zoom-data').textContent);
-                const clases = zoomData.clases;
+                const zoomElement = document.getElementById('zoom-data');
+                if (!zoomElement) return;
                 
-                // Buscar clase de HOY
+                const zoomData = JSON.parse(zoomElement.textContent);
+                const clases = zoomData.clases || [];
+                
                 const claseHoy = clases.find(c => c.fecha === hoyStr && c.activa);
                 
                 const boton = document.getElementById('boton-zoom');
@@ -154,23 +340,19 @@
                 const estadoTexto = document.getElementById('zoom-estado-texto');
                 const detalle = document.getElementById('zoom-detalle');
                 
-                if (!claseHoy) {
-                    // NO hay clase hoy
-                    estadoTexto.textContent = 'No hay clase programada';
-                    detalle.textContent = 'Consulta el calendario para próximas clases';
+                if (!claseHoy || !claseHoy.enlace || claseHoy.enlace === '#') {
+                    estadoTexto.textContent = 'Enlace no disponible';
+                    detalle.textContent = 'El profesor compartirá el enlace pronto';
                     icono.className = 'fas fa-calendar-times';
                     boton.style.display = 'none';
                     return;
                 }
                 
-                // Calcular tiempos
                 const [horas, minutos] = claseHoy.hora.split(':').map(Number);
                 const inicioMinutos = horas * 60 + minutos;
-                const finMinutos = inicioMinutos + claseHoy.duracion;
+                const finMinutos = inicioMinutos + (claseHoy.duracion || 90);
                 
-                // Determinar estado
                 if (ahora < inicioMinutos - 10) {
-                    // ANTES (más de 10 min)
                     const minutosFaltan = inicioMinutos - ahora;
                     const horasFaltan = Math.floor(minutosFaltan / 60);
                     const mins = minutosFaltan % 60;
@@ -184,7 +366,6 @@
                     boton.classList.add('btn-deshabilitado');
                     
                 } else if (ahora >= inicioMinutos - 10 && ahora < inicioMinutos) {
-                    // 10 MIN ANTES
                     estadoTexto.textContent = '¡Clase por comenzar!';
                     detalle.textContent = 'El enlace ya está disponible';
                     icono.className = 'fas fa-hourglass-end';
@@ -194,7 +375,6 @@
                     boton.classList.remove('btn-deshabilitado');
                     
                 } else if (ahora >= inicioMinutos && ahora <= finMinutos) {
-                    // DURANTE
                     const minutosTrans = ahora - inicioMinutos;
                     estadoTexto.textContent = '¡Clase en sesión!';
                     detalle.textContent = `Minuto ${minutosTrans} de ${claseHoy.duracion}`;
@@ -205,7 +385,6 @@
                     boton.classList.remove('btn-deshabilitado');
                     
                 } else {
-                    // DESPUÉS
                     const minutosPasaron = ahora - finMinutos;
                     const horasPasaron = Math.floor(minutosPasaron / 60);
                     
@@ -226,12 +405,6 @@
                 console.error('Error cargando datos Zoom:', e);
             }
         }
-
-        // 3. EJECUTAR
-        mostrarFecha();
-        actualizarZoom();
-        setInterval(actualizarZoom, 60000); // Actualizar cada minuto
-    });
     </script>
 </body>
 </html>

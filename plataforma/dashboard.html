@@ -530,6 +530,48 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Navegación inferior (añadida para consistencia) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.8rem;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            z-index: 90;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .nav-item span {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            background: #f0f0ff;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .dashboard-grid {
@@ -558,6 +600,10 @@
             .robot-stats {
                 flex-direction: column;
                 gap: 1rem;
+            }
+            
+            .bottom-nav {
+                padding: 0.5rem;
             }
         }
 
@@ -732,20 +778,35 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Navegación inferior (consistente con otras páginas) -->
+        <nav class="bottom-nav">
+            <a href="dashboard.html" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="clase.html" class="nav-item">
+                <i class="fas fa-video"></i>
+                <span>Clase</span>
+            </a>
+            <a href="materiales.html" class="nav-item">
+                <i class="fas fa-folder-open"></i>
+                <span>Materiales</span>
+            </a>
+        </nav>
     </main>
 
     <script>
-        // 🔥 CONFIGURACIÓN
-        const isLocalhost = window.location.hostname === 'localhost' || 
-                           window.location.hostname === '127.0.0.1';
-        
+        // ============================================
+        // CONFIGURACIÓN DE API - CORREGIDA ✅
+        // ============================================
         const API_CONFIG = {
-            baseURL: isLocalhost ? 'http://localhost:3000/api' : 'https://tu-backend-en-render.com/api',
-            timeout: 10000,
-            isLocal: isLocalhost
+            baseURL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000/api'
+                : 'https://plataforma.roboworks.site/api'  // ✅ URL CORRECTA DE PRODUCCIÓN
         };
 
-        console.log('🌍 Entorno:', isLocalhost ? 'LOCAL' : 'PRODUCCIÓN');
+        console.log('🌍 Entorno:', API_CONFIG.baseURL.includes('localhost') ? 'LOCAL' : 'PRODUCCIÓN');
         console.log('🔗 API URL:', API_CONFIG.baseURL);
 
         const apiClient = {
@@ -759,6 +820,7 @@
 
                     if (!response.ok) {
                         if (response.status === 401) {
+                            console.log('🔒 Sesión expirada');
                             window.location.href = 'login.html';
                             throw new Error('Sesión expirada');
                         }
@@ -768,7 +830,7 @@
 
                     return await response.json();
                 } catch (error) {
-                    console.error('Error en GET:', error);
+                    console.error('❌ Error en GET:', error);
                     throw error;
                 }
             },
@@ -793,7 +855,7 @@
 
                     return await response.json();
                 } catch (error) {
-                    console.error('Error en POST:', error);
+                    console.error('❌ Error en POST:', error);
                     throw error;
                 }
             },
@@ -816,7 +878,7 @@
 
                     return await response.json();
                 } catch (error) {
-                    console.error('Error en DELETE:', error);
+                    console.error('❌ Error en DELETE:', error);
                     throw error;
                 }
             },
@@ -843,7 +905,7 @@
 
                     return await response.json();
                 } catch (error) {
-                    console.error('Error en uploadPhoto:', error);
+                    console.error('❌ Error en uploadPhoto:', error);
                     throw error;
                 }
             }
@@ -859,7 +921,7 @@
             }
         }
 
-        // Función para subir foto (VERSIÓN REAL)
+        // Función para subir foto
         async function uploadPhoto(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -882,15 +944,13 @@
             uploadLabel.style.pointerEvents = 'none';
 
             try {
-                // Subir foto usando el método especializado
                 const data = await apiClient.uploadPhoto('/upload/profile-photo', file);
                 
                 // Actualizar UI con la nueva foto
                 const avatarDisplay = document.getElementById('avatarDisplay');
                 const profilePhoto = document.getElementById('profilePhoto');
                 
-                // Crear URL de la imagen (asumiendo que el backend devuelve la URL)
-                const photoUrl = data.photoUrl || `${API_CONFIG.baseURL}${data.photoPath}`;
+                const photoUrl = data.photoUrl;
                 
                 avatarDisplay.innerHTML = `<img src="${photoUrl}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">`;
                 profilePhoto.innerHTML = `<img src="${photoUrl}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">`;
@@ -898,14 +958,11 @@
                 alert('✅ ¡Foto actualizada exitosamente!');
 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error:', error);
                 alert('❌ Error al subir la foto. Intenta de nuevo.');
             } finally {
-                // Restaurar botón
                 uploadLabel.innerHTML = originalText;
                 uploadLabel.style.pointerEvents = 'auto';
-                
-                // Limpiar input
                 event.target.value = '';
             }
         }
@@ -915,7 +972,7 @@
             if (!confirm('¿Estás seguro de eliminar tu foto de perfil?')) return;
             
             try {
-                const response = await apiClient.delete('/upload/profile-photo');
+                await apiClient.delete('/upload/profile-photo');
 
                 // Restaurar avatar por defecto
                 const avatarDisplay = document.getElementById('avatarDisplay');
@@ -927,12 +984,12 @@
                 alert('✅ Foto eliminada correctamente');
 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error:', error);
                 alert('❌ Error al eliminar la foto');
             }
         }
 
-        // Cargar dashboard con datos REALES
+        // Cargar dashboard
         document.addEventListener('DOMContentLoaded', async function() {
             try {
                 console.log('🔍 Verificando sesión...');
@@ -951,12 +1008,12 @@
                 updateDashboard(dashboard);
                 
                 // Si el estudiante ya tiene foto, cargarla
-                if (dashboard.student && dashboard.student.photo_url) {
+                if (dashboard.student?.profile_photo) {
                     const avatarDisplay = document.getElementById('avatarDisplay');
                     const profilePhoto = document.getElementById('profilePhoto');
                     
-                    avatarDisplay.innerHTML = `<img src="${dashboard.student.photo_url}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">`;
-                    profilePhoto.innerHTML = `<img src="${dashboard.student.photo_url}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    avatarDisplay.innerHTML = `<img src="${dashboard.student.profile_photo}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    profilePhoto.innerHTML = `<img src="${dashboard.student.profile_photo}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">`;
                 }
                 
             } catch (error) {
@@ -983,14 +1040,14 @@
             // Fecha de ingreso
             if (student.created_at) {
                 const date = new Date(student.created_at);
-                document.getElementById('profileMemberSince').textContent = date.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+                document.getElementById('profileMemberSince').textContent = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' });
             }
         }
 
         function updateDashboard(dashboard) {
             // Estadísticas
             document.getElementById('totalClasses').textContent = dashboard.stats?.total || 0;
-            document.getElementById('attendanceRate').textContent = dashboard.stats?.attendanceRate + '%' || '0%';
+            document.getElementById('attendanceRate').textContent = (dashboard.stats?.attendanceRate || 0) + '%';
             
             // Nivel
             const total = dashboard.stats?.total || 0;
@@ -1021,6 +1078,7 @@
                     zoomBtn.style.pointerEvents = 'auto';
                     zoomBtn.style.opacity = '1';
                 } else {
+                    zoomBtn.href = '#';
                     zoomBtn.style.pointerEvents = 'none';
                     zoomBtn.style.opacity = '0.5';
                 }
@@ -1047,7 +1105,7 @@
                         <div class="timeline-date">${formatDate(item.attendance_date)}</div>
                         <div class="timeline-class">${item.class_name}</div>
                         <div class="timeline-status">
-                            <span class="status-${item.attended ? 'attended' : 'missed'}">
+                            <span class="${item.attended ? 'status-attended' : 'status-missed'}">
                                 ${item.attended ? '✅ Completado' : '❌ No asistió'}
                             </span>
                         </div>
@@ -1071,13 +1129,20 @@
         }
 
         function formatDate(dateString) {
+            if (!dateString) return '-';
             const date = new Date(dateString);
             return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
         }
 
         function updateCountdown(cls) {
-            // Por ahora countdown genérico
-            document.getElementById('countdownText').textContent = '¡Prepárate para tu clase!';
+            // Calcular tiempo restante si hay fecha/hora
+            if (!cls.schedule_day || !cls.schedule_time) {
+                document.getElementById('countdownText').textContent = '¡Prepárate para tu clase!';
+                return;
+            }
+            
+            // Por simplicidad, mensaje genérico
+            document.getElementById('countdownText').textContent = '¡Tu próxima clase se acerca!';
         }
     </script>
 </body>
