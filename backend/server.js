@@ -113,19 +113,34 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Iniciar servidor
+// Iniciar servidor (AHORA CON MANEJO DE ERRORES MEJORADO)
 const startServer = async () => {
     try {
+        // Intentamos conectar a la DB, pero si falla, solo lo registramos y continuamos
         const connected = await db.testConnection();
-        
-        if (connected) {
-            const PORT = process.env.PORT || 3000;
-            app.listen(PORT, () => {
-                console.log('\n=================================');
-                console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-                console.log(`🌍 Modo: ${isProduction ? 'PRODUCCIÓN' : 'DESARROLLO'}`);
-                console.log(`🔗 Ruta de prueba: http://localhost:${PORT}/api/health`);
-                console.log('📦 Rutas API disponibles:');
+
+        if (!connected) {
+            console.error('\n⚠️ ADVERTENCIA: No se pudo conectar a MySQL. El servidor iniciará, pero las funciones de BD fallarán.');
+            console.error('   Revisa: Host, Puerto, Usuario, Contraseña y Nombre de DB en las variables de entorno.');
+            console.error('   Variables actuales:');
+            console.error(`   - DB_HOST: ${process.env.DB_HOST || 'no definido'}`);
+            console.error(`   - DB_PORT: ${process.env.DB_PORT || 'no definido'}`);
+            console.error(`   - DB_USER: ${process.env.DB_USER || 'no definido'}`);
+            console.error(`   - DB_NAME: ${process.env.DB_NAME || 'no definido'}`);
+            console.error('   ⚠️ La contraseña no se muestra por seguridad\n');
+        }
+
+        // El servidor se inicia SIEMPRE, haya o no DB
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, '0.0.0.0', () => { // 👈 IMPORTANTE: Escuchar en 0.0.0.0
+            console.log('\n=================================');
+            console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`);
+            console.log(`🌍 Modo: ${isProduction ? 'PRODUCCIÓN' : 'DESARROLLO'}`);
+            console.log(`🔗 Ruta de prueba: http://localhost:${PORT}/api/health`);
+            console.log('📦 Estado DB:', connected ? '✅ Conectada' : '❌ Desconectada');
+            
+            if (connected) {
+                console.log('\n📦 Rutas API disponibles:');
                 console.log('   ✅ POST  /api/auth/login');
                 console.log('   ✅ GET   /api/auth/verify');
                 console.log('   ✅ POST  /api/auth/logout');
@@ -142,15 +157,21 @@ const startServer = async () => {
                 console.log('   ✅ POST  /api/upload/*');
                 console.log('   ✅ GET   /api/whatsapp/*');
                 console.log('   ✅ GET   /api/materials/*');
-                console.log('=================================\n');
-            });
-        } else {
-            console.log('❌ No se pudo iniciar el servidor por error de conexión a MySQL');
-            process.exit(1);
-        }
+            } else {
+                console.log('\n⚠️  Rutas API disponibles (pero las que requieren DB fallarán):');
+                console.log('   ✅ /api/health (para verificar estado)');
+                console.log('   ❌ Las rutas que requieren base de datos no funcionarán');
+                console.log('\n📝 Para diagnosticar el error de conexión:');
+                console.log('   1. Verifica que MySQL esté corriendo');
+                console.log('   2. Verifica las credenciales en el archivo .env');
+                console.log('   3. Comprueba que el host sea accesible');
+            }
+            console.log('=================================\n');
+        });
+
     } catch (error) {
-        console.error('❌ Error al iniciar servidor:', error);
-        process.exit(1);
+        console.error('❌ Error crítico al iniciar servidor:', error);
+        process.exit(1); // Solo salimos si hay un error GRAVE que no sea la DB
     }
 };
 
