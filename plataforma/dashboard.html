@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Espacio Robotista - RoboWorks</title>
+    <link rel="stylesheet" href="/css/plataforma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header con estilo de juego */
+        .game-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 4px solid #ffd700;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-area img {
+            height: 45px;
+            width: auto;
+        }
+
+        .logo-area h1 {
+            font-size: 1.5rem;
+            color: #4834d4;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            color: white;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #4834d4;
+            border: 3px solid white;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            text-align: left;
+        }
+
+        .user-info .user-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .user-info .user-level {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: white;
+            border: none;
+            color: #667eea;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #ffd700;
+        }
+
+        .logout-btn:hover {
+            transform: rotate(180deg);
+            background: #ffd700;
+            color: white;
+        }
+
+        /* Contenedor principal */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Tarjetas de bienvenida */
+        .welcome-card {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: "🤖";
+            font-size: 8rem;
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            opacity: 0.2;
+            transform: rotate(-10deg);
+        }
+
+        .welcome-card h2 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .welcome-card p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .robot-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Grid principal */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Tarjeta de próxima clase */
+        .next-class-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            border: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-class-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffd700;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            color: #4834d4;
+        }
+
+        .class-info {
+            background: #f8f9ff;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .class-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .program-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .class-datetime {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .datetime-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .datetime-item i {
+            color: #667eea;
+            width: auto;
+            height: auto;
+            font-size: 1.2rem;
+        }
+
+        .countdown {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 1rem 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .zoom-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            background: #2d8cff;
+            color: white;
+            text-decoration: none;
+            padding: 1.5rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            border: 4px solid #ffd700;
+        }
+
+        .zoom-btn:hover {
+            background: #1a6fd0;
+            transform: scale(1.02);
+            gap: 1.5rem;
+        }
+
+        .zoom-btn i {
+            font-size: 2rem;
+        }
+
+        /* Tarjeta de perfil */
+        .profile-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .profile-photo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .current-photo {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #ffd700;
+            border: 5px solid #ffd700;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+
+        .current-photo:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+        }
+
+        .current-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-upload {
+            display: none;
+        }
+
+        .upload-label {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 0.25rem;
+        }
+
+        .upload-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .profile-details {
+            background: #f8f9ff;
+            border-radius: 20px;
+            padding: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item i {
+            width: 30px;
+            color: #667eea;
+            font-size: 1.3rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+            min-width: 100px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Historial de clases */
+        .history-section {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header i {
+            font-size: 2rem;
+            background: #ffd700;
+            color: #4834d4;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+        }
+
+        .section-header h3 {
+            font-size: 1.8rem;
+            color: #4834d4;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: #f8f9ff;
+            padding: 1.2rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+            border-left: 4px solid #ffd700;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            background: #f0f2ff;
+        }
+
+        .timeline-date {
+            min-width: 100px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .timeline-class {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .timeline-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-attended {
+            background: #10b981;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        .status-missed {
+            background: #ef4444;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        /* Loading y errores */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .game-header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .user-profile {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .welcome-card h2 {
+                font-size: 1.6rem;
+            }
+
+            .class-name {
+                font-size: 1.4rem;
+            }
+
+            .robot-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con perfil de usuario -->
+    <header class="game-header">
+        <div class="logo-area">
+            <img src="/assets/icons/logo.png" alt="RoboWorks">
+            <h1>Mi Espacio Robotista</h1>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-badge">
+                <div class="user-avatar" id="avatarDisplay">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name" id="userNameDisplay">Cargando...</div>
+                    <div class="user-level" id="userLevel">Explorador</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()" title="Cerrar sesión">
+                <i class="fas fa-power-off"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- Tarjeta de bienvenida dinámica -->
+        <div class="welcome-card" id="welcomeCard">
+            <h2 id="welcomeMessage">¡Hola, Robotista! 🤖</h2>
+            <p id="welcomeSubmessage">Prepárate para tu próxima misión</p>
+            <div class="robot-stats" id="robotStats">
+                <div class="stat-item">
+                    <i class="fas fa-star"></i>
+                    <span id="totalClasses">0</span> misiones
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-bolt"></i>
+                    <span id="attendanceRate">0%</span> asistencia
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid principal -->
+        <div class="dashboard-grid">
+            <!-- Próxima clase -->
+            <div class="next-class-card" id="nextClassCard">
+                <div class="card-header">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Próxima misión</h3>
+                </div>
+                
+                <div id="classContent">
+                    <div class="loading" id="classLoading">
+                        <div class="loading-spinner"></div>
+                        <p>Cargando tu próxima misión...</p>
+                    </div>
+                    
+                    <div id="classData" style="display: none;">
+                        <div class="class-info">
+                            <div class="program-badge" id="programBadge">Robo-Pro</div>
+                            <div class="class-name" id="className">-</div>
+                            <div class="class-datetime">
+                                <div class="datetime-item">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <span id="classDate">-</span>
+                                </div>
+                                <div class="datetime-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span id="classTime">-</span>
+                                </div>
+                            </div>
+                            <div class="countdown" id="countdown">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span id="countdownText">Calculando...</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#" id="zoomLink" class="zoom-btn" target="_blank" style="pointer-events: none; opacity: 0.5;">
+                            <i class="fab fa-zoom"></i>
+                            <span>Unirse a la misión por Zoom</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div id="noClassMessage" style="display: none;" class="class-info">
+                        <p style="text-align: center; font-size: 1.2rem;">🎉 ¡No hay clases programadas! Disfruta tu descanso</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Perfil del estudiante -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <i class="fas fa-user-astronaut"></i>
+                    <h3>Mi perfil robotista</h3>
+                </div>
+                
+                <div class="profile-photo-section">
+                    <div class="current-photo" id="profilePhoto" onclick="document.getElementById('photoUpload').click()">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <input type="file" id="photoUpload" class="photo-upload" accept="image/*" onchange="uploadPhoto(event)">
+                    <div>
+                        <label for="photoUpload" class="upload-label">
+                            <i class="fas fa-camera"></i> Subir foto
+                        </label>
+                        <!-- Botón para eliminar foto agregado aquí -->
+                        <button onclick="deletePhoto()" class="upload-label" style="background: #ef4444; margin-top: 0.5rem;">
+                            <i class="fas fa-trash"></i> Eliminar foto
+                        </button>
+                    </div>
+                    <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">¡Personaliza tu robot!</p>
+                </div>
+                
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <i class="fas fa-user"></i>
+                        <span class="detail-label">Nombre:</span>
+                        <span class="detail-value" id="profileName">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-tag"></i>
+                        <span class="detail-label">Usuario:</span>
+                        <span class="detail-value" id="profileUsername">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="detail-label">Clases:</span>
+                        <span class="detail-value" id="profileClasses">0 inscritas</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <span class="detail-label">Miembro desde:</span>
+                        <span class="detail-value" id="profileMemberSince">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historial de clases -->
+        <div class="history-section">
+            <div class="section-header">
+                <i class="fas fa-history"></i>
+                <h3>Historial de misiones</h3>
+            </div>
+            
+            <div id="historyContent">
+                <div class="loading" id="historyLoading">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando tu historial...</p>
+                </div>
+                
+                <div class="timeline" id="historyTimeline" style="display: none;">
+                    <!-- Las clases se insertarán aquí dinámicamente -->
+                </div>
+                
+                <div id="noHistoryMessage" style="display: none; text-align: center; padding: 2rem;">
+                    <p>📝 Aún no tienes clases en tu historial</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 🔥 CONFIGURACIÓN
+        const isLocalhost = window.location.hostname === 'localhost' || 
+                           window.location.hostname === '127.0.0.1';
+        
+        const API_CONFIG = {
+            baseURL: isLocalhost ? 'http://localhost:3000/api' : 'https://tu-backend-en-render.com/api',
+            timeout: 10000,
+            isLocal: isLocalhost
+        };
+
+        console.log('🌍 Entorno:', isLocalhost ? 'LOCAL' : 'PRODUCCIÓN');
+        console.log('🔗 API URL:', API_CONFIG.baseURL);
+
+        const apiClient = {
+            async get(endpoint) {
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            window.location.href = 'login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || `Error ${response.status}`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error en GET:', error);
+                    throw error;
+                }
+            },
+
+            async post(endpoint, data) {
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: data ? JSON.stringify(data) : undefined
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            window.location.href = 'login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || `Error ${response.status}`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error en POST:', error);
+                    throw error;
+                }
+            },
+
+            async delete(endpoint) {
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'DELETE',
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            window.location.href = 'login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || `Error ${response.status}`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error en DELETE:', error);
+                    throw error;
+                }
+            },
+
+            async uploadPhoto(endpoint, file) {
+                try {
+                    const formData = new FormData();
+                    formData.append('photo', file);
+
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            window.location.href = 'login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || `Error ${response.status}`);
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error en uploadPhoto:', error);
+                    throw error;
+                }
+            }
+        };
+
+        // Logout
+        async function logout() {
+            try {
+                await apiClient.post('/auth/logout');
+                window.location.href = 'login.html';
+            } catch (error) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Función para subir foto (VERSIÓN REAL)
+        async function uploadPhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validaciones
+            if (!file.type.startsWith('image/')) {
+                alert('❌ Por favor selecciona una imagen válida');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                alert('❌ La imagen no debe superar los 5MB');
+                return;
+            }
+
+            // Mostrar loading
+            const uploadLabel = document.querySelector('.upload-label');
+            const originalText = uploadLabel.innerHTML;
+            uploadLabel.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
+            uploadLabel.style.pointerEvents = 'none';
+
+            try {
+                // Subir foto usando el método especializado
+                const data = await apiClient.uploadPhoto('/upload/profile-photo', file);
+                
+                // Actualizar UI con la nueva foto
+                const avatarDisplay = document.getElementById('avatarDisplay');
+                const profilePhoto = document.getElementById('profilePhoto');
+                
+                // Crear URL de la imagen (asumiendo que el backend devuelve la URL)
+                const photoUrl = data.photoUrl || `${API_CONFIG.baseURL}${data.photoPath}`;
+                
+                avatarDisplay.innerHTML = `<img src="${photoUrl}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">`;
+                profilePhoto.innerHTML = `<img src="${photoUrl}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">`;
+                
+                alert('✅ ¡Foto actualizada exitosamente!');
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error al subir la foto. Intenta de nuevo.');
+            } finally {
+                // Restaurar botón
+                uploadLabel.innerHTML = originalText;
+                uploadLabel.style.pointerEvents = 'auto';
+                
+                // Limpiar input
+                event.target.value = '';
+            }
+        }
+
+        // Función para eliminar foto
+        async function deletePhoto() {
+            if (!confirm('¿Estás seguro de eliminar tu foto de perfil?')) return;
+            
+            try {
+                const response = await apiClient.delete('/upload/profile-photo');
+
+                // Restaurar avatar por defecto
+                const avatarDisplay = document.getElementById('avatarDisplay');
+                const profilePhoto = document.getElementById('profilePhoto');
+                
+                avatarDisplay.innerHTML = '<i class="fas fa-robot"></i>';
+                profilePhoto.innerHTML = '<i class="fas fa-robot"></i>';
+                
+                alert('✅ Foto eliminada correctamente');
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error al eliminar la foto');
+            }
+        }
+
+        // Cargar dashboard con datos REALES
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                console.log('🔍 Verificando sesión...');
+                
+                // Verificar sesión
+                const session = await apiClient.get('/auth/verify');
+                console.log('✅ Sesión válida:', session.user);
+                
+                // Cargar dashboard del estudiante
+                console.log('📥 Cargando dashboard del estudiante...');
+                const dashboard = await apiClient.get('/student/dashboard');
+                console.log('✅ Dashboard cargado:', dashboard);
+                
+                // Actualizar UI
+                updateUserInfo(dashboard.student);
+                updateDashboard(dashboard);
+                
+                // Si el estudiante ya tiene foto, cargarla
+                if (dashboard.student && dashboard.student.photo_url) {
+                    const avatarDisplay = document.getElementById('avatarDisplay');
+                    const profilePhoto = document.getElementById('profilePhoto');
+                    
+                    avatarDisplay.innerHTML = `<img src="${dashboard.student.photo_url}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    profilePhoto.innerHTML = `<img src="${dashboard.student.photo_url}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">`;
+                }
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                alert('No se pudo cargar el dashboard. Redirigiendo...');
+                setTimeout(() => window.location.href = 'login.html', 2000);
+            }
+        });
+
+        function updateUserInfo(student) {
+            document.getElementById('userNameDisplay').textContent = student.full_name || 'Robotista';
+            document.getElementById('profileName').textContent = student.full_name || '-';
+            document.getElementById('profileUsername').textContent = student.username || '-';
+            
+            // Mensaje de bienvenida
+            const welcomeMessages = [
+                '¡Hola, {name}! 🤖',
+                '¿Listo para tu misión, {name}? 🚀',
+                '¡Bienvenido, Robotista {name}! ⚡'
+            ];
+            const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+            document.getElementById('welcomeMessage').textContent = randomMessage.replace('{name}', student.full_name || 'Robotista');
+            
+            // Fecha de ingreso
+            if (student.created_at) {
+                const date = new Date(student.created_at);
+                document.getElementById('profileMemberSince').textContent = date.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+            }
+        }
+
+        function updateDashboard(dashboard) {
+            // Estadísticas
+            document.getElementById('totalClasses').textContent = dashboard.stats?.total || 0;
+            document.getElementById('attendanceRate').textContent = dashboard.stats?.attendanceRate + '%' || '0%';
+            
+            // Nivel
+            const total = dashboard.stats?.total || 0;
+            if (total >= 20) document.getElementById('userLevel').textContent = 'Robot Master';
+            else if (total >= 10) document.getElementById('userLevel').textContent = 'Explorador Experto';
+            else if (total >= 5) document.getElementById('userLevel').textContent = 'Aprendiz Robotista';
+            else document.getElementById('userLevel').textContent = 'Explorador Inicial';
+            
+            document.getElementById('profileClasses').textContent = total + ' clase' + (total !== 1 ? 's' : '');
+            
+            // Próxima clase
+            document.getElementById('classLoading').style.display = 'none';
+            
+            if (dashboard.nextClass) {
+                const cls = dashboard.nextClass;
+                document.getElementById('classData').style.display = 'block';
+                document.getElementById('noClassMessage').style.display = 'none';
+                
+                document.getElementById('programBadge').textContent = cls.program_name || '';
+                document.getElementById('className').textContent = cls.name;
+                document.getElementById('classDate').textContent = formatDay(cls.schedule_day);
+                document.getElementById('classTime').textContent = cls.schedule_time || '';
+                
+                // Configurar botón Zoom
+                const zoomBtn = document.getElementById('zoomLink');
+                if (cls.zoom_link) {
+                    zoomBtn.href = cls.zoom_link;
+                    zoomBtn.style.pointerEvents = 'auto';
+                    zoomBtn.style.opacity = '1';
+                } else {
+                    zoomBtn.style.pointerEvents = 'none';
+                    zoomBtn.style.opacity = '0.5';
+                }
+                
+                // Countdown
+                updateCountdown(cls);
+                setInterval(() => updateCountdown(cls), 60000);
+                
+            } else {
+                document.getElementById('classData').style.display = 'none';
+                document.getElementById('noClassMessage').style.display = 'block';
+            }
+            
+            // Historial
+            document.getElementById('historyLoading').style.display = 'none';
+            
+            if (dashboard.history && dashboard.history.length > 0) {
+                document.getElementById('historyTimeline').style.display = 'flex';
+                document.getElementById('noHistoryMessage').style.display = 'none';
+                
+                const timeline = document.getElementById('historyTimeline');
+                timeline.innerHTML = dashboard.history.map(item => `
+                    <div class="timeline-item">
+                        <div class="timeline-date">${formatDate(item.attendance_date)}</div>
+                        <div class="timeline-class">${item.class_name}</div>
+                        <div class="timeline-status">
+                            <span class="status-${item.attended ? 'attended' : 'missed'}">
+                                ${item.attended ? '✅ Completado' : '❌ No asistió'}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                document.getElementById('noHistoryMessage').style.display = 'block';
+            }
+        }
+
+        function formatDay(day) {
+            const days = {
+                'monday': 'Lunes',
+                'tuesday': 'Martes',
+                'wednesday': 'Miércoles',
+                'thursday': 'Jueves',
+                'friday': 'Viernes',
+                'saturday': 'Sábado'
+            };
+            return days[day] || day;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+        }
+
+        function updateCountdown(cls) {
+            // Por ahora countdown genérico
+            document.getElementById('countdownText').textContent = '¡Prepárate para tu clase!';
+        }
+    </script>
+</body>
+</html>

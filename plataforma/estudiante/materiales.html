@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiales - RoboWorks</title>
+    <link rel="stylesheet" href="/css/plataforma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .materials-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 4px solid #ffd700;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: #667eea;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #5a67d8;
+            transform: scale(1.1);
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            color: #4834d4;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #4834d4;
+            border: 3px solid white;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal */
+        .materials-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Selector de clase */
+        .class-selector-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .class-selector-card h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #4834d4;
+        }
+
+        .class-selector-card select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0ff;
+            border-radius: 15px;
+            font-family: inherit;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Materiales */
+        .materials-section {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .class-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0ff;
+        }
+
+        .class-info h3 {
+            font-size: 1.8rem;
+            color: #4834d4;
+        }
+
+        .class-info .program-badge {
+            background: #ffd700;
+            color: #4834d4;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        /* Categorías */
+        .categories-filter {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .category-chip {
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            background: #f0f0ff;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            border: 2px solid transparent;
+        }
+
+        .category-chip:hover {
+            background: #e0e0ff;
+        }
+
+        .category-chip.active {
+            background: #667eea;
+            color: white;
+            border-color: #ffd700;
+        }
+
+        /* Grid de materiales */
+        .materials-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .material-card {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .material-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .material-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .material-info {
+            flex: 1;
+        }
+
+        .material-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .material-category {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .material-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .material-meta {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 0.3rem;
+        }
+
+        .material-action {
+            color: #667eea;
+            font-size: 1.2rem;
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+
+        .material-card:hover .material-action {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        /* Modal de material */
+        .material-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .material-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: #4834d4;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 1rem 0;
+            border-radius: 15px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .file-download {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            text-decoration: none;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        /* Navegación inferior */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.8rem;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            z-index: 90;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .nav-item span {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            background: #f0f0ff;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .materials-header {
+                padding: 1rem;
+            }
+            
+            .header-left h1 {
+                font-size: 1.2rem;
+            }
+            
+            .class-info {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .class-info h3 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="materials-header">
+        <div class="header-left">
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1><i class="fas fa-folder-open"></i> Biblioteca Robotista</h1>
+        </div>
+        <div class="user-avatar" id="userAvatar">
+            <i class="fas fa-robot"></i>
+        </div>
+    </header>
+
+    <main class="materials-container">
+        <!-- Selector de clase -->
+        <div class="class-selector-card">
+            <h2><i class="fas fa-calendar-alt"></i> Selecciona tu clase</h2>
+            <select id="classSelect" onchange="loadMaterials()">
+                <option value="">Cargando tus clases...</option>
+            </select>
+        </div>
+
+        <!-- Sección de materiales (inicialmente oculta) -->
+        <div id="materialsSection" class="materials-section" style="display: none;">
+            <div class="class-info">
+                <h3 id="className">-</h3>
+                <span class="program-badge" id="programName">-</span>
+            </div>
+
+            <!-- Filtro por categorías -->
+            <div class="categories-filter" id="categoriesFilter">
+                <button class="category-chip active" onclick="filterByCategory('all')">Todos</button>
+            </div>
+
+            <!-- Loading -->
+            <div id="materialsLoading" class="loading">
+                <div class="loading-spinner"></div>
+                <p>Cargando materiales...</p>
+            </div>
+
+            <!-- Grid de materiales -->
+            <div id="materialsGrid" class="materials-grid">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para ver material -->
+    <div id="materialModal" class="material-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">-</h3>
+                <button class="close-modal" onclick="closeMaterialModal()">&times;</button>
+            </div>
+            <div id="modalContent">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Navegación inferior -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="clase.html" class="nav-item">
+            <i class="fas fa-video"></i>
+            <span>Clase</span>
+        </a>
+        <a href="materiales.html" class="nav-item active">
+            <i class="fas fa-folder-open"></i>
+            <span>Materiales</span>
+        </a>
+    </nav>
+
+    <script>
+        // Configuración API
+        const API_CONFIG = {
+            baseURL: window.location.hostname === 'localhost' 
+                ? 'http://localhost:3000/api' 
+                : 'https://tu-backend.com/api'
+        };
+
+        const apiClient = {
+            async get(endpoint) {
+                const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                    credentials: 'include'
+                });
+                if (!response.ok) throw new Error('Error');
+                return await response.json();
+            }
+        };
+
+        // Variables globales
+        let studentClasses = [];
+        let currentMaterials = [];
+        let currentCategories = [];
+        let currentFilter = 'all';
+
+        // Cargar datos al iniciar
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await loadStudentClasses();
+                await loadUserInfo();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        async function loadUserInfo() {
+            try {
+                const session = await apiClient.get('/auth/verify');
+                if (session.user?.profile_photo) {
+                    document.getElementById('userAvatar').innerHTML = 
+                        `<img src="${session.user.profile_photo}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                }
+            } catch (error) {
+                console.error('Error cargando usuario:', error);
+            }
+        }
+
+        async function loadStudentClasses() {
+            try {
+                const dashboard = await apiClient.get('/student/dashboard');
+                studentClasses = dashboard.classes || [];
+                
+                const select = document.getElementById('classSelect');
+                select.innerHTML = '<option value="">Selecciona una clase</option>';
+                
+                studentClasses.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls.id;
+                    option.textContent = `${cls.name} (${cls.program_name})`;
+                    select.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error('Error cargando clases:', error);
+            }
+        }
+
+        async function loadMaterials() {
+            const classId = document.getElementById('classSelect').value;
+            
+            if (!classId) {
+                document.getElementById('materialsSection').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('materialsSection').style.display = 'block';
+            document.getElementById('materialsLoading').style.display = 'block';
+            document.getElementById('materialsGrid').innerHTML = '';
+            
+            try {
+                const data = await apiClient.get(`/student/class/${classId}/materials`);
+                
+                document.getElementById('className').textContent = data.class.name;
+                document.getElementById('programName').textContent = data.class.program_name;
+                
+                currentMaterials = data.materials || [];
+                
+                // Extraer categorías únicas
+                const categories = {};
+                currentMaterials.forEach(m => {
+                    if (m.category_id && m.category_name) {
+                        categories[m.category_id] = {
+                            id: m.category_id,
+                            name: m.category_name,
+                            color: m.category_color
+                        };
+                    }
+                });
+                currentCategories = Object.values(categories);
+                
+                // Mostrar filtros de categoría
+                displayCategoryFilters();
+                
+                // Mostrar materiales
+                displayMaterials();
+                
+            } catch (error) {
+                console.error('Error cargando materiales:', error);
+                document.getElementById('materialsGrid').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #dc2626;">
+                        <i class="fas fa-exclamation-circle"></i> Error al cargar materiales
+                    </div>
+                `;
+            } finally {
+                document.getElementById('materialsLoading').style.display = 'none';
+            }
+        }
+
+        function displayCategoryFilters() {
+            const container = document.getElementById('categoriesFilter');
+            container.innerHTML = '<button class="category-chip active" onclick="filterByCategory(\'all\')">Todos</button>';
+            
+            currentCategories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'category-chip';
+                btn.textContent = cat.name;
+                btn.style.borderColor = cat.color;
+                btn.onclick = () => filterByCategory(cat.id);
+                container.appendChild(btn);
+            });
+        }
+
+        function filterByCategory(categoryId) {
+            currentFilter = categoryId;
+            
+            // Actualizar UI de filtros
+            document.querySelectorAll('.category-chip').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayMaterials();
+        }
+
+        function displayMaterials() {
+            const container = document.getElementById('materialsGrid');
+            
+            let filtered = currentMaterials;
+            if (currentFilter !== 'all') {
+                filtered = currentMaterials.filter(m => m.category_id == currentFilter);
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; background: #f8f9ff; border-radius: 15px;">
+                        <i class="fas fa-folder-open" style="font-size: 3rem; color: #ccc;"></i>
+                        <p style="margin-top: 1rem;">No hay materiales disponibles</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            filtered.forEach(m => {
+                const icon = {
+                    'link': '🔗',
+                    'file': '📁',
+                    'video': '🎥',
+                    'code': '💻'
+                }[m.material_type] || '📄';
+                
+                html += `
+                    <div class="material-card" onclick="openMaterial(${m.id})">
+                        <div class="material-icon">${icon}</div>
+                        <div class="material-info">
+                            <div class="material-title">
+                                ${m.title}
+                                ${m.category_name ? `
+                                    <span class="material-category" style="background: ${m.category_color || '#667eea'}">
+                                        ${m.category_name}
+                                    </span>
+                                ` : ''}
+                            </div>
+                            <div class="material-description">${m.description || 'Sin descripción'}</div>
+                            <div class="material-meta">
+                                <i class="far fa-calendar"></i> ${new Date(m.uploaded_at).toLocaleDateString()}
+                            </div>
+                        </div>
+                        <div class="material-action">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function openMaterial(materialId) {
+            const material = currentMaterials.find(m => m.id === materialId);
+            if (!material) return;
+            
+            document.getElementById('modalTitle').textContent = material.title;
+            
+            let content = '';
+            
+            if (material.material_type === 'link') {
+                content = `
+                    <p style="margin-bottom: 1rem;">${material.description || ''}</p>
+                    <a href="${material.external_link}" target="_blank" class="file-download">
+                        <i class="fas fa-external-link-alt"></i> Abrir enlace
+                    </a>
+                `;
+            } else if (material.material_type === 'video' && material.external_link) {
+                const videoId = extractYoutubeId(material.external_link);
+                if (videoId) {
+                    content = `
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/${videoId}" 
+                                    frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <p>${material.description || ''}</p>
+                    `;
+                }
+            } else if (material.material_type === 'file') {
+                content = `
+                    <p style="margin-bottom: 1rem;">${material.description || ''}</p>
+                    <a href="${material.file_url}" download class="file-download">
+                        <i class="fas fa-download"></i> Descargar ${material.file_name || 'archivo'}
+                    </a>
+                `;
+            } else if (material.material_type === 'code') {
+                content = `
+                    <p style="margin-bottom: 1rem;">${material.description || ''}</p>
+                    <a href="${material.external_link}" target="_blank" class="file-download">
+                        <i class="fas fa-code"></i> Ver código
+                    </a>
+                `;
+            }
+            
+            document.getElementById('modalContent').innerHTML = content;
+            document.getElementById('materialModal').classList.add('active');
+        }
+
+        function extractYoutubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function closeMaterialModal() {
+            document.getElementById('materialModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2560 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - RoboWorks</title>
+    <link rel="stylesheet" href="/css/plataforma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: #f5f5f5;
+            padding-bottom: 2rem;
+        }
+        
+        /* Header */
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-left h1 i {
+            color: #ffd700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+        }
+
+        .user-info i {
+            font-size: 1.2rem;
+            color: #ffd700;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            background: #ffd700;
+            color: #333;
+            transform: scale(1.05);
+        }
+
+        /* Navegación de pestañas */
+        .admin-tabs {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding: 0 2rem;
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        /* Contenedor principal */
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Tarjetas de contenido */
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .card-header h2, .card-header h3 {
+            font-size: 1.5rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* Grid de programas */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .program-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .program-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f2ff 0%, #ffffff 100%);
+        }
+
+        .program-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .program-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .program-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .program-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .program-stats i {
+            color: #667eea;
+        }
+
+        /* Tablas */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            background: #f8f9ff;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background: #f8f9ff;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .status-full {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #5a67d8;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Estilos para materiales */
+        .categories-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-chip {
+            background: #f0f2ff;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .category-chip:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .category-chip .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .material-item {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .material-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .material-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .material-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .material-type {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .type-link { background: #3b82f6; color: white; }
+        .type-file { background: #10b981; color: white; }
+        .type-video { background: #ef4444; color: white; }
+        .type-code { background: #8b5cf6; color: white; }
+
+        .material-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+            flex-wrap: wrap;
+        }
+
+        .material-meta i {
+            color: #667eea;
+            width: 16px;
+        }
+
+        .material-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        .inactive-material {
+            opacity: 0.7;
+            border: 2px solid #ff6b6b;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.3rem;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        /* Mensajes */
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .alert-error {
+            background: #ef4444;
+            color: white;
+        }
+
+        .alert-info {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .alert-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        /* Clases disponibles en el modal */
+        .class-item {
+            margin-bottom: 0.8rem;
+            padding: 0.5rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .class-item label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .class-item.disabled label {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .class-info {
+            flex: 1;
+        }
+
+        .class-name {
+            font-weight: 600;
+        }
+
+        .class-details {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Detalles del estudiante */
+        .student-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            overflow: hidden;
+        }
+
+        .student-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .credentials-box {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .classes-box {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .class-chip {
+            background: white;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+        }
+
+        /* Foto de perfil en tabla */
+        .student-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #667eea;
+        }
+
+        .student-photo-placeholder {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-left {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .admin-tabs {
+                justify-content: center;
+            }
+
+            .tab-btn {
+                flex: 1 1 auto;
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-left">
+            <h1><i class="fas fa-cog"></i> RoboWorks Admin</h1>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">Cargando...</span>
+            </div>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        </button>
+    </header>
+
+    <!-- Pestañas de navegación -->
+    <div class="admin-tabs">
+        <button class="tab-btn active" onclick="showTab('programs')">
+            <i class="fas fa-th-large"></i> Programas
+        </button>
+        <button class="tab-btn" onclick="showTab('courses')">
+            <i class="fas fa-code"></i> Cursos CodeWorks
+        </button>
+        <button class="tab-btn" onclick="showTab('classes')">
+            <i class="fas fa-calendar-alt"></i> Clases
+        </button>
+        <button class="tab-btn" onclick="showTab('students')">
+            <i class="fas fa-users"></i> Estudiantes
+        </button>
+        <button class="tab-btn" onclick="showTab('materials')">
+            <i class="fas fa-folder-open"></i> Materiales
+        </button>
+    </div>
+
+    <!-- Contenido dinámico -->
+    <div class="admin-container">
+        <!-- Mensajes de alerta -->
+        <div id="alertMessage" class="alert"></div>
+
+        <!-- Pestaña: Programas -->
+        <div id="programs-tab" class="tab-content">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-th-large"></i> Programas</h2>
+                    <button class="btn-primary" onclick="openProgramModal()">
+                        <i class="fas fa-plus"></i> Nuevo Programa
+                    </button>
+                </div>
+
+                <div id="programsLoading" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando programas...</p>
+                </div>
+
+                <div id="programsGrid" class="programs-grid" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Pestaña: Cursos CodeWorks -->
+        <div id="courses-tab" class="tab-content" style="display: none;">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-code"></i> Cursos de CodeWorks</h2>
+                    <button class="btn-primary" onclick="openCourseModal()">
+                        <i class="fas fa-plus"></i> Nuevo Curso
+                    </button>
+                </div>
+
+                <div id="coursesLoading" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando cursos...</p>
+                </div>
+
+                <div id="coursesTable" style="display: none;">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Icono</th>
+                                    <th>Clases</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coursesList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestaña: Clases -->
+        <div id="classes-tab" class="tab-content" style="display: none;">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Clases</h2>
+                    <button class="btn-primary" onclick="openClassModal()">
+                        <i class="fas fa-plus"></i> Nueva Clase
+                    </button>
+                </div>
+
+                <div id="classesLoading" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando clases...</p>
+                </div>
+
+                <div id="classesTable" style="display: none;">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Programa</th>
+                                    <th>Curso</th>
+                                    <th>Nombre</th>
+                                    <th>Horario</th>
+                                    <th>Estudiantes</th>
+                                    <th>Cupo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="classesList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestaña: Estudiantes -->
+        <div id="students-tab" class="tab-content" style="display: none;">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-users"></i> Estudiantes</h2>
+                    <button class="btn-primary" onclick="openStudentModal()">
+                        <i class="fas fa-plus"></i> Nuevo Estudiante
+                    </button>
+                </div>
+
+                <div id="studentsLoading" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando estudiantes...</p>
+                </div>
+
+                <div id="studentsTable" style="display: none;">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nombre</th>
+                                    <th>Usuario</th>
+                                    <th>Teléfono</th>
+                                    <th>Código</th>
+                                    <th>Clases</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestaña: Materiales -->
+        <div id="materials-tab" class="tab-content" style="display: none;">
+            <!-- Selector de clase -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-folder-open"></i> Materiales por Clase</h2>
+                </div>
+                
+                <div class="form-group">
+                    <label>Seleccionar Clase:</label>
+                    <select id="materialClassSelect" onchange="loadClassMaterials()">
+                        <option value="">Cargando clases...</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Gestión de materiales (aparece cuando se selecciona una clase) -->
+            <div id="materialManagement" style="display: none;">
+                <!-- Cabecera con información de la clase -->
+                <div class="content-card" id="classInfoCard">
+                    <h3 id="selectedClassName"></h3>
+                    <p id="selectedClassDetails"></p>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-tags"></i> Categorías</h3>
+                        <button class="btn-primary" onclick="openCategoryModal()">
+                            <i class="fas fa-plus"></i> Nueva Categoría
+                        </button>
+                    </div>
+                    <div id="categoriesList" class="categories-container">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> Materiales</h3>
+                        <button class="btn-primary" onclick="openMaterialModal()">
+                            <i class="fas fa-plus"></i> Nuevo Material
+                        </button>
+                    </div>
+
+                    <!-- Filtros rápidos -->
+                    <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn-secondary" onclick="filterMaterials('all')">Todos</button>
+                        <button class="btn-secondary" onclick="filterMaterials('link')">🔗 Enlaces</button>
+                        <button class="btn-secondary" onclick="filterMaterials('file')">📁 Archivos</button>
+                        <button class="btn-secondary" onclick="filterMaterials('video')">🎥 Videos</button>
+                        <button class="btn-secondary" onclick="filterMaterials('code')">💻 Código</button>
+                    </div>
+
+                    <div id="materialsLoading" class="loading" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p>Cargando materiales...</p>
+                    </div>
+
+                    <div id="materialsContainer">
+                        <!-- Los materiales se mostrarán aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Programa -->
+    <div id="programModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="programModalTitle">Nuevo Programa</h3>
+                <button class="close-modal" onclick="closeProgramModal()">&times;</button>
+            </div>
+            <form id="programForm">
+                <input type="hidden" id="programId">
+                <div class="form-group">
+                    <label>Nombre del Programa</label>
+                    <input type="text" id="programName" required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="programDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Icono (FontAwesome)</label>
+                        <input type="text" id="programIcon" placeholder="fa-robot" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Color (hex)</label>
+                        <input type="color" id="programColor" value="#667eea">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">
+                    <i class="fas fa-save"></i> Guardar Programa
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Curso de CodeWorks -->
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="courseModalTitle">Nuevo Curso en CodeWorks</h3>
+                <button class="close-modal" onclick="closeCourseModal()">&times;</button>
+            </div>
+            <form id="courseForm">
+                <input type="hidden" id="courseId">
+                <div class="form-group">
+                    <label>Nombre del Curso</label>
+                    <input type="text" id="courseName" required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="courseDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Icono (FontAwesome)</label>
+                    <input type="text" id="courseIcon" placeholder="fa-gamepad" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">
+                    <i class="fas fa-save"></i> Guardar Curso
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Clase -->
+    <div id="classModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="classModalTitle">Nueva Clase</h3>
+                <button class="close-modal" onclick="closeClassModal()">&times;</button>
+            </div>
+            <form id="classForm">
+                <input type="hidden" id="classId">
+                
+                <div class="form-group">
+                    <label>Programa</label>
+                    <select id="classProgram" required onchange="toggleCourseField()">
+                        <option value="">Seleccionar programa...</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="courseField" style="display: none;">
+                    <label>Curso (solo para CodeWorks)</label>
+                    <select id="classCourse">
+                        <option value="">Seleccionar curso...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Nombre de la Clase</label>
+                    <input type="text" id="className" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Profesor</label>
+                    <select id="classTeacher" required>
+                        <option value="2">Administrador (por ahora)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Link de Zoom</label>
+                    <input type="url" id="classZoom" placeholder="https://zoom.us/j/..." required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Día</label>
+                        <select id="classDay" required>
+                            <option value="monday">Lunes</option>
+                            <option value="tuesday">Martes</option>
+                            <option value="wednesday">Miércoles</option>
+                            <option value="thursday">Jueves</option>
+                            <option value="friday">Viernes</option>
+                            <option value="saturday">Sábado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Hora</label>
+                        <input type="time" id="classTime" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="classDescription" rows="2"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Cupo máximo (por defecto 4)</label>
+                    <input type="number" id="classMaxStudents" value="4" min="1" max="10">
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">
+                    <i class="fas fa-save"></i> Guardar Clase
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Estudiante (ACTUALIZADO CON TELÉFONO) -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Estudiante</h3>
+                <button class="close-modal" onclick="closeStudentModal()">&times;</button>
+            </div>
+            <form id="studentForm">
+                <div class="form-group">
+                    <label>Nombre completo</label>
+                    <input type="text" id="studentName" placeholder="Ej: Juan Pérez" required>
+                </div>
+
+                <!-- NUEVO CAMPO DE TELÉFONO -->
+                <div class="form-group">
+                    <label>📱 Teléfono del padre/madre (WhatsApp)</label>
+                    <input type="tel" id="parentPhone" placeholder="Ej: +584141234567" 
+                           pattern="\+\d{10,15}" title="Formato internacional: +584141234567">
+                    <small>
+                        <i class="fas fa-info-circle"></i> 
+                        Incluir código de país, ej: +58 414 1234567 (Venezuela), +52 1 55 1234 5678 (México)
+                    </small>
+                    <small style="display: block; margin-top: 0.2rem; color: #10b981;">
+                        <i class="fab fa-whatsapp"></i> 
+                        Si se proporciona, enviaremos las credenciales por WhatsApp
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Programa</label>
+                    <select id="studentProgram" required onchange="loadAvailableClasses()">
+                        <option value="">Seleccionar programa...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Clases disponibles (puedes seleccionar varias)</label>
+                    <div id="availableClasses" style="max-height: 200px; overflow-y: auto; border: 2px solid #ddd; border-radius: 10px; padding: 1rem;">
+                        <p style="color: #666;">Selecciona un programa primero</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">
+                    <i class="fas fa-save"></i> Crear Estudiante
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para ver detalles del estudiante -->
+    <div id="studentDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detalles del Estudiante</h3>
+                <button class="close-modal" onclick="closeStudentDetailModal()">&times;</button>
+            </div>
+            <div id="studentDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- Modal para Material -->
+    <div id="materialModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="materialModalTitle">Nuevo Material</h3>
+                <button class="close-modal" onclick="closeMaterialModal()">&times;</button>
+            </div>
+            
+            <!-- Tabs para tipo de material -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid #eee; flex-wrap: wrap;">
+                <button class="tab-btn" onclick="showMaterialType('link')" id="tab-link">🔗 Enlace</button>
+                <button class="tab-btn" onclick="showMaterialType('file')" id="tab-file">📁 Archivo</button>
+                <button class="tab-btn" onclick="showMaterialType('video')" id="tab-video">🎥 Video</button>
+                <button class="tab-btn" onclick="showMaterialType('code')" id="tab-code">💻 Código</button>
+            </div>
+            
+            <form id="materialForm" onsubmit="saveMaterial(event)">
+                <input type="hidden" id="materialId">
+                <input type="hidden" id="materialClassId">
+                <input type="hidden" id="materialType" value="link">
+                
+                <div class="form-group">
+                    <label>Título *</label>
+                    <input type="text" id="materialTitle" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select id="materialCategory">
+                        <option value="">Sin categoría</option>
+                    </select>
+                </div>
+                
+                <!-- Campo para LINK -->
+                <div class="form-group material-field" id="field-link">
+                    <label>URL del enlace *</label>
+                    <input type="url" id="materialLink" placeholder="https://...">
+                </div>
+                
+                <!-- Campo para VIDEO (embed) -->
+                <div class="form-group material-field" id="field-video" style="display: none;">
+                    <label>URL del video (YouTube/Vimeo) *</label>
+                    <input type="url" id="materialVideo" placeholder="https://youtube.com/watch?v=...">
+                    <small>Se mostrará incrustado en la página</small>
+                </div>
+                
+                <!-- Campo para CÓDIGO -->
+                <div class="form-group material-field" id="field-code" style="display: none;">
+                    <label>URL del código (GitHub, etc.) *</label>
+                    <input type="url" id="materialCode" placeholder="https://github.com/...">
+                </div>
+                
+                <!-- Campo para ARCHIVO -->
+                <div class="form-group material-field" id="field-file" style="display: none;">
+                    <label>Archivo *</label>
+                    <input type="file" id="materialFile" accept=".pdf,.doc,.docx,.zip,.rar,.jpg,.png">
+                    <small>Máximo 10MB</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="materialDescription" rows="3" placeholder="Descripción opcional del material..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Orden de visualización</label>
+                    <input type="number" id="materialOrder" value="0" min="0">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="materialActive" checked>
+                    <label for="materialActive">Activo (visible para estudiantes)</label>
+                </div>
+                
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-save"></i> Guardar Material
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Categoría -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nueva Categoría</h3>
+                <button class="close-modal" onclick="closeCategoryModal()">&times;</button>
+            </div>
+            
+            <form id="categoryForm" onsubmit="saveCategory(event)">
+                <input type="hidden" id="categoryId">
+                <input type="hidden" id="categoryClassId">
+                
+                <div class="form-group">
+                    <label>Nombre *</label>
+                    <input type="text" id="categoryName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <input type="text" id="categoryDescription">
+                </div>
+                
+                <div class="form-group">
+                    <label>Color</label>
+                    <input type="color" id="categoryColor" value="#667eea">
+                </div>
+                
+                <div class="form-group">
+                    <label>Orden</label>
+                    <input type="number" id="categoryOrder" value="0" min="0">
+                </div>
+                
+                <button type="submit" class="btn-primary" style="width: 100%;">
+                    <i class="fas fa-save"></i> Guardar Categoría
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para previsualizar/editar material -->
+    <div id="viewMaterialModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 id="viewMaterialTitle">Material</h3>
+                <button class="close-modal" onclick="closeViewMaterialModal()">&times;</button>
+            </div>
+            <div id="viewMaterialContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURACIÓN DE API
+        // ============================================
+        const API_CONFIG = {
+            baseURL: 'http://localhost:3000/api',
+            timeout: 10000
+        };
+
+        const apiClient = {
+            async get(endpoint) {
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            window.location.href = '../login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || 'Error en la petición');
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error en GET:', error);
+                    throw error;
+                }
+            },
+
+            async post(endpoint, data) {
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            window.location.href = '../login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || 'Error en la petición');
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error en POST:', error);
+                    throw error;
+                }
+            },
+
+            async put(endpoint, data) {
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            window.location.href = '../login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || 'Error en la petición');
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error en PUT:', error);
+                    throw error;
+                }
+            },
+
+            async delete(endpoint) {
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            window.location.href = '../login.html';
+                            throw new Error('Sesión expirada');
+                        }
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.message || 'Error en la petición');
+                    }
+
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error en DELETE:', error);
+                    throw error;
+                }
+            }
+        };
+
+        // Variables globales
+        let programs = [];
+        let courses = [];
+        let classes = [];
+
+        // ============================================
+        // VERIFICAR SESIÓN AL CARGAR
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                console.log('🔍 Verificando sesión...');
+                const session = await apiClient.get('/auth/verify');
+                console.log('✅ Sesión válida:', session.user);
+                
+                document.getElementById('userName').textContent = session.user.full_name || 'Administrador';
+                
+                // Cargar datos
+                await loadPrograms();
+                await loadCourses();
+                await loadClasses();
+                
+            } catch (error) {
+                console.error('❌ Error de sesión:', error);
+                window.location.href = '../login.html';
+            }
+        });
+
+        // ============================================
+        // FUNCIÓN DE LOGOUT
+        // ============================================
+        async function logout() {
+            try {
+                await fetch(`${API_CONFIG.baseURL}/auth/logout`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                window.location.href = '../login.html';
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+                window.location.href = '../login.html';
+            }
+        }
+
+        // ============================================
+        // MOSTRAR PESTAÑAS
+        // ============================================
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).style.display = 'block';
+            
+            if (tabName === 'programs') loadPrograms();
+            if (tabName === 'courses') loadCourses();
+            if (tabName === 'classes') loadClasses();
+            if (tabName === 'students') loadStudents();
+            if (tabName === 'materials') loadClassesForMaterials();
+        }
+
+        // ============================================
+        // PROGRAMAS
+        // ============================================
+        async function loadPrograms() {
+            try {
+                console.log('📥 Cargando programas...');
+                
+                document.getElementById('programsLoading').style.display = 'block';
+                document.getElementById('programsGrid').style.display = 'none';
+                
+                programs = await apiClient.get('/admin/programs');
+                console.log('✅ Programas cargados:', programs);
+                
+                const grid = document.getElementById('programsGrid');
+                grid.innerHTML = '';
+                
+                if (programs.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; padding: 2rem;">No hay programas creados aún. Crea tu primer programa.</p>';
+                } else {
+                    programs.forEach(program => {
+                        const icon = program.icon || 'fa-robot';
+                        const color = program.color || '#667eea';
+                        
+                        const card = document.createElement('div');
+                        card.className = 'program-card';
+                        card.onclick = () => filterClasses(program.id);
+                        card.innerHTML = `
+                            <div class="program-icon" style="background: ${color}">
+                                <i class="fas ${icon}"></i>
+                            </div>
+                            <div class="program-name">${program.name}</div>
+                            <div class="program-description">${program.description || ''}</div>
+                            <div class="program-stats">
+                                <span><i class="fas fa-users"></i> ${program.total_classes || 0} clases</span>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                }
+                
+                document.getElementById('programsLoading').style.display = 'none';
+                grid.style.display = 'grid';
+                
+            } catch (error) {
+                console.error('❌ Error al cargar programas:', error);
+                showAlert('Error al cargar programas: ' + error.message, 'error');
+                document.getElementById('programsLoading').style.display = 'none';
+            }
+        }
+
+        function openProgramModal(program = null) {
+            document.getElementById('programModalTitle').textContent = program ? 'Editar Programa' : 'Nuevo Programa';
+            document.getElementById('programId').value = program?.id || '';
+            document.getElementById('programName').value = program?.name || '';
+            document.getElementById('programDescription').value = program?.description || '';
+            document.getElementById('programIcon').value = program?.icon || 'fa-robot';
+            document.getElementById('programColor').value = program?.color || '#667eea';
+            document.getElementById('programModal').classList.add('active');
+        }
+
+        function closeProgramModal() {
+            document.getElementById('programModal').classList.remove('active');
+            document.getElementById('programForm').reset();
+        }
+
+        document.getElementById('programForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const programData = {
+                name: document.getElementById('programName').value,
+                description: document.getElementById('programDescription').value,
+                icon: document.getElementById('programIcon').value,
+                color: document.getElementById('programColor').value
+            };
+            
+            try {
+                await apiClient.post('/admin/programs', programData);
+                showAlert('Programa creado exitosamente', 'success');
+                closeProgramModal();
+                loadPrograms();
+            } catch (error) {
+                showAlert('Error al crear programa', 'error');
+            }
+        });
+
+        // ============================================
+        // CURSOS DE CODEWORKS
+        // ============================================
+        async function loadCourses() {
+            try {
+                console.log('📥 Cargando cursos...');
+                
+                document.getElementById('coursesLoading').style.display = 'block';
+                document.getElementById('coursesTable').style.display = 'none';
+                
+                courses = await apiClient.get('/admin/codeworks-courses');
+                console.log('✅ Cursos cargados:', courses);
+                
+                const tbody = document.getElementById('coursesList');
+                tbody.innerHTML = '';
+                
+                if (courses.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay cursos creados aún</td></tr>';
+                } else {
+                    courses.forEach(course => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${course.name}</td>
+                            <td>${course.description || ''}</td>
+                            <td><i class="fas ${course.icon || 'fa-code'}"></i></td>
+                            <td>0 clases</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit-btn" onclick="editCourse(${course.id})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" onclick="deleteCourse(${course.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+                
+                document.getElementById('coursesLoading').style.display = 'none';
+                document.getElementById('coursesTable').style.display = 'block';
+                
+            } catch (error) {
+                console.error('❌ Error al cargar cursos:', error);
+                showAlert('Error al cargar cursos', 'error');
+                document.getElementById('coursesLoading').style.display = 'none';
+            }
+        }
+
+        function openCourseModal() {
+            document.getElementById('courseModalTitle').textContent = 'Nuevo Curso en CodeWorks';
+            document.getElementById('courseId').value = '';
+            document.getElementById('courseName').value = '';
+            document.getElementById('courseDescription').value = '';
+            document.getElementById('courseIcon').value = 'fa-code';
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function closeCourseModal() {
+            document.getElementById('courseModal').classList.remove('active');
+            document.getElementById('courseForm').reset();
+        }
+
+        document.getElementById('courseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const courseData = {
+                name: document.getElementById('courseName').value,
+                description: document.getElementById('courseDescription').value,
+                icon: document.getElementById('courseIcon').value
+            };
+            
+            try {
+                await apiClient.post('/admin/codeworks-courses', courseData);
+                showAlert('Curso creado exitosamente', 'success');
+                closeCourseModal();
+                loadCourses();
+            } catch (error) {
+                showAlert('Error al crear curso', 'error');
+            }
+        });
+
+        // ============================================
+        // CLASES
+        // ============================================
+        async function loadClasses(programFilter = 'all') {
+            try {
+                console.log('📥 Cargando clases...');
+                
+                document.getElementById('classesLoading').style.display = 'block';
+                document.getElementById('classesTable').style.display = 'none';
+                
+                classes = await apiClient.get('/admin/classes');
+                console.log('✅ Clases cargadas:', classes);
+                
+                const tbody = document.getElementById('classesList');
+                tbody.innerHTML = '';
+                
+                if (classes.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No hay clases creadas aún</td></tr>';
+                } else {
+                    classes.forEach(cls => {
+                        const program = programs.find(p => p.id === cls.program_id);
+                        const enrolled = cls.enrolled_students || 0;
+                        const max = cls.max_students || 4;
+                        const status = enrolled >= max ? 'full' : 'active';
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${program?.name || '-'}</td>
+                            <td>${cls.course_name || '-'}</td>
+                            <td>${cls.name}</td>
+                            <td>${cls.schedule_day || ''} ${cls.schedule_time || ''}</td>
+                            <td>${enrolled}/${max}</td>
+                            <td>
+                                <span class="status-badge status-${status}">
+                                    ${status === 'full' ? 'Completo' : 'Disponible'}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit-btn" onclick="editClass(${cls.id})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" onclick="deleteClass(${cls.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+                
+                document.getElementById('classesLoading').style.display = 'none';
+                document.getElementById('classesTable').style.display = 'block';
+                
+            } catch (error) {
+                console.error('❌ Error al cargar clases:', error);
+                showAlert('Error al cargar clases', 'error');
+                document.getElementById('classesLoading').style.display = 'none';
+            }
+        }
+
+        function toggleCourseField() {
+            const programId = document.getElementById('classProgram').value;
+            const program = programs.find(p => p.id == programId);
+            const courseField = document.getElementById('courseField');
+            
+            if (program?.name === 'CodeWorks') {
+                courseField.style.display = 'block';
+                loadCoursesSelect();
+            } else {
+                courseField.style.display = 'none';
+            }
+        }
+
+        async function loadCoursesSelect() {
+            const select = document.getElementById('classCourse');
+            select.innerHTML = '<option value="">Seleccionar curso...</option>';
+            
+            const courses = await apiClient.get('/admin/codeworks-courses');
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.id;
+                option.textContent = course.name;
+                select.appendChild(option);
+            });
+        }
+
+        function openClassModal() {
+            document.getElementById('classModalTitle').textContent = 'Nueva Clase';
+            document.getElementById('classForm').reset();
+            
+            // Cargar programas en el select
+            const programSelect = document.getElementById('classProgram');
+            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
+            programs.forEach(program => {
+                const option = document.createElement('option');
+                option.value = program.id;
+                option.textContent = program.name;
+                programSelect.appendChild(option);
+            });
+            
+            document.getElementById('classModal').classList.add('active');
+        }
+
+        function closeClassModal() {
+            document.getElementById('classModal').classList.remove('active');
+            document.getElementById('classForm').reset();
+        }
+
+        document.getElementById('classForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const classData = {
+                program_id: document.getElementById('classProgram').value,
+                codeworks_course_id: document.getElementById('classCourse').value || null,
+                name: document.getElementById('className').value,
+                teacher_id: 2,
+                zoom_link: document.getElementById('classZoom').value,
+                schedule_day: document.getElementById('classDay').value,
+                schedule_time: document.getElementById('classTime').value,
+                description: document.getElementById('classDescription').value,
+                max_students: document.getElementById('classMaxStudents').value
+            };
+            
+            try {
+                await apiClient.post('/admin/classes', classData);
+                showAlert('Clase creada exitosamente', 'success');
+                closeClassModal();
+                loadClasses();
+            } catch (error) {
+                showAlert('Error al crear clase', 'error');
+            }
+        });
+
+        function filterClasses(programId) {
+            document.querySelectorAll('.program-card').forEach(card => card.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            loadClasses(programId);
+        }
+
+        // ============================================
+        // ESTUDIANTES (ACTUALIZADO CON TELÉFONO)
+        // ============================================
+        async function loadStudents() {
+            try {
+                console.log('📥 Cargando estudiantes...');
+                
+                document.getElementById('studentsLoading').style.display = 'block';
+                document.getElementById('studentsTable').style.display = 'none';
+                
+                const students = await apiClient.get('/admin/students');
+                console.log('✅ Estudiantes cargados:', students);
+                
+                const tbody = document.getElementById('studentsList');
+                tbody.innerHTML = '';
+                
+                if (students.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay estudiantes registrados</td></tr>';
+                } else {
+                    students.forEach(student => {
+                        const row = document.createElement('tr');
+                        
+                        // Columna de foto
+                        const photoColumn = student.profile_photo 
+                            ? `<img src="${student.profile_photo}" alt="Foto" class="student-photo" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fas fa-user-circle\' style=\'font-size: 2rem; color: #667eea;\'></i>';">`
+                            : '<i class="fas fa-user-circle" style="font-size: 2rem; color: #667eea;"></i>';
+                        
+                        // Columna de teléfono
+                        const phoneColumn = student.parent_phone 
+                            ? `<a href="https://wa.me/${student.parent_phone.replace('+', '')}" target="_blank" style="color: #25D366; text-decoration: none;">
+                                 <i class="fab fa-whatsapp"></i> ${student.parent_phone}
+                               </a>`
+                            : '<span style="color: #999;">No registrado</span>';
+                        
+                        row.innerHTML = `
+                            <td>${photoColumn}</td>
+                            <td>${student.full_name}</td>
+                            <td>${student.username}</td>
+                            <td>${phoneColumn}</td>
+                            <td><code style="background: #f0f0f0; padding: 0.2rem 0.5rem; border-radius: 4px;">${student.invitation_code || 'N/A'}</code></td>
+                            <td>${student.total_classes || 0} clases</td>
+                            <td>
+                                <span class="status-badge ${student.temporary_password ? 'status-warning' : 'status-active'}">
+                                    ${student.temporary_password ? '⏳ Pendiente' : '✅ Activo'}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit-btn" onclick="viewStudent(${student.id})" title="Ver detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" onclick="deleteStudent(${student.id})" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+                
+                document.getElementById('studentsLoading').style.display = 'none';
+                document.getElementById('studentsTable').style.display = 'block';
+                
+            } catch (error) {
+                console.error('❌ Error al cargar estudiantes:', error);
+                showAlert('Error al cargar estudiantes', 'error');
+                document.getElementById('studentsLoading').style.display = 'none';
+            }
+        }
+
+        async function openStudentModal() {
+            // Resetear formulario
+            document.getElementById('studentForm').reset();
+            document.getElementById('availableClasses').innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
+            
+            // Cargar programas
+            const programSelect = document.getElementById('studentProgram');
+            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
+            
+            programs.forEach(program => {
+                const option = document.createElement('option');
+                option.value = program.id;
+                option.textContent = program.name;
+                programSelect.appendChild(option);
+            });
+            
+            document.getElementById('studentModal').classList.add('active');
+        }
+
+        async function loadAvailableClasses() {
+            const programId = document.getElementById('studentProgram').value;
+            const container = document.getElementById('availableClasses');
+            
+            if (!programId) {
+                container.innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
+                return;
+            }
+            
+            try {
+                const classes = await apiClient.get(`/admin/classes?program_id=${programId}`);
+                
+                if (classes.length === 0) {
+                    container.innerHTML = '<p style="color: #666;">No hay clases disponibles para este programa</p>';
+                    return;
+                }
+                
+                let html = '';
+                classes.forEach(cls => {
+                    const enrolled = cls.enrolled_students || 0;
+                    const max = cls.max_students || 4;
+                    const available = max - enrolled;
+                    
+                    html += `
+                        <div class="class-item ${available <= 0 ? 'disabled' : ''}" style="margin-bottom: 0.8rem; padding: 0.5rem; border: 1px solid #eee; border-radius: 8px;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: ${available > 0 ? 'pointer' : 'not-allowed'};">
+                                <input type="checkbox" value="${cls.id}" ${available > 0 ? '' : 'disabled'}>
+                                <div class="class-info">
+                                    <div class="class-name">${cls.name}</div>
+                                    <div class="class-details">
+                                        ${cls.schedule_day || ''} ${cls.schedule_time || ''} | 
+                                        Cupo: ${enrolled}/${max} 
+                                        ${available > 0 ? `(${available} disponible${available !== 1 ? 's' : ''})` : '(Completo)'}
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error al cargar clases:', error);
+                container.innerHTML = '<p style="color: #dc2626;">Error al cargar clases</p>';
+            }
+        }
+
+        function closeStudentModal() {
+            document.getElementById('studentModal').classList.remove('active');
+            document.getElementById('studentForm').reset();
+            document.getElementById('availableClasses').innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
+        }
+
+        document.getElementById('studentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Obtener clases seleccionadas
+            const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
+            const classIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            
+            // Obtener teléfono (puede estar vacío)
+            const parentPhone = document.getElementById('parentPhone').value.trim();
+            
+            const studentData = {
+                full_name: document.getElementById('studentName').value,
+                program_id: parseInt(document.getElementById('studentProgram').value),
+                class_ids: classIds,
+                parent_phone: parentPhone || null  // Enviar null si está vacío
+            };
+            
+            // Mostrar loading
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creando...';
+            submitBtn.disabled = true;
+            
+            try {
+                const result = await apiClient.post('/admin/students', studentData);
+                
+                // Mensaje de éxito
+                let successMessage = `✅ Estudiante creado exitosamente!\n📝 Usuario: ${result.student.username}\n🔑 Contraseña temporal: ${result.student.temp_password}\n🎫 Código: ${result.student.invitation_code}`;
+                
+                // Agregar info de WhatsApp si aplica
+                if (result.whatsapp) {
+                    if (result.whatsapp.sent) {
+                        successMessage += `\n📱 WhatsApp enviado a ${result.student.parent_phone}`;
+                    } else {
+                        successMessage += `\n⚠️ No se pudo enviar WhatsApp: ${result.whatsapp.message}`;
+                    }
+                }
+                
+                alert(successMessage);
+                
+                closeStudentModal();
+                loadStudents();
+                
+            } catch (error) {
+                showAlert('Error al crear estudiante: ' + error.message, 'error');
+            } finally {
+                // Restaurar botón
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        async function viewStudent(studentId) {
+            try {
+                const student = await apiClient.get(`/admin/students/${studentId}`);
+                
+                let classesHtml = '';
+                if (student.classes && student.classes.length > 0) {
+                    classesHtml = student.classes.map(c => `
+                        <div class="class-chip">
+                            <strong>${c.name}</strong> (${c.program_name})
+                            <div style="font-size: 0.85rem; color: #666;">
+                                ${c.schedule_day || ''} ${c.schedule_time || ''}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    classesHtml = '<p style="color: #666;">No está inscrito en ninguna clase</p>';
+                }
+                
+                // Foto en los detalles
+                const photoHtml = student.profile_photo 
+                    ? `<img src="${student.profile_photo}" alt="Foto" style="width: 100%; height: 100%; object-fit: cover;">`
+                    : '<i class="fas fa-user-graduate"></i>';
+                
+                // Teléfono en detalles
+                const phoneHtml = student.parent_phone 
+                    ? `<p><i class="fab fa-whatsapp" style="color: #25D366;"></i> 
+                        <a href="https://wa.me/${student.parent_phone.replace('+', '')}" target="_blank" style="color: #25D366; text-decoration: none;">
+                          ${student.parent_phone}
+                        </a>
+                       </p>`
+                    : '<p style="color: #999;">No registró teléfono</p>';
+                
+                const content = `
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div class="student-avatar">
+                            ${photoHtml}
+                        </div>
+                        <h2 style="margin-bottom: 0.5rem;">${student.full_name}</h2>
+                        <p style="color: #666;">Usuario: ${student.username}</p>
+                        ${phoneHtml}
+                    </div>
+                    
+                    <div class="credentials-box">
+                        <h3 style="margin-bottom: 1rem; color: #667eea;">
+                            <i class="fas fa-ticket-alt"></i> Credenciales de acceso
+                        </h3>
+                        <p><strong>Código de invitación:</strong> <code style="background: white; padding: 0.2rem 0.5rem; border-radius: 4px;">${student.invitation_code}</code></p>
+                        <p><strong>Estado:</strong> ${student.temporary_password ? '⏳ Pendiente (debe cambiar contraseña)' : '✅ Activo'}</p>
+                    </div>
+                    
+                    <div class="classes-box">
+                        <h3 style="margin-bottom: 1rem; color: #667eea;">
+                            <i class="fas fa-calendar-alt"></i> Clases inscritas (${student.classes?.length || 0})
+                        </h3>
+                        ${classesHtml}
+                    </div>
+                `;
+                
+                document.getElementById('studentDetailContent').innerHTML = content;
+                document.getElementById('studentDetailModal').classList.add('active');
+                
+            } catch (error) {
+                showAlert('Error al cargar detalles del estudiante', 'error');
+            }
+        }
+
+        function closeStudentDetailModal() {
+            document.getElementById('studentDetailModal').classList.remove('active');
+        }
+
+        async function deleteStudent(studentId) {
+            if (!confirm('¿Estás seguro de eliminar este estudiante? Esta acción no se puede deshacer.')) {
+                return;
+            }
+            
+            try {
+                await apiClient.delete(`/admin/students/${studentId}`);
+                showAlert('Estudiante eliminado exitosamente', 'success');
+                loadStudents();
+            } catch (error) {
+                showAlert('Error al eliminar estudiante', 'error');
+            }
+        }
+
+        // ============================================
+        // FUNCIONES DE MATERIALES
+        // ============================================
+
+        // ============================================
+        // VARIABLES GLOBALES PARA MATERIALES
+        // ============================================
+        let currentClassId = null;
+        let currentMaterials = [];
+        let currentCategories = [];
+        let currentFilter = 'all';
+
+        // ============================================
+        // CARGAR CLASES PARA EL SELECTOR DE MATERIALES
+        // ============================================
+        async function loadClassesForMaterials() {
+            try {
+                const classes = await apiClient.get('/admin/classes');
+                const select = document.getElementById('materialClassSelect');
+                
+                select.innerHTML = '<option value="">Seleccionar clase...</option>';
+                
+                classes.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls.id;
+                    option.textContent = `${cls.name} (${cls.program_name || 'Sin programa'})`;
+                    select.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error('Error cargando clases:', error);
+                showAlert('Error al cargar clases', 'error');
+            }
+        }
+
+        // ============================================
+        // CARGAR MATERIALES DE UNA CLASE
+        // ============================================
+        async function loadClassMaterials() {
+            const classId = document.getElementById('materialClassSelect').value;
+            
+            if (!classId) {
+                document.getElementById('materialManagement').style.display = 'none';
+                return;
+            }
+            
+            currentClassId = classId;
+            document.getElementById('materialManagement').style.display = 'block';
+            document.getElementById('materialsLoading').style.display = 'block';
+            document.getElementById('materialsContainer').innerHTML = '';
+            
+            try {
+                // Cargar materiales y categorías
+                const data = await apiClient.get(`/materials/class/${classId}?includeInactive=true`);
+                
+                currentMaterials = data.materials || [];
+                currentCategories = data.categories || [];
+                
+                // Mostrar información de la clase
+                document.getElementById('selectedClassName').innerHTML = `
+                    <i class="fas fa-book"></i> ${data.class.name}
+                `;
+                document.getElementById('selectedClassDetails').innerHTML = `
+                    <strong>Programa:</strong> ${data.class.program_name || 'N/A'} | 
+                    <strong>Total materiales:</strong> ${currentMaterials.length}
+                `;
+                
+                // Mostrar categorías
+                displayCategories();
+                
+                // Mostrar materiales
+                displayMaterials();
+                
+            } catch (error) {
+                console.error('Error cargando materiales:', error);
+                showAlert('Error al cargar materiales', 'error');
+            } finally {
+                document.getElementById('materialsLoading').style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // MOSTRAR CATEGORÍAS
+        // ============================================
+        function displayCategories() {
+            const container = document.getElementById('categoriesList');
+            
+            if (currentCategories.length === 0) {
+                container.innerHTML = '<p style="color: #666;">No hay categorías creadas. Crea una para organizar mejor los materiales.</p>';
+                return;
+            }
+            
+            let html = '<div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">';
+            
+            currentCategories.forEach(cat => {
+                html += `
+                    <div style="background: ${cat.color || '#667eea'}; color: white; padding: 0.5rem 1rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <span>${cat.name}</span>
+                        <button onclick="deleteCategory(${cat.id})" style="background: none; border: none; color: white; cursor: pointer; opacity: 0.8;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // ============================================
+        // MOSTRAR MATERIALES
+        // ============================================
+        function displayMaterials() {
+            const container = document.getElementById('materialsContainer');
+            
+            // Filtrar según el filtro actual
+            let filtered = currentMaterials;
+            if (currentFilter !== 'all') {
+                filtered = currentMaterials.filter(m => m.material_type === currentFilter);
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; background: #f8f9ff; border-radius: 15px;">
+                        <i class="fas fa-folder-open" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <p>No hay materiales ${currentFilter !== 'all' ? 'de este tipo' : ''}</p>
+                        <button class="btn-primary" onclick="openMaterialModal()" style="margin-top: 1rem;">
+                            <i class="fas fa-plus"></i> Crear primer material
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Agrupar por categoría
+            const byCategory = {};
+            filtered.forEach(material => {
+                const catId = material.category_id || 'uncategorized';
+                if (!byCategory[catId]) {
+                    byCategory[catId] = {
+                        name: material.category_name || 'Sin categoría',
+                        color: material.category_color || '#ccc',
+                        materials: []
+                    };
+                }
+                byCategory[catId].materials.push(material);
+            });
+            
+            let html = '';
+            
+            for (const [catId, category] of Object.entries(byCategory)) {
+                html += `
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: ${category.color}; border-left: 4px solid ${category.color}; padding-left: 1rem; margin-bottom: 1rem;">
+                            ${category.name} (${category.materials.length})
+                        </h4>
+                        <div style="display: grid; gap: 1rem;">
+                `;
+                
+                category.materials.forEach(m => {
+                    const icon = {
+                        'link': '🔗',
+                        'file': '📁',
+                        'video': '🎥',
+                        'code': '💻'
+                    }[m.material_type] || '📄';
+                    
+                    const activeClass = m.is_active ? '' : 'inactive-material';
+                    
+                    html += `
+                        <div class="material-item ${activeClass}" style="
+                            background: #f8f9ff;
+                            border-radius: 10px;
+                            padding: 1rem;
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+                            border: 2px solid ${m.is_active ? 'transparent' : '#ff6b6b'};
+                            opacity: ${m.is_active ? 1 : 0.7};
+                        ">
+                            <div style="font-size: 2rem;">${icon}</div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                    <strong>${m.title}</strong>
+                                    ${!m.is_active ? '<span style="background: #ff6b6b; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">INACTIVO</span>' : ''}
+                                </div>
+                                <div style="font-size: 0.9rem; color: #666;">
+                                    ${m.description || 'Sin descripción'} | 
+                                    Subido: ${new Date(m.uploaded_at).toLocaleDateString()}
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="action-btn edit-btn" onclick="viewMaterial(${m.id})" title="Ver">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn edit-btn" onclick="editMaterial(${m.id})" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete-btn" onclick="deleteMaterial(${m.id})" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div></div>';
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // ============================================
+        // FILTRAR MATERIALES
+        // ============================================
+        function filterMaterials(type) {
+            currentFilter = type;
+            displayMaterials();
+        }
+
+        // ============================================
+        // MODAL DE MATERIAL
+        // ============================================
+        function openMaterialModal(material = null) {
+            document.getElementById('materialModalTitle').textContent = material ? 'Editar Material' : 'Nuevo Material';
+            document.getElementById('materialId').value = material?.id || '';
+            document.getElementById('materialClassId').value = currentClassId;
+            document.getElementById('materialTitle').value = material?.title || '';
+            document.getElementById('materialDescription').value = material?.description || '';
+            document.getElementById('materialOrder').value = material?.display_order || 0;
+            document.getElementById('materialActive').checked = material?.is_active !== false;
+            
+            // Cargar categorías en el select
+            const catSelect = document.getElementById('materialCategory');
+            catSelect.innerHTML = '<option value="">Sin categoría</option>';
+            currentCategories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.name;
+                catSelect.appendChild(option);
+            });
+            
+            if (material?.category_id) {
+                catSelect.value = material.category_id;
+            }
+            
+            // Seleccionar tipo según el material
+            if (material) {
+                showMaterialType(material.material_type);
+                if (material.material_type === 'link') {
+                    document.getElementById('materialLink').value = material.external_link || '';
+                }
+            } else {
+                showMaterialType('link');
+            }
+            
+            document.getElementById('materialModal').classList.add('active');
+        }
+
+        function closeMaterialModal() {
+            document.getElementById('materialModal').classList.remove('active');
+            document.getElementById('materialForm').reset();
+        }
+
+        function showMaterialType(type) {
+            // Actualizar tabs
+            document.querySelectorAll('[id^="tab-"]').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(`tab-${type}`).classList.add('active');
+            
+            // Ocultar todos los campos
+            document.querySelectorAll('.material-field').forEach(field => field.style.display = 'none');
+            
+            // Mostrar campo correspondiente
+            document.getElementById(`field-${type}`).style.display = 'block';
+            document.getElementById('materialType').value = type;
+        }
+
+        // ============================================
+        // GUARDAR MATERIAL
+        // ============================================
+        async function saveMaterial(event) {
+            event.preventDefault();
+            
+            const type = document.getElementById('materialType').value;
+            const formData = {
+                class_id: currentClassId,
+                category_id: document.getElementById('materialCategory').value || null,
+                title: document.getElementById('materialTitle').value,
+                description: document.getElementById('materialDescription').value,
+                material_type: type,
+                display_order: document.getElementById('materialOrder').value,
+                is_active: document.getElementById('materialActive').checked
+            };
+            
+            // Agregar campo según tipo
+            if (type === 'link') {
+                formData.external_link = document.getElementById('materialLink').value;
+                if (!formData.external_link) {
+                    alert('La URL es requerida');
+                    return;
+                }
+            } else if (type === 'video') {
+                formData.external_link = document.getElementById('materialVideo').value;
+            } else if (type === 'code') {
+                formData.external_link = document.getElementById('materialCode').value;
+            }
+            
+            const materialId = document.getElementById('materialId').value;
+            
+            try {
+                if (materialId) {
+                    // Actualizar
+                    await apiClient.put(`/materials/${materialId}`, formData);
+                    showAlert('Material actualizado', 'success');
+                } else {
+                    // Crear
+                    await apiClient.post('/materials', formData);
+                    showAlert('Material creado', 'success');
+                }
+                
+                closeMaterialModal();
+                loadClassMaterials();
+                
+            } catch (error) {
+                console.error('Error guardando material:', error);
+                showAlert('Error al guardar material', 'error');
+            }
+        }
+
+        // ============================================
+        // VER/EDITAR MATERIAL
+        // ============================================
+        async function viewMaterial(id) {
+            try {
+                const material = currentMaterials.find(m => m.id === id);
+                
+                let content = '';
+                
+                if (material.material_type === 'link') {
+                    content = `
+                        <div style="margin-bottom: 1rem;">
+                            <strong>URL:</strong><br>
+                            <a href="${material.external_link}" target="_blank">${material.external_link}</a>
+                        </div>
+                    `;
+                } else if (material.material_type === 'video' && material.external_link) {
+                    // Embed de YouTube
+                    const videoId = extractYoutubeId(material.external_link);
+                    if (videoId) {
+                        content = `
+                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 1rem;">
+                                <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                                        src="https://www.youtube.com/embed/${videoId}" 
+                                        frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        `;
+                    }
+                } else if (material.material_type === 'file') {
+                    content = `
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Archivo:</strong><br>
+                            <a href="${material.file_url}" target="_blank" style="display: inline-block; padding: 0.5rem 1rem; background: #667eea; color: white; border-radius: 8px; text-decoration: none;">
+                                <i class="fas fa-download"></i> Descargar ${material.file_name || 'archivo'}
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('viewMaterialTitle').textContent = material.title;
+                document.getElementById('viewMaterialContent').innerHTML = `
+                    <p style="margin-bottom: 1rem;">${material.description || 'Sin descripción'}</p>
+                    ${content}
+                    <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+                        Tipo: ${material.material_type} | 
+                        Subido: ${new Date(material.uploaded_at).toLocaleString()}
+                    </p>
+                `;
+                
+                document.getElementById('viewMaterialModal').classList.add('active');
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function extractYoutubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function editMaterial(id) {
+            const material = currentMaterials.find(m => m.id === id);
+            if (material) {
+                openMaterialModal(material);
+            }
+        }
+
+        async function deleteMaterial(id) {
+            if (!confirm('¿Estás seguro de eliminar este material?')) return;
+            
+            try {
+                await apiClient.delete(`/materials/${id}`);
+                showAlert('Material eliminado', 'success');
+                loadClassMaterials();
+            } catch (error) {
+                showAlert('Error al eliminar', 'error');
+            }
+        }
+
+        function closeViewMaterialModal() {
+            document.getElementById('viewMaterialModal').classList.remove('active');
+        }
+
+        // ============================================
+        // CATEGORÍAS
+        // ============================================
+        function openCategoryModal() {
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.remove('active');
+            document.getElementById('categoryForm').reset();
+        }
+
+        async function saveCategory(event) {
+            event.preventDefault();
+            
+            const categoryData = {
+                class_id: currentClassId,
+                name: document.getElementById('categoryName').value,
+                description: document.getElementById('categoryDescription').value,
+                color: document.getElementById('categoryColor').value,
+                display_order: document.getElementById('categoryOrder').value
+            };
+            
+            try {
+                await apiClient.post('/materials/categories', categoryData);
+                showAlert('Categoría creada', 'success');
+                closeCategoryModal();
+                loadClassMaterials(); // Recargar para mostrar la nueva categoría
+            } catch (error) {
+                showAlert('Error al crear categoría', 'error');
+            }
+        }
+
+        async function deleteCategory(id) {
+            if (!confirm('¿Eliminar categoría? Los materiales se quedarán sin categoría')) return;
+            
+            try {
+                await apiClient.delete(`/materials/categories/${id}`);
+                showAlert('Categoría eliminada', 'success');
+                loadClassMaterials();
+            } catch (error) {
+                showAlert('Error al eliminar', 'error');
+            }
+        }
+
+        // ============================================
+        // UTILIDADES
+        // ============================================
+        function showAlert(message, type) {
+            const alert = document.getElementById('alertMessage');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        // Funciones placeholder para editar/eliminar
+        function editCourse(id) {
+            showAlert('Función en desarrollo', 'warning');
+        }
+
+        function deleteCourse(id) {
+            showAlert('Función en desarrollo', 'warning');
+        }
+
+        function editClass(id) {
+            showAlert('Función en desarrollo', 'warning');
+        }
+
+        function deleteClass(id) {
+            showAlert('Función en desarrollo', 'warning');
+        }
+    </script>
+</body>
+</html>

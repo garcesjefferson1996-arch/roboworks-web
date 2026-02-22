@@ -67,6 +67,11 @@
             font-size: 0.9rem;
         }
         
+        .form-label i {
+            color: #6a3bc2;
+            margin-right: 0.5rem;
+        }
+        
         .form-input {
             width: 100%;
             padding: 1rem;
@@ -81,6 +86,18 @@
             outline: none;
             border-color: #6a3bc2;
             box-shadow: 0 0 0 3px rgba(106, 59, 194, 0.1);
+        }
+        
+        .form-input.error {
+            border-color: #dc2626;
+            background-color: rgba(220, 38, 38, 0.02);
+        }
+        
+        .form-hint {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #888899;
         }
         
         .login-btn {
@@ -100,9 +117,11 @@
             justify-content: center;
             gap: 0.7rem;
             margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
         
-        .login-btn:hover {
+        .login-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(106, 59, 194, 0.3);
         }
@@ -119,6 +138,7 @@
             margin: 1.5rem 0;
             text-align: center;
             display: none;
+            animation: slideIn 0.3s ease-out;
         }
         
         .message-error {
@@ -131,6 +151,12 @@
             background-color: rgba(16, 185, 129, 0.1);
             color: #059669;
             border-left: 4px solid #059669;
+        }
+        
+        .message-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            border-left: 4px solid #d97706;
         }
         
         .login-footer {
@@ -166,11 +192,36 @@
             color: #666677;
             cursor: pointer;
             font-size: 1.1rem;
+            padding: 0.5rem;
+            z-index: 10;
+        }
+        
+        .toggle-password:hover {
+            color: #6a3bc2;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
         }
         
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
         @media (max-width: 480px) {
@@ -182,223 +233,524 @@
                 font-size: 1.5rem;
             }
         }
+
+        /* Indicador de conexión */
+        .connection-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 0.5rem 1rem;
+            background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            z-index: 1000;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ddd;
+        }
+        
+        .status-dot.connected {
+            background-color: #10b981;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.disconnected {
+            background-color: #ef4444;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Mejoras de accesibilidad */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        
+        .form-input:focus-visible {
+            outline: 3px solid #6a3bc2;
+            outline-offset: 2px;
+        }
+        
+        .login-btn:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body class="login-body">
     <div class="login-container">
         <div class="login-logo">
-            <img src="/assets/icons/logo.png" alt="RoboWorks Logo">
-            <h1>Acceso a la Plataforma</h1>
-            <p>Ingresa con tus credenciales para continuar tu aventura</p>
+            <img src="/assets/icons/logo.png" alt="RoboWorks Academy Logo">
+            <h1>¡Bienvenido, Robotista!</h1>
+            <p>Ingresa tus datos para continuar tu aventura</p>
         </div>
         
         <!-- Mensajes de estado -->
-        <div id="login-message" class="login-message">
-            <i class="fas fa-exclamation-circle"></i>
+        <div id="login-message" class="login-message" role="alert" aria-live="polite">
+            <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
             <span id="message-text"></span>
         </div>
         
         <!-- Formulario de Login -->
-        <form id="loginForm" class="login-form">
+        <form id="loginForm" class="login-form" novalidate>
             <div class="form-group">
                 <label for="username" class="form-label">
-                    <i class="fas fa-user"></i> Usuario
+                    <i class="fas fa-user" aria-hidden="true"></i> 
+                    Usuario
                 </label>
                 <input 
                     type="text" 
                     id="username" 
+                    name="username"
                     class="form-input" 
-                    placeholder="ejemplo: david.fiallos"
+                    placeholder="ejemplo: robo-1234"
                     required
                     autocomplete="username"
+                    aria-describedby="username-hint"
                 >
-                <small class="form-hint">Usa el usuario que te proporcionamos</small>
+                <small id="username-hint" class="form-hint">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    Usa el código que te dio tu instructor
+                </small>
             </div>
             
             <div class="form-group password-toggle">
                 <label for="password" class="form-label">
-                    <i class="fas fa-lock"></i> Contraseña
+                    <i class="fas fa-lock" aria-hidden="true"></i> 
+                    Contraseña
                 </label>
                 <input 
                     type="password" 
                     id="password" 
+                    name="password"
                     class="form-input" 
-                    placeholder="Tu contraseña"
+                    placeholder="Tu contraseña secreta"
                     required
                     autocomplete="current-password"
+                    aria-describedby="password-hint"
                 >
-                <button type="button" class="toggle-password" id="togglePassword">
-                    <i class="fas fa-eye"></i>
+                <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar u ocultar contraseña">
+                    <i class="fas fa-eye" aria-hidden="true"></i>
                 </button>
-                <small class="form-hint">La misma que usas en clase</small>
+                <small id="password-hint" class="form-hint">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    La misma que usas en clase
+                </small>
             </div>
             
-            <button type="submit" class="login-btn" id="submitBtn">
-                <i class="fas fa-sign-in-alt"></i>
+            <button type="submit" class="login-btn" id="submitBtn" aria-live="polite">
+                <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
                 <span id="btnText">Ingresar a la Plataforma</span>
+                <span id="btnSpinner" class="spinner" style="display: none;" role="status" aria-hidden="true"></span>
             </button>
         </form>
         
         <div class="login-footer">
-            <p>¿Problemas para acceder? <a href="mailto:soporte@roboworks.site">Contáctanos</a></p>
+            <p>¿Problemas para acceder? <a href="mailto:soporte@roboworks.site" aria-label="Enviar correo a soporte">Contáctanos</a></p>
             <p style="margin-top: 0.5rem; font-size: 0.8rem;">
-                <i class="fas fa-shield-alt"></i> Tu acceso es seguro y privado
+                <i class="fas fa-shield-alt" aria-hidden="true"></i> 
+                Tu acceso es seguro y privado
             </p>
         </div>
     </div>
 
+    <!-- Indicador de conexión con el backend -->
+    <div class="connection-status" id="connectionStatus" role="status" aria-live="polite">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Conectando...</span>
+    </div>
+
+    <!-- API Configuration - VERSIÓN INTELIGENTE (funciona en local y producción) -->
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const loginForm = document.getElementById('loginForm');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const togglePasswordBtn = document.getElementById('togglePassword');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        const loginMessage = document.getElementById('login-message');
-        const messageText = document.getElementById('message-text');
+        // 🔥 CONFIGURACIÓN INTELIGENTE - NO TOCAR 🔥
+        // Detecta automáticamente si estamos en localhost o en producción
+        const isLocalhost = window.location.hostname === 'localhost' || 
+                           window.location.hostname === '127.0.0.1' ||
+                           window.location.hostname.includes('192.168.') ||
+                           window.location.hostname.includes('10.0.');
         
-        // BASE DE DATOS DE USUARIOS (para el MVP)
-        // En el futuro, esto se conectará a un backend real
-        const usuariosValidos = {
-            // 👇 AGREGA AQUÍ LOS USUARIOS REALES
-            'david.fiallos': { 
-                password: 'robotics2024', 
-                nombre: 'David',
-                tipo: 'estudiante',
-                redirect: '/plataforma/estudiante/clase.html?user=david.fiallos'
-            },
-            'daniel.fiallos': { 
-                password: 'robotics2024', 
-                nombre: 'Daniel',
-                tipo: 'estudiante',
-                redirect: '/plataforma/estudiante/clase.html?user=daniel.fiallos'
-            },
-            'batia.fiallos': { 
-                password: 'robotics2024', 
-                nombre: 'Batia',
-                tipo: 'estudiante', 
-                redirect: '/plataforma/estudiante/clase.html?user=batia.fiallos'
-            },
-            // Puedes agregar más usuarios aquí:
-            // 'nuevo.usuario': { password: 'clave123', ... }
+        // URLs de la API según el entorno
+        const API_CONFIG = {
+            // En local: usa localhost:3000
+            // En producción: usa la URL de tu backend en la nube
+            baseURL: isLocalhost 
+                ? 'http://localhost:3000/api' 
+                : 'https://tu-backend-en-render.com/api', // 🔴 CAMBIA ESTO cuando despliegues
+            
+            timeout: 10000, // 10 segundos
+            isLocal: isLocalhost
         };
-        
-        // Mostrar/ocultar contraseña
-        togglePasswordBtn.addEventListener('click', function() {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-        });
-        
-        // Mostrar mensaje
-        function showMessage(text, type) {
-            messageText.textContent = text;
-            loginMessage.className = `login-message message-${type}`;
-            loginMessage.style.display = 'block';
-            
-            const icon = loginMessage.querySelector('i');
-            if (type === 'error') {
-                icon.className = 'fas fa-exclamation-circle';
-            } else {
-                icon.className = 'fas fa-check-circle';
-            }
-            
-            // Ocultar mensaje después de 5 segundos
-            setTimeout(() => {
-                loginMessage.style.display = 'none';
-            }, 5000);
-        }
-        
-        // Validar login
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = usernameInput.value.trim().toLowerCase();
-            const password = passwordInput.value;
-            
-            // Validaciones básicas
-            if (!username || !password) {
-                showMessage('Por favor, completa todos los campos', 'error');
-                return;
-            }
-            
-            // Cambiar estado del botón
-            submitBtn.disabled = true;
-            btnText.textContent = 'Verificando...';
-            
-            // Simular delay de red (solo para efecto)
-            setTimeout(() => {
-                // Verificar usuario
-                if (usuariosValidos[username]) {
-                    if (usuariosValidos[username].password === password) {
-                        // ✅ LOGIN EXITOSO
-                        showMessage(`¡Bienvenido ${usuariosValidos[username].nombre}! Redirigiendo...`, 'success');
-                        btnText.textContent = '✓ Acceso concedido';
-                        
-                        // Redirigir después de 1.5 segundos
-                        setTimeout(() => {
-                            window.location.href = usuariosValidos[username].redirect;
-                        }, 1500);
-                        
-                        // Guardar sesión en localStorage (simple)
-                        localStorage.setItem('roboworks_user', JSON.stringify({
-                            username: username,
-                            nombre: usuariosValidos[username].nombre,
-                            tipo: usuariosValidos[username].tipo,
-                            timestamp: new Date().getTime()
-                        }));
-                        
-                    } else {
-                        // ❌ Contraseña incorrecta
-                        showMessage('Contraseña incorrecta. Intenta nuevamente.', 'error');
-                        submitBtn.disabled = false;
-                        btnText.textContent = 'Ingresar a la Plataforma';
-                        passwordInput.focus();
-                        passwordInput.select();
+
+        console.log('🌍 Entorno:', isLocalhost ? 'LOCAL' : 'PRODUCCIÓN');
+        console.log('🔗 API URL:', API_CONFIG.baseURL);
+
+        // Cliente API simplificado para el login
+        const apiClient = {
+            async post(endpoint, data) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
+
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include', // ¡IMPORTANTE! Para enviar/recibir cookies
+                        signal: controller.signal,
+                        body: JSON.stringify(data)
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    // Intentar parsear JSON, incluso en errores
+                    let responseData;
+                    try {
+                        responseData = await response.json();
+                    } catch (e) {
+                        responseData = { message: 'Error en el servidor' };
                     }
-                } else {
-                    // ❌ Usuario no existe
-                    showMessage('Usuario no reconocido. Verifica tus datos.', 'error');
-                    submitBtn.disabled = false;
-                    btnText.textContent = 'Ingresar a la Plataforma';
-                    usernameInput.focus();
-                    usernameInput.select();
+
+                    if (!response.ok) {
+                        throw new Error(responseData.message || `Error ${response.status}`);
+                    }
+
+                    return responseData;
+
+                } catch (error) {
+                    clearTimeout(timeoutId);
+                    
+                    if (error.name === 'AbortError') {
+                        throw new Error('Tiempo de espera agotado. Verifica tu conexión.');
+                    }
+                    
+                    if (!navigator.onLine) {
+                        throw new Error('No hay conexión a internet');
+                    }
+                    
+                    throw error;
                 }
-            }, 800); // Simular delay de servidor
-        });
-        
-        // Autocompletar para pruebas (QUITA ESTO EN PRODUCCIÓN)
-        // Solo para hacer pruebas más rápidas
-        if (window.location.href.includes('localhost') || window.location.href.includes('127.0.0.1')) {
-            usernameInput.value = 'david.fiallos';
-            passwordInput.value = 'robotics2024';
-        }
-        
-        // Verificar si ya hay una sesión activa
-        const sessionData = localStorage.getItem('roboworks_user');
-        if (sessionData) {
-            try {
-                const user = JSON.parse(sessionData);
-                // Si la sesión es de hace menos de 8 horas, redirigir automáticamente
-                const eightHours = 8 * 60 * 60 * 1000;
-                if (new Date().getTime() - user.timestamp < eightHours) {
-                    showMessage(`Hola de nuevo ${user.nombre}. Redirigiendo...`, 'success');
-                    setTimeout(() => {
-                        window.location.href = `/plataforma/estudiante/clase.html?user=${user.username}`;
-                    }, 1000);
-                } else {
-                    // Sesión expirada, limpiar
-                    localStorage.removeItem('roboworks_user');
+            },
+
+            async get(endpoint) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
+
+                try {
+                    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include',
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.message || `Error ${response.status}`);
+                    }
+
+                    return await response.json();
+
+                } catch (error) {
+                    clearTimeout(timeoutId);
+                    throw error;
                 }
-            } catch (e) {
-                localStorage.removeItem('roboworks_user');
             }
-        }
-        
-        // Enfoque automático en el campo de usuario
-        usernameInput.focus();
-    });
+        };
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const loginForm = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const togglePasswordBtn = document.getElementById('togglePassword');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const loginMessage = document.getElementById('login-message');
+            const messageText = document.getElementById('message-text');
+            const connectionStatus = document.getElementById('connectionStatus');
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+
+            // Estado
+            let isSubmitting = false;
+
+            // Verificar conexión con el backend al cargar
+            checkBackendConnection();
+
+            // Verificar sesión existente
+            checkExistingSession();
+
+            // Mostrar/ocultar contraseña
+            togglePasswordBtn.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                const icon = this.querySelector('i');
+                icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+                
+                // Anunciar para lectores de pantalla
+                this.setAttribute('aria-label', 
+                    type === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña'
+                );
+            });
+
+            // Función para mostrar mensajes
+            function showMessage(text, type = 'error') {
+                messageText.textContent = text;
+                loginMessage.className = `login-message message-${type}`;
+                loginMessage.style.display = 'block';
+                
+                const icon = loginMessage.querySelector('i');
+                switch(type) {
+                    case 'error':
+                        icon.className = 'fas fa-exclamation-circle';
+                        break;
+                    case 'success':
+                        icon.className = 'fas fa-check-circle';
+                        break;
+                    case 'warning':
+                        icon.className = 'fas fa-exclamation-triangle';
+                        break;
+                }
+
+                // Auto-ocultar mensajes de éxito después de 3 segundos
+                if (type === 'success') {
+                    setTimeout(() => {
+                        loginMessage.style.display = 'none';
+                    }, 3000);
+                }
+            }
+
+            // Función para validar el formulario
+            function validateForm() {
+                let isValid = true;
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+
+                // Resetear estilos de error
+                usernameInput.classList.remove('error');
+                passwordInput.classList.remove('error');
+
+                if (!username) {
+                    usernameInput.classList.add('error');
+                    showMessage('Por favor, ingresa tu usuario', 'error');
+                    isValid = false;
+                } else if (!password) {
+                    passwordInput.classList.add('error');
+                    showMessage('Por favor, ingresa tu contraseña', 'error');
+                    isValid = false;
+                } else if (password.length < 4) {
+                    passwordInput.classList.add('error');
+                    showMessage('La contraseña debe tener al menos 4 caracteres', 'error');
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            // Función para cambiar estado del botón durante el envío
+            function setLoadingState(isLoading) {
+                isSubmitting = isLoading;
+                submitBtn.disabled = isLoading;
+                
+                if (isLoading) {
+                    btnText.style.display = 'none';
+                    btnSpinner.style.display = 'inline-block';
+                } else {
+                    btnText.style.display = 'inline';
+                    btnSpinner.style.display = 'none';
+                }
+            }
+
+            // Función para verificar conexión con backend
+            async function checkBackendConnection() {
+                try {
+                    statusText.textContent = 'Verificando conexión...';
+                    statusDot.className = 'status-dot';
+                    
+                    await apiClient.get('/health');
+                    
+                    statusDot.className = 'status-dot connected';
+                    statusText.textContent = API_CONFIG.isLocal ? 'Conectado (Local)' : 'Conectado';
+                    
+                    setTimeout(() => {
+                        connectionStatus.style.opacity = '0.5';
+                    }, 3000);
+                    
+                } catch (error) {
+                    console.error('Error de conexión:', error);
+                    statusDot.className = 'status-dot disconnected';
+                    
+                    if (API_CONFIG.isLocal) {
+                        statusText.textContent = 'Backend local no disponible';
+                        showMessage('⚠️ El servidor local no está corriendo. Ejecuta "npm run dev" en backend/', 'warning');
+                    } else {
+                        statusText.textContent = 'Servidor no disponible';
+                        showMessage('⚠️ El servidor está en mantenimiento. Intenta en unos minutos.', 'warning');
+                    }
+                }
+            }
+
+            // Función para verificar sesión existente
+            async function checkExistingSession() {
+                try {
+                    const response = await apiClient.get('/auth/verify');
+                    
+                    if (response.user) {
+                        // Hay sesión activa, redirigir según rol
+                        showMessage(`¡Hola de nuevo! Redirigiendo...`, 'success');
+                        
+                        setTimeout(() => {
+                            if (response.user.role === 'student') {
+                                window.location.href = 'dashboard.html';
+                            } else if (response.user.role === 'teacher') {
+                                window.location.href = 'profesor/dashboard.html';
+                            } else {
+                                window.location.href = 'admin/dashboard.html';
+                            }
+                        }, 1000);
+                    }
+                } catch (error) {
+                    // No hay sesión activa, continuar normalmente
+                    console.log('No hay sesión activa');
+                }
+            }
+
+            // Manejador del submit
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Prevenir múltiples envíos
+                if (isSubmitting) return;
+
+                // Validar formulario
+                if (!validateForm()) return;
+
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+
+                setLoadingState(true);
+                loginMessage.style.display = 'none';
+
+                try {
+                    // Intentar login con el backend real
+                    const response = await apiClient.post('/auth/login', {
+                        username: username,
+                        password: password
+                    });
+
+                    // Login exitoso
+                    showMessage(`¡Bienvenido ${response.user.full_name || ''}!`, 'success');
+
+                    // Verificar si necesita cambiar contraseña
+                    if (response.user.temporary_password) {
+                        // Redirigir a página de cambio de contraseña
+                        setTimeout(() => {
+                            window.location.href = 'change-password.html';
+                        }, 1000);
+                    } else {
+                        // Redirigir según rol
+                        setTimeout(() => {
+                            if (response.user.role === 'student') {
+                                window.location.href = 'dashboard.html';
+                            } else if (response.user.role === 'teacher') {
+                                window.location.href = 'profesor/dashboard.html';
+                            } else {
+                                window.location.href = 'admin/dashboard.html';
+                            }
+                        }, 1000);
+                    }
+
+                } catch (error) {
+                    console.error('Error en login:', error);
+                    
+                    // Mensajes de error amigables
+                    let errorMessage = error.message;
+                    
+                    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        if (API_CONFIG.isLocal) {
+                            errorMessage = 'No se pudo conectar con el backend local. ¿Ejecutaste "npm run dev"?';
+                        } else {
+                            errorMessage = 'No se pudo conectar con el servidor. Verifica tu conexión.';
+                        }
+                    } else if (error.message.includes('401')) {
+                        errorMessage = 'Usuario o contraseña incorrectos';
+                    } else if (error.message.includes('timeout')) {
+                        errorMessage = 'El servidor está tardando en responder. Intenta de nuevo.';
+                    }
+                    
+                    showMessage(errorMessage, 'error');
+                    
+                    // Limpiar campos sensibles
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    
+                } finally {
+                    setLoadingState(false);
+                }
+            });
+
+            // Validación en tiempo real del campo usuario
+            usernameInput.addEventListener('blur', function() {
+                const username = this.value.trim();
+                if (username && !/^[a-zA-Z0-9._-]+$/.test(username)) {
+                    showMessage('El usuario solo puede contener letras, números, puntos, guiones y guiones bajos', 'warning');
+                }
+            });
+
+            // Autofocus en el campo usuario
+            usernameInput.focus();
+
+            // Prevenir pegado de espacios en blanco
+            usernameInput.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const text = (e.clipboardData || window.clipboardData).getData('text');
+                this.value = text.trim();
+            });
+
+            // Mejora: Enter en campo password hace submit
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !isSubmitting) {
+                    loginForm.dispatchEvent(new Event('submit'));
+                }
+            });
+
+            // Detectar cambios en la conexión de red
+            window.addEventListener('online', function() {
+                showMessage('¡Conexión restablecida!', 'success');
+                checkBackendConnection();
+            });
+
+            window.addEventListener('offline', function() {
+                showMessage('Sin conexión a internet', 'error');
+                statusDot.className = 'status-dot disconnected';
+                statusText.textContent = 'Sin conexión';
+            });
+        });
     </script>
 </body>
 </html>
