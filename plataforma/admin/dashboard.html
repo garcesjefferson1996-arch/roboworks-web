@@ -1067,7 +1067,7 @@
         </div>
     </div>
 
-    <!-- Modal para Clase -->
+    <!-- Modal para Clase (CORREGIDO - link de zoom siempre visible) -->
     <div id="classModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1078,75 +1078,61 @@
                 <input type="hidden" id="classId">
                 
                 <div class="form-group">
-                    <label>Programa:</label>
-                    <select id="classProgram" required onchange="loadCoursesForClass()">
+                    <label>Programa</label>
+                    <select id="classProgram" required onchange="toggleCourseField()">
                         <option value="">Seleccionar programa...</option>
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label>Curso:</label>
-                    <select id="classCourse" required>
-                        <option value="">Primero selecciona un programa</option>
+                <div class="form-group" id="courseField" style="display: none;">
+                    <label>Curso (solo para CodeWorks)</label>
+                    <select id="classCourse">
+                        <option value="">Seleccionar curso...</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Nombre de la Clase:</label>
-                    <input type="text" id="className" required placeholder="Ej: CodeWorks Junior - Grupo A">
+                    <label>Nombre de la Clase</label>
+                    <input type="text" id="className" placeholder="Ej: Introducción a Roblox" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Link de Zoom *</label>
+                    <input type="url" id="classZoom" class="form-input" placeholder="https://zoom.us/j/123456789" required>
+                    <small>El enlace que los estudiantes usarán para esta clase</small>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Día de la semana:</label>
+                        <label>Día</label>
                         <select id="classDay" required>
-                            <option value="Lunes">Lunes</option>
-                            <option value="Martes">Martes</option>
-                            <option value="Miércoles">Miércoles</option>
-                            <option value="Jueves">Jueves</option>
-                            <option value="Viernes">Viernes</option>
-                            <option value="Sábado">Sábado</option>
+                            <option value="monday">Lunes</option>
+                            <option value="tuesday">Martes</option>
+                            <option value="wednesday">Miércoles</option>
+                            <option value="thursday">Jueves</option>
+                            <option value="friday">Viernes</option>
+                            <option value="saturday">Sábado</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Hora:</label>
+                        <label>Hora</label>
                         <input type="time" id="classTime" required>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Capacidad máxima:</label>
-                        <input type="number" id="classCapacity" min="1" value="15" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Edad mínima:</label>
-                        <input type="number" id="classMinAge" min="3" value="6">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Edad máxima:</label>
-                        <input type="number" id="classMaxAge" min="3" value="12">
-                    </div>
-                    <div class="form-group">
-                        <label>Precio mensual ($):</label>
-                        <input type="number" id="classPrice" min="0" step="0.01" value="0">
-                    </div>
+                <div class="form-group">
+                    <label>Descripción (opcional)</label>
+                    <textarea id="classDescription" rows="2" placeholder="Objetivos de la clase..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Ubicación / Salón:</label>
-                    <input type="text" id="classLocation" placeholder="Ej: Salón 101">
+                    <label>Cupo máximo</label>
+                    <input type="number" id="classMaxStudents" value="4" min="1" max="10">
                 </div>
 
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="classActive" checked>
-                    <label>Clase activa</label>
-                </div>
-
-                <button type="submit" class="btn-primary" style="width: 100%;">Guardar Clase</button>
+                <button type="submit" class="btn-primary" style="width: 100%;">
+                    <i class="fas fa-save"></i> Guardar Clase
+                </button>
             </form>
         </div>
     </div>
@@ -1298,57 +1284,6 @@
     </div>
 
     <script>
-        // ==================== FUNCIÓN CORREGIDA saveStudent ====================
-        function saveStudent(event) {
-            event.preventDefault();
-            
-            // Obtener clases seleccionadas
-            const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
-            const classIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
-            
-            // Validar que haya seleccionado al menos una clase
-            if (classIds.length === 0) {
-                alert('❌ Debes seleccionar al menos una clase para el estudiante');
-                return;
-            }
-            
-            const parentPhone = document.getElementById('parentPhone').value.trim();
-            
-            // Generar credenciales
-            const username = 'est_' + Math.floor(Math.random() * 10000);
-            const tempPassword = 'robo' + Math.floor(Math.random() * 1000);
-            const invitationCode = 'ROBO-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-            
-            const studentData = {
-                id: Date.now(),
-                full_name: document.getElementById('studentName').value,
-                username: username,
-                password: tempPassword,
-                parent_phone: parentPhone || null,
-                program_id: parseInt(document.getElementById('studentProgram').value), // Guardamos el programa
-                class_ids: classIds, // Guardamos las clases seleccionadas
-                invitation_code: invitationCode,
-                temporary_password: true,
-                created_at: new Date().toISOString()
-            };
-            
-            // Obtener estudiantes existentes
-            let students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
-            students.push(studentData);
-            localStorage.setItem('roboworks_students', JSON.stringify(students));
-            
-            // Mensaje de éxito con las credenciales
-            alert(`✅ Estudiante creado exitosamente!\n\n` +
-                  `📝 Nombre: ${studentData.full_name}\n` +
-                  `🔑 Usuario: ${username}\n` +
-                  `🔐 Contraseña: ${tempPassword}\n` +
-                  `🎫 Código: ${invitationCode}\n` +
-                  `📚 Clases asignadas: ${classIds.length}`);
-            
-            closeStudentModal();
-            loadStudents(); // Recargar la lista de estudiantes
-        }
-
         // ==================== FUNCIONES DE UTILIDAD ====================
         function showAlert(message, type) {
             const alert = document.getElementById('alertMessage');
@@ -1626,6 +1561,35 @@
         }
 
         // ==================== FUNCIONES DE CLASES ====================
+        function toggleCourseField() {
+            const programId = document.getElementById('classProgram').value;
+            const courseField = document.getElementById('courseField');
+            const courseSelect = document.getElementById('classCourse');
+            
+            if (!programId) {
+                courseField.style.display = 'none';
+                return;
+            }
+            
+            // Cargar cursos del programa
+            const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+            const program = programs.find(p => p.id == programId);
+            
+            // Solo mostrar el campo de curso si el programa es CodeWorks (id 2 en datos de ejemplo)
+            if (program && program.name.toLowerCase().includes('codeworks')) {
+                courseField.style.display = 'block';
+                
+                const courses = JSON.parse(localStorage.getItem('roboworks_courses') || '[]');
+                const filteredCourses = courses.filter(c => c.program_id == programId);
+                
+                courseSelect.innerHTML = '<option value="">Seleccionar curso...</option>' +
+                    filteredCourses.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            } else {
+                courseField.style.display = 'none';
+                courseSelect.value = '';
+            }
+        }
+
         function loadClasses() {
             document.getElementById('classesLoading').style.display = 'block';
             document.getElementById('classesTable').style.display = 'none';
@@ -1648,8 +1612,8 @@
                                 <td>${course ? course.name : '-'}</td>
                                 <td>${cls.name}</td>
                                 <td>${cls.day} ${cls.time}</td>
-                                <td>0/${cls.capacity || 15}</td>
-                                <td><span class="status-badge ${(cls.capacity && cls.capacity <= 0) ? 'status-full' : 'status-active'}">${(cls.capacity && cls.capacity <= 0) ? 'Lleno' : 'Disponible'}</span></td>
+                                <td>0/${cls.max_students || 4}</td>
+                                <td><span class="status-badge ${(cls.max_students && cls.max_students <= 0) ? 'status-full' : 'status-active'}">${(cls.max_students && cls.max_students <= 0) ? 'Lleno' : 'Disponible'}</span></td>
                                 <td>
                                     <div class="action-buttons">
                                         <button class="action-btn edit-btn" onclick="editClass(${cls.id})"><i class="fas fa-edit"></i></button>
@@ -1677,8 +1641,8 @@
             programSelect.innerHTML = '<option value="">Seleccionar programa...</option>' +
                 programs.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
             
-            // Reiniciar select de cursos
-            document.getElementById('classCourse').innerHTML = '<option value="">Primero selecciona un programa</option>';
+            // Ocultar campo de curso inicialmente
+            document.getElementById('courseField').style.display = 'none';
             
             document.getElementById('classModal').classList.add('active');
         }
@@ -1687,38 +1651,20 @@
             document.getElementById('classModal').classList.remove('active');
         }
 
-        function loadCoursesForClass() {
-            const programId = document.getElementById('classProgram').value;
-            const courseSelect = document.getElementById('classCourse');
-            
-            if (!programId) {
-                courseSelect.innerHTML = '<option value="">Primero selecciona un programa</option>';
-                return;
-            }
-            
-            const courses = JSON.parse(localStorage.getItem('roboworks_courses') || '[]');
-            const filteredCourses = courses.filter(c => c.program_id == programId);
-            
-            courseSelect.innerHTML = '<option value="">Seleccionar curso...</option>' +
-                filteredCourses.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-        }
-
         function saveClass(event) {
             event.preventDefault();
             
             const classData = {
                 id: document.getElementById('classId').value || Date.now(),
                 program_id: parseInt(document.getElementById('classProgram').value),
-                course_id: parseInt(document.getElementById('classCourse').value),
+                course_id: document.getElementById('classCourse').value ? parseInt(document.getElementById('classCourse').value) : null,
                 name: document.getElementById('className').value,
+                zoom_link: document.getElementById('classZoom').value,
                 day: document.getElementById('classDay').value,
                 time: document.getElementById('classTime').value,
-                capacity: parseInt(document.getElementById('classCapacity').value) || 15,
-                min_age: parseInt(document.getElementById('classMinAge').value) || 6,
-                max_age: parseInt(document.getElementById('classMaxAge').value) || 12,
-                price: parseFloat(document.getElementById('classPrice').value) || 0,
-                location: document.getElementById('classLocation').value,
-                active: document.getElementById('classActive').checked
+                description: document.getElementById('classDescription').value,
+                max_students: parseInt(document.getElementById('classMaxStudents').value) || 4,
+                active: true
             };
             
             let classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
@@ -1746,8 +1692,8 @@
                 document.getElementById('classId').value = cls.id;
                 document.getElementById('classProgram').value = cls.program_id;
                 
-                // Cargar cursos del programa
-                loadCoursesForClass();
+                // Mostrar/ocultar campo de curso según el programa
+                toggleCourseField();
                 
                 // Esperar un momento para que se carguen los cursos y luego establecer el valor
                 setTimeout(() => {
@@ -1755,14 +1701,11 @@
                 }, 100);
                 
                 document.getElementById('className').value = cls.name || '';
-                document.getElementById('classDay').value = cls.day || 'Lunes';
+                document.getElementById('classZoom').value = cls.zoom_link || '';
+                document.getElementById('classDay').value = cls.day || 'monday';
                 document.getElementById('classTime').value = cls.time || '';
-                document.getElementById('classCapacity').value = cls.capacity || 15;
-                document.getElementById('classMinAge').value = cls.min_age || 6;
-                document.getElementById('classMaxAge').value = cls.max_age || 12;
-                document.getElementById('classPrice').value = cls.price || 0;
-                document.getElementById('classLocation').value = cls.location || '';
-                document.getElementById('classActive').checked = cls.active !== false;
+                document.getElementById('classDescription').value = cls.description || '';
+                document.getElementById('classMaxStudents').value = cls.max_students || 4;
                 
                 document.getElementById('classModal').classList.add('active');
             }
@@ -1813,8 +1756,15 @@
                                 <td><span class="status-badge status-active">Activo</span></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button class="action-btn edit-btn" onclick="editStudent(${student.id})"><i class="fas fa-edit"></i></button>
-                                        <button class="action-btn delete-btn" onclick="deleteStudent(${student.id})"><i class="fas fa-trash"></i></button>
+                                        <button class="action-btn edit-btn" onclick="viewStudent(${student.id})" title="Ver detalles" style="background: #667eea;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="action-btn edit-btn" onclick="editStudent(${student.id})" title="Editar estudiante" style="background: #f39c12;">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete-btn" onclick="deleteStudent(${student.id})" title="Eliminar estudiante">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -1841,11 +1791,26 @@
             // Reiniciar clases disponibles
             document.getElementById('availableClasses').innerHTML = '<p style="color: #999; text-align: center;">Selecciona un programa primero</p>';
             
+            // Asegurar que el botón diga "Crear Estudiante"
+            const submitBtn = document.querySelector('#studentForm button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Guardar Estudiante';
+            
             document.getElementById('studentModal').classList.add('active');
         }
 
         function closeStudentModal() {
             document.getElementById('studentModal').classList.remove('active');
+            document.getElementById('studentForm').reset();
+            document.getElementById('availableClasses').innerHTML = '<p style="color: #999; text-align: center;">Selecciona un programa primero</p>';
+            
+            // Restaurar título y botón
+            document.querySelector('#studentModal .modal-header h3').textContent = 'Nuevo Estudiante';
+            const submitBtn = document.querySelector('#studentForm button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Guardar Estudiante';
+            
+            // Eliminar campo oculto de edición
+            const hiddenField = document.getElementById('editingStudentId');
+            if (hiddenField) hiddenField.remove();
         }
 
         function loadClassesForStudent() {
@@ -1858,6 +1823,7 @@
             }
             
             const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+            const students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
             const filteredClasses = classes.filter(c => c.program_id == programId && c.active !== false);
             
             if (filteredClasses.length === 0) {
@@ -1865,45 +1831,187 @@
                 return;
             }
             
-            container.innerHTML = filteredClasses.map(cls => `
-                <div class="class-item">
-                    <label>
-                        <input type="checkbox" value="${cls.id}">
-                        <div class="class-info">
-                            <div class="class-name">${cls.name}</div>
-                            <div class="class-details">${cls.day} ${cls.time} - Cupo: ${cls.capacity || 15}</div>
-                        </div>
-                    </label>
-                </div>
-            `).join('');
+            let html = '';
+            filteredClasses.forEach(cls => {
+                const enrolled = students.filter(s => s.class_ids && s.class_ids.includes(cls.id)).length;
+                const max = cls.max_students || 4;
+                const available = max - enrolled;
+                
+                html += `
+                    <div class="class-item ${available <= 0 ? 'disabled' : ''}">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: ${available > 0 ? 'pointer' : 'not-allowed'};">
+                            <input type="checkbox" value="${cls.id}" ${available > 0 ? '' : 'disabled'}>
+                            <div class="class-info">
+                                <div class="class-name">${cls.name}</div>
+                                <div class="class-details">
+                                    ${cls.day} ${cls.time} | 
+                                    Cupo: ${enrolled}/${max} 
+                                    ${available > 0 ? `(${available} disponible${available !== 1 ? 's' : ''})` : '(Completo)'}
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
         }
 
-        function editStudent(id) {
+        // ============================================
+        // EDITAR ESTUDIANTE
+        // ============================================
+        function editStudent(studentId) {
+            const students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
+            const student = students.find(s => s.id == studentId);
+            if (!student) return;
+            
+            // Llenar el modal con los datos del estudiante
+            document.getElementById('studentName').value = student.full_name;
+            document.getElementById('parentPhone').value = student.parent_phone || '';
+            
+            // Seleccionar el programa
+            const programSelect = document.getElementById('studentProgram');
+            programSelect.value = student.program_id;
+            
+            // Cargar clases disponibles para ese programa
+            loadAvailableClassesForEdit(student.program_id, student.class_ids);
+            
+            // Cambiar el título del modal
+            document.querySelector('#studentModal .modal-header h3').textContent = 'Editar Estudiante';
+            
+            // Cambiar el botón del modal
+            const submitBtn = document.querySelector('#studentForm button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Estudiante';
+            
+            // Guardar el ID del estudiante en un campo oculto
+            let hiddenIdField = document.getElementById('editingStudentId');
+            if (!hiddenIdField) {
+                hiddenIdField = document.createElement('input');
+                hiddenIdField.type = 'hidden';
+                hiddenIdField.id = 'editingStudentId';
+                document.getElementById('studentForm').appendChild(hiddenIdField);
+            }
+            hiddenIdField.value = student.id;
+            
+            document.getElementById('studentModal').classList.add('active');
+        }
+
+        // Función auxiliar para cargar clases en edición
+        function loadAvailableClassesForEdit(programId, selectedClassIds) {
+            const container = document.getElementById('availableClasses');
+            
+            if (!programId) {
+                container.innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
+                return;
+            }
+            
+            const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+            const students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
+            const filteredClasses = classes.filter(c => c.program_id == programId);
+            
+            if (filteredClasses.length === 0) {
+                container.innerHTML = '<p style="color: #666;">No hay clases disponibles para este programa</p>';
+                return;
+            }
+            
+            let html = '';
+            filteredClasses.forEach(cls => {
+                const enrolled = students.filter(s => s.class_ids && s.class_ids.includes(cls.id)).length;
+                const max = cls.max_students || 4;
+                const available = max - enrolled;
+                const isSelected = selectedClassIds && selectedClassIds.includes(cls.id);
+                
+                // Si estamos editando, no contar al estudiante actual en el cupo
+                const editingId = document.getElementById('editingStudentId')?.value;
+                const enrolledExcludingCurrent = students.filter(s => 
+                    s.class_ids && s.class_ids.includes(cls.id) && s.id != editingId
+                ).length;
+                const availableExcludingCurrent = max - enrolledExcludingCurrent;
+                
+                html += `
+                    <div class="class-item ${availableExcludingCurrent <= 0 && !isSelected ? 'disabled' : ''}">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: ${(availableExcludingCurrent > 0 || isSelected) ? 'pointer' : 'not-allowed'};">
+                            <input type="checkbox" value="${cls.id}" ${(availableExcludingCurrent > 0 || isSelected) ? '' : 'disabled'} ${isSelected ? 'checked' : ''}>
+                            <div class="class-info">
+                                <div class="class-name">${cls.name}</div>
+                                <div class="class-details">
+                                    ${cls.day} ${cls.time} | 
+                                    Cupo: ${enrolledExcludingCurrent}/${max} 
+                                    ${availableExcludingCurrent > 0 ? `(${availableExcludingCurrent} disponible${availableExcludingCurrent !== 1 ? 's' : ''})` : isSelected ? '(Ya inscrito)' : '(Completo)'}
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Modificar la función saveStudent para que también actualice
+        function saveStudent(event) {
+            event.preventDefault();
+            
+            const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
+            const classIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            
+            if (classIds.length === 0) {
+                alert('❌ Debes seleccionar al menos una clase para el estudiante');
+                return;
+            }
+            
+            const parentPhone = document.getElementById('parentPhone').value.trim();
+            const editingId = document.getElementById('editingStudentId')?.value;
+            
+            let students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
+            
+            if (editingId) {
+                // Modo edición
+                const index = students.findIndex(s => s.id == editingId);
+                if (index !== -1) {
+                    students[index].full_name = document.getElementById('studentName').value;
+                    students[index].parent_phone = parentPhone || null;
+                    students[index].program_id = parseInt(document.getElementById('studentProgram').value);
+                    students[index].class_ids = classIds;
+                    
+                    localStorage.setItem('roboworks_students', JSON.stringify(students));
+                    alert('✅ Estudiante actualizado exitosamente');
+                }
+            } else {
+                // Modo creación
+                const username = 'est_' + Math.floor(Math.random() * 10000);
+                const tempPassword = 'robo' + Math.floor(Math.random() * 1000);
+                const invitationCode = 'ROBO-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+                
+                const studentData = {
+                    id: Date.now(),
+                    full_name: document.getElementById('studentName').value,
+                    username: username,
+                    password: tempPassword,
+                    parent_phone: parentPhone || null,
+                    program_id: parseInt(document.getElementById('studentProgram').value),
+                    class_ids: classIds,
+                    invitation_code: invitationCode,
+                    temporary_password: true,
+                    created_at: new Date().toISOString()
+                };
+                
+                students.push(studentData);
+                localStorage.setItem('roboworks_students', JSON.stringify(students));
+                
+                alert(`✅ Estudiante creado!\n\nUsuario: ${username}\nContraseña: ${tempPassword}`);
+            }
+            
+            closeStudentModal();
+            loadStudents();
+        }
+
+        function viewStudent(id) {
+            // Función para ver detalles del estudiante (opcional)
             const students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
             const student = students.find(s => s.id == id);
-            
             if (student) {
-                document.getElementById('studentModalTitle').textContent = 'Editar Estudiante';
-                document.getElementById('studentId').value = student.id;
-                document.getElementById('studentName').value = student.full_name || '';
-                document.getElementById('studentProgram').value = student.program_id || '';
-                document.getElementById('parentPhone').value = student.parent_phone || '';
-                document.getElementById('studentActive').checked = true;
-                
-                // Cargar clases del programa
-                loadClassesForStudent();
-                
-                // Marcar las clases del estudiante
-                setTimeout(() => {
-                    if (student.class_ids && student.class_ids.length > 0) {
-                        student.class_ids.forEach(id => {
-                            const checkbox = document.querySelector(`#availableClasses input[value="${id}"]`);
-                            if (checkbox) checkbox.checked = true;
-                        });
-                    }
-                }, 200);
-                
-                document.getElementById('studentModal').classList.add('active');
+                alert(`Estudiante: ${student.full_name}\nUsuario: ${student.username}\nCódigo: ${student.invitation_code}`);
             }
         }
 
@@ -2325,8 +2433,8 @@
                 localStorage.setItem('roboworks_courses', JSON.stringify(exampleCourses));
                 
                 const exampleClasses = [
-                    { id: 1, program_id: 2, course_id: 1, name: 'CodeWorks Junior - Grupo A', day: 'Sábado', time: '10:00', capacity: 15, min_age: 6, max_age: 9, price: 1200, location: 'Salón 101', active: true },
-                    { id: 2, program_id: 2, course_id: 2, name: 'CodeWorks Advanced - Grupo A', day: 'Sábado', time: '12:00', capacity: 12, min_age: 10, max_age: 14, price: 1400, location: 'Salón 102', active: true }
+                    { id: 1, program_id: 2, course_id: 1, name: 'CodeWorks Junior - Grupo A', day: 'saturday', time: '10:00', max_students: 4, zoom_link: 'https://zoom.us/j/123456789', description: 'Clase para principiantes', active: true },
+                    { id: 2, program_id: 2, course_id: 2, name: 'CodeWorks Advanced - Grupo A', day: 'saturday', time: '12:00', max_students: 4, zoom_link: 'https://zoom.us/j/987654321', description: 'Clase para avanzados', active: true }
                 ];
                 localStorage.setItem('roboworks_classes', JSON.stringify(exampleClasses));
             }
