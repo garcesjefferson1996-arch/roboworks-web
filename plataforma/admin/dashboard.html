@@ -957,14 +957,12 @@
                         <button class="btn-secondary" onclick="filterMaterials('code')">💻 Código</button>
                     </div>
 
-                    <div id="materialsLoading" class="loading" style="display: none;">
+                    <div id="materialsLoading" class="loading">
                         <div class="loading-spinner"></div>
                         <p>Cargando materiales...</p>
                     </div>
 
-                    <div id="materialsContainer">
-                        <!-- Los materiales se mostrarán aquí -->
-                    </div>
+                    <div id="materialsList" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -979,55 +977,92 @@
             </div>
             <form id="programForm" onsubmit="saveProgram(event)">
                 <input type="hidden" id="programId">
+                
                 <div class="form-group">
-                    <label>Nombre del Programa</label>
-                    <input type="text" id="programName" required>
+                    <label>Nombre del Programa:</label>
+                    <input type="text" id="programName" required placeholder="Ej: Robótica Educativa">
                 </div>
+
                 <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="programDescription" rows="3" required></textarea>
+                    <label>Descripción:</label>
+                    <textarea id="programDescription" rows="3" placeholder="Describe el programa..."></textarea>
                 </div>
+
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Icono (FontAwesome)</label>
-                        <input type="text" id="programIcon" placeholder="fa-robot" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Color (hex)</label>
+                        <label>Color de fondo:</label>
                         <input type="color" id="programColor" value="#667eea">
                     </div>
+                    <div class="form-group">
+                        <label>Icono (FontAwesome):</label>
+                        <input type="text" id="programIcon" placeholder="fas fa-robot" value="fas fa-robot">
+                    </div>
                 </div>
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Guardar Programa
-                </button>
+
+                <div class="form-group">
+                    <label>Orden de visualización:</label>
+                    <input type="number" id="programOrder" value="0" min="0">
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="programActive" checked>
+                    <label>Programa activo</label>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">Guardar Programa</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal para Curso de CodeWorks -->
+    <!-- Modal para Curso -->
     <div id="courseModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="courseModalTitle">Nuevo Curso en CodeWorks</h3>
+                <h3 id="courseModalTitle">Nuevo Curso</h3>
                 <button class="close-modal" onclick="closeCourseModal()">&times;</button>
             </div>
             <form id="courseForm" onsubmit="saveCourse(event)">
                 <input type="hidden" id="courseId">
+                
                 <div class="form-group">
-                    <label>Nombre del Curso</label>
-                    <input type="text" id="courseName" required>
+                    <label>Programa:</label>
+                    <select id="courseProgram" required>
+                        <option value="">Seleccionar programa...</option>
+                    </select>
                 </div>
+
                 <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="courseDescription" rows="3" required></textarea>
+                    <label>Nombre del Curso:</label>
+                    <input type="text" id="courseName" required placeholder="Ej: CodeWorks Junior">
                 </div>
+
                 <div class="form-group">
-                    <label>Icono (FontAwesome)</label>
-                    <input type="text" id="courseIcon" placeholder="fa-gamepad" required>
+                    <label>Descripción:</label>
+                    <textarea id="courseDescription" rows="3" placeholder="Describe el curso..."></textarea>
                 </div>
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Guardar Curso
-                </button>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Color de fondo:</label>
+                        <input type="color" id="courseColor" value="#10b981">
+                    </div>
+                    <div class="form-group">
+                        <label>Icono (FontAwesome):</label>
+                        <input type="text" id="courseIcon" placeholder="fas fa-code" value="fas fa-code">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Orden de visualización:</label>
+                    <input type="number" id="courseOrder" value="0" min="0">
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="courseActive" checked>
+                    <label>Curso activo</label>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">Guardar Curso</button>
             </form>
         </div>
     </div>
@@ -1043,208 +1078,122 @@
                 <input type="hidden" id="classId">
                 
                 <div class="form-group">
-                    <label>Programa</label>
-                    <select id="classProgram" required onchange="toggleCourseField()">
+                    <label>Programa:</label>
+                    <select id="classProgram" required onchange="loadCoursesForClass()">
                         <option value="">Seleccionar programa...</option>
                     </select>
                 </div>
 
-                <div class="form-group" id="courseField" style="display: none;">
-                    <label>Curso (solo para CodeWorks)</label>
-                    <select id="classCourse">
-                        <option value="">Seleccionar curso...</option>
+                <div class="form-group">
+                    <label>Curso:</label>
+                    <select id="classCourse" required>
+                        <option value="">Primero selecciona un programa</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Nombre de la Clase</label>
-                    <input type="text" id="className" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Profesor</label>
-                    <select id="classTeacher" required>
-                        <option value="2">Administrador</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Link de Zoom</label>
-                    <input type="url" id="classZoom" placeholder="https://zoom.us/j/..." required>
+                    <label>Nombre de la Clase:</label>
+                    <input type="text" id="className" required placeholder="Ej: CodeWorks Junior - Grupo A">
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Día</label>
+                        <label>Día de la semana:</label>
                         <select id="classDay" required>
-                            <option value="monday">Lunes</option>
-                            <option value="tuesday">Martes</option>
-                            <option value="wednesday">Miércoles</option>
-                            <option value="thursday">Jueves</option>
-                            <option value="friday">Viernes</option>
-                            <option value="saturday">Sábado</option>
+                            <option value="Lunes">Lunes</option>
+                            <option value="Martes">Martes</option>
+                            <option value="Miércoles">Miércoles</option>
+                            <option value="Jueves">Jueves</option>
+                            <option value="Viernes">Viernes</option>
+                            <option value="Sábado">Sábado</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Hora</label>
+                        <label>Hora:</label>
                         <input type="time" id="classTime" required>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="classDescription" rows="2"></textarea>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Capacidad máxima:</label>
+                        <input type="number" id="classCapacity" min="1" value="15" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Edad mínima:</label>
+                        <input type="number" id="classMinAge" min="3" value="6">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Edad máxima:</label>
+                        <input type="number" id="classMaxAge" min="3" value="12">
+                    </div>
+                    <div class="form-group">
+                        <label>Precio mensual ($):</label>
+                        <input type="number" id="classPrice" min="0" step="0.01" value="0">
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Cupo máximo (por defecto 4)</label>
-                    <input type="number" id="classMaxStudents" value="4" min="1" max="10">
+                    <label>Ubicación / Salón:</label>
+                    <input type="text" id="classLocation" placeholder="Ej: Salón 101">
                 </div>
 
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Guardar Clase
-                </button>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="classActive" checked>
+                    <label>Clase activa</label>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">Guardar Clase</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal para Estudiante (ACTUALIZADO CON TELÉFONO) -->
+    <!-- Modal para Estudiante -->
     <div id="studentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Nuevo Estudiante</h3>
+                <h3 id="studentModalTitle">Nuevo Estudiante</h3>
                 <button class="close-modal" onclick="closeStudentModal()">&times;</button>
             </div>
             <form id="studentForm" onsubmit="saveStudent(event)">
+                <input type="hidden" id="studentId">
+                
                 <div class="form-group">
-                    <label>Nombre completo</label>
-                    <input type="text" id="studentName" placeholder="Ej: Juan Pérez" required>
-                </div>
-
-                <!-- NUEVO CAMPO DE TELÉFONO -->
-                <div class="form-group">
-                    <label>📱 Teléfono del padre/madre (WhatsApp)</label>
-                    <input type="tel" id="parentPhone" placeholder="Ej: +584141234567" 
-                           pattern="\+\d{10,15}" title="Formato internacional: +584141234567">
-                    <small>
-                        <i class="fas fa-info-circle"></i> 
-                        Incluir código de país, ej: +58 414 1234567 (Venezuela), +52 1 55 1234 5678 (México)
-                    </small>
-                    <small style="display: block; margin-top: 0.2rem; color: #10b981;">
-                        <i class="fas fa-whatsapp"></i> 
-                        (Solo informativo, WhatsApp no disponible)
-                    </small>
+                    <label>Nombre completo:</label>
+                    <input type="text" id="studentName" required placeholder="Ej: Juan Pérez">
                 </div>
 
                 <div class="form-group">
-                    <label>Programa</label>
-                    <select id="studentProgram" required onchange="loadAvailableClasses()">
+                    <label>Programa:</label>
+                    <select id="studentProgram" required onchange="loadClassesForStudent()">
                         <option value="">Seleccionar programa...</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Clases disponibles (puedes seleccionar varias)</label>
-                    <div id="availableClasses" style="max-height: 200px; overflow-y: auto; border: 2px solid #ddd; border-radius: 10px; padding: 1rem;">
-                        <p style="color: #666;">Selecciona un programa primero</p>
+                    <label>Clases disponibles:</label>
+                    <div id="availableClasses" style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 0.5rem; border-radius: 8px;">
+                        <!-- Se llenará dinámicamente -->
+                        <p style="color: #999; text-align: center;">Selecciona un programa primero</p>
                     </div>
+                    <small>Selecciona las clases a las que asistirá el estudiante</small>
                 </div>
 
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Crear Estudiante
-                </button>
-            </form>
-        </div>
-    </div>
+                <div class="form-group">
+                    <label>Teléfono del padre/madre:</label>
+                    <input type="tel" id="parentPhone" placeholder="Ej: +52 555 123 4567">
+                    <small>Opcional, para notificaciones</small>
+                </div>
 
-    <!-- Modal para ver detalles del estudiante -->
-    <div id="studentDetailModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Detalles del Estudiante</h3>
-                <button class="close-modal" onclick="closeStudentDetailModal()">&times;</button>
-            </div>
-            <div id="studentDetailContent"></div>
-        </div>
-    </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="studentActive" checked>
+                    <label>Estudiante activo</label>
+                </div>
 
-    <!-- Modal para Material -->
-    <div id="materialModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="materialModalTitle">Nuevo Material</h3>
-                <button class="close-modal" onclick="closeMaterialModal()">&times;</button>
-            </div>
-            
-            <!-- Tabs para tipo de material -->
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid #eee; flex-wrap: wrap;">
-                <button class="btn-secondary" onclick="showMaterialType('link')" id="tab-link" style="margin-bottom: 0.5rem;">🔗 Enlace</button>
-                <button class="btn-secondary" onclick="showMaterialType('file')" id="tab-file" style="margin-bottom: 0.5rem;">📁 Archivo</button>
-                <button class="btn-secondary" onclick="showMaterialType('video')" id="tab-video" style="margin-bottom: 0.5rem;">🎥 Video</button>
-                <button class="btn-secondary" onclick="showMaterialType('code')" id="tab-code" style="margin-bottom: 0.5rem;">💻 Código</button>
-            </div>
-            
-            <form id="materialForm" onsubmit="saveMaterial(event)">
-                <input type="hidden" id="materialId">
-                <input type="hidden" id="materialClassId">
-                <input type="hidden" id="materialType" value="link">
-                
-                <div class="form-group">
-                    <label>Título *</label>
-                    <input type="text" id="materialTitle" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Categoría</label>
-                    <select id="materialCategory">
-                        <option value="">Sin categoría</option>
-                    </select>
-                </div>
-                
-                <!-- Campo para LINK -->
-                <div class="form-group material-field" id="field-link">
-                    <label>URL del enlace *</label>
-                    <input type="url" id="materialLink" placeholder="https://...">
-                </div>
-                
-                <!-- Campo para VIDEO (embed) -->
-                <div class="form-group material-field" id="field-video" style="display: none;">
-                    <label>URL del video (YouTube/Vimeo) *</label>
-                    <input type="url" id="materialVideo" placeholder="https://youtube.com/watch?v=...">
-                    <small>Se mostrará incrustado en la página</small>
-                </div>
-                
-                <!-- Campo para CÓDIGO -->
-                <div class="form-group material-field" id="field-code" style="display: none;">
-                    <label>URL del código (GitHub, etc.) *</label>
-                    <input type="url" id="materialCode" placeholder="https://github.com/...">
-                </div>
-                
-                <!-- Campo para ARCHIVO -->
-                <div class="form-group material-field" id="field-file" style="display: none;">
-                    <label>Archivo *</label>
-                    <input type="file" id="materialFile" accept=".pdf,.doc,.docx,.zip,.rar,.jpg,.png">
-                    <small>Máximo 10MB (solo enlace)</small>
-                </div>
-                
-                <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="materialDescription" rows="3" placeholder="Descripción opcional del material..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>Orden de visualización</label>
-                    <input type="number" id="materialOrder" value="0" min="0">
-                </div>
-                
-                <div class="checkbox-group">
-                    <input type="checkbox" id="materialActive" checked>
-                    <label for="materialActive">Activo (visible para estudiantes)</label>
-                </div>
-                
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">
-                    <i class="fas fa-save"></i> Guardar Material
-                </button>
+                <button type="submit" class="btn-primary" style="width: 100%;">Guardar Estudiante</button>
             </form>
         </div>
     </div>
@@ -1256,626 +1205,116 @@
                 <h3>Nueva Categoría</h3>
                 <button class="close-modal" onclick="closeCategoryModal()">&times;</button>
             </div>
-            
             <form id="categoryForm" onsubmit="saveCategory(event)">
-                <div class="form-group">
-                    <label>Nombre *</label>
-                    <input type="text" id="categoryName" required>
-                </div>
+                <input type="hidden" id="categoryId">
                 
                 <div class="form-group">
-                    <label>Descripción</label>
-                    <input type="text" id="categoryDescription">
+                    <label>Nombre de la categoría:</label>
+                    <input type="text" id="categoryName" required placeholder="Ej: Tutoriales, Guías, Ejercicios">
                 </div>
-                
+
                 <div class="form-group">
-                    <label>Color</label>
+                    <label>Color:</label>
                     <input type="color" id="categoryColor" value="#667eea">
                 </div>
-                
+
                 <div class="form-group">
-                    <label>Orden</label>
-                    <input type="number" id="categoryOrder" value="0" min="0">
+                    <label>Descripción (opcional):</label>
+                    <input type="text" id="categoryDescription" placeholder="Breve descripción de la categoría">
                 </div>
-                
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Guardar Categoría
-                </button>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="categoryActive" checked>
+                    <label>Categoría activa</label>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">Guardar Categoría</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal para previsualizar/editar material -->
-    <div id="viewMaterialModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
+    <!-- Modal para Material -->
+    <div id="materialModal" class="modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <h3 id="viewMaterialTitle">Material</h3>
-                <button class="close-modal" onclick="closeViewMaterialModal()">&times;</button>
+                <h3>Nuevo Material</h3>
+                <button class="close-modal" onclick="closeMaterialModal()">&times;</button>
             </div>
-            <div id="viewMaterialContent"></div>
+            <form id="materialForm" onsubmit="saveMaterial(event)">
+                <input type="hidden" id="materialId">
+                <input type="hidden" id="materialClassId">
+                
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" id="materialTitle" required placeholder="Ej: Introducción a la robótica">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo:</label>
+                        <select id="materialType" required onchange="toggleMaterialFields()">
+                            <option value="link">🔗 Enlace</option>
+                            <option value="file">📁 Archivo</option>
+                            <option value="video">🎥 Video</option>
+                            <option value="code">💻 Código</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría:</label>
+                        <select id="materialCategory" required>
+                            <option value="">Seleccionar categoría...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" id="materialUrlGroup">
+                    <label>URL:</label>
+                    <input type="url" id="materialUrl" placeholder="https://ejemplo.com">
+                </div>
+
+                <div class="form-group" id="materialFileGroup" style="display: none;">
+                    <label>Archivo:</label>
+                    <input type="file" id="materialFile">
+                </div>
+
+                <div class="form-group" id="materialCodeGroup" style="display: none;">
+                    <label>Código:</label>
+                    <textarea id="materialCode" rows="5" placeholder="Pega tu código aquí..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción (opcional):</label>
+                    <textarea id="materialDescription" rows="2" placeholder="Breve descripción del material..."></textarea>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="materialActive" checked>
+                    <label>Material activo</label>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">Guardar Material</button>
+            </form>
         </div>
     </div>
 
     <script>
-        // ============================================
-        // VARIABLES GLOBALES Y DATOS INICIALES
-        // ============================================
-        let programs = [];
-        let courses = [];
-        let classes = [];
-        let students = [];
-        let materials = [];
-        let categories = [];
-
-        // ============================================
-        // INICIALIZACIÓN - Cargar datos de localStorage
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔍 Inicializando panel de administración...');
-            
-            // Verificar si es admin (simplificado)
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
-            if (!isAdmin) {
-                const adminPass = prompt('Ingresa la contraseña de administrador:');
-                if (adminPass === 'admin123') {
-                    localStorage.setItem('isAdmin', 'true');
-                } else {
-                    alert('Contraseña incorrecta');
-                    window.location.href = '../login.html';
-                    return;
-                }
-            }
-            
-            document.getElementById('userName').textContent = 'Administrador';
-            
-            // Cargar datos guardados
-            loadAllData();
-            
-            // Mostrar pestaña inicial
-            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-            document.getElementById('programs-tab').style.display = 'block';
-        });
-
-        function loadAllData() {
-            // Cargar programas
-            const savedPrograms = localStorage.getItem('roboworks_programs');
-            if (savedPrograms) {
-                programs = JSON.parse(savedPrograms);
-            } else {
-                // Datos iniciales de programas
-                programs = [
-                    { id: 1, name: 'CodeWorks', description: 'Programación creativa con Roblox, Scratch y más', icon: 'fa-code', color: '#3498db', total_classes: 0 },
-                    { id: 2, name: 'Robo-Pro', description: 'Robótica educativa con LEGO y Arduino', icon: 'fa-robot', color: '#e74c3c', total_classes: 0 },
-                    { id: 3, name: 'Robo-Care', description: 'Tecnología para cuidar el planeta', icon: 'fa-leaf', color: '#2ecc71', total_classes: 0 },
-                    { id: 4, name: 'Robo-English', description: 'Aprende inglés creando con tecnología', icon: 'fa-language', color: '#f39c12', total_classes: 0 },
-                    { id: 5, name: 'Robo-Sense', description: 'Arte y creatividad digital', icon: 'fa-paint-brush', color: '#9b59b6', total_classes: 0 },
-                    { id: 6, name: 'Robo-Start', description: 'Iniciación a la tecnología para los más pequeños', icon: 'fa-star', color: '#1abc9c', total_classes: 0 }
-                ];
-                localStorage.setItem('roboworks_programs', JSON.stringify(programs));
-            }
-            
-            // Cargar cursos
-            const savedCourses = localStorage.getItem('roboworks_courses');
-            if (savedCourses) {
-                courses = JSON.parse(savedCourses);
-            } else {
-                courses = [];
-                localStorage.setItem('roboworks_courses', JSON.stringify(courses));
-            }
-            
-            // Cargar clases
-            const savedClasses = localStorage.getItem('roboworks_classes');
-            if (savedClasses) {
-                classes = JSON.parse(savedClasses);
-            } else {
-                classes = [];
-                localStorage.setItem('roboworks_classes', JSON.stringify(classes));
-            }
-            
-            // Cargar estudiantes
-            const savedStudents = localStorage.getItem('roboworks_students');
-            if (savedStudents) {
-                students = JSON.parse(savedStudents);
-            } else {
-                students = [];
-                localStorage.setItem('roboworks_students', JSON.stringify(students));
-            }
-            
-            // Cargar materiales
-            const savedMaterials = localStorage.getItem('roboworks_materials');
-            if (savedMaterials) {
-                materials = JSON.parse(savedMaterials);
-            } else {
-                materials = [];
-                localStorage.setItem('roboworks_materials', JSON.stringify(materials));
-            }
-            
-            // Cargar categorías
-            const savedCategories = localStorage.getItem('roboworks_categories');
-            if (savedCategories) {
-                categories = JSON.parse(savedCategories);
-            } else {
-                categories = [];
-                localStorage.setItem('roboworks_categories', JSON.stringify(categories));
-            }
-        }
-
-        // ============================================
-        // FUNCIÓN DE LOGOUT
-        // ============================================
-        function logout() {
-            localStorage.removeItem('isAdmin');
-            window.location.href = '../login.html';
-        }
-
-        // ============================================
-        // MOSTRAR PESTAÑAS
-        // ============================================
-        function showTab(tabName, event) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-            
-            event.target.classList.add('active');
-            document.getElementById(`${tabName}-tab`).style.display = 'block';
-            
-            // Cargar datos según la pestaña
-            if (tabName === 'programs') loadPrograms();
-            if (tabName === 'courses') loadCourses();
-            if (tabName === 'classes') loadClasses();
-            if (tabName === 'students') loadStudents();
-            if (tabName === 'materials') loadClassesForMaterials();
-        }
-
-        // ============================================
-        // FUNCIÓN PARA MOSTRAR ALERTAS
-        // ============================================
-        function showAlert(message, type) {
-            const alert = document.getElementById('alertMessage');
-            alert.textContent = message;
-            alert.className = `alert alert-${type}`;
-            alert.style.display = 'block';
-            
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 3000);
-        }
-
-        // ============================================
-        // PROGRAMAS
-        // ============================================
-        function loadPrograms() {
-            document.getElementById('programsLoading').style.display = 'block';
-            document.getElementById('programsGrid').style.display = 'none';
-            
-            // Actualizar total de clases
-            programs.forEach(program => {
-                program.total_classes = classes.filter(c => c.program_id === program.id).length;
-            });
-            
-            const grid = document.getElementById('programsGrid');
-            grid.innerHTML = '';
-            
-            if (programs.length === 0) {
-                grid.innerHTML = '<p style="text-align: center; padding: 2rem;">No hay programas creados aún. Crea tu primer programa.</p>';
-            } else {
-                programs.forEach(program => {
-                    const icon = program.icon || 'fa-robot';
-                    const color = program.color || '#667eea';
-                    
-                    const card = document.createElement('div');
-                    card.className = 'program-card';
-                    card.onclick = () => filterClasses(program.id);
-                    card.innerHTML = `
-                        <div class="program-icon" style="background: ${color}">
-                            <i class="fas ${icon}"></i>
-                        </div>
-                        <div class="program-name">${program.name}</div>
-                        <div class="program-description">${program.description || ''}</div>
-                        <div class="program-stats">
-                            <span><i class="fas fa-users"></i> ${program.total_classes || 0} clases</span>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            }
-            
-            document.getElementById('programsLoading').style.display = 'none';
-            grid.style.display = 'grid';
-        }
-
-        function openProgramModal(program = null) {
-            document.getElementById('programModalTitle').textContent = program ? 'Editar Programa' : 'Nuevo Programa';
-            document.getElementById('programId').value = program?.id || '';
-            document.getElementById('programName').value = program?.name || '';
-            document.getElementById('programDescription').value = program?.description || '';
-            document.getElementById('programIcon').value = program?.icon || 'fa-robot';
-            document.getElementById('programColor').value = program?.color || '#667eea';
-            document.getElementById('programModal').classList.add('active');
-        }
-
-        function closeProgramModal() {
-            document.getElementById('programModal').classList.remove('active');
-            document.getElementById('programForm').reset();
-        }
-
-        function saveProgram(event) {
-            event.preventDefault();
-            
-            const programData = {
-                id: Date.now(),
-                name: document.getElementById('programName').value,
-                description: document.getElementById('programDescription').value,
-                icon: document.getElementById('programIcon').value,
-                color: document.getElementById('programColor').value
-            };
-            
-            programs.push(programData);
-            localStorage.setItem('roboworks_programs', JSON.stringify(programs));
-            
-            showAlert('Programa creado exitosamente', 'success');
-            closeProgramModal();
-            loadPrograms();
-        }
-
-        // ============================================
-        // CURSOS DE CODEWORKS
-        // ============================================
-        function loadCourses() {
-            document.getElementById('coursesLoading').style.display = 'block';
-            document.getElementById('coursesTable').style.display = 'none';
-            
-            const tbody = document.getElementById('coursesList');
-            tbody.innerHTML = '';
-            
-            if (courses.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay cursos creados aún</td></tr>';
-            } else {
-                courses.forEach(course => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${course.name}</td>
-                        <td>${course.description || ''}</td>
-                        <td><i class="fas ${course.icon || 'fa-code'}"></i></td>
-                        <td>${classes.filter(c => c.codeworks_course_id === course.id).length} clases</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit-btn" onclick="editCourse(${course.id})">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteCourse(${course.id})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-            
-            document.getElementById('coursesLoading').style.display = 'none';
-            document.getElementById('coursesTable').style.display = 'block';
-        }
-
-        function openCourseModal() {
-            document.getElementById('courseModalTitle').textContent = 'Nuevo Curso en CodeWorks';
-            document.getElementById('courseId').value = '';
-            document.getElementById('courseName').value = '';
-            document.getElementById('courseDescription').value = '';
-            document.getElementById('courseIcon').value = 'fa-code';
-            document.getElementById('courseModal').classList.add('active');
-        }
-
-        function closeCourseModal() {
-            document.getElementById('courseModal').classList.remove('active');
-            document.getElementById('courseForm').reset();
-        }
-
-        function saveCourse(event) {
-            event.preventDefault();
-            
-            const courseData = {
-                id: Date.now(),
-                name: document.getElementById('courseName').value,
-                description: document.getElementById('courseDescription').value,
-                icon: document.getElementById('courseIcon').value,
-                program_id: 1 // CodeWorks
-            };
-            
-            courses.push(courseData);
-            localStorage.setItem('roboworks_courses', JSON.stringify(courses));
-            
-            showAlert('Curso creado exitosamente', 'success');
-            closeCourseModal();
-            loadCourses();
-        }
-
-        function editCourse(id) {
-            showAlert('Función en desarrollo', 'warning');
-        }
-
-        function deleteCourse(id) {
-            if (!confirm('¿Estás seguro de eliminar este curso?')) return;
-            courses = courses.filter(c => c.id !== id);
-            localStorage.setItem('roboworks_courses', JSON.stringify(courses));
-            loadCourses();
-            showAlert('Curso eliminado', 'success');
-        }
-
-        // ============================================
-        // CLASES
-        // ============================================
-        function loadClasses(programFilter = 'all') {
-            document.getElementById('classesLoading').style.display = 'block';
-            document.getElementById('classesTable').style.display = 'none';
-            
-            const tbody = document.getElementById('classesList');
-            tbody.innerHTML = '';
-            
-            if (classes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No hay clases creadas aún</td></tr>';
-            } else {
-                classes.forEach(cls => {
-                    const program = programs.find(p => p.id === cls.program_id);
-                    const course = courses.find(c => c.id === cls.codeworks_course_id);
-                    const enrolled = students.filter(s => s.class_ids && s.class_ids.includes(cls.id)).length;
-                    const max = cls.max_students || 4;
-                    const status = enrolled >= max ? 'full' : 'active';
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${program?.name || '-'}</td>
-                        <td>${course?.name || '-'}</td>
-                        <td>${cls.name}</td>
-                        <td>${formatDay(cls.schedule_day) || ''} ${cls.schedule_time || ''}</td>
-                        <td>${enrolled}/${max}</td>
-                        <td>
-                            <span class="status-badge status-${status}">
-                                ${status === 'full' ? 'Completo' : 'Disponible'}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit-btn" onclick="editClass(${cls.id})">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteClass(${cls.id})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-            
-            document.getElementById('classesLoading').style.display = 'none';
-            document.getElementById('classesTable').style.display = 'block';
-        }
-
-        function formatDay(day) {
-            const days = {
-                'monday': 'Lunes',
-                'tuesday': 'Martes',
-                'wednesday': 'Miércoles',
-                'thursday': 'Jueves',
-                'friday': 'Viernes',
-                'saturday': 'Sábado'
-            };
-            return days[day] || day;
-        }
-
-        function toggleCourseField() {
-            const programId = document.getElementById('classProgram').value;
-            const program = programs.find(p => p.id == programId);
-            const courseField = document.getElementById('courseField');
-            
-            if (program?.name === 'CodeWorks') {
-                courseField.style.display = 'block';
-                loadCoursesSelect();
-            } else {
-                courseField.style.display = 'none';
-            }
-        }
-
-        function loadCoursesSelect() {
-            const select = document.getElementById('classCourse');
-            select.innerHTML = '<option value="">Seleccionar curso...</option>';
-            
-            courses.forEach(course => {
-                const option = document.createElement('option');
-                option.value = course.id;
-                option.textContent = course.name;
-                select.appendChild(option);
-            });
-        }
-
-        function openClassModal() {
-            document.getElementById('classModalTitle').textContent = 'Nueva Clase';
-            document.getElementById('classForm').reset();
-            
-            const programSelect = document.getElementById('classProgram');
-            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
-            programs.forEach(program => {
-                const option = document.createElement('option');
-                option.value = program.id;
-                option.textContent = program.name;
-                programSelect.appendChild(option);
-            });
-            
-            document.getElementById('classModal').classList.add('active');
-        }
-
-        function closeClassModal() {
-            document.getElementById('classModal').classList.remove('active');
-            document.getElementById('classForm').reset();
-        }
-
-        function saveClass(event) {
-            event.preventDefault();
-            
-            const classData = {
-                id: Date.now(),
-                program_id: parseInt(document.getElementById('classProgram').value),
-                codeworks_course_id: parseInt(document.getElementById('classCourse').value) || null,
-                name: document.getElementById('className').value,
-                teacher_id: 2,
-                zoom_link: document.getElementById('classZoom').value,
-                schedule_day: document.getElementById('classDay').value,
-                schedule_time: document.getElementById('classTime').value,
-                description: document.getElementById('classDescription').value,
-                max_students: parseInt(document.getElementById('classMaxStudents').value)
-            };
-            
-            classes.push(classData);
-            localStorage.setItem('roboworks_classes', JSON.stringify(classes));
-            
-            showAlert('Clase creada exitosamente', 'success');
-            closeClassModal();
-            loadClasses();
-        }
-
-        function filterClasses(programId) {
-            document.querySelectorAll('.program-card').forEach(card => card.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            loadClasses(programId);
-        }
-
-        function editClass(id) {
-            showAlert('Función en desarrollo', 'warning');
-        }
-
-        function deleteClass(id) {
-            if (!confirm('¿Estás seguro de eliminar esta clase?')) return;
-            classes = classes.filter(c => c.id !== id);
-            localStorage.setItem('roboworks_classes', JSON.stringify(classes));
-            loadClasses();
-            showAlert('Clase eliminada', 'success');
-        }
-
-        // ============================================
-        // ESTUDIANTES
-        // ============================================
-        function loadStudents() {
-            document.getElementById('studentsLoading').style.display = 'block';
-            document.getElementById('studentsTable').style.display = 'none';
-            
-            const tbody = document.getElementById('studentsList');
-            tbody.innerHTML = '';
-            
-            if (students.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay estudiantes registrados</td></tr>';
-            } else {
-                students.forEach(student => {
-                    const row = document.createElement('tr');
-                    
-                    const photoColumn = '<i class="fas fa-user-circle" style="font-size: 2rem; color: #667eea;"></i>';
-                    
-                    const phoneColumn = student.parent_phone 
-                        ? `<span style="color: #25D366;"><i class="fab fa-whatsapp"></i> ${student.parent_phone}</span>`
-                        : '<span style="color: #999;">No registrado</span>';
-                    
-                    row.innerHTML = `
-                        <td>${photoColumn}</td>
-                        <td>${student.full_name}</td>
-                        <td>${student.username}</td>
-                        <td>${phoneColumn}</td>
-                        <td><code style="background: #f0f0f0; padding: 0.2rem 0.5rem; border-radius: 4px;">${student.invitation_code || 'N/A'}</code></td>
-                        <td>${student.class_ids?.length || 0} clases</td>
-                        <td>
-                            <span class="status-badge ${student.temporary_password ? 'status-warning' : 'status-active'}">
-                                ${student.temporary_password ? '⏳ Pendiente' : '✅ Activo'}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit-btn" onclick="viewStudent(${student.id})" title="Ver detalles">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteStudent(${student.id})" title="Eliminar">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-            
-            document.getElementById('studentsLoading').style.display = 'none';
-            document.getElementById('studentsTable').style.display = 'block';
-        }
-
-        function openStudentModal() {
-            document.getElementById('studentForm').reset();
-            document.getElementById('availableClasses').innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
-            
-            const programSelect = document.getElementById('studentProgram');
-            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
-            
-            programs.forEach(program => {
-                const option = document.createElement('option');
-                option.value = program.id;
-                option.textContent = program.name;
-                programSelect.appendChild(option);
-            });
-            
-            document.getElementById('studentModal').classList.add('active');
-        }
-
-        function closeStudentModal() {
-            document.getElementById('studentModal').classList.remove('active');
-            document.getElementById('studentForm').reset();
-        }
-
-        function loadAvailableClasses() {
-            const programId = document.getElementById('studentProgram').value;
-            const container = document.getElementById('availableClasses');
-            
-            if (!programId) {
-                container.innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
-                return;
-            }
-            
-            const filteredClasses = classes.filter(c => c.program_id == programId);
-            
-            if (filteredClasses.length === 0) {
-                container.innerHTML = '<p style="color: #666;">No hay clases disponibles para este programa</p>';
-                return;
-            }
-            
-            let html = '';
-            filteredClasses.forEach(cls => {
-                const enrolled = students.filter(s => s.class_ids && s.class_ids.includes(cls.id)).length;
-                const max = cls.max_students || 4;
-                const available = max - enrolled;
-                
-                html += `
-                    <div class="class-item ${available <= 0 ? 'disabled' : ''}">
-                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: ${available > 0 ? 'pointer' : 'not-allowed'};">
-                            <input type="checkbox" value="${cls.id}" ${available > 0 ? '' : 'disabled'}>
-                            <div class="class-info">
-                                <div class="class-name">${cls.name}</div>
-                                <div class="class-details">
-                                    ${formatDay(cls.schedule_day)} ${cls.schedule_time || ''} | 
-                                    Cupo: ${enrolled}/${max} 
-                                    ${available > 0 ? `(${available} disponible${available !== 1 ? 's' : ''})` : '(Completo)'}
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
-
+        // ==================== FUNCIÓN CORREGIDA saveStudent ====================
         function saveStudent(event) {
             event.preventDefault();
             
+            // Obtener clases seleccionadas
             const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
             const classIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            
+            // Validar que haya seleccionado al menos una clase
+            if (classIds.length === 0) {
+                alert('❌ Debes seleccionar al menos una clase para el estudiante');
+                return;
+            }
+            
             const parentPhone = document.getElementById('parentPhone').value.trim();
             
+            // Generar credenciales
             const username = 'est_' + Math.floor(Math.random() * 10000);
             const tempPassword = 'robo' + Math.floor(Math.random() * 1000);
             const invitationCode = 'ROBO-' + Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -1886,452 +1325,1018 @@
                 username: username,
                 password: tempPassword,
                 parent_phone: parentPhone || null,
-                program_id: parseInt(document.getElementById('studentProgram').value),
-                class_ids: classIds,
+                program_id: parseInt(document.getElementById('studentProgram').value), // Guardamos el programa
+                class_ids: classIds, // Guardamos las clases seleccionadas
                 invitation_code: invitationCode,
                 temporary_password: true,
                 created_at: new Date().toISOString()
             };
             
+            // Obtener estudiantes existentes
+            let students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
             students.push(studentData);
             localStorage.setItem('roboworks_students', JSON.stringify(students));
             
-            alert(`✅ Estudiante creado!\n📝 Usuario: ${username}\n🔑 Contraseña: ${tempPassword}\n🎫 Código: ${invitationCode}`);
+            // Mensaje de éxito con las credenciales
+            alert(`✅ Estudiante creado exitosamente!\n\n` +
+                  `📝 Nombre: ${studentData.full_name}\n` +
+                  `🔑 Usuario: ${username}\n` +
+                  `🔐 Contraseña: ${tempPassword}\n` +
+                  `🎫 Código: ${invitationCode}\n` +
+                  `📚 Clases asignadas: ${classIds.length}`);
             
             closeStudentModal();
-            loadStudents();
+            loadStudents(); // Recargar la lista de estudiantes
         }
 
-        function viewStudent(studentId) {
-            const student = students.find(s => s.id === studentId);
-            if (!student) return;
+        // ==================== FUNCIONES DE UTILIDAD ====================
+        function showAlert(message, type) {
+            const alert = document.getElementById('alertMessage');
+            alert.className = 'alert alert-' + type;
+            alert.textContent = message;
+            alert.style.display = 'block';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // ==================== FUNCIONES DE PESTAÑAS ====================
+        function showTab(tabName, event) {
+            // Actualizar clases de los botones
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
             
-            const studentClasses = classes.filter(c => student.class_ids?.includes(c.id));
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
             
-            let classesHtml = '';
-            if (studentClasses.length > 0) {
-                classesHtml = studentClasses.map(c => `
-                    <div class="class-chip">
-                        <strong>${c.name}</strong>
-                        <div style="font-size: 0.85rem; color: #666;">
-                            ${formatDay(c.schedule_day)} ${c.schedule_time || ''}
+            // Mostrar el contenido seleccionado
+            document.getElementById(tabName + '-tab').style.display = 'block';
+            
+            // Cargar datos según la pestaña
+            switch(tabName) {
+                case 'programs':
+                    loadPrograms();
+                    break;
+                case 'courses':
+                    loadCourses();
+                    break;
+                case 'classes':
+                    loadClasses();
+                    break;
+                case 'students':
+                    loadStudents();
+                    break;
+                case 'materials':
+                    loadClassesForMaterialSelect();
+                    break;
+            }
+        }
+
+        // ==================== FUNCIONES DE PROGRAMAS ====================
+        function loadPrograms() {
+            document.getElementById('programsLoading').style.display = 'block';
+            document.getElementById('programsGrid').style.display = 'none';
+            
+            setTimeout(() => {
+                const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+                const grid = document.getElementById('programsGrid');
+                
+                if (programs.length === 0) {
+                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open"></i><p>No hay programas creados. ¡Crea tu primer programa!</p></div>';
+                } else {
+                    grid.innerHTML = programs.sort((a, b) => (a.order || 0) - (b.order || 0)).map(program => `
+                        <div class="program-card ${!program.active ? 'inactive-material' : ''}" onclick="selectProgram(${program.id})">
+                            <div class="program-icon" style="background: ${program.color || '#667eea'}">
+                                <i class="${program.icon || 'fas fa-robot'}"></i>
+                            </div>
+                            <div class="program-name">${program.name}</div>
+                            <div class="program-description">${program.description || 'Sin descripción'}</div>
+                            <div class="program-stats">
+                                <span><i class="fas fa-calendar"></i> 0 clases</span>
+                                <span><i class="fas fa-users"></i> 0 estudiantes</span>
+                            </div>
+                            <div class="action-buttons" style="position: absolute; top: 1rem; right: 1rem;">
+                                <button class="action-btn edit-btn" onclick="editProgram(${program.id}, event)"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete-btn" onclick="deleteProgram(${program.id}, event)"><i class="fas fa-trash"></i></button>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `).join('');
+                }
+                
+                document.getElementById('programsLoading').style.display = 'none';
+                grid.style.display = 'grid';
+            }, 500);
+        }
+
+        function selectProgram(programId) {
+            // Implementar selección de programa si es necesario
+            console.log('Programa seleccionado:', programId);
+        }
+
+        function openProgramModal() {
+            document.getElementById('programModalTitle').textContent = 'Nuevo Programa';
+            document.getElementById('programForm').reset();
+            document.getElementById('programId').value = '';
+            document.getElementById('programModal').classList.add('active');
+        }
+
+        function closeProgramModal() {
+            document.getElementById('programModal').classList.remove('active');
+        }
+
+        function saveProgram(event) {
+            event.preventDefault();
+            
+            const programData = {
+                id: document.getElementById('programId').value || Date.now(),
+                name: document.getElementById('programName').value,
+                description: document.getElementById('programDescription').value,
+                color: document.getElementById('programColor').value,
+                icon: document.getElementById('programIcon').value,
+                order: parseInt(document.getElementById('programOrder').value) || 0,
+                active: document.getElementById('programActive').checked
+            };
+            
+            let programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+            
+            const existingIndex = programs.findIndex(p => p.id == programData.id);
+            if (existingIndex >= 0) {
+                programs[existingIndex] = programData;
+                showAlert('Programa actualizado exitosamente', 'success');
             } else {
-                classesHtml = '<p style="color: #666;">No está inscrito en ninguna clase</p>';
+                programs.push(programData);
+                showAlert('Programa creado exitosamente', 'success');
             }
             
-            const content = `
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <div class="student-avatar">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <h2 style="margin-bottom: 0.5rem;">${student.full_name}</h2>
-                    <p style="color: #666;">Usuario: ${student.username}</p>
-                </div>
+            localStorage.setItem('roboworks_programs', JSON.stringify(programs));
+            closeProgramModal();
+            loadPrograms();
+        }
+
+        function editProgram(id, event) {
+            event.stopPropagation();
+            const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+            const program = programs.find(p => p.id == id);
+            
+            if (program) {
+                document.getElementById('programModalTitle').textContent = 'Editar Programa';
+                document.getElementById('programId').value = program.id;
+                document.getElementById('programName').value = program.name || '';
+                document.getElementById('programDescription').value = program.description || '';
+                document.getElementById('programColor').value = program.color || '#667eea';
+                document.getElementById('programIcon').value = program.icon || 'fas fa-robot';
+                document.getElementById('programOrder').value = program.order || 0;
+                document.getElementById('programActive').checked = program.active !== false;
                 
-                <div class="credentials-box">
-                    <h3 style="margin-bottom: 1rem; color: #667eea;">
-                        <i class="fas fa-ticket-alt"></i> Credenciales de acceso
-                    </h3>
-                    <p><strong>Contraseña:</strong> <code>${student.password}</code></p>
-                    <p><strong>Código de invitación:</strong> <code>${student.invitation_code}</code></p>
-                </div>
+                document.getElementById('programModal').classList.add('active');
+            }
+        }
+
+        function deleteProgram(id, event) {
+            event.stopPropagation();
+            if (confirm('¿Estás seguro de eliminar este programa?')) {
+                let programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+                programs = programs.filter(p => p.id != id);
+                localStorage.setItem('roboworks_programs', JSON.stringify(programs));
+                showAlert('Programa eliminado', 'success');
+                loadPrograms();
+            }
+        }
+
+        // ==================== FUNCIONES DE CURSOS ====================
+        function loadCourses() {
+            document.getElementById('coursesLoading').style.display = 'block';
+            document.getElementById('coursesTable').style.display = 'none';
+            
+            setTimeout(() => {
+                const courses = JSON.parse(localStorage.getItem('roboworks_courses') || '[]');
+                const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+                const list = document.getElementById('coursesList');
                 
-                <div class="classes-box">
-                    <h3 style="margin-bottom: 1rem; color: #667eea;">
-                        <i class="fas fa-calendar-alt"></i> Clases inscritas (${studentClasses.length})
-                    </h3>
-                    ${classesHtml}
+                if (courses.length === 0) {
+                    list.innerHTML = '<tr><td colspan="5" class="empty-state">No hay cursos creados. ¡Crea tu primer curso!</td></tr>';
+                } else {
+                    list.innerHTML = courses.map(course => {
+                        const program = programs.find(p => p.id == course.program_id);
+                        return `
+                            <tr class="${!course.active ? 'inactive-material' : ''}">
+                                <td>${program ? program.name : 'Programa no encontrado'}</td>
+                                <td>${course.name}</td>
+                                <td>${course.description || '-'}</td>
+                                <td><i class="${course.icon || 'fas fa-code'}" style="color: ${course.color || '#10b981'}"></i></td>
+                                <td>0</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit-btn" onclick="editCourse(${course.id})"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn delete-btn" onclick="deleteCourse(${course.id})"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+                
+                document.getElementById('coursesLoading').style.display = 'none';
+                document.getElementById('coursesTable').style.display = 'block';
+            }, 500);
+        }
+
+        function openCourseModal() {
+            document.getElementById('courseModalTitle').textContent = 'Nuevo Curso';
+            document.getElementById('courseForm').reset();
+            document.getElementById('courseId').value = '';
+            
+            // Cargar programas en el select
+            const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+            const select = document.getElementById('courseProgram');
+            select.innerHTML = '<option value="">Seleccionar programa...</option>' +
+                programs.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function closeCourseModal() {
+            document.getElementById('courseModal').classList.remove('active');
+        }
+
+        function saveCourse(event) {
+            event.preventDefault();
+            
+            const courseData = {
+                id: document.getElementById('courseId').value || Date.now(),
+                program_id: parseInt(document.getElementById('courseProgram').value),
+                name: document.getElementById('courseName').value,
+                description: document.getElementById('courseDescription').value,
+                color: document.getElementById('courseColor').value,
+                icon: document.getElementById('courseIcon').value,
+                order: parseInt(document.getElementById('courseOrder').value) || 0,
+                active: document.getElementById('courseActive').checked
+            };
+            
+            let courses = JSON.parse(localStorage.getItem('roboworks_courses') || '[]');
+            
+            const existingIndex = courses.findIndex(c => c.id == courseData.id);
+            if (existingIndex >= 0) {
+                courses[existingIndex] = courseData;
+                showAlert('Curso actualizado exitosamente', 'success');
+            } else {
+                courses.push(courseData);
+                showAlert('Curso creado exitosamente', 'success');
+            }
+            
+            localStorage.setItem('roboworks_courses', JSON.stringify(courses));
+            closeCourseModal();
+            loadCourses();
+        }
+
+        function editCourse(id) {
+            const courses = JSON.parse(localStorage.getItem('roboworks_courses') || '[]');
+            const course = courses.find(c => c.id == id);
+            
+            if (course) {
+                document.getElementById('courseModalTitle').textContent = 'Editar Curso';
+                document.getElementById('courseId').value = course.id;
+                document.getElementById('courseProgram').value = course.program_id;
+                document.getElementById('courseName').value = course.name || '';
+                document.getElementById('courseDescription').value = course.description || '';
+                document.getElementById('courseColor').value = course.color || '#10b981';
+                document.getElementById('courseIcon').value = course.icon || 'fas fa-code';
+                document.getElementById('courseOrder').value = course.order || 0;
+                document.getElementById('courseActive').checked = course.active !== false;
+                
+                // Cargar programas en el select
+                const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+                const select = document.getElementById('courseProgram');
+                select.innerHTML = '<option value="">Seleccionar programa...</option>' +
+                    programs.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+                select.value = course.program_id;
+                
+                document.getElementById('courseModal').classList.add('active');
+            }
+        }
+
+        function deleteCourse(id) {
+            if (confirm('¿Estás seguro de eliminar este curso?')) {
+                let courses = JSON.parse(localStorage.getItem('roboworks_courses') || '[]');
+                courses = courses.filter(c => c.id != id);
+                localStorage.setItem('roboworks_courses', JSON.stringify(courses));
+                showAlert('Curso eliminado', 'success');
+                loadCourses();
+            }
+        }
+
+        // ==================== FUNCIONES DE CLASES ====================
+        function loadClasses() {
+            document.getElementById('classesLoading').style.display = 'block';
+            document.getElementById('classesTable').style.display = 'none';
+            
+            setTimeout(() => {
+                const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+                const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+                const courses = JSON.parse(localStorage.getItem('roboworks_courses') || '[]');
+                const list = document.getElementById('classesList');
+                
+                if (classes.length === 0) {
+                    list.innerHTML = '<tr><td colspan="7" class="empty-state">No hay clases creadas. ¡Crea tu primera clase!</td></tr>';
+                } else {
+                    list.innerHTML = classes.map(cls => {
+                        const program = programs.find(p => p.id == cls.program_id);
+                        const course = courses.find(c => c.id == cls.course_id);
+                        return `
+                            <tr class="${!cls.active ? 'inactive-material' : ''}">
+                                <td>${program ? program.name : '-'}</td>
+                                <td>${course ? course.name : '-'}</td>
+                                <td>${cls.name}</td>
+                                <td>${cls.day} ${cls.time}</td>
+                                <td>0/${cls.capacity || 15}</td>
+                                <td><span class="status-badge ${(cls.capacity && cls.capacity <= 0) ? 'status-full' : 'status-active'}">${(cls.capacity && cls.capacity <= 0) ? 'Lleno' : 'Disponible'}</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit-btn" onclick="editClass(${cls.id})"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn delete-btn" onclick="deleteClass(${cls.id})"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+                
+                document.getElementById('classesLoading').style.display = 'none';
+                document.getElementById('classesTable').style.display = 'block';
+            }, 500);
+        }
+
+        function openClassModal() {
+            document.getElementById('classModalTitle').textContent = 'Nueva Clase';
+            document.getElementById('classForm').reset();
+            document.getElementById('classId').value = '';
+            
+            // Cargar programas en el select
+            const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+            const programSelect = document.getElementById('classProgram');
+            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>' +
+                programs.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            
+            // Reiniciar select de cursos
+            document.getElementById('classCourse').innerHTML = '<option value="">Primero selecciona un programa</option>';
+            
+            document.getElementById('classModal').classList.add('active');
+        }
+
+        function closeClassModal() {
+            document.getElementById('classModal').classList.remove('active');
+        }
+
+        function loadCoursesForClass() {
+            const programId = document.getElementById('classProgram').value;
+            const courseSelect = document.getElementById('classCourse');
+            
+            if (!programId) {
+                courseSelect.innerHTML = '<option value="">Primero selecciona un programa</option>';
+                return;
+            }
+            
+            const courses = JSON.parse(localStorage.getItem('roboworks_courses') || '[]');
+            const filteredCourses = courses.filter(c => c.program_id == programId);
+            
+            courseSelect.innerHTML = '<option value="">Seleccionar curso...</option>' +
+                filteredCourses.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        }
+
+        function saveClass(event) {
+            event.preventDefault();
+            
+            const classData = {
+                id: document.getElementById('classId').value || Date.now(),
+                program_id: parseInt(document.getElementById('classProgram').value),
+                course_id: parseInt(document.getElementById('classCourse').value),
+                name: document.getElementById('className').value,
+                day: document.getElementById('classDay').value,
+                time: document.getElementById('classTime').value,
+                capacity: parseInt(document.getElementById('classCapacity').value) || 15,
+                min_age: parseInt(document.getElementById('classMinAge').value) || 6,
+                max_age: parseInt(document.getElementById('classMaxAge').value) || 12,
+                price: parseFloat(document.getElementById('classPrice').value) || 0,
+                location: document.getElementById('classLocation').value,
+                active: document.getElementById('classActive').checked
+            };
+            
+            let classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+            
+            const existingIndex = classes.findIndex(c => c.id == classData.id);
+            if (existingIndex >= 0) {
+                classes[existingIndex] = classData;
+                showAlert('Clase actualizada exitosamente', 'success');
+            } else {
+                classes.push(classData);
+                showAlert('Clase creada exitosamente', 'success');
+            }
+            
+            localStorage.setItem('roboworks_classes', JSON.stringify(classes));
+            closeClassModal();
+            loadClasses();
+        }
+
+        function editClass(id) {
+            const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+            const cls = classes.find(c => c.id == id);
+            
+            if (cls) {
+                document.getElementById('classModalTitle').textContent = 'Editar Clase';
+                document.getElementById('classId').value = cls.id;
+                document.getElementById('classProgram').value = cls.program_id;
+                
+                // Cargar cursos del programa
+                loadCoursesForClass();
+                
+                // Esperar un momento para que se carguen los cursos y luego establecer el valor
+                setTimeout(() => {
+                    document.getElementById('classCourse').value = cls.course_id || '';
+                }, 100);
+                
+                document.getElementById('className').value = cls.name || '';
+                document.getElementById('classDay').value = cls.day || 'Lunes';
+                document.getElementById('classTime').value = cls.time || '';
+                document.getElementById('classCapacity').value = cls.capacity || 15;
+                document.getElementById('classMinAge').value = cls.min_age || 6;
+                document.getElementById('classMaxAge').value = cls.max_age || 12;
+                document.getElementById('classPrice').value = cls.price || 0;
+                document.getElementById('classLocation').value = cls.location || '';
+                document.getElementById('classActive').checked = cls.active !== false;
+                
+                document.getElementById('classModal').classList.add('active');
+            }
+        }
+
+        function deleteClass(id) {
+            if (confirm('¿Estás seguro de eliminar esta clase?')) {
+                let classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+                classes = classes.filter(c => c.id != id);
+                localStorage.setItem('roboworks_classes', JSON.stringify(classes));
+                showAlert('Clase eliminada', 'success');
+                loadClasses();
+            }
+        }
+
+        // ==================== FUNCIONES DE ESTUDIANTES ====================
+        function loadStudents() {
+            document.getElementById('studentsLoading').style.display = 'block';
+            document.getElementById('studentsTable').style.display = 'none';
+            
+            setTimeout(() => {
+                const students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
+                const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+                const list = document.getElementById('studentsList');
+                
+                if (students.length === 0) {
+                    list.innerHTML = '<tr><td colspan="8" class="empty-state">No hay estudiantes registrados. ¡Registra tu primer estudiante!</td></tr>';
+                } else {
+                    list.innerHTML = students.map(student => {
+                        // Obtener nombres de las clases del estudiante
+                        const studentClasses = (student.class_ids || []).map(id => {
+                            const cls = classes.find(c => c.id == id);
+                            return cls ? cls.name : 'Clase no encontrada';
+                        }).join(', ');
+                        
+                        return `
+                            <tr>
+                                <td>
+                                    <div class="student-photo-placeholder">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                </td>
+                                <td>${student.full_name}</td>
+                                <td>${student.username}</td>
+                                <td>${student.parent_phone || '-'}</td>
+                                <td>${student.invitation_code || '-'}</td>
+                                <td>${studentClasses || 'Sin clases'}</td>
+                                <td><span class="status-badge status-active">Activo</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit-btn" onclick="editStudent(${student.id})"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn delete-btn" onclick="deleteStudent(${student.id})"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+                
+                document.getElementById('studentsLoading').style.display = 'none';
+                document.getElementById('studentsTable').style.display = 'block';
+            }, 500);
+        }
+
+        function openStudentModal() {
+            document.getElementById('studentModalTitle').textContent = 'Nuevo Estudiante';
+            document.getElementById('studentForm').reset();
+            document.getElementById('studentId').value = '';
+            
+            // Cargar programas en el select
+            const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
+            const programSelect = document.getElementById('studentProgram');
+            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>' +
+                programs.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            
+            // Reiniciar clases disponibles
+            document.getElementById('availableClasses').innerHTML = '<p style="color: #999; text-align: center;">Selecciona un programa primero</p>';
+            
+            document.getElementById('studentModal').classList.add('active');
+        }
+
+        function closeStudentModal() {
+            document.getElementById('studentModal').classList.remove('active');
+        }
+
+        function loadClassesForStudent() {
+            const programId = document.getElementById('studentProgram').value;
+            const container = document.getElementById('availableClasses');
+            
+            if (!programId) {
+                container.innerHTML = '<p style="color: #999; text-align: center;">Selecciona un programa primero</p>';
+                return;
+            }
+            
+            const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+            const filteredClasses = classes.filter(c => c.program_id == programId && c.active !== false);
+            
+            if (filteredClasses.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center;">No hay clases disponibles para este programa</p>';
+                return;
+            }
+            
+            container.innerHTML = filteredClasses.map(cls => `
+                <div class="class-item">
+                    <label>
+                        <input type="checkbox" value="${cls.id}">
+                        <div class="class-info">
+                            <div class="class-name">${cls.name}</div>
+                            <div class="class-details">${cls.day} ${cls.time} - Cupo: ${cls.capacity || 15}</div>
+                        </div>
+                    </label>
                 </div>
-            `;
-            
-            document.getElementById('studentDetailContent').innerHTML = content;
-            document.getElementById('studentDetailModal').classList.add('active');
+            `).join('');
         }
 
-        function closeStudentDetailModal() {
-            document.getElementById('studentDetailModal').classList.remove('active');
+        function editStudent(id) {
+            const students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
+            const student = students.find(s => s.id == id);
+            
+            if (student) {
+                document.getElementById('studentModalTitle').textContent = 'Editar Estudiante';
+                document.getElementById('studentId').value = student.id;
+                document.getElementById('studentName').value = student.full_name || '';
+                document.getElementById('studentProgram').value = student.program_id || '';
+                document.getElementById('parentPhone').value = student.parent_phone || '';
+                document.getElementById('studentActive').checked = true;
+                
+                // Cargar clases del programa
+                loadClassesForStudent();
+                
+                // Marcar las clases del estudiante
+                setTimeout(() => {
+                    if (student.class_ids && student.class_ids.length > 0) {
+                        student.class_ids.forEach(id => {
+                            const checkbox = document.querySelector(`#availableClasses input[value="${id}"]`);
+                            if (checkbox) checkbox.checked = true;
+                        });
+                    }
+                }, 200);
+                
+                document.getElementById('studentModal').classList.add('active');
+            }
         }
 
-        function deleteStudent(studentId) {
-            if (!confirm('¿Estás seguro de eliminar este estudiante?')) return;
-            
-            students = students.filter(s => s.id !== studentId);
-            localStorage.setItem('roboworks_students', JSON.stringify(students));
-            
-            showAlert('Estudiante eliminado', 'success');
-            loadStudents();
+        function deleteStudent(id) {
+            if (confirm('¿Estás seguro de eliminar este estudiante?')) {
+                let students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
+                students = students.filter(s => s.id != id);
+                localStorage.setItem('roboworks_students', JSON.stringify(students));
+                showAlert('Estudiante eliminado', 'success');
+                loadStudents();
+            }
         }
 
-        // ============================================
-        // MATERIALES
-        // ============================================
-        let currentClassId = null;
-        let currentMaterials = [];
-        let currentCategories = [];
-        let currentFilter = 'all';
-
-        function loadClassesForMaterials() {
+        // ==================== FUNCIONES DE MATERIALES ====================
+        function loadClassesForMaterialSelect() {
+            const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
             const select = document.getElementById('materialClassSelect');
-            select.innerHTML = '<option value="">Seleccionar clase...</option>';
             
-            classes.forEach(cls => {
-                const program = programs.find(p => p.id === cls.program_id);
-                const option = document.createElement('option');
-                option.value = cls.id;
-                option.textContent = `${cls.name} (${program?.name || 'Sin programa'})`;
-                select.appendChild(option);
-            });
+            if (classes.length === 0) {
+                select.innerHTML = '<option value="">No hay clases disponibles</option>';
+                return;
+            }
+            
+            select.innerHTML = '<option value="">Seleccionar clase...</option>' +
+                classes.filter(c => c.active !== false).map(c => 
+                    `<option value="${c.id}">${c.name} (${c.day} ${c.time})</option>`
+                ).join('');
         }
 
         function loadClassMaterials() {
-            const classId = parseInt(document.getElementById('materialClassSelect').value);
+            const classId = document.getElementById('materialClassSelect').value;
+            const management = document.getElementById('materialManagement');
+            const classInfo = document.getElementById('classInfoCard');
             
             if (!classId) {
-                document.getElementById('materialManagement').style.display = 'none';
+                management.style.display = 'none';
                 return;
             }
             
-            currentClassId = classId;
-            document.getElementById('materialManagement').style.display = 'block';
-            document.getElementById('materialsLoading').style.display = 'block';
-            document.getElementById('materialsContainer').innerHTML = '';
+            // Mostrar gestión de materiales
+            management.style.display = 'block';
             
-            currentMaterials = materials.filter(m => m.class_id === classId);
-            currentCategories = categories.filter(c => c.class_id === classId);
+            // Cargar información de la clase
+            const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
+            const cls = classes.find(c => c.id == classId);
             
-            const cls = classes.find(c => c.id === classId);
-            const program = programs.find(p => p.id === cls?.program_id);
+            if (cls) {
+                document.getElementById('selectedClassName').innerHTML = `<i class="fas fa-calendar-alt"></i> ${cls.name}`;
+                document.getElementById('selectedClassDetails').innerHTML = `${cls.day} ${cls.time} - ${cls.location || 'Sin ubicación'}`;
+            }
             
-            document.getElementById('selectedClassName').innerHTML = `
-                <i class="fas fa-book"></i> ${cls?.name || ''}
-            `;
-            document.getElementById('selectedClassDetails').innerHTML = `
-                <strong>Programa:</strong> ${program?.name || 'N/A'} | 
-                <strong>Total materiales:</strong> ${currentMaterials.length}
-            `;
+            // Guardar classId en el modal de material
+            document.getElementById('materialClassId').value = classId;
             
-            displayCategories();
-            displayMaterials();
-            
-            document.getElementById('materialsLoading').style.display = 'none';
+            // Cargar categorías y materiales
+            loadCategories();
+            loadMaterials();
         }
 
-        function displayCategories() {
+        function loadCategories() {
+            const classId = document.getElementById('materialClassSelect').value;
+            if (!classId) return;
+            
+            const categories = JSON.parse(localStorage.getItem('roboworks_categories') || '[]');
+            const classCategories = categories.filter(c => c.class_id == classId && c.active !== false);
             const container = document.getElementById('categoriesList');
             
-            if (currentCategories.length === 0) {
-                container.innerHTML = '<p style="color: #666;">No hay categorías creadas. Crea una para organizar mejor los materiales.</p>';
+            if (classCategories.length === 0) {
+                container.innerHTML = '<p class="empty-state" style="padding: 1rem;">No hay categorías creadas</p>';
                 return;
             }
             
-            let html = '<div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">';
+            container.innerHTML = classCategories.map(cat => `
+                <div class="category-chip" style="border-color: ${cat.color || '#667eea'}">
+                    <span class="color-dot" style="background: ${cat.color || '#667eea'}"></span>
+                    <span>${cat.name}</span>
+                    <button class="action-btn edit-btn" onclick="editCategory(${cat.id})" style="width: 25px; height: 25px; font-size: 0.8rem;">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn" onclick="deleteCategory(${cat.id})" style="width: 25px; height: 25px; font-size: 0.8rem;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function loadMaterials() {
+            document.getElementById('materialsLoading').style.display = 'block';
+            document.getElementById('materialsList').style.display = 'none';
             
-            currentCategories.forEach(cat => {
-                html += `
-                    <div class="category-chip" style="background: ${cat.color || '#667eea'}20; color: ${cat.color || '#667eea'};">
-                        <span class="color-dot" style="background: ${cat.color || '#667eea'};"></span>
-                        <span>${cat.name}</span>
-                        <button onclick="deleteCategory(${cat.id})" style="background: none; border: none; color: inherit; cursor: pointer; margin-left: 0.3rem;">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `;
-            });
-            
-            html += '</div>';
-            container.innerHTML = html;
+            setTimeout(() => {
+                const classId = document.getElementById('materialClassSelect').value;
+                if (!classId) return;
+                
+                const materials = JSON.parse(localStorage.getItem('roboworks_materials') || '[]');
+                const categories = JSON.parse(localStorage.getItem('roboworks_categories') || '[]');
+                const classMaterials = materials.filter(m => m.class_id == classId);
+                const list = document.getElementById('materialsList');
+                
+                if (classMaterials.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><i class="fas fa-file-alt"></i><p>No hay materiales para esta clase</p></div>';
+                } else {
+                    list.innerHTML = classMaterials.map(material => {
+                        const category = categories.find(c => c.id == material.category_id);
+                        return `
+                            <div class="material-item ${!material.active ? 'inactive-material' : ''}">
+                                <div class="material-header">
+                                    <div class="material-title">
+                                        <i class="fas ${material.type === 'link' ? 'fa-link' : material.type === 'file' ? 'fa-file' : material.type === 'video' ? 'fa-video' : 'fa-code'}"></i>
+                                        ${material.title}
+                                        <span class="material-type type-${material.type}">${material.type}</span>
+                                    </div>
+                                    <div class="material-actions">
+                                        <button class="action-btn edit-btn" onclick="editMaterial(${material.id})"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn delete-btn" onclick="deleteMaterial(${material.id})"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <div class="material-meta">
+                                    <span><i class="fas fa-tag"></i> ${category ? category.name : 'Sin categoría'}</span>
+                                    ${material.url ? `<span><i class="fas fa-link"></i> <a href="${material.url}" target="_blank">Ver enlace</a></span>` : ''}
+                                    ${material.description ? `<span><i class="fas fa-align-left"></i> ${material.description}</span>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+                
+                document.getElementById('materialsLoading').style.display = 'none';
+                list.style.display = 'block';
+            }, 500);
         }
 
         function filterMaterials(type) {
-            currentFilter = type;
-            displayMaterials();
-        }
-
-        function displayMaterials() {
-            const container = document.getElementById('materialsContainer');
+            const classId = document.getElementById('materialClassSelect').value;
+            if (!classId) return;
             
-            let filtered = currentMaterials;
-            if (currentFilter !== 'all') {
-                filtered = currentMaterials.filter(m => m.material_type === currentFilter);
+            const materials = JSON.parse(localStorage.getItem('roboworks_materials') || '[]');
+            const categories = JSON.parse(localStorage.getItem('roboworks_categories') || '[]');
+            const classMaterials = materials.filter(m => m.class_id == classId);
+            const list = document.getElementById('materialsList');
+            
+            let filteredMaterials = classMaterials;
+            if (type !== 'all') {
+                filteredMaterials = classMaterials.filter(m => m.type === type);
             }
             
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-folder-open"></i>
-                        <p>No hay materiales ${currentFilter !== 'all' ? 'de este tipo' : ''}</p>
-                        <button class="btn-primary" onclick="openMaterialModal()" style="margin-top: 1rem;">
-                            <i class="fas fa-plus"></i> Crear primer material
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '';
-            
-            const byCategory = {};
-            filtered.forEach(material => {
-                const catId = material.category_id || 'uncategorized';
-                if (!byCategory[catId]) {
-                    byCategory[catId] = {
-                        name: currentCategories.find(c => c.id === material.category_id)?.name || 'Sin categoría',
-                        color: currentCategories.find(c => c.id === material.category_id)?.color || '#ccc',
-                        materials: []
-                    };
-                }
-                byCategory[catId].materials.push(material);
-            });
-            
-            for (const [catId, category] of Object.entries(byCategory)) {
-                html += `
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="color: ${category.color}; border-left: 4px solid ${category.color}; padding-left: 1rem; margin-bottom: 1rem;">
-                            ${category.name} (${category.materials.length})
-                        </h4>
-                `;
-                
-                category.materials.forEach(m => {
-                    const icon = {
-                        'link': '🔗',
-                        'file': '📁',
-                        'video': '🎥',
-                        'code': '💻'
-                    }[m.material_type] || '📄';
-                    
-                    const typeClass = {
-                        'link': 'type-link',
-                        'file': 'type-file',
-                        'video': 'type-video',
-                        'code': 'type-code'
-                    }[m.material_type] || '';
-                    
-                    html += `
-                        <div class="material-item ${m.is_active ? '' : 'inactive-material'}">
+            if (filteredMaterials.length === 0) {
+                list.innerHTML = '<div class="empty-state"><i class="fas fa-file-alt"></i><p>No hay materiales de este tipo</p></div>';
+            } else {
+                list.innerHTML = filteredMaterials.map(material => {
+                    const category = categories.find(c => c.id == material.category_id);
+                    return `
+                        <div class="material-item ${!material.active ? 'inactive-material' : ''}">
                             <div class="material-header">
                                 <div class="material-title">
-                                    <span>${icon}</span> ${m.title}
-                                    <span class="material-type ${typeClass}">${m.material_type}</span>
-                                    ${!m.is_active ? '<span style="background: #ff6b6b; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">INACTIVO</span>' : ''}
+                                    <i class="fas ${material.type === 'link' ? 'fa-link' : material.type === 'file' ? 'fa-file' : material.type === 'video' ? 'fa-video' : 'fa-code'}"></i>
+                                    ${material.title}
+                                    <span class="material-type type-${material.type}">${material.type}</span>
                                 </div>
                                 <div class="material-actions">
-                                    <button class="action-btn edit-btn" onclick="viewMaterial(${m.id})" title="Ver">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="action-btn edit-btn" onclick="editMaterial(${m.id})" title="Editar">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn delete-btn" onclick="deleteMaterial(${m.id})" title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <button class="action-btn edit-btn" onclick="editMaterial(${material.id})"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn" onclick="deleteMaterial(${material.id})"><i class="fas fa-trash"></i></button>
                                 </div>
                             </div>
                             <div class="material-meta">
-                                <span><i class="fas fa-align-left"></i> ${m.description || 'Sin descripción'}</span>
+                                <span><i class="fas fa-tag"></i> ${category ? category.name : 'Sin categoría'}</span>
+                                ${material.url ? `<span><i class="fas fa-link"></i> <a href="${material.url}" target="_blank">Ver enlace</a></span>` : ''}
+                                ${material.description ? `<span><i class="fas fa-align-left"></i> ${material.description}</span>` : ''}
                             </div>
                         </div>
                     `;
-                });
-                
-                html += '</div>';
+                }).join('');
             }
-            
-            container.innerHTML = html;
         }
 
-        function openMaterialModal(material = null) {
-            document.getElementById('materialModalTitle').textContent = material ? 'Editar Material' : 'Nuevo Material';
-            document.getElementById('materialId').value = material?.id || '';
-            document.getElementById('materialClassId').value = currentClassId;
-            document.getElementById('materialTitle').value = material?.title || '';
-            document.getElementById('materialDescription').value = material?.description || '';
-            document.getElementById('materialOrder').value = material?.display_order || 0;
-            document.getElementById('materialActive').checked = material?.is_active !== false;
+        function openCategoryModal() {
+            document.getElementById('categoryForm').reset();
+            document.getElementById('categoryId').value = '';
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.remove('active');
+        }
+
+        function saveCategory(event) {
+            event.preventDefault();
             
-            const catSelect = document.getElementById('materialCategory');
-            catSelect.innerHTML = '<option value="">Sin categoría</option>';
-            currentCategories.forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat.id;
-                option.textContent = cat.name;
-                catSelect.appendChild(option);
-            });
-            
-            if (material?.category_id) {
-                catSelect.value = material.category_id;
+            const classId = document.getElementById('materialClassSelect').value;
+            if (!classId) {
+                alert('Selecciona una clase primero');
+                return;
             }
             
-            if (material) {
-                showMaterialType(material.material_type);
-                if (material.material_type === 'link') {
-                    document.getElementById('materialLink').value = material.external_link || '';
-                }
+            const categoryData = {
+                id: document.getElementById('categoryId').value || Date.now(),
+                class_id: classId,
+                name: document.getElementById('categoryName').value,
+                color: document.getElementById('categoryColor').value,
+                description: document.getElementById('categoryDescription').value,
+                active: document.getElementById('categoryActive').checked
+            };
+            
+            let categories = JSON.parse(localStorage.getItem('roboworks_categories') || '[]');
+            
+            const existingIndex = categories.findIndex(c => c.id == categoryData.id);
+            if (existingIndex >= 0) {
+                categories[existingIndex] = categoryData;
+                showAlert('Categoría actualizada', 'success');
             } else {
-                showMaterialType('link');
+                categories.push(categoryData);
+                showAlert('Categoría creada', 'success');
             }
+            
+            localStorage.setItem('roboworks_categories', JSON.stringify(categories));
+            closeCategoryModal();
+            loadCategories();
+        }
+
+        function editCategory(id) {
+            const categories = JSON.parse(localStorage.getItem('roboworks_categories') || '[]');
+            const category = categories.find(c => c.id == id);
+            
+            if (category) {
+                document.getElementById('categoryId').value = category.id;
+                document.getElementById('categoryName').value = category.name || '';
+                document.getElementById('categoryColor').value = category.color || '#667eea';
+                document.getElementById('categoryDescription').value = category.description || '';
+                document.getElementById('categoryActive').checked = category.active !== false;
+                
+                document.getElementById('categoryModal').classList.add('active');
+            }
+        }
+
+        function deleteCategory(id) {
+            if (confirm('¿Estás seguro de eliminar esta categoría?')) {
+                let categories = JSON.parse(localStorage.getItem('roboworks_categories') || '[]');
+                categories = categories.filter(c => c.id != id);
+                localStorage.setItem('roboworks_categories', JSON.stringify(categories));
+                showAlert('Categoría eliminada', 'success');
+                loadCategories();
+            }
+        }
+
+        function openMaterialModal() {
+            const classId = document.getElementById('materialClassSelect').value;
+            if (!classId) {
+                alert('Selecciona una clase primero');
+                return;
+            }
+            
+            document.getElementById('materialForm').reset();
+            document.getElementById('materialId').value = '';
+            document.getElementById('materialClassId').value = classId;
+            
+            // Cargar categorías en el select
+            const categories = JSON.parse(localStorage.getItem('roboworks_categories') || '[]');
+            const classCategories = categories.filter(c => c.class_id == classId && c.active !== false);
+            const categorySelect = document.getElementById('materialCategory');
+            
+            categorySelect.innerHTML = '<option value="">Seleccionar categoría...</option>' +
+                classCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            
+            // Mostrar campo URL por defecto
+            toggleMaterialFields();
             
             document.getElementById('materialModal').classList.add('active');
         }
 
         function closeMaterialModal() {
             document.getElementById('materialModal').classList.remove('active');
-            document.getElementById('materialForm').reset();
         }
 
-        function showMaterialType(type) {
-            document.querySelectorAll('[id^="tab-"]').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(`tab-${type}`).classList.add('active');
+        function toggleMaterialFields() {
+            const type = document.getElementById('materialType').value;
             
-            document.querySelectorAll('.material-field').forEach(field => field.style.display = 'none');
-            document.getElementById(`field-${type}`).style.display = 'block';
-            document.getElementById('materialType').value = type;
+            document.getElementById('materialUrlGroup').style.display = 'none';
+            document.getElementById('materialFileGroup').style.display = 'none';
+            document.getElementById('materialCodeGroup').style.display = 'none';
+            
+            if (type === 'link' || type === 'video') {
+                document.getElementById('materialUrlGroup').style.display = 'block';
+            } else if (type === 'file') {
+                document.getElementById('materialFileGroup').style.display = 'block';
+            } else if (type === 'code') {
+                document.getElementById('materialCodeGroup').style.display = 'block';
+            }
         }
 
         function saveMaterial(event) {
             event.preventDefault();
             
+            const classId = document.getElementById('materialClassId').value;
             const type = document.getElementById('materialType').value;
-            const formData = {
-                id: Date.now(),
-                class_id: currentClassId,
-                category_id: document.getElementById('materialCategory').value || null,
+            
+            const materialData = {
+                id: document.getElementById('materialId').value || Date.now(),
+                class_id: classId,
                 title: document.getElementById('materialTitle').value,
+                type: type,
+                category_id: parseInt(document.getElementById('materialCategory').value),
                 description: document.getElementById('materialDescription').value,
-                material_type: type,
-                display_order: parseInt(document.getElementById('materialOrder').value),
-                is_active: document.getElementById('materialActive').checked
+                active: document.getElementById('materialActive').checked
             };
             
-            if (type === 'link') {
-                formData.external_link = document.getElementById('materialLink').value;
-                if (!formData.external_link) {
-                    alert('La URL es requerida');
+            // Campos específicos según tipo
+            if (type === 'link' || type === 'video') {
+                materialData.url = document.getElementById('materialUrl').value;
+                if (!materialData.url) {
+                    alert('Ingresa una URL');
                     return;
                 }
-            } else if (type === 'video') {
-                formData.external_link = document.getElementById('materialVideo').value;
             } else if (type === 'code') {
-                formData.external_link = document.getElementById('materialCode').value;
+                materialData.code = document.getElementById('materialCode').value;
+                if (!materialData.code) {
+                    alert('Ingresa el código');
+                    return;
+                }
             } else if (type === 'file') {
-                alert('Por ahora solo puedes agregar enlaces. Los archivos se pueden subir a Google Drive y pegar el enlace.');
-                return;
-            }
-            
-            materials.push(formData);
-            localStorage.setItem('roboworks_materials', JSON.stringify(materials));
-            
-            showAlert('Material creado', 'success');
-            closeMaterialModal();
-            loadClassMaterials();
-        }
-
-        function viewMaterial(id) {
-            const material = currentMaterials.find(m => m.id === id);
-            if (!material) return;
-            
-            let content = '';
-            
-            if (material.material_type === 'link') {
-                content = `
-                    <div style="margin-bottom: 1rem;">
-                        <strong>URL:</strong><br>
-                        <a href="${material.external_link}" target="_blank">${material.external_link}</a>
-                    </div>
-                `;
-            } else if (material.material_type === 'video' && material.external_link) {
-                const videoId = extractYoutubeId(material.external_link);
-                if (videoId) {
-                    content = `
-                        <div class="video-container">
-                            <iframe src="https://www.youtube.com/embed/${videoId}" 
-                                    frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    `;
+                const fileInput = document.getElementById('materialFile');
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        materialData.fileData = e.target.result;
+                        materialData.fileName = file.name;
+                        saveMaterialToStorage(materialData);
+                    };
+                    reader.readAsDataURL(file);
+                    return;
+                } else if (!document.getElementById('materialId').value) {
+                    alert('Selecciona un archivo');
+                    return;
                 }
             }
             
-            document.getElementById('viewMaterialTitle').textContent = material.title;
-            document.getElementById('viewMaterialContent').innerHTML = `
-                <p style="margin-bottom: 1rem;">${material.description || 'Sin descripción'}</p>
-                ${content}
-            `;
-            
-            document.getElementById('viewMaterialModal').classList.add('active');
+            saveMaterialToStorage(materialData);
         }
 
-        function extractYoutubeId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
+        function saveMaterialToStorage(materialData) {
+            let materials = JSON.parse(localStorage.getItem('roboworks_materials') || '[]');
+            
+            const existingIndex = materials.findIndex(m => m.id == materialData.id);
+            if (existingIndex >= 0) {
+                materials[existingIndex] = materialData;
+                showAlert('Material actualizado', 'success');
+            } else {
+                materials.push(materialData);
+                showAlert('Material creado', 'success');
+            }
+            
+            localStorage.setItem('roboworks_materials', JSON.stringify(materials));
+            closeMaterialModal();
+            loadMaterials();
         }
 
         function editMaterial(id) {
-            const material = currentMaterials.find(m => m.id === id);
+            const materials = JSON.parse(localStorage.getItem('roboworks_materials') || '[]');
+            const material = materials.find(m => m.id == id);
+            
             if (material) {
-                openMaterialModal(material);
+                document.getElementById('materialId').value = material.id;
+                document.getElementById('materialClassId').value = material.class_id;
+                document.getElementById('materialTitle').value = material.title || '';
+                document.getElementById('materialType').value = material.type || 'link';
+                document.getElementById('materialDescription').value = material.description || '';
+                document.getElementById('materialActive').checked = material.active !== false;
+                
+                // Cargar categorías
+                const categories = JSON.parse(localStorage.getItem('roboworks_categories') || '[]');
+                const classCategories = categories.filter(c => c.class_id == material.class_id && c.active !== false);
+                const categorySelect = document.getElementById('materialCategory');
+                
+                categorySelect.innerHTML = '<option value="">Seleccionar categoría...</option>' +
+                    classCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+                categorySelect.value = material.category_id || '';
+                
+                // Mostrar campo correcto
+                toggleMaterialFields();
+                
+                // Llenar campos específicos
+                if (material.url) {
+                    document.getElementById('materialUrl').value = material.url;
+                }
+                if (material.code) {
+                    document.getElementById('materialCode').value = material.code;
+                }
+                
+                document.getElementById('materialModal').classList.add('active');
             }
         }
 
         function deleteMaterial(id) {
-            if (!confirm('¿Estás seguro de eliminar este material?')) return;
-            
-            materials = materials.filter(m => m.id !== id);
-            localStorage.setItem('roboworks_materials', JSON.stringify(materials));
-            
-            showAlert('Material eliminado', 'success');
-            loadClassMaterials();
+            if (confirm('¿Estás seguro de eliminar este material?')) {
+                let materials = JSON.parse(localStorage.getItem('roboworks_materials') || '[]');
+                materials = materials.filter(m => m.id != id);
+                localStorage.setItem('roboworks_materials', JSON.stringify(materials));
+                showAlert('Material eliminado', 'success');
+                loadMaterials();
+            }
         }
 
-        function closeViewMaterialModal() {
-            document.getElementById('viewMaterialModal').classList.remove('active');
+        // ==================== FUNCIONES DE INICIALIZACIÓN ====================
+        function init() {
+            // Verificar si hay datos de ejemplo, si no, crear algunos
+            if (!localStorage.getItem('roboworks_programs')) {
+                // Datos de ejemplo
+                const examplePrograms = [
+                    { id: 1, name: 'Robótica Educativa', description: 'Aprende robótica desde cero', color: '#667eea', icon: 'fas fa-robot', order: 1, active: true },
+                    { id: 2, name: 'CodeWorks', description: 'Programación creativa', color: '#10b981', icon: 'fas fa-code', order: 2, active: true },
+                    { id: 3, name: 'MakerSpace', description: 'Diseño y fabricación digital', color: '#f59e0b', icon: 'fas fa-cube', order: 3, active: true }
+                ];
+                localStorage.setItem('roboworks_programs', JSON.stringify(examplePrograms));
+                
+                const exampleCourses = [
+                    { id: 1, program_id: 2, name: 'CodeWorks Junior', description: 'Para pequeños programadores', color: '#10b981', icon: 'fas fa-child', order: 1, active: true },
+                    { id: 2, program_id: 2, name: 'CodeWorks Advanced', description: 'Programación avanzada', color: '#059669', icon: 'fas fa-laptop-code', order: 2, active: true }
+                ];
+                localStorage.setItem('roboworks_courses', JSON.stringify(exampleCourses));
+                
+                const exampleClasses = [
+                    { id: 1, program_id: 2, course_id: 1, name: 'CodeWorks Junior - Grupo A', day: 'Sábado', time: '10:00', capacity: 15, min_age: 6, max_age: 9, price: 1200, location: 'Salón 101', active: true },
+                    { id: 2, program_id: 2, course_id: 2, name: 'CodeWorks Advanced - Grupo A', day: 'Sábado', time: '12:00', capacity: 12, min_age: 10, max_age: 14, price: 1400, location: 'Salón 102', active: true }
+                ];
+                localStorage.setItem('roboworks_classes', JSON.stringify(exampleClasses));
+            }
+            
+            // Cargar primera pestaña
+            loadPrograms();
         }
 
-        function openCategoryModal() {
-            document.getElementById('categoryModal').classList.add('active');
-        }
-
-        function closeCategoryModal() {
-            document.getElementById('categoryModal').classList.remove('active');
-            document.getElementById('categoryForm').reset();
-        }
-
-        function saveCategory(event) {
-            event.preventDefault();
-            
-            const categoryData = {
-                id: Date.now(),
-                class_id: currentClassId,
-                name: document.getElementById('categoryName').value,
-                description: document.getElementById('categoryDescription').value,
-                color: document.getElementById('categoryColor').value,
-                display_order: parseInt(document.getElementById('categoryOrder').value)
-            };
-            
-            categories.push(categoryData);
-            localStorage.setItem('roboworks_categories', JSON.stringify(categories));
-            
-            showAlert('Categoría creada', 'success');
-            closeCategoryModal();
-            loadClassMaterials();
-        }
-
-        function deleteCategory(id) {
-            if (!confirm('¿Eliminar categoría?')) return;
-            
-            categories = categories.filter(c => c.id !== id);
-            materials.forEach(m => {
-                if (m.category_id === id) m.category_id = null;
-            });
-            
-            localStorage.setItem('roboworks_categories', JSON.stringify(categories));
-            localStorage.setItem('roboworks_materials', JSON.stringify(materials));
-            
-            showAlert('Categoría eliminada', 'success');
-            loadClassMaterials();
-        }
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
