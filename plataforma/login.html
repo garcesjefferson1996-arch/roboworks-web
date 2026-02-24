@@ -276,7 +276,35 @@
         </div>
     </div>
 
+    <!-- ============================================ -->
+    <!-- 🔥 FIREBASE - CONFIGURACIÓN CORREGIDA 🔥 -->
+    <!-- ============================================ -->
+    <!-- Versión 8 de Firebase (compatible con nuestro código) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
     <script>
+        // 🔥 Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",
+            authDomain: "roboworks-app.firebaseapp.com",
+            projectId: "roboworks-app",
+            storageBucket: "roboworks-app.firebasestorage.app",
+            messagingSenderId: "824986583831",
+            appId: "1:824986583831:web:7477911bd5cb95a18a6d52"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log('🔥 Firebase conectado correctamente');
+        console.log('📦 Firestore listo');
+    </script>
+
+    <script>
+        // ============================================
+        // CÓDIGO DE LOGIN CORREGIDO - CON FIREBASE
+        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             const loginForm = document.getElementById('loginForm');
             const usernameInput = document.getElementById('username');
@@ -313,6 +341,7 @@
                 btnSpinner.style.display = isLoading ? 'inline-block' : 'none';
             }
 
+            // === FUNCIÓN DE LOGIN CORREGIDA - BUSCA EN FIREBASE ===
             loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 if (isSubmitting) return;
@@ -327,29 +356,48 @@
 
                 setLoadingState(true);
 
-                setTimeout(() => {
-                    // Verificar admin
-                    if (username === 'admin' && password === 'admin123') {
-                        localStorage.setItem('isAdmin', 'true');
-                        showMessage('Bienvenido Administrador', 'success');
-                        setTimeout(() => window.location.href = 'admin/dashboard.html', 1000);
-                        return;
-                    }
+                // Verificar admin
+                if (username === 'admin' && password === 'admin123') {
+                    localStorage.setItem('isAdmin', 'true');
+                    showMessage('Bienvenido Administrador', 'success');
+                    setTimeout(() => window.location.href = 'admin/dashboard.html', 1000);
+                    return;
+                }
 
-                    // Verificar estudiantes
-                    const students = JSON.parse(localStorage.getItem('roboworks_students') || '[]');
-                    const student = students.find(s => s.username === username && s.password === password);
-
-                    if (student) {
-                        localStorage.setItem('currentStudent', JSON.stringify(student));
-                        showMessage(`¡Bienvenido ${student.full_name}!`, 'success');
-                        setTimeout(() => window.location.href = 'dashboard.html', 1000);
-                    } else {
-                        showMessage('Usuario o contraseña incorrectos', 'error');
-                        passwordInput.value = '';
+                // ✅ VERIFICAR ESTUDIANTE EN FIREBASE
+                db.collection('students')
+                    .where('username', '==', username)
+                    .where('password', '==', password)
+                    .get()
+                    .then((querySnapshot) => {
+                        if (!querySnapshot.empty) {
+                            // Estudiante encontrado
+                            const studentDoc = querySnapshot.docs[0];
+                            const student = { 
+                                id: studentDoc.id, 
+                                ...studentDoc.data() 
+                            };
+                            
+                            // Guardar en localStorage
+                            localStorage.setItem('currentStudent', JSON.stringify(student));
+                            
+                            // Mostrar mensaje de éxito
+                            showMessage(`¡Bienvenido ${student.full_name || student.name || 'Estudiante'}!`, 'success');
+                            
+                            // Redirigir al dashboard
+                            setTimeout(() => window.location.href = 'dashboard.html', 1000);
+                        } else {
+                            // No se encontró el estudiante
+                            showMessage('Usuario o contraseña incorrectos', 'error');
+                            passwordInput.value = '';
+                            setLoadingState(false);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('❌ Error en login:', error);
+                        showMessage('Error al conectar con el servidor. Intenta de nuevo.', 'error');
                         setLoadingState(false);
-                    }
-                }, 500);
+                    });
             });
         });
     </script>

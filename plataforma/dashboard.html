@@ -9,6 +9,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- ============================================ -->
+    <!-- 🔥 FIREBASE - CONFIGURACIÓN -->
+    <!-- ============================================ -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -305,6 +310,23 @@
     </style>
 </head>
 <body>
+    <!-- ============================================ -->
+    <!-- 🔥 FIREBASE - INICIALIZACIÓN -->
+    <!-- ============================================ -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",
+            authDomain: "roboworks-app.firebaseapp.com",
+            projectId: "roboworks-app",
+            storageBucket: "roboworks-app.firebasestorage.app",
+            messagingSenderId: "824986583831",
+            appId: "1:824986583831:web:7477911bd5cb95a18a6d52"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log('🔥 Firebase conectado en dashboard');
+    </script>
+
     <header class="game-header">
         <div class="logo-area">
             <img src="/assets/icons/logo.png" alt="RoboWorks">
@@ -385,69 +407,103 @@
     </main>
 
     <script>
-        function logout() { localStorage.removeItem('currentStudent'); window.location.href = 'login.html'; }
+        function logout() { 
+            localStorage.removeItem('currentStudent'); 
+            window.location.href = 'login.html'; 
+        }
         
         function formatDay(day) {
-            const days = { monday: 'Lunes', tuesday: 'Martes', wednesday: 'Miércoles', thursday: 'Jueves', friday: 'Viernes', saturday: 'Sábado' };
+            const days = { 
+                monday: 'Lunes', 
+                tuesday: 'Martes', 
+                wednesday: 'Miércoles', 
+                thursday: 'Jueves', 
+                friday: 'Viernes', 
+                saturday: 'Sábado' 
+            };
             return days[day] || day;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const student = JSON.parse(localStorage.getItem('currentStudent'));
-            if (!student) { window.location.href = 'login.html'; return; }
+        async function loadStudentData(studentId) {
+            try {
+                // Cargar programas
+                const programsSnapshot = await db.collection('programs').get();
+                const programs = [];
+                programsSnapshot.forEach(doc => programs.push({ id: doc.id, ...doc.data() }));
 
+                // Cargar clases
+                const classesSnapshot = await db.collection('classes').get();
+                const classes = [];
+                classesSnapshot.forEach(doc => classes.push({ id: doc.id, ...doc.data() }));
+
+                // Obtener clases del estudiante
+                const student = JSON.parse(localStorage.getItem('currentStudent'));
+                const studentClassIds = student.class_ids || [];
+                const studentClasses = classes.filter(c => studentClassIds.includes(c.id));
+
+                // Actualizar UI
+                document.getElementById('profileClasses').textContent = studentClasses.length + ' clase' + (studentClasses.length !== 1 ? 's' : '');
+                document.getElementById('totalClasses').textContent = studentClasses.length;
+
+                // Ordenar clases por día
+                const daysOrder = { monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 };
+                studentClasses.sort((a, b) => (daysOrder[a.schedule_day] || 7) - (daysOrder[b.schedule_day] || 7));
+
+                document.getElementById('classLoading').style.display = 'none';
+
+                if (studentClasses.length > 0) {
+                    const nextClass = studentClasses[0];
+                    const program = programs.find(p => p.id === nextClass.program_id);
+
+                    document.getElementById('classData').style.display = 'block';
+                    document.getElementById('programBadge').textContent = program?.name || '';
+                    document.getElementById('className').textContent = nextClass.name;
+                    document.getElementById('classDate').textContent = formatDay(nextClass.schedule_day);
+                    document.getElementById('classTime').textContent = nextClass.schedule_time || '';
+
+                    const zoomBtn = document.getElementById('zoomLink');
+                    if (nextClass.zoom_link) {
+                        zoomBtn.href = nextClass.zoom_link;
+                        zoomBtn.style.pointerEvents = 'auto';
+                        zoomBtn.style.opacity = '1';
+                    } else {
+                        zoomBtn.href = '#';
+                        zoomBtn.style.pointerEvents = 'none';
+                        zoomBtn.style.opacity = '0.5';
+                    }
+                } else {
+                    document.getElementById('noClassMessage').style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('❌ Error cargando datos:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const student = JSON.parse(localStorage.getItem('currentStudent'));
+            if (!student) { 
+                window.location.href = 'login.html'; 
+                return; 
+            }
+
+            // Mostrar información básica del estudiante
             document.getElementById('userNameDisplay').textContent = student.full_name;
             document.getElementById('profileName').textContent = student.full_name;
             document.getElementById('profileUsername').textContent = student.username;
             document.getElementById('welcomeMessage').textContent = `¡Hola, ${student.full_name}! 🤖`;
-            
-            const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
-            const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
-            
-            const studentClassIds = student.class_ids || [];
-            const studentClasses = classes.filter(c => studentClassIds.includes(c.id));
-            
-            document.getElementById('profileClasses').textContent = studentClasses.length + ' clase' + (studentClasses.length !== 1 ? 's' : '');
-            
-            const daysOrder = { monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 };
-            studentClasses.sort((a, b) => (daysOrder[a.schedule_day] || 7) - (daysOrder[b.schedule_day] || 7));
 
-            document.getElementById('classLoading').style.display = 'none';
-            
-            if (studentClasses.length > 0) {
-                const nextClass = studentClasses[0];
-                const program = programs.find(p => p.id === nextClass.program_id);
-                
-                document.getElementById('classData').style.display = 'block';
-                document.getElementById('programBadge').textContent = program?.name || '';
-                document.getElementById('className').textContent = nextClass.name;
-                document.getElementById('classDate').textContent = formatDay(nextClass.schedule_day);
-                document.getElementById('classTime').textContent = nextClass.schedule_time || '';
-                
-                const zoomBtn = document.getElementById('zoomLink');
-                if (nextClass.zoom_link) {
-                    zoomBtn.href = nextClass.zoom_link;
-                    zoomBtn.style.pointerEvents = 'auto';
-                    zoomBtn.style.opacity = '1';
-                } else {
-                    zoomBtn.href = '#';
-                    zoomBtn.style.pointerEvents = 'none';
-                    zoomBtn.style.opacity = '0.5';
-                }
-            } else {
-                document.getElementById('noClassMessage').style.display = 'block';
-            }
-
-            document.getElementById('totalClasses').textContent = studentClasses.length;
-            document.getElementById('attendanceRate').textContent = '0%';
-            
             if (student.created_at) {
                 const date = new Date(student.created_at);
                 document.getElementById('profileMemberSince').textContent = date.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
             }
 
+            // Cargar datos de Firebase
+            await loadStudentData(student.id);
+
             document.getElementById('historyLoading').style.display = 'none';
             document.getElementById('noHistoryMessage').style.display = 'block';
+            document.getElementById('attendanceRate').textContent = '0%';
         });
     </script>
 </body>

@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="/css/plataforma.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- ============================================ -->
+    <!-- 🔥 FIREBASE - CONFIGURACIÓN -->
+    <!-- ============================================ -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -233,6 +238,23 @@
     </style>
 </head>
 <body>
+    <!-- ============================================ -->
+    <!-- 🔥 FIREBASE - INICIALIZACIÓN -->
+    <!-- ============================================ -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",
+            authDomain: "roboworks-app.firebaseapp.com",
+            projectId: "roboworks-app",
+            storageBucket: "roboworks-app.firebasestorage.app",
+            messagingSenderId: "824986583831",
+            appId: "1:824986583831:web:7477911bd5cb95a18a6d52"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log('🔥 Firebase conectado en materiales');
+    </script>
+
     <header class="materials-header">
         <div class="header-left">
             <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
@@ -295,121 +317,148 @@
         let currentMaterials = [];
         let currentFilter = 'all';
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const student = JSON.parse(localStorage.getItem('currentStudent'));
-            if (!student) { window.location.href = 'login.html'; return; }
+        async function cargarDatosIniciales() {
+            try {
+                const student = JSON.parse(localStorage.getItem('currentStudent'));
+                if (!student) { window.location.href = 'login.html'; return; }
 
-            const classes = JSON.parse(localStorage.getItem('roboworks_classes') || '[]');
-            const programs = JSON.parse(localStorage.getItem('roboworks_programs') || '[]');
-            const allMaterials = JSON.parse(localStorage.getItem('roboworks_materials') || '[]');
-            
-            const studentClassIds = student.class_ids || [];
-            const studentClasses = classes.filter(c => studentClassIds.includes(c.id));
-            
-            const select = document.getElementById('classSelect');
-            select.innerHTML = '<option value="">Selecciona una clase</option>';
-            
-            studentClasses.forEach(cls => {
-                const program = programs.find(p => p.id === cls.program_id);
-                const option = document.createElement('option');
-                option.value = cls.id;
-                option.textContent = `${cls.name} (${program?.name || ''})`;
-                select.appendChild(option);
-            });
+                // Cargar programas, clases y materiales desde Firebase
+                const [programasSnapshot, clasesSnapshot, materialesSnapshot] = await Promise.all([
+                    db.collection('programs').get(),
+                    db.collection('classes').get(),
+                    db.collection('materials').get()
+                ]);
 
-            window.loadMaterials = function() {
-                const classId = parseInt(document.getElementById('classSelect').value);
-                if (!classId) { document.getElementById('materialsSection').style.display = 'none'; return; }
+                const programas = [];
+                programasSnapshot.forEach(doc => programas.push({ id: doc.id, ...doc.data() }));
 
-                document.getElementById('materialsSection').style.display = 'block';
-                document.getElementById('materialsLoading').style.display = 'block';
-                
-                const cls = classes.find(c => c.id === classId);
-                const program = programs.find(p => p.id === cls?.program_id);
-                
-                document.getElementById('className').textContent = cls?.name || '';
-                document.getElementById('programName').textContent = program?.name || '';
-                
-                currentMaterials = allMaterials.filter(m => m.class_id === classId && m.is_active !== false);
-                
-                document.getElementById('materialsLoading').style.display = 'none';
-                
-                const categories = [...new Set(currentMaterials.map(m => m.category_id).filter(Boolean))];
-                const filterDiv = document.getElementById('categoriesFilter');
-                filterDiv.innerHTML = '<button class="category-chip active" onclick="filterByCategory(\'all\')">Todos</button>';
-                
-                categories.forEach(catId => {
-                    const btn = document.createElement('button');
-                    btn.className = 'category-chip';
-                    btn.textContent = 'Categoría ' + catId;
-                    btn.onclick = () => filterByCategory(catId);
-                    filterDiv.appendChild(btn);
+                const clases = [];
+                clasesSnapshot.forEach(doc => clases.push({ id: doc.id, ...doc.data() }));
+
+                const allMaterials = [];
+                materialesSnapshot.forEach(doc => allMaterials.push({ id: doc.id, ...doc.data() }));
+
+                const studentClassIds = student.class_ids || [];
+                const studentClasses = clases.filter(c => studentClassIds.includes(c.id));
+
+                const select = document.getElementById('classSelect');
+                select.innerHTML = '<option value="">Selecciona una clase</option>';
+
+                studentClasses.forEach(cls => {
+                    const program = programas.find(p => p.id === cls.program_id);
+                    const option = document.createElement('option');
+                    option.value = cls.id;
+                    option.textContent = `${cls.name} (${program?.name || ''})`;
+                    select.appendChild(option);
                 });
 
-                displayMaterials();
-            };
-
-            window.filterByCategory = function(categoryId) {
-                currentFilter = categoryId;
-                document.querySelectorAll('.category-chip').forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-                displayMaterials();
-            };
-
-            function displayMaterials() {
-                const container = document.getElementById('materialsGrid');
-                
-                let filtered = currentMaterials;
-                if (currentFilter !== 'all') {
-                    filtered = currentMaterials.filter(m => m.category_id == currentFilter);
-                }
-                
-                if (filtered.length === 0) {
-                    container.innerHTML = '<div style="text-align: center; padding: 2rem;">No hay materiales disponibles</div>';
-                    return;
-                }
-                
-                let html = '';
-                filtered.forEach(m => {
-                    const icon = { link: '🔗', file: '📁', video: '🎥', code: '💻' }[m.material_type] || '📄';
-                    html += `
-                        <div class="material-card" onclick="openMaterial(${m.id})">
-                            <div class="material-icon">${icon}</div>
-                            <div class="material-info">
-                                <div class="material-title">${m.title}</div>
-                                <div class="material-description">${m.description || ''}</div>
-                            </div>
-                            <div class="material-action"><i class="fas fa-chevron-right"></i></div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-            }
-
-            window.openMaterial = function(id) {
-                const material = currentMaterials.find(m => m.id === id);
-                if (!material) return;
-                
-                document.getElementById('modalTitle').textContent = material.title;
-                let content = '';
-                
-                if (material.material_type === 'link') {
-                    content = `<a href="${material.external_link}" target="_blank" class="file-download">Abrir enlace</a>`;
-                } else if (material.material_type === 'video' && material.external_link) {
-                    const videoId = extractYoutubeId(material.external_link);
-                    if (videoId) {
-                        content = `<div class="video-container"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe></div>`;
+                window.loadMaterials = function() {
+                    const classId = document.getElementById('classSelect').value;
+                    if (!classId) { 
+                        document.getElementById('materialsSection').style.display = 'none'; 
+                        return; 
                     }
-                }
-                
-                document.getElementById('modalContent').innerHTML = content;
-                document.getElementById('materialModal').classList.add('active');
-            };
 
-            window.closeMaterialModal = function() {
-                document.getElementById('materialModal').classList.remove('active');
-            };
-        });
+                    document.getElementById('materialsSection').style.display = 'block';
+                    document.getElementById('materialsLoading').style.display = 'block';
+                    
+                    const cls = clases.find(c => c.id === classId);
+                    const program = programas.find(p => p.id === cls?.program_id);
+                    
+                    document.getElementById('className').textContent = cls?.name || '';
+                    document.getElementById('programName').textContent = program?.name || '';
+                    
+                    currentMaterials = allMaterials.filter(m => m.class_id === classId && m.is_active !== false);
+                    
+                    document.getElementById('materialsLoading').style.display = 'none';
+                    
+                    // Extraer categorías únicas
+                    const categoryIds = [...new Set(currentMaterials.map(m => m.category_id).filter(Boolean))];
+                    
+                    const filterDiv = document.getElementById('categoriesFilter');
+                    filterDiv.innerHTML = '<button class="category-chip active" onclick="filterByCategory(\'all\')">Todos</button>';
+                    
+                    // Aquí podrías cargar nombres de categorías si las tienes en Firebase
+                    categoryIds.forEach(catId => {
+                        const btn = document.createElement('button');
+                        btn.className = 'category-chip';
+                        btn.textContent = 'Categoría ' + catId.substring(0, 4);
+                        btn.onclick = () => filterByCategory(catId);
+                        filterDiv.appendChild(btn);
+                    });
+
+                    displayMaterials();
+                };
+
+                window.filterByCategory = function(categoryId) {
+                    currentFilter = categoryId;
+                    document.querySelectorAll('.category-chip').forEach(btn => btn.classList.remove('active'));
+                    event.target.classList.add('active');
+                    displayMaterials();
+                };
+
+                function displayMaterials() {
+                    const container = document.getElementById('materialsGrid');
+                    
+                    let filtered = currentMaterials;
+                    if (currentFilter !== 'all') {
+                        filtered = currentMaterials.filter(m => m.category_id == currentFilter);
+                    }
+                    
+                    if (filtered.length === 0) {
+                        container.innerHTML = '<div style="text-align: center; padding: 2rem;">No hay materiales disponibles</div>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    filtered.forEach(m => {
+                        const icon = { link: '🔗', file: '📁', video: '🎥', code: '💻' }[m.material_type] || '📄';
+                        html += `
+                            <div class="material-card" onclick="openMaterial('${m.id}')">
+                                <div class="material-icon">${icon}</div>
+                                <div class="material-info">
+                                    <div class="material-title">${m.title}</div>
+                                    <div class="material-description">${m.description || ''}</div>
+                                </div>
+                                <div class="material-action"><i class="fas fa-chevron-right"></i></div>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html;
+                }
+
+                window.openMaterial = function(id) {
+                    const material = currentMaterials.find(m => m.id === id);
+                    if (!material) return;
+                    
+                    document.getElementById('modalTitle').textContent = material.title;
+                    let content = '';
+                    
+                    if (material.material_type === 'link') {
+                        content = `<a href="${material.external_link}" target="_blank" class="file-download">Abrir enlace</a>`;
+                    } else if (material.material_type === 'video' && material.external_link) {
+                        const videoId = extractYoutubeId(material.external_link);
+                        if (videoId) {
+                            content = `<div class="video-container"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe></div>`;
+                        }
+                    } else if (material.material_type === 'file') {
+                        content = `<a href="${material.file_url}" download class="file-download">Descargar archivo</a>`;
+                    }
+                    
+                    document.getElementById('modalContent').innerHTML = content;
+                    document.getElementById('materialModal').classList.add('active');
+                };
+
+                window.closeMaterialModal = function() {
+                    document.getElementById('materialModal').classList.remove('active');
+                };
+
+            } catch (error) {
+                console.error('❌ Error cargando datos:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', cargarDatosIniciales);
     </script>
 </body>
 </html>
