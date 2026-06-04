@@ -232,8 +232,8 @@ const db=firebase.firestore();
     <div class="sb-user">
       <div class="sb-avatar">JG</div>
       <div class="sb-user-info">
-        <div class="sb-user-name">Jeff Garces</div>
-        <div class="sb-user-role">Administrador</div>
+        <div class="sb-user-name" id="admin-name">Administrador</div>
+        <div class="sb-user-role">RoboWorks Admin</div>
       </div>
       <button class="sb-logout" onclick="logout()" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i></button>
     </div>
@@ -1190,6 +1190,11 @@ async function loadLevels(){
 // ─── INIT ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',async()=>{
   if(localStorage.getItem('isAdmin')!=='true'){window.location.href='../login.html';return;}
+  const adminName=localStorage.getItem('adminName')||'Administrador';
+  const nameEl=document.getElementById('admin-name');
+  if(nameEl) nameEl.textContent=adminName;
+  const avatarEl=document.querySelector('.sb-avatar');
+  if(avatarEl) avatarEl.textContent=adminName.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   // Pre-fill default task due date
   const d=new Date();d.setDate(d.getDate()+7);
   const di=document.getElementById('t-due');

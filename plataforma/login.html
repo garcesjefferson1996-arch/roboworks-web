@@ -257,9 +257,15 @@ form.addEventListener('submit',async e=>{
   alertEl.style.display='none';
 
   // Admin shortcut
-  if(username==='admin'&&password==='admin123'){
+  const admins=[
+    {user:'JeffGarces',pass:'roboworks01',name:'Jeff Garces'},
+    {user:'EsthelitaTorres',pass:'roboworks02',name:'Esthelita Torres'},
+  ];
+  const adminMatch=admins.find(a=>a.user===username&&a.pass===password);
+  if(adminMatch){
     localStorage.setItem('isAdmin','true');
-    showAlert('Bienvenido, Administrador','success');
+    localStorage.setItem('adminName',adminMatch.name);
+    showAlert('Bienvenido, '+adminMatch.name,'success');
     setTimeout(()=>window.location.href='admin/dashboard.html',900);
     return;
   }
