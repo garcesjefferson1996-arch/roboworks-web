@@ -1,2497 +1,1203 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración — RoboWorks</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-    /* ── RoboWorks Brand Override ── */
-    :root{--rw-blue:#2563EB;--rw-dark:#1E3A8A;--rw-orange:#F97316;--rw-light:#EFF6FF;--rw-border:#E2E8F0;}
-    body,*{font-family:'Inter',sans-serif!important}
-    </style>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: #f5f5f5;
-            padding-bottom: 2rem;
-        }
-        
-        /* Header */
-        .admin-header {
-            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .header-left h1 {
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .header-left h1 i {
-            color: #F97316;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-        }
-
-        .user-info i {
-            font-size: 1.2rem;
-            color: #F97316;
-        }
-
-        .logout-btn {
-            background: white;
-            color: #2563EB;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logout-btn:hover {
-            background: #F97316;
-            color: #333;
-            transform: scale(1.05);
-        }
-
-        /* Navegación de pestañas */
-        .admin-tabs {
-            max-width: 1200px;
-            margin: 2rem auto 0;
-            padding: 0 2rem;
-            display: flex;
-            gap: 1rem;
-            border-bottom: 2px solid #ddd;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            padding: 1rem 2rem;
-            background: none;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #666;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-        }
-
-        .tab-btn:hover {
-            color: #2563EB;
-        }
-
-        .tab-btn.active {
-            color: #2563EB;
-            border-bottom-color: #2563EB;
-        }
-
-        /* Contenedor principal */
-        .admin-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        /* Tarjetas de contenido */
-        .content-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .card-header h2, .card-header h3 {
-            font-size: 1.5rem;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #2563EB;
-            border: 2px solid #2563EB;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            background: #2563EB;
-            color: white;
-        }
-
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        /* Grid de programas */
-        .programs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .program-card {
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .program-card:hover {
-            transform: translateY(-5px);
-            border-color: #2563EB;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .program-card.selected {
-            border-color: #2563EB;
-            background: linear-gradient(135deg, #f0f2ff 0%, #ffffff 100%);
-        }
-
-        .program-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: white;
-        }
-
-        .program-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .program-description {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .program-stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        .program-stats i {
-            color: #2563EB;
-        }
-
-        /* Tablas */
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            text-align: left;
-            padding: 1rem;
-            background: #f8f9ff;
-            color: #2563EB;
-            font-weight: 600;
-        }
-
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-            vertical-align: middle;
-        }
-
-        tr:hover td {
-            background: #f8f9ff;
-        }
-
-        .status-badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status-active {
-            background: #10b981;
-            color: white;
-        }
-
-        .status-warning {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .status-full {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            width: 35px;
-            height: 35px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .edit-btn {
-            background: #2563EB;
-            color: white;
-        }
-
-        .edit-btn:hover {
-            background: #5a67d8;
-        }
-
-        .delete-btn {
-            background: #ef4444;
-            color: white;
-        }
-
-        .delete-btn:hover {
-            background: #dc2626;
-        }
-
-        /* Estilos para materiales */
-        .categories-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .category-chip {
-            background: #f0f2ff;
-            color: #2563EB;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .category-chip:hover {
-            border-color: #2563EB;
-            transform: translateY(-2px);
-        }
-
-        .category-chip .color-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .material-item {
-            background: #f8f9ff;
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid #2563EB;
-            transition: all 0.3s;
-        }
-
-        .material-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .material-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .material-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .material-type {
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .type-link { background: #3b82f6; color: white; }
-        .type-file { background: #10b981; color: white; }
-        .type-video { background: #ef4444; color: white; }
-        .type-code { background: #8b5cf6; color: white; }
-
-        .material-meta {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.85rem;
-            color: #666;
-            flex-wrap: wrap;
-        }
-
-        .material-meta i {
-            color: #2563EB;
-            width: 16px;
-        }
-
-        .material-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #999;
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: #ddd;
-        }
-
-        .inactive-material {
-            opacity: 0.7;
-            border: 2px solid #ff6b6b;
-        }
-
-        /* Clases disponibles en el modal */
-        .class-item {
-            margin-bottom: 0.8rem;
-            padding: 0.5rem;
-            border: 1px solid #eee;
-            border-radius: 8px;
-        }
-
-        .class-item label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .class-item.disabled label {
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .class-info {
-            flex: 1;
-        }
-
-        .class-name {
-            font-weight: 600;
-        }
-
-        .class-details {
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        /* Detalles del estudiante */
-        .student-avatar {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-            overflow: hidden;
-        }
-
-        .student-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .credentials-box {
-            background: #f8f9ff;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .classes-box {
-            background: #f8f9ff;
-            border-radius: 10px;
-            padding: 1.5rem;
-        }
-
-        .class-chip {
-            background: white;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            border-radius: 8px;
-        }
-
-        /* Foto de perfil en tabla */
-        .student-photo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #2563EB;
-        }
-
-        .student-photo-placeholder {
-            font-size: 2rem;
-            color: #2563EB;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-header h3 {
-            font-size: 1.3rem;
-            color: #333;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #2563EB;
-        }
-
-        .form-group small {
-            display: block;
-            margin-top: 0.3rem;
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-        }
-
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #2563EB;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        /* Mensajes */
-        .alert {
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .alert-success {
-            background: #10b981;
-            color: white;
-        }
-
-        .alert-error {
-            background: #ef4444;
-            color: white;
-        }
-
-        .alert-info {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .alert-warning {
-            background: #f59e0b;
-            color: white;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .admin-header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .header-left {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .admin-tabs {
-                justify-content: center;
-            }
-
-            .tab-btn {
-                padding: 0.8rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel RoboWorks — Administración</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sb:#0F172A;--sb-hover:#1E293B;--sb-active:#1E3A8A;
+  --blue:#2563EB;--blue-dark:#1E3A8A;--blue-light:#DBEAFE;--blue-xlight:#EFF6FF;
+  --orange:#F97316;--orange-light:#FFF7ED;
+  --green:#10B981;--green-light:#ECFDF5;
+  --red:#EF4444;--red-light:#FEF2F2;
+  --gold:#F59E0B;--gold-light:#FFFBEB;
+  --text:#1E293B;--text-light:#64748B;--border:#E2E8F0;
+  --bg:#F8FAFC;--white:#FFFFFF;
+  --sb-w:240px;
+}
+html,body{height:100%;font-family:'Inter',sans-serif;font-size:14px;color:var(--text)}
+body{display:flex;background:var(--bg)}
+
+/* ─── SIDEBAR ─────────────────────────────────────── */
+.sb{width:var(--sb-w);background:var(--sb);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:50;overflow:hidden}
+.sb-brand{padding:1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:.75rem}
+.sb-brand img{height:32px;filter:brightness(0) invert(1);opacity:.95}
+.sb-brand span{color:#fff;font-weight:800;font-size:.95rem;letter-spacing:.3px}
+.sb-brand span em{color:var(--orange);font-style:normal}
+.sb-nav{flex:1;padding:.75rem .5rem;overflow-y:auto}
+.sb-section{font-size:.62rem;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px;padding:.75rem .75rem .25rem;margin-top:.25rem}
+.sb-item{display:flex;align-items:center;gap:.75rem;padding:.65rem .75rem;border-radius:8px;cursor:pointer;color:rgba(255,255,255,.6);font-size:.82rem;font-weight:500;transition:.15s;border:none;background:none;width:100%;text-align:left;position:relative}
+.sb-item i{width:16px;font-size:.9rem;flex-shrink:0}
+.sb-item:hover{background:var(--sb-hover);color:rgba(255,255,255,.9)}
+.sb-item.active{background:var(--blue);color:#fff;font-weight:600}
+.sb-badge{margin-left:auto;background:var(--orange);color:#fff;font-size:.6rem;font-weight:700;padding:.15rem .4rem;border-radius:10px;min-width:18px;text-align:center}
+.sb-footer{padding:.75rem;border-top:1px solid rgba(255,255,255,.08)}
+.sb-user{display:flex;align-items:center;gap:.75rem;padding:.65rem .75rem;border-radius:8px;background:rgba(255,255,255,.05)}
+.sb-avatar{width:32px;height:32px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:#fff;flex-shrink:0}
+.sb-user-info{flex:1}
+.sb-user-name{color:rgba(255,255,255,.9);font-size:.8rem;font-weight:600}
+.sb-user-role{color:rgba(255,255,255,.4);font-size:.7rem}
+.sb-logout{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:.85rem;padding:.2rem;flex-shrink:0}
+.sb-logout:hover{color:var(--red)}
+
+/* ─── MAIN ─────────────────────────────────────────── */
+.main{margin-left:var(--sb-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.topbar-left{display:flex;align-items:center;gap:.75rem}
+.topbar-title{font-size:1rem;font-weight:700;color:var(--text)}
+.topbar-sub{font-size:.78rem;color:var(--text-light)}
+.topbar-right{display:flex;align-items:center;gap:.75rem}
+.badge-pill{padding:.3rem .8rem;border-radius:20px;font-size:.72rem;font-weight:700}
+.badge-admin{background:var(--blue-xlight);color:var(--blue)}
+.content{padding:1.5rem;flex:1}
+
+/* ─── TAB PANELS ────────────────────────────────────── */
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ─── STAT CARDS ────────────────────────────────────── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--white);border-radius:12px;padding:1.25rem;border:1px solid var(--border);display:flex;align-items:center;gap:1rem}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.stat-icon.blue{background:var(--blue-xlight);color:var(--blue)}
+.stat-icon.orange{background:var(--orange-light);color:var(--orange)}
+.stat-icon.green{background:var(--green-light);color:var(--green)}
+.stat-icon.gold{background:var(--gold-light);color:var(--gold)}
+.stat-value{font-size:1.75rem;font-weight:800;color:var(--text);line-height:1}
+.stat-label{font-size:.75rem;color:var(--text-light);margin-top:.2rem}
+
+/* ─── CARDS ─────────────────────────────────────────── */
+.card{background:var(--white);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:1.25rem}
+.card-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+.card-title{font-size:.9rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.5rem}
+.card-title i{color:var(--blue)}
+.card-body{padding:1.25rem}
+
+/* ─── BUTTONS ───────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.15s;text-decoration:none}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-dark)}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{background:#EA6C00}
+.btn-ghost{background:transparent;color:var(--text-light);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--bg);color:var(--text)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{background:#DC2626}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:#059669}
+.btn-sm{padding:.35rem .7rem;font-size:.72rem}
+.btn-icon{width:30px;height:30px;padding:0;justify-content:center;border-radius:7px}
+
+/* ─── TABLE ─────────────────────────────────────────── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead{background:var(--bg)}
+th{padding:.75rem 1rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:.75rem 1rem;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FAFAFA}
+.td-actions{display:flex;gap:.4rem}
+
+/* ─── BADGES ────────────────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:6px;font-size:.7rem;font-weight:700}
+.badge-blue{background:var(--blue-xlight);color:var(--blue)}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-orange{background:var(--orange-light);color:var(--orange)}
+.badge-red{background:var(--red-light);color:var(--red)}
+.badge-gold{background:var(--gold-light);color:var(--gold)}
+.badge-gray{background:var(--bg);color:var(--text-light);border:1px solid var(--border)}
+
+/* ─── LEVEL COLORS ──────────────────────────────────── */
+.lv-spark{background:#E0F7FA;color:#0097A7}
+.lv-rise{background:#E3F2FD;color:#1565C0}
+.lv-core{background:var(--blue-xlight);color:var(--blue-dark)}
+.lv-surge{background:#E8EAF6;color:#3949AB}
+.lv-pinnacle{background:#EDE7F6;color:#6A1B9A}
+.lv-legend{background:#F3E5F5;color:#7B1FA2}
+
+/* ─── FORMS ─────────────────────────────────────────── */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:.75rem;font-weight:600;color:var(--text);margin-bottom:.4rem}
+.form-group label .req{color:var(--red)}
+.form-control{width:100%;padding:.65rem .875rem;border:2px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;color:var(--text);outline:none;transition:.15s;background:var(--white)}
+.form-control:focus{border-color:var(--blue);background:var(--blue-xlight)}
+select.form-control{cursor:pointer}
+textarea.form-control{resize:vertical;min-height:80px}
+.form-hint{font-size:.72rem;color:var(--text-light);margin-top:.3rem}
+
+/* ─── MODAL ─────────────────────────────────────────── */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,.6);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(2px)}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--white);border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:slideUp .2s ease}
+.modal-box.modal-lg{max-width:720px}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1}
+.modal-head h3{font-size:.95rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.5rem}
+.modal-head h3 i{color:var(--blue)}
+.modal-close{background:none;border:none;font-size:1.1rem;color:var(--text-light);cursor:pointer;padding:.3rem;border-radius:6px}
+.modal-close:hover{background:var(--bg);color:var(--text)}
+.modal-body{padding:1.5rem}
+.modal-foot{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.75rem;background:var(--bg);border-radius:0 0 16px 16px}
+
+/* ─── ALERT ─────────────────────────────────────────── */
+.alert-toast{position:fixed;top:1.25rem;right:1.25rem;z-index:500;padding:.875rem 1.25rem;border-radius:10px;font-size:.82rem;font-weight:600;display:none;align-items:center;gap:.6rem;max-width:360px;box-shadow:0 8px 24px rgba(0,0,0,.15);animation:slideIn .2s ease}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+.alert-toast.success{background:var(--green);color:#fff;display:flex}
+.alert-toast.error{background:var(--red);color:#fff;display:flex}
+.alert-toast.info{background:var(--blue);color:#fff;display:flex}
+
+/* ─── CREDENTIALS BOX ───────────────────────────────── */
+.creds-box{background:var(--sb);color:#fff;border-radius:10px;padding:1.25rem;margin-top:1rem}
+.creds-box h4{font-size:.8rem;font-weight:700;margin-bottom:.875rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px}
+.cred-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem .75rem;background:rgba(255,255,255,.08);border-radius:6px;margin-bottom:.5rem}
+.cred-label{font-size:.72rem;color:rgba(255,255,255,.6)}
+.cred-val{font-size:.85rem;font-weight:700;font-family:monospace;color:#fff}
+.cred-copy{background:rgba(255,255,255,.15);border:none;color:#fff;padding:.2rem .5rem;border-radius:4px;font-size:.65rem;cursor:pointer}
+
+/* ─── PROGRESS BAR ──────────────────────────────────── */
+.prog-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:3px;transition:.5s}
+
+/* ─── EMPTY STATE ───────────────────────────────────── */
+.empty{text-align:center;padding:3rem 1rem;color:var(--text-light)}
+.empty i{font-size:2.5rem;display:block;margin-bottom:.75rem;color:var(--border)}
+.empty p{font-size:.875rem}
+.empty .btn{margin-top:1rem}
+
+/* ─── AVATAR ────────────────────────────────────────── */
+.avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;flex-shrink:0}
+
+/* ─── LOADER ─────────────────────────────────────────── */
+.loader{display:flex;align-items:center;gap:.5rem;padding:2rem;justify-content:center;color:var(--text-light);font-size:.82rem}
+.spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── OVERVIEW ──────────────────────────────────────── */
+.overview-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:1.25rem}
+.prog-item{display:flex;align-items:center;gap.875rem;gap:.875rem;padding:.75rem;border-radius:10px;border:1px solid var(--border);margin-bottom:.5rem}
+.prog-item:last-child{margin-bottom:0}
+.prog-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.prog-name{flex:1;font-size:.82rem;font-weight:600}
+.prog-count{font-size:.8rem;color:var(--text-light);font-weight:600}
+.activity-item{display:flex;align-items:center;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--border)}
+.activity-item:last-child{border:none}
+.activity-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+.activity-text{flex:1;font-size:.8rem;color:var(--text)}
+.activity-time{font-size:.7rem;color:var(--text-light)}
+
+@media(max-width:900px){
+  .sb{display:none}
+  .main{margin-left:0}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+  .overview-grid{grid-template-columns:1fr}
+}
+@media(max-width:500px){.stats-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-    <!-- ============================================ -->
-    <!-- 🔥 FIREBASE - CONFIGURACIÓN -->
-    <!-- ============================================ -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-    <script>
-        // 🔥 Configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",
-            authDomain: "roboworks-app.firebaseapp.com",
-            projectId: "roboworks-app",
-            storageBucket: "roboworks-app.firebasestorage.app",
-            messagingSenderId: "824986583831",
-            appId: "1:824986583831:web:7477911bd5cb95a18a6d52"
-        };
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script>
+firebase.initializeApp({apiKey:"AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",authDomain:"roboworks-app.firebaseapp.com",projectId:"roboworks-app",storageBucket:"roboworks-app.firebasestorage.app",messagingSenderId:"824986583831",appId:"1:824986583831:web:7477911bd5cb95a18a6d52"});
+const db=firebase.firestore();
+</script>
 
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        console.log('🔥 Firebase conectado correctamente en admin');
-    </script>
+<!-- SIDEBAR -->
+<nav class="sb">
+  <div class="sb-brand">
+    <img src="/assets/icons/logo.png" alt="RoboWorks">
+    <span>Robo<em>Works</em></span>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section">General</div>
+    <button class="sb-item active" onclick="goTab('resumen',this)"><i class="fa-solid fa-chart-pie"></i>Resumen</button>
+    <div class="sb-section">Academia</div>
+    <button class="sb-item" onclick="goTab('estudiantes',this)"><i class="fa-solid fa-users"></i>Estudiantes <span class="sb-badge" id="badge-est">0</span></button>
+    <button class="sb-item" onclick="goTab('programas',this)"><i class="fa-solid fa-cubes"></i>Programas</button>
+    <button class="sb-item" onclick="goTab('clases',this)"><i class="fa-solid fa-calendar-days"></i>Clases</button>
+    <div class="sb-section">Contenido</div>
+    <button class="sb-item" onclick="goTab('tareas',this)"><i class="fa-solid fa-list-check"></i>Tareas <span class="sb-badge" id="badge-task" style="display:none">!</span></button>
+    <button class="sb-item" onclick="goTab('recursos',this)"><i class="fa-solid fa-folder-open"></i>Recursos</button>
+    <button class="sb-item" onclick="goTab('niveles',this)"><i class="fa-solid fa-trophy"></i>Progreso Niveles</button>
+  </div>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar">JG</div>
+      <div class="sb-user-info">
+        <div class="sb-user-name">Jeff Garces</div>
+        <div class="sb-user-role">Administrador</div>
+      </div>
+      <button class="sb-logout" onclick="logout()" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </div>
+</nav>
 
-    <header class="admin-header">
-        <div class="header-left">
-            <h1><i class="fas fa-cog"></i> RoboWorks Admin</h1>
-            <div class="user-info">
-                <i class="fas fa-user-circle"></i>
-                <span id="userName">Administrador</span>
-            </div>
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div>
+        <div class="topbar-title" id="topbar-title">Resumen</div>
+        <div class="topbar-sub" id="topbar-sub">Panel de administración RoboWorks</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="badge-pill badge-admin"><i class="fa-solid fa-shield-halved"></i> Administrador</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ══════════════════════════════════════
+         RESUMEN
+    ══════════════════════════════════════ -->
+    <div class="tab-panel active" id="tab-resumen">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+          <div><div class="stat-value" id="st-students">—</div><div class="stat-label">Estudiantes activos</div></div>
         </div>
-        <button class="logout-btn" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-        </button>
-    </header>
+        <div class="stat-card">
+          <div class="stat-icon orange"><i class="fa-solid fa-calendar-days"></i></div>
+          <div><div class="stat-value" id="st-classes">—</div><div class="stat-label">Clases activas</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fa-solid fa-list-check"></i></div>
+          <div><div class="stat-value" id="st-tasks">—</div><div class="stat-label">Tareas publicadas</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold"><i class="fa-solid fa-folder-open"></i></div>
+          <div><div class="stat-value" id="st-materials">—</div><div class="stat-label">Recursos subidos</div></div>
+        </div>
+      </div>
 
-    <!-- Pestañas de navegación -->
-    <div class="admin-tabs">
-        <button class="tab-btn active" onclick="showTab('programs', event)">
-            <i class="fas fa-th-large"></i> Programas
-        </button>
-        <button class="tab-btn" onclick="showTab('courses', event)">
-            <i class="fas fa-code"></i> Cursos CodeWorks
-        </button>
-        <button class="tab-btn" onclick="showTab('classes', event)">
-            <i class="fas fa-calendar-alt"></i> Clases
-        </button>
-        <button class="tab-btn" onclick="showTab('students', event)">
-            <i class="fas fa-users"></i> Estudiantes
-        </button>
-        <button class="tab-btn" onclick="showTab('materials', event)">
-            <i class="fas fa-folder-open"></i> Materiales
-        </button>
-        <button class="tab-btn" onclick="showTab('tasks', event)">
-            <i class="fas fa-list-check"></i> Tareas
-        </button>
+      <div class="overview-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-cubes"></i>Programas activos</div>
+            <button class="btn btn-ghost btn-sm" onclick="goTab('programas',null)">Ver todos</button>
+          </div>
+          <div class="card-body" id="overview-programs"><div class="loader"><div class="spin"></div>Cargando...</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i>Últimos estudiantes</div>
+            <button class="btn btn-ghost btn-sm" onclick="goTab('estudiantes',null)">Ver todos</button>
+          </div>
+          <div class="card-body" id="overview-students"><div class="loader"><div class="spin"></div>Cargando...</div></div>
+        </div>
+      </div>
     </div>
 
-    <!-- Contenido dinámico -->
-    <div class="admin-container">
-        <div id="alertMessage" class="alert"></div>
-
-        <!-- Pestaña: Programas -->
-        <div id="programs-tab" class="tab-content">
-            <div class="content-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-th-large"></i> Programas</h2>
-                    <button class="btn-primary" onclick="openProgramModal()">
-                        <i class="fas fa-plus"></i> Nuevo Programa
-                    </button>
-                </div>
-
-                <div id="programsLoading" class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Cargando programas...</p>
-                </div>
-
-                <div id="programsGrid" class="programs-grid" style="display: none;"></div>
-            </div>
+    <!-- ══════════════════════════════════════
+         ESTUDIANTES
+    ══════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-estudiantes">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-users"></i>Estudiantes</div>
+          <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+            <input type="text" class="form-control" id="student-search" placeholder="Buscar estudiante..." style="width:200px;padding:.4rem .75rem;font-size:.8rem" oninput="filterStudents()">
+            <button class="btn btn-primary" onclick="openModal('modal-student')"><i class="fa-solid fa-plus"></i>Nuevo estudiante</button>
+          </div>
         </div>
-
-        <!-- Pestaña: Cursos CodeWorks -->
-        <div id="courses-tab" class="tab-content" style="display: none;">
-            <div class="content-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-code"></i> Cursos de CodeWorks</h2>
-                    <button class="btn-primary" onclick="openCourseModal()">
-                        <i class="fas fa-plus"></i> Nuevo Curso
-                    </button>
-                </div>
-
-                <div id="coursesLoading" class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Cargando cursos...</p>
-                </div>
-
-                <div id="coursesTable" style="display: none;">
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Descripción</th>
-                                    <th>Icono</th>
-                                    <th>Clases</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="coursesList"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Estudiante</th><th>Usuario</th><th>Nivel</th><th>Programa</th><th>Clases</th><th>Miembro desde</th><th>Acciones</th>
+            </tr></thead>
+            <tbody id="students-tbody"><tr><td colspan="7"><div class="loader"><div class="spin"></div>Cargando estudiantes...</div></td></tr></tbody>
+          </table>
         </div>
-
-        <!-- Pestaña: Clases -->
-        <div id="classes-tab" class="tab-content" style="display: none;">
-            <div class="content-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-calendar-alt"></i> Clases</h2>
-                    <button class="btn-primary" onclick="openClassModal()">
-                        <i class="fas fa-plus"></i> Nueva Clase
-                    </button>
-                </div>
-
-                <div id="classesLoading" class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Cargando clases...</p>
-                </div>
-
-                <div id="classesTable" style="display: none;">
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Programa</th>
-                                    <th>Curso</th>
-                                    <th>Nombre</th>
-                                    <th>Horario</th>
-                                    <th>Estudiantes</th>
-                                    <th>Cupo</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="classesList"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pestaña: Estudiantes -->
-        <div id="students-tab" class="tab-content" style="display: none;">
-            <div class="content-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-users"></i> Estudiantes</h2>
-                    <button class="btn-primary" onclick="openStudentModal()">
-                        <i class="fas fa-plus"></i> Nuevo Estudiante
-                    </button>
-                </div>
-
-                <div id="studentsLoading" class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Cargando estudiantes...</p>
-                </div>
-
-                <div id="studentsTable" style="display: none;">
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Foto</th>
-                                    <th>Nombre</th>
-                                    <th>Usuario</th>
-                                    <th>Teléfono</th>
-                                    <th>Código</th>
-                                    <th>Clases</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="studentsList"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pestaña: Materiales -->
-        <div id="materials-tab" class="tab-content" style="display: none;">
-            <div class="content-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-folder-open"></i> Materiales por Clase</h2>
-                </div>
-                
-                <div class="form-group">
-                    <label>Seleccionar Clase:</label>
-                    <select id="materialClassSelect" onchange="loadClassMaterials()">
-                        <option value="">Cargando clases...</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="materialManagement" style="display: none;">
-                <div class="content-card" id="classInfoCard">
-                    <h3 id="selectedClassName"></h3>
-                    <p id="selectedClassDetails"></p>
-                </div>
-
-                <div class="content-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-tags"></i> Categorías</h3>
-                        <button class="btn-primary" onclick="openCategoryModal()">
-                            <i class="fas fa-plus"></i> Nueva Categoría
-                        </button>
-                    </div>
-                    <div id="categoriesList" class="categories-container"></div>
-                </div>
-
-                <div class="content-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-alt"></i> Materiales</h3>
-                        <button class="btn-primary" onclick="openMaterialModal()">
-                            <i class="fas fa-plus"></i> Nuevo Material
-                        </button>
-                    </div>
-
-                    <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <button class="btn-secondary" onclick="filterMaterials('all')">Todos</button>
-                        <button class="btn-secondary" onclick="filterMaterials('link')">🔗 Enlaces</button>
-                        <button class="btn-secondary" onclick="filterMaterials('file')">📁 Archivos</button>
-                        <button class="btn-secondary" onclick="filterMaterials('video')">🎥 Videos</button>
-                        <button class="btn-secondary" onclick="filterMaterials('code')">💻 Código</button>
-                    </div>
-
-                    <div id="materialsLoading" class="loading" style="display: none;">
-                        <div class="loading-spinner"></div>
-                        <p>Cargando materiales...</p>
-                    </div>
-
-                    <div id="materialsContainer"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pestaña: Tareas -->
-        <div id="tasks-tab" class="tab-content" style="display: none;">
-            <div class="content-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-list-check"></i> Gestión de Tareas</h2>
-                    <button class="btn-primary" onclick="openTaskModal()">
-                        <i class="fas fa-plus"></i> Nueva Tarea
-                    </button>
-                </div>
-                <div id="tasks-admin-loading" class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Cargando tareas...</p>
-                </div>
-                <div id="tasks-admin-list" style="display:none"></div>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <!-- Modal: Tarea -->
-    <div id="taskModal" class="modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Nueva Tarea</h3>
-                <button class="close-modal" onclick="closeTaskModal()">&times;</button>
-            </div>
-            <form id="taskForm" onsubmit="saveTask(event)">
-                <div class="form-group">
-                    <label>Título de la tarea</label>
-                    <input type="text" id="taskTitle" required placeholder="Ej: Práctica de Arduino — Sensor ultrasónico">
-                </div>
-                <div class="form-group">
-                    <label>Descripción / Instrucciones</label>
-                    <textarea id="taskDescription" rows="4" required placeholder="Describe qué deben hacer los estudiantes..."></textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Fecha de entrega</label>
-                        <input type="date" id="taskDueDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Nivel asignado</label>
-                        <select id="taskLevel">
-                            <option value="">Todos los niveles</option>
-                            <option value="SPARK">SPARK</option>
-                            <option value="RISE">RISE</option>
-                            <option value="CORE">CORE</option>
-                            <option value="SURGE">SURGE</option>
-                            <option value="PINNACLE">PINNACLE</option>
-                            <option value="LEGEND">LEGEND</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Link de archivo / recurso (opcional)</label>
-                    <input type="url" id="taskFileUrl" placeholder="https://drive.google.com/...">
-                </div>
-                <button type="submit" class="btn-primary" style="width:100%;margin-top:.5rem">
-                    <i class="fas fa-save"></i> Publicar Tarea
-                </button>
-            </form>
+    <!-- ══════════════════════════════════════
+         PROGRAMAS
+    ══════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-programas">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-cubes"></i>Programas de enseñanza</div>
+          <button class="btn btn-primary" onclick="openModal('modal-program')"><i class="fa-solid fa-plus"></i>Nuevo programa</button>
         </div>
+        <div class="card-body" id="programs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem">
+          <div class="loader"><div class="spin"></div>Cargando programas...</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Modal para Programa -->
-    <div id="programModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="programModalTitle">Nuevo Programa</h3>
-                <button class="close-modal" onclick="closeProgramModal()">&times;</button>
-            </div>
-            <form id="programForm" onsubmit="saveProgram(event)">
-                <input type="hidden" id="programId">
-                <div class="form-group">
-                    <label>Nombre del Programa</label>
-                    <input type="text" id="programName" required>
-                </div>
-                <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="programDescription" rows="3" required></textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Icono (FontAwesome)</label>
-                        <input type="text" id="programIcon" placeholder="fa-robot" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Color (hex)</label>
-                        <input type="color" id="programColor" value="#2563EB">
-                    </div>
-                </div>
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Guardar Programa
-                </button>
-            </form>
+    <!-- ══════════════════════════════════════
+         CLASES
+    ══════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-clases">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-calendar-days"></i>Clases</div>
+          <button class="btn btn-primary" onclick="openModal('modal-class')"><i class="fa-solid fa-plus"></i>Nueva clase</button>
         </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nombre</th><th>Programa</th><th>Día</th><th>Horario</th><th>Zoom</th><th>Estudiantes</th><th>Acciones</th></tr></thead>
+            <tbody id="classes-tbody"><tr><td colspan="7"><div class="loader"><div class="spin"></div>Cargando clases...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <!-- Modal para Curso de CodeWorks -->
-    <div id="courseModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="courseModalTitle">Nuevo Curso en CodeWorks</h3>
-                <button class="close-modal" onclick="closeCourseModal()">&times;</button>
-            </div>
-            <form id="courseForm" onsubmit="saveCourse(event)">
-                <input type="hidden" id="courseId">
-                <div class="form-group">
-                    <label>Nombre del Curso</label>
-                    <input type="text" id="courseName" required>
-                </div>
-                <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="courseDescription" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Icono (FontAwesome)</label>
-                    <input type="text" id="courseIcon" placeholder="fa-gamepad" required>
-                </div>
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Guardar Curso
-                </button>
-            </form>
+    <!-- ══════════════════════════════════════
+         TAREAS
+    ══════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-tareas">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-list-check"></i>Tareas asignadas</div>
+          <button class="btn btn-primary" onclick="openModal('modal-task')"><i class="fa-solid fa-plus"></i>Nueva tarea</button>
         </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tarea</th><th>Nivel</th><th>Fecha de entrega</th><th>Recurso</th><th>Creada</th><th>Acciones</th></tr></thead>
+            <tbody id="tasks-tbody"><tr><td colspan="6"><div class="loader"><div class="spin"></div>Cargando tareas...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <!-- Modal para Clase -->
-    <div id="classModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="classModalTitle">Nueva Clase</h3>
-                <button class="close-modal" onclick="closeClassModal()">&times;</button>
-            </div>
-            <form id="classForm" onsubmit="saveClass(event)">
-                <input type="hidden" id="classId">
-                
-                <div class="form-group">
-                    <label>Programa</label>
-                    <select id="classProgram" required onchange="toggleCourseField()">
-                        <option value="">Seleccionar programa...</option>
-                    </select>
-                </div>
-
-                <div class="form-group" id="courseField" style="display: none;">
-                    <label>Curso (solo para CodeWorks)</label>
-                    <select id="classCourse">
-                        <option value="">Seleccionar curso...</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Nombre de la Clase</label>
-                    <input type="text" id="className" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Link de Zoom</label>
-                    <input type="url" id="classZoom" placeholder="https://zoom.us/j/..." required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Día</label>
-                        <select id="classDay" required>
-                            <option value="monday">Lunes</option>
-                            <option value="tuesday">Martes</option>
-                            <option value="wednesday">Miércoles</option>
-                            <option value="thursday">Jueves</option>
-                            <option value="friday">Viernes</option>
-                            <option value="saturday">Sábado</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Hora</label>
-                        <input type="time" id="classTime" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Descripción (opcional)</label>
-                    <textarea id="classDescription" rows="2" placeholder="Objetivos de la clase..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Cupo máximo</label>
-                    <input type="number" id="classMaxStudents" value="4" min="1" max="10">
-                </div>
-
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Guardar Clase
-                </button>
-            </form>
+    <!-- ══════════════════════════════════════
+         RECURSOS
+    ══════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-recursos">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-folder-open"></i>Recursos y materiales</div>
+          <button class="btn btn-primary" onclick="openModal('modal-resource')"><i class="fa-solid fa-plus"></i>Nuevo recurso</button>
         </div>
+        <div id="resources-filters" style="padding:.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;gap:.4rem;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm active-filter" onclick="filterRes('all',this)">Todos</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterRes('pdf',this)">PDF</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterRes('video',this)">Video</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterRes('link',this)">Enlace</button>
+          <button class="btn btn-ghost btn-sm" onclick="filterRes('file',this)">Archivo</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Título</th><th>Tipo</th><th>Nivel / Clase</th><th>Descripción</th><th>Enlace</th><th>Acciones</th></tr></thead>
+            <tbody id="resources-tbody"><tr><td colspan="6"><div class="loader"><div class="spin"></div>Cargando recursos...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <!-- Modal para Estudiante -->
-    <div id="studentModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Nuevo Estudiante</h3>
-                <button class="close-modal" onclick="closeStudentModal()">&times;</button>
-            </div>
-            <form id="studentForm" onsubmit="saveStudent(event)">
-                <input type="hidden" id="editingStudentId">
-                <div class="form-group">
-                    <label>Nombre completo</label>
-                    <input type="text" id="studentName" required>
-                </div>
-
-                <div class="form-group">
-                    <label>📱 Teléfono del padre/madre (WhatsApp)</label>
-                    <input type="tel" id="parentPhone" placeholder="Ej: +584141234567" 
-                           pattern="\+\d{10,15}" title="Formato internacional: +584141234567">
-                </div>
-
-                <div class="form-group">
-                    <label>Programa</label>
-                    <select id="studentProgram" required onchange="loadAvailableClasses()">
-                        <option value="">Seleccionar programa...</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Clases disponibles (puedes seleccionar varias)</label>
-                    <div id="availableClasses" style="max-height: 200px; overflow-y: auto; border: 2px solid #ddd; border-radius: 10px; padding: 1rem;">
-                        <p style="color: #666;">Selecciona un programa primero</p>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Crear Estudiante
-                </button>
-            </form>
+    <!-- ══════════════════════════════════════
+         NIVELES / PROGRESO
+    ══════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-niveles">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-trophy"></i>Progreso de estudiantes por nivel</div>
         </div>
+        <div class="card-body" id="levels-grid">
+          <div class="loader"><div class="spin"></div>Cargando progreso...</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Modal para ver detalles del estudiante -->
-    <div id="studentDetailModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Detalles del Estudiante</h3>
-                <button class="close-modal" onclick="closeStudentDetailModal()">&times;</button>
-            </div>
-            <div id="studentDetailContent"></div>
-        </div>
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ALERT TOAST -->
+<div class="alert-toast" id="alert-toast"><i class="fa-solid fa-circle-check"></i><span id="alert-msg"></span></div>
+
+<!-- ══════════════════ MODALS ══════════════════ -->
+
+<!-- MODAL: ESTUDIANTE -->
+<div class="modal-overlay" id="modal-student">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-user-plus"></i><span id="modal-student-title">Nuevo Estudiante</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-student')"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
-    <!-- Modal para Material -->
-    <div id="materialModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="materialModalTitle">Nuevo Material</h3>
-                <button class="close-modal" onclick="closeMaterialModal()">&times;</button>
-            </div>
-            
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid #eee; flex-wrap: wrap;">
-                <button class="btn-secondary" onclick="showMaterialType('link')" id="tab-link">🔗 Enlace</button>
-                <button class="btn-secondary" onclick="showMaterialType('file')" id="tab-file">📁 Archivo</button>
-                <button class="btn-secondary" onclick="showMaterialType('video')" id="tab-video">🎥 Video</button>
-                <button class="btn-secondary" onclick="showMaterialType('code')" id="tab-code">💻 Código</button>
-            </div>
-            
-            <form id="materialForm" onsubmit="saveMaterial(event)">
-                <input type="hidden" id="materialId">
-                <input type="hidden" id="materialClassId">
-                <input type="hidden" id="materialType" value="link">
-                
-                <div class="form-group">
-                    <label>Título *</label>
-                    <input type="text" id="materialTitle" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Categoría</label>
-                    <select id="materialCategory">
-                        <option value="">Sin categoría</option>
-                    </select>
-                </div>
-                
-                <div class="form-group material-field" id="field-link">
-                    <label>URL del enlace *</label>
-                    <input type="url" id="materialLink" placeholder="https://...">
-                </div>
-                
-                <div class="form-group material-field" id="field-video" style="display: none;">
-                    <label>URL del video *</label>
-                    <input type="url" id="materialVideo" placeholder="https://youtube.com/watch?v=...">
-                </div>
-                
-                <div class="form-group material-field" id="field-code" style="display: none;">
-                    <label>URL del código *</label>
-                    <input type="url" id="materialCode" placeholder="https://github.com/...">
-                </div>
-                
-                <div class="form-group material-field" id="field-file" style="display: none;">
-                    <label>Archivo *</label>
-                    <input type="file" id="materialFile">
-                </div>
-                
-                <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="materialDescription" rows="3"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>Orden</label>
-                    <input type="number" id="materialOrder" value="0" min="0">
-                </div>
-                
-                <div class="checkbox-group">
-                    <input type="checkbox" id="materialActive" checked>
-                    <label for="materialActive">Activo</label>
-                </div>
-                
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">
-                    <i class="fas fa-save"></i> Guardar Material
-                </button>
-            </form>
+    <form class="modal-body" id="form-student" onsubmit="saveStudent(event)">
+      <input type="hidden" id="edit-student-id">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre completo <span class="req">*</span></label>
+          <input type="text" class="form-control" id="s-name" required placeholder="Ej: Esthelita Pérez">
         </div>
-    </div>
-
-    <!-- Modal para Categoría -->
-    <div id="categoryModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Nueva Categoría</h3>
-                <button class="close-modal" onclick="closeCategoryModal()">&times;</button>
-            </div>
-            
-            <form id="categoryForm" onsubmit="saveCategory(event)">
-                <div class="form-group">
-                    <label>Nombre *</label>
-                    <input type="text" id="categoryName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Descripción</label>
-                    <input type="text" id="categoryDescription">
-                </div>
-                
-                <div class="form-group">
-                    <label>Color</label>
-                    <input type="color" id="categoryColor" value="#2563EB">
-                </div>
-                
-                <div class="form-group">
-                    <label>Orden</label>
-                    <input type="number" id="categoryOrder" value="0" min="0">
-                </div>
-                
-                <button type="submit" class="btn-primary" style="width: 100%;">
-                    <i class="fas fa-save"></i> Guardar Categoría
-                </button>
-            </form>
+        <div class="form-group">
+          <label>Teléfono del padre/madre</label>
+          <input type="text" class="form-control" id="s-phone" placeholder="+593 99 000 0000">
         </div>
-    </div>
-
-    <!-- Modal para previsualizar material -->
-    <div id="viewMaterialModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <div class="modal-header">
-                <h3 id="viewMaterialTitle">Material</h3>
-                <button class="close-modal" onclick="closeViewMaterialModal()">&times;</button>
-            </div>
-            <div id="viewMaterialContent"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nivel RoboWorks <span class="req">*</span></label>
+          <select class="form-control" id="s-level" required>
+            <option value="">Seleccionar nivel...</option>
+            <option value="SPARK">Nivel 1 — SPARK (5-7 años)</option>
+            <option value="RISE">Nivel 2 — RISE (7-10 años)</option>
+            <option value="CORE">Nivel 3 — CORE (9-12 años)</option>
+            <option value="SURGE">Nivel 4 — SURGE (11-14 años)</option>
+            <option value="PINNACLE">Nivel 5 — PINNACLE (13-16 años)</option>
+            <option value="LEGEND">Nivel 6 — LEGEND (15-17 años)</option>
+          </select>
         </div>
+        <div class="form-group">
+          <label>Programa</label>
+          <select class="form-control" id="s-program">
+            <option value="">Sin asignar</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" class="form-control" id="s-username" placeholder="Se genera automáticamente">
+          <div class="form-hint">Deja vacío para generar automáticamente</div>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="text" class="form-control" id="s-password" placeholder="Se genera automáticamente">
+          <div class="form-hint">Deja vacío para generar automáticamente</div>
+        </div>
+      </div>
+      <div id="creds-result" style="display:none"></div>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-student')">Cancelar</button>
+      <button class="btn btn-primary" onclick="document.getElementById('form-student').requestSubmit()"><i class="fa-solid fa-floppy-disk"></i>Guardar estudiante</button>
     </div>
+  </div>
+</div>
 
-    <script>
-        // ============================================
-        // VARIABLES GLOBALES
-        // ============================================
-        let programs = [];
-        let courses = [];
-        let classes = [];
-        let students = [];
-        let materials = [];
-        let categories = [];
+<!-- MODAL: PROGRAMA -->
+<div class="modal-overlay" id="modal-program">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-cube"></i><span id="modal-program-title">Nuevo Programa</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-program')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form class="modal-body" id="form-program" onsubmit="saveProgram(event)">
+      <input type="hidden" id="edit-program-id">
+      <div class="form-group">
+        <label>Nombre del programa <span class="req">*</span></label>
+        <input type="text" class="form-control" id="p-name" required placeholder="Ej: RoboStart">
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" id="p-desc" placeholder="Describe el programa brevemente..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Rango de edad</label>
+          <input type="text" class="form-control" id="p-age" placeholder="Ej: 5 a 7 años">
+        </div>
+        <div class="form-group">
+          <label>Color de identidad</label>
+          <input type="color" class="form-control" id="p-color" value="#2563EB" style="height:42px;cursor:pointer">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Ícono (Font Awesome sin el fa-)</label>
+        <input type="text" class="form-control" id="p-icon" placeholder="robot, code, brain, star..." value="robot">
+        <div class="form-hint">Ejemplos: robot · code · brain · star · microchip · graduation-cap</div>
+      </div>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-program')">Cancelar</button>
+      <button class="btn btn-primary" onclick="document.getElementById('form-program').requestSubmit()"><i class="fa-solid fa-floppy-disk"></i>Guardar programa</button>
+    </div>
+  </div>
+</div>
 
-        // ============================================
-        // INICIALIZACIÓN
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔍 Inicializando panel de administración...');
-            
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
-            if (!isAdmin) {
-                const adminPass = prompt('Ingresa la contraseña de administrador:');
-                if (adminPass === 'admin123') {
-                    localStorage.setItem('isAdmin', 'true');
-                } else {
-                    alert('Contraseña incorrecta');
-                    window.location.href = '../login.html';
-                    return;
-                }
-            }
-            
-            document.getElementById('userName').textContent = 'Administrador';
-            
-            // Cargar datos iniciales
-            loadInitialData();
-            
-            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-            document.getElementById('programs-tab').style.display = 'block';
-        });
+<!-- MODAL: CLASE -->
+<div class="modal-overlay" id="modal-class">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-calendar-plus"></i><span id="modal-class-title">Nueva Clase</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-class')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form class="modal-body" id="form-class" onsubmit="saveClass(event)">
+      <input type="hidden" id="edit-class-id">
+      <div class="form-group">
+        <label>Nombre de la clase <span class="req">*</span></label>
+        <input type="text" class="form-control" id="c-name" required placeholder="Ej: RoboStart Martes">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Programa <span class="req">*</span></label>
+          <select class="form-control" id="c-program" required>
+            <option value="">Seleccionar...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nivel</label>
+          <select class="form-control" id="c-level">
+            <option value="">Sin asignar</option>
+            <option value="SPARK">SPARK</option>
+            <option value="RISE">RISE</option>
+            <option value="CORE">CORE</option>
+            <option value="SURGE">SURGE</option>
+            <option value="PINNACLE">PINNACLE</option>
+            <option value="LEGEND">LEGEND</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Día</label>
+          <select class="form-control" id="c-day">
+            <option value="monday">Lunes</option>
+            <option value="tuesday">Martes</option>
+            <option value="wednesday">Miércoles</option>
+            <option value="thursday">Jueves</option>
+            <option value="friday">Viernes</option>
+            <option value="saturday">Sábado</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Horario</label>
+          <input type="time" class="form-control" id="c-time">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Enlace Zoom</label>
+        <input type="url" class="form-control" id="c-zoom" placeholder="https://zoom.us/j/...">
+      </div>
+      <div class="form-group">
+        <label>Cupo máximo</label>
+        <input type="number" class="form-control" id="c-max" min="1" max="30" value="10">
+      </div>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-class')">Cancelar</button>
+      <button class="btn btn-primary" onclick="document.getElementById('form-class').requestSubmit()"><i class="fa-solid fa-floppy-disk"></i>Guardar clase</button>
+    </div>
+  </div>
+</div>
 
-        async function loadInitialData() {
-            // Cargar programas
-            await loadPrograms();
-            // Cargar cursos
-            await loadCourses();
-            // Cargar clases
-            await loadClasses();
-            // Cargar estudiantes
-            await loadStudents();
-        }
+<!-- MODAL: TAREA -->
+<div class="modal-overlay" id="modal-task">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-clipboard-list"></i><span id="modal-task-title">Nueva Tarea</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-task')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form class="modal-body" id="form-task" onsubmit="saveTask(event)">
+      <input type="hidden" id="edit-task-id">
+      <div class="form-group">
+        <label>Título de la tarea <span class="req">*</span></label>
+        <input type="text" class="form-control" id="t-title" required placeholder="Ej: Práctica de sensor ultrasónico">
+      </div>
+      <div class="form-group">
+        <label>Instrucciones / Descripción</label>
+        <textarea class="form-control" id="t-desc" rows="3" placeholder="Describe qué deben hacer los estudiantes..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nivel asignado</label>
+          <select class="form-control" id="t-level">
+            <option value="">Todos los niveles</option>
+            <option value="SPARK">SPARK</option>
+            <option value="RISE">RISE</option>
+            <option value="CORE">CORE</option>
+            <option value="SURGE">SURGE</option>
+            <option value="PINNACLE">PINNACLE</option>
+            <option value="LEGEND">LEGEND</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha de entrega</label>
+          <input type="date" class="form-control" id="t-due">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Enlace de recurso adjunto (opcional)</label>
+        <input type="url" class="form-control" id="t-file" placeholder="https://drive.google.com/...">
+      </div>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-task')">Cancelar</button>
+      <button class="btn btn-primary" onclick="document.getElementById('form-task').requestSubmit()"><i class="fa-solid fa-floppy-disk"></i>Publicar tarea</button>
+    </div>
+  </div>
+</div>
 
-        function logout() {
-            localStorage.removeItem('isAdmin');
-            localStorage.removeItem('currentStudent');
-            window.location.href = '../login.html';
-        }
+<!-- MODAL: RECURSO -->
+<div class="modal-overlay" id="modal-resource">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-file-arrow-up"></i><span>Nuevo Recurso</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-resource')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form class="modal-body" id="form-resource" onsubmit="saveResource(event)">
+      <input type="hidden" id="edit-resource-id">
+      <div class="form-group">
+        <label>Título <span class="req">*</span></label>
+        <input type="text" class="form-control" id="r-title" required placeholder="Ej: Guía de Arduino — Sensor ultrasónico">
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" id="r-desc" rows="2" placeholder="Breve descripción del contenido..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo de recurso</label>
+          <select class="form-control" id="r-type">
+            <option value="link">Enlace web</option>
+            <option value="pdf">Documento PDF</option>
+            <option value="video">Video</option>
+            <option value="file">Archivo general</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nivel</label>
+          <select class="form-control" id="r-level">
+            <option value="">Todos</option>
+            <option value="SPARK">SPARK</option>
+            <option value="RISE">RISE</option>
+            <option value="CORE">CORE</option>
+            <option value="SURGE">SURGE</option>
+            <option value="PINNACLE">PINNACLE</option>
+            <option value="LEGEND">LEGEND</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>URL del recurso <span class="req">*</span></label>
+        <input type="url" class="form-control" id="r-url" required placeholder="https://drive.google.com/ o https://youtube.com/...">
+        <div class="form-hint">Puedes usar Google Drive, YouTube, Dropbox o cualquier enlace directo.</div>
+      </div>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-resource')">Cancelar</button>
+      <button class="btn btn-primary" onclick="document.getElementById('form-resource').requestSubmit()"><i class="fa-solid fa-floppy-disk"></i>Guardar recurso</button>
+    </div>
+  </div>
+</div>
 
-        function showTab(tabName, event) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-            
-            event.target.classList.add('active');
-            document.getElementById(`${tabName}-tab`).style.display = 'block';
-            
-            if (tabName === 'programs') loadPrograms();
-            if (tabName === 'courses') loadCourses();
-            if (tabName === 'classes') loadClasses();
-            if (tabName === 'students') loadStudents();
-            if (tabName === 'materials') loadClassesForMaterials();
-        }
+<script>
+// ─── HELPERS ─────────────────────────────────────────────────
+const TS=firebase.firestore.FieldValue.serverTimestamp;
+const DAYS={monday:'Lunes',tuesday:'Martes',wednesday:'Miércoles',thursday:'Jueves',friday:'Viernes',saturday:'Sábado'};
+const LV_CLASS={SPARK:'lv-spark',RISE:'lv-rise',CORE:'lv-core',SURGE:'lv-surge',PINNACLE:'lv-pinnacle',LEGEND:'lv-legend'};
+const LV_NUM={SPARK:1,RISE:2,CORE:3,SURGE:4,PINNACLE:5,LEGEND:6};
+function fmtDate(ts){if(!ts)return'—';const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtDue(d){if(!d)return'—';const dt=d.toDate?d.toDate():new Date(d);const now=new Date();const diff=dt-now;const badge=diff<0?'badge-red':(diff<86400000*3?'badge-gold':'badge-green');return`<span class="badge ${badge}">${dt.toLocaleDateString('es-ES',{day:'2-digit',month:'short'})}</span>`;}
+function initials(n){return(n||'').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)||'??';}
+function genUser(){return'est'+Math.floor(Math.random()*9000+1000);}
+function genPass(){const chars='abcdefghjkmnpqrstuvwxyz23456789';return Array.from({length:8},()=>chars[Math.floor(Math.random()*chars.length)]).join('');}
 
-        function showAlert(message, type) {
-            const alert = document.getElementById('alertMessage');
-            alert.textContent = message;
-            alert.className = `alert alert-${type}`;
-            alert.style.display = 'block';
-            setTimeout(() => alert.style.display = 'none', 3000);
-        }
+function toast(msg,type='success'){
+  const el=document.getElementById('alert-toast');
+  const sp=document.getElementById('alert-msg');
+  el.className='alert-toast '+type;
+  sp.textContent=msg;
+  el.style.display='flex';
+  setTimeout(()=>{el.style.display='none';},3500);
+}
 
-        // ============================================
-        // PROGRAMAS
-        // ============================================
-        function loadPrograms() {
-            return new Promise((resolve) => {
-                console.log('📥 Cargando programas...');
-                document.getElementById('programsLoading').style.display = 'block';
-                document.getElementById('programsGrid').style.display = 'none';
-                
-                db.collection('programs').get().then((querySnapshot) => {
-                    programs = [];
-                    querySnapshot.forEach((doc) => {
-                        programs.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    displayPrograms();
-                    resolve();
-                }).catch((error) => {
-                    console.error('❌ Error:', error);
-                    document.getElementById('programsLoading').style.display = 'none';
-                    resolve();
-                });
-            });
-        }
+// ─── MODALS ──────────────────────────────────────────────────
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
 
-        function displayPrograms() {
-            programs.forEach(program => {
-                program.total_classes = classes.filter(c => c.program_id === program.id).length;
-            });
-            
-            const grid = document.getElementById('programsGrid');
-            grid.innerHTML = '';
-            
-            if (programs.length === 0) {
-                grid.innerHTML = '<p style="text-align: center; padding: 2rem;">No hay programas creados aún.</p>';
-            } else {
-                programs.forEach(program => {
-                    const card = document.createElement('div');
-                    card.className = 'program-card';
-                    card.innerHTML = `
-                        <div class="program-icon" style="background: ${program.color || '#2563EB'}">
-                            <i class="fas ${program.icon || 'fa-robot'}"></i>
-                        </div>
-                        <div class="program-name">${program.name}</div>
-                        <div class="program-description">${program.description || ''}</div>
-                        <div class="program-stats">
-                            <span><i class="fas fa-users"></i> ${program.total_classes || 0} clases</span>
-                        </div>
-                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                            <button class="action-btn edit-btn" onclick="editProgram('${program.id}')">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn delete-btn" onclick="deleteProgram('${program.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            }
-            
-            document.getElementById('programsLoading').style.display = 'none';
-            grid.style.display = 'grid';
-        }
+// ─── TAB NAVIGATION ──────────────────────────────────────────
+const TABS={resumen:'Resumen',estudiantes:'Estudiantes',programas:'Programas',clases:'Clases',tareas:'Tareas',recursos:'Recursos y Materiales',niveles:'Progreso de Niveles'};
+const TAB_SUBS={resumen:'Visión general de la academia',estudiantes:'Gestiona los estudiantes inscritos',programas:'Programas de enseñanza STEAM',clases:'Horarios y grupos de clase',tareas:'Asignaciones para los estudiantes',recursos:'Materiales y documentos de clase',niveles:'Seguimiento del camino SPARK → LEGEND'};
+function goTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('topbar-title').textContent=TABS[id]||id;
+  document.getElementById('topbar-sub').textContent=TAB_SUBS[id]||'';
+  if(id==='estudiantes') loadStudents();
+  if(id==='programas') loadPrograms();
+  if(id==='clases') loadClasses();
+  if(id==='tareas') loadTasks();
+  if(id==='recursos') loadResources();
+  if(id==='niveles') loadLevels();
+}
 
-        function openProgramModal() {
-            document.getElementById('programModalTitle').textContent = 'Nuevo Programa';
-            document.getElementById('programId').value = '';
-            document.getElementById('programName').value = '';
-            document.getElementById('programDescription').value = '';
-            document.getElementById('programIcon').value = 'fa-robot';
-            document.getElementById('programColor').value = '#2563EB';
-            document.getElementById('programModal').classList.add('active');
-        }
+// ─── STATE ───────────────────────────────────────────────────
+let allStudents=[],allPrograms=[],allClasses=[],allTasks=[],allResources=[];
+let studentsFilter='',resFilter='all';
 
-        function closeProgramModal() {
-            document.getElementById('programModal').classList.remove('active');
-            document.getElementById('programForm').reset();
-        }
+// ─── OVERVIEW ────────────────────────────────────────────────
+async function loadOverview(){
+  try{
+    const [sSnap,clSnap,tSnap,rSnap,pSnap]=await Promise.all([
+      db.collection('students').get(),
+      db.collection('classes').get(),
+      db.collection('tasks').get(),
+      db.collection('materials').get(),
+      db.collection('programs').get()
+    ]);
+    allStudents=sSnap.docs.map(d=>({id:d.id,...d.data()}));
+    allClasses=clSnap.docs.map(d=>({id:d.id,...d.data()}));
+    allPrograms=pSnap.docs.map(d=>({id:d.id,...d.data()}));
 
-        function saveProgram(event) {
-            event.preventDefault();
-            
-            const programData = {
-                name: document.getElementById('programName').value,
-                description: document.getElementById('programDescription').value,
-                icon: document.getElementById('programIcon').value,
-                color: document.getElementById('programColor').value
-            };
-            
-            db.collection('programs').add(programData).then(() => {
-                showAlert('Programa creado', 'success');
-                closeProgramModal();
-                loadPrograms();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al crear programa', 'error');
-            });
-        }
+    document.getElementById('st-students').textContent=sSnap.size;
+    document.getElementById('st-classes').textContent=clSnap.size;
+    document.getElementById('st-tasks').textContent=tSnap.size;
+    document.getElementById('st-materials').textContent=rSnap.size;
+    document.getElementById('badge-est').textContent=sSnap.size;
 
-        // ============================================
-        // EDITAR PROGRAMA - COMPLETO
-        // ============================================
-        function editProgram(programId) {
-            console.log('✏️ Editando programa:', programId);
-            
-            const program = programs.find(p => p.id === programId);
-            if (!program) {
-                showAlert('Programa no encontrado', 'error');
-                return;
-            }
-            
-            document.getElementById('programId').value = program.id;
-            document.getElementById('programName').value = program.name;
-            document.getElementById('programDescription').value = program.description || '';
-            document.getElementById('programIcon').value = program.icon || 'fa-robot';
-            document.getElementById('programColor').value = program.color || '#2563EB';
-            
-            document.getElementById('programModalTitle').textContent = 'Editar Programa';
-            
-            const form = document.getElementById('programForm');
-            form.onsubmit = function(event) {
-                event.preventDefault();
-                updateProgram(program.id);
-            };
-            
-            document.getElementById('programModal').classList.add('active');
-        }
+    // Programs overview
+    const pg=document.getElementById('overview-programs');
+    if(allPrograms.length===0){
+      pg.innerHTML='<div class="empty"><i class="fa-solid fa-cubes"></i><p>No hay programas aún</p><button class="btn btn-primary" onclick="goTab(\'programas\',null)"><i class="fa-solid fa-plus"></i>Crear primero</button></div>';
+    } else {
+      pg.innerHTML=allPrograms.map(p=>`<div class="prog-item">
+        <div class="prog-dot" style="background:${p.color||'#2563EB'}"></div>
+        <div class="prog-name">${p.name}</div>
+        <div class="prog-count">${allStudents.filter(s=>s.program_id===p.id).length} est.</div>
+      </div>`).join('');
+    }
 
-        function updateProgram(programId) {
-            const programData = {
-                name: document.getElementById('programName').value,
-                description: document.getElementById('programDescription').value,
-                icon: document.getElementById('programIcon').value,
-                color: document.getElementById('programColor').value
-            };
-            
-            db.collection('programs').doc(programId).update(programData).then(() => {
-                console.log('✅ Programa actualizado');
-                showAlert('Programa actualizado', 'success');
-                closeProgramModal();
-                loadPrograms();
-                
-                // Restaurar el formulario
-                document.getElementById('programForm').onsubmit = saveProgram;
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al actualizar', 'error');
-            });
-        }
+    // Recent students
+    const recent=allStudents.slice(-5).reverse();
+    const el=document.getElementById('overview-students');
+    if(recent.length===0){
+      el.innerHTML='<div class="empty"><i class="fa-solid fa-users"></i><p>No hay estudiantes aún</p><button class="btn btn-primary" onclick="openModal(\'modal-student\')"><i class="fa-solid fa-plus"></i>Agregar primero</button></div>';
+    } else {
+      el.innerHTML=recent.map(s=>`<div class="activity-item">
+        <div class="avatar">${initials(s.full_name)}</div>
+        <div class="activity-text">${s.full_name} <span class="badge ${LV_CLASS[s.level]||'badge-gray'}" style="margin-left:.25rem">${s.level||'—'}</span></div>
+        <div class="activity-time">${fmtDate(s.created_at)}</div>
+      </div>`).join('');
+    }
+    fillProgramSelects();
+  }catch(e){console.error(e);}
+}
 
-        function deleteProgram(programId) {
-            if (!confirm('¿Estás seguro de eliminar este programa? Las clases asociadas se eliminarán.')) return;
-            
-            db.collection('programs').doc(programId).delete().then(() => {
-                showAlert('Programa eliminado', 'success');
-                loadPrograms();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al eliminar', 'error');
-            });
-        }
+function fillProgramSelects(){
+  ['s-program','c-program'].forEach(id=>{
+    const sel=document.getElementById(id);
+    if(!sel) return;
+    const val=sel.value;
+    while(sel.options.length>1) sel.remove(1);
+    allPrograms.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.name;sel.appendChild(o);});
+    if(val) sel.value=val;
+  });
+}
 
-        // ============================================
-        // CURSOS
-        // ============================================
-        function loadCourses() {
-            return new Promise((resolve) => {
-                console.log('📥 Cargando cursos...');
-                document.getElementById('coursesLoading').style.display = 'block';
-                document.getElementById('coursesTable').style.display = 'none';
-                
-                db.collection('courses').get().then((querySnapshot) => {
-                    courses = [];
-                    querySnapshot.forEach((doc) => {
-                        courses.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    displayCourses();
-                    resolve();
-                }).catch((error) => {
-                    console.error('❌ Error:', error);
-                    document.getElementById('coursesLoading').style.display = 'none';
-                    resolve();
-                });
-            });
-        }
+// ─── STUDENTS ────────────────────────────────────────────────
+async function loadStudents(){
+  document.getElementById('students-tbody').innerHTML='<tr><td colspan="7"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr>';
+  const snap=await db.collection('students').orderBy('created_at','desc').get().catch(()=>({docs:[]}));
+  allStudents=snap.docs.map(d=>({id:d.id,...d.data()}));
+  document.getElementById('badge-est').textContent=allStudents.length;
+  renderStudents();
+}
 
-        function displayCourses() {
-            const tbody = document.getElementById('coursesList');
-            tbody.innerHTML = '';
-            
-            if (courses.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay cursos creados aún</td></tr>';
-            } else {
-                courses.forEach(course => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${course.name}</td>
-                        <td>${course.description || ''}</td>
-                        <td><i class="fas ${course.icon || 'fa-code'}"></i></td>
-                        <td>${classes.filter(c => c.codeworks_course_id === course.id).length}</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit-btn" onclick="editCourse('${course.id}')">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteCourse('${course.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-            
-            document.getElementById('coursesLoading').style.display = 'none';
-            document.getElementById('coursesTable').style.display = 'block';
-        }
+function renderStudents(){
+  const tbody=document.getElementById('students-tbody');
+  let list=allStudents;
+  if(studentsFilter) list=list.filter(s=>(s.full_name||'').toLowerCase().includes(studentsFilter)||( s.username||'').toLowerCase().includes(studentsFilter));
+  if(list.length===0){tbody.innerHTML='<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-users"></i><p>No hay estudiantes registrados</p></div></td></tr>';return;}
+  tbody.innerHTML=list.map(s=>{
+    const prog=allPrograms.find(p=>p.id===s.program_id);
+    return`<tr>
+      <td style="display:flex;align-items:center;gap:.6rem"><div class="avatar">${initials(s.full_name)}</div><div><div style="font-weight:600">${s.full_name}</div><div style="font-size:.72rem;color:var(--text-light)">${s.parent_phone||''}</div></div></td>
+      <td><code style="background:var(--bg);padding:.2rem .5rem;border-radius:4px;font-size:.78rem">${s.username||'—'}</code></td>
+      <td><span class="badge ${LV_CLASS[s.level]||'badge-gray'}">${s.level||'—'}</span></td>
+      <td>${prog?`<span class="badge badge-blue">${prog.name}</span>`:'<span class="badge badge-gray">Sin asignar</span>'}</td>
+      <td><span class="badge badge-gray">${s.class_ids?.length||0} clases</span></td>
+      <td style="color:var(--text-light);font-size:.78rem">${fmtDate(s.created_at)}</td>
+      <td><div class="td-actions">
+        <button class="btn btn-ghost btn-sm btn-icon" title="Ver credenciales" onclick="showCredentials('${s.id}')"><i class="fa-solid fa-key"></i></button>
+        <button class="btn btn-ghost btn-sm btn-icon" title="Editar" onclick="editStudent('${s.id}')"><i class="fa-solid fa-pen"></i></button>
+        <button class="btn btn-danger btn-sm btn-icon" title="Eliminar" onclick="deleteStudent('${s.id}')"><i class="fa-solid fa-trash"></i></button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
 
-        function openCourseModal() {
-            document.getElementById('courseModalTitle').textContent = 'Nuevo Curso';
-            document.getElementById('courseId').value = '';
-            document.getElementById('courseName').value = '';
-            document.getElementById('courseDescription').value = '';
-            document.getElementById('courseIcon').value = 'fa-code';
-            document.getElementById('courseModal').classList.add('active');
-        }
+function filterStudents(){
+  studentsFilter=document.getElementById('student-search').value.toLowerCase();
+  renderStudents();
+}
 
-        function closeCourseModal() {
-            document.getElementById('courseModal').classList.remove('active');
-            document.getElementById('courseForm').reset();
-        }
+async function saveStudent(e){
+  e.preventDefault();
+  const editId=document.getElementById('edit-student-id').value;
+  const name=document.getElementById('s-name').value.trim();
+  const level=document.getElementById('s-level').value;
+  const username=document.getElementById('s-username').value.trim()||genUser();
+  const password=document.getElementById('s-password').value.trim()||genPass();
+  const phone=document.getElementById('s-phone').value.trim();
+  const program=document.getElementById('s-program').value;
 
-        function saveCourse(event) {
-            event.preventDefault();
-            
-            const courseData = {
-                name: document.getElementById('courseName').value,
-                description: document.getElementById('courseDescription').value,
-                icon: document.getElementById('courseIcon').value,
-                program_id: 1
-            };
-            
-            db.collection('courses').add(courseData).then(() => {
-                showAlert('Curso creado', 'success');
-                closeCourseModal();
-                loadCourses();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al crear curso', 'error');
-            });
-        }
+  const data={full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:[],xp:0};
 
-        // ============================================
-        // EDITAR CURSO - COMPLETO
-        // ============================================
-        function editCourse(courseId) {
-            console.log('✏️ Editando curso:', courseId);
-            
-            const course = courses.find(c => c.id === courseId);
-            if (!course) {
-                showAlert('Curso no encontrado', 'error');
-                return;
-            }
-            
-            document.getElementById('courseId').value = course.id;
-            document.getElementById('courseName').value = course.name;
-            document.getElementById('courseDescription').value = course.description || '';
-            document.getElementById('courseIcon').value = course.icon || 'fa-code';
-            
-            document.getElementById('courseModalTitle').textContent = 'Editar Curso';
-            
-            const form = document.getElementById('courseForm');
-            form.onsubmit = function(event) {
-                event.preventDefault();
-                updateCourse(course.id);
-            };
-            
-            document.getElementById('courseModal').classList.add('active');
-        }
+  try{
+    if(editId){
+      await db.collection('students').doc(editId).update({full_name:name,level,level_num:LV_NUM[level]||1,parent_phone:phone||null,program_id:program||null});
+      toast('Estudiante actualizado correctamente');
+    } else {
+      data.created_at=TS();
+      await db.collection('students').add(data);
+      // Show credentials
+      document.getElementById('creds-result').style.display='block';
+      document.getElementById('creds-result').innerHTML=`<div class="creds-box">
+        <h4>Credenciales del estudiante</h4>
+        <div class="cred-row"><span class="cred-label">Nombre</span><span class="cred-val">${name}</span></div>
+        <div class="cred-row"><span class="cred-label">Usuario</span><span class="cred-val">${username}</span><button class="cred-copy" onclick="navigator.clipboard.writeText('${username}')">Copiar</button></div>
+        <div class="cred-row"><span class="cred-label">Contraseña</span><span class="cred-val">${password}</span><button class="cred-copy" onclick="navigator.clipboard.writeText('${password}')">Copiar</button></div>
+        <div class="cred-row"><span class="cred-label">Nivel</span><span class="cred-val">${level}</span></div>
+      </div>`;
+      toast('Estudiante creado. Guarda las credenciales.');
+      // Reset form but keep modal open to show creds
+      document.getElementById('form-student').reset();
+      document.getElementById('edit-student-id').value='';
+    }
+    await loadStudents();
+    await loadOverview();
+  }catch(err){console.error(err);toast('Error al guardar: '+err.message,'error');}
+}
 
-        function updateCourse(courseId) {
-            const courseData = {
-                name: document.getElementById('courseName').value,
-                description: document.getElementById('courseDescription').value,
-                icon: document.getElementById('courseIcon').value,
-                program_id: 1
-            };
-            
-            db.collection('courses').doc(courseId).update(courseData).then(() => {
-                showAlert('Curso actualizado', 'success');
-                closeCourseModal();
-                loadCourses();
-                document.getElementById('courseForm').onsubmit = saveCourse;
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al actualizar', 'error');
-            });
-        }
+function editStudent(id){
+  const s=allStudents.find(x=>x.id===id);
+  if(!s) return;
+  document.getElementById('modal-student-title').textContent='Editar Estudiante';
+  document.getElementById('edit-student-id').value=id;
+  document.getElementById('s-name').value=s.full_name||'';
+  document.getElementById('s-phone').value=s.parent_phone||'';
+  document.getElementById('s-level').value=s.level||'';
+  document.getElementById('s-program').value=s.program_id||'';
+  document.getElementById('s-username').value=s.username||'';
+  document.getElementById('s-password').value=s.password||'';
+  document.getElementById('creds-result').style.display='none';
+  openModal('modal-student');
+}
 
-        function deleteCourse(courseId) {
-            if (!confirm('¿Estás seguro de eliminar este curso?')) return;
-            
-            db.collection('courses').doc(courseId).delete().then(() => {
-                showAlert('Curso eliminado', 'success');
-                loadCourses();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al eliminar', 'error');
-            });
-        }
+function showCredentials(id){
+  const s=allStudents.find(x=>x.id===id);
+  if(!s) return;
+  document.getElementById('modal-student-title').textContent='Credenciales de acceso';
+  document.getElementById('edit-student-id').value='';
+  document.getElementById('form-student').style.display='none';
+  document.getElementById('creds-result').style.display='block';
+  document.getElementById('creds-result').innerHTML=`<div class="creds-box">
+    <h4>Credenciales del estudiante</h4>
+    <div class="cred-row"><span class="cred-label">Nombre</span><span class="cred-val">${s.full_name}</span></div>
+    <div class="cred-row"><span class="cred-label">Usuario</span><span class="cred-val">${s.username||'—'}</span><button class="cred-copy" onclick="navigator.clipboard.writeText('${s.username||''}');this.textContent='OK'">Copiar</button></div>
+    <div class="cred-row"><span class="cred-label">Contraseña</span><span class="cred-val">${s.password||'—'}</span><button class="cred-copy" onclick="navigator.clipboard.writeText('${s.password||''}');this.textContent='OK'">Copiar</button></div>
+    <div class="cred-row"><span class="cred-label">Nivel</span><span class="cred-val">${s.level||'—'}</span></div>
+  </div>`;
+  openModal('modal-student');
+  setTimeout(()=>document.getElementById('form-student').style.display='block',100);
+}
 
-        // ============================================
-        // CLASES
-        // ============================================
-        function loadClasses() {
-            return new Promise((resolve) => {
-                console.log('📥 Cargando clases...');
-                document.getElementById('classesLoading').style.display = 'block';
-                document.getElementById('classesTable').style.display = 'none';
-                
-                db.collection('classes').get().then((querySnapshot) => {
-                    classes = [];
-                    querySnapshot.forEach((doc) => {
-                        classes.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    displayClasses();
-                    resolve();
-                }).catch((error) => {
-                    console.error('❌ Error:', error);
-                    document.getElementById('classesLoading').style.display = 'none';
-                    resolve();
-                });
-            });
-        }
+async function deleteStudent(id){
+  if(!confirm('¿Eliminar este estudiante? Esta acción no se puede deshacer.')) return;
+  await db.collection('students').doc(id).delete();
+  toast('Estudiante eliminado');
+  loadStudents();
+  loadOverview();
+}
 
-        function displayClasses() {
-            const tbody = document.getElementById('classesList');
-            tbody.innerHTML = '';
-            
-            if (classes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No hay clases creadas aún</td></tr>';
-            } else {
-                classes.forEach(cls => {
-                    const program = programs.find(p => p.id === cls.program_id);
-                    const course = courses.find(c => c.id === cls.codeworks_course_id);
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${program?.name || '-'}</td>
-                        <td>${course?.name || '-'}</td>
-                        <td>${cls.name}</td>
-                        <td>${formatDay(cls.schedule_day) || ''} ${cls.schedule_time || ''}</td>
-                        <td>0/${cls.max_students || 4}</td>
-                        <td><span class="status-badge status-active">Disponible</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit-btn" onclick="editClass('${cls.id}')">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteClass('${cls.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-            
-            document.getElementById('classesLoading').style.display = 'none';
-            document.getElementById('classesTable').style.display = 'block';
-        }
+// ─── PROGRAMS ────────────────────────────────────────────────
+async function loadPrograms(){
+  const snap=await db.collection('programs').get().catch(()=>({docs:[]}));
+  allPrograms=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderPrograms();
+  fillProgramSelects();
+}
 
-        function formatDay(day) {
-            const days = {
-                'monday': 'Lunes',
-                'tuesday': 'Martes',
-                'wednesday': 'Miércoles',
-                'thursday': 'Jueves',
-                'friday': 'Viernes',
-                'saturday': 'Sábado'
-            };
-            return days[day] || day;
-        }
+function renderPrograms(){
+  const el=document.getElementById('programs-grid');
+  if(allPrograms.length===0){
+    el.innerHTML='<div class="empty" style="grid-column:1/-1"><i class="fa-solid fa-cubes"></i><p>No hay programas. Crea el primero.</p></div>';
+    return;
+  }
+  el.innerHTML=allPrograms.map(p=>`<div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--white)">
+    <div style="padding:1.25rem;border-bottom:4px solid ${p.color||'#2563EB'}">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <div style="width:44px;height:44px;border-radius:10px;background:${p.color||'#2563EB'}22;display:flex;align-items:center;justify-content:center;color:${p.color||'#2563EB'};font-size:1.1rem"><i class="fa-solid fa-${p.icon||'robot'}"></i></div>
+        <div><div style="font-weight:700;font-size:.9rem">${p.name}</div><div style="font-size:.72rem;color:var(--text-light)">${p.age_range||p.age||''}</div></div>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-light);line-height:1.5">${p.description||''}</p>
+    </div>
+    <div style="padding:.75rem 1rem;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:.75rem;color:var(--text-light)">${allStudents.filter(s=>s.program_id===p.id).length} estudiantes</span>
+      <div style="display:flex;gap:.4rem">
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="editProgram('${p.id}')"><i class="fa-solid fa-pen"></i></button>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteProgram('${p.id}')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  </div>`).join('');
+}
 
-        function toggleCourseField() {
-            const programId = document.getElementById('classProgram').value;
-            const program = programs.find(p => p.id == programId);
-            const courseField = document.getElementById('courseField');
-            
-            if (program?.name === 'CodeWorks') {
-                courseField.style.display = 'block';
-                loadCoursesSelect();
-            } else {
-                courseField.style.display = 'none';
-            }
-        }
+async function saveProgram(e){
+  e.preventDefault();
+  const editId=document.getElementById('edit-program-id').value;
+  const data={name:document.getElementById('p-name').value,description:document.getElementById('p-desc').value,age_range:document.getElementById('p-age').value,color:document.getElementById('p-color').value,icon:document.getElementById('p-icon').value||'robot'};
+  try{
+    if(editId) await db.collection('programs').doc(editId).update(data);
+    else{data.created_at=TS(); await db.collection('programs').add(data);}
+    toast(editId?'Programa actualizado':'Programa creado correctamente');
+    closeModal('modal-program');
+    document.getElementById('form-program').reset();
+    document.getElementById('edit-program-id').value='';
+    loadPrograms();
+  }catch(err){toast('Error: '+err.message,'error');}
+}
 
-        function loadCoursesSelect() {
-            const select = document.getElementById('classCourse');
-            select.innerHTML = '<option value="">Seleccionar curso...</option>';
-            courses.forEach(course => {
-                const option = document.createElement('option');
-                option.value = course.id;
-                option.textContent = course.name;
-                select.appendChild(option);
-            });
-        }
+function editProgram(id){
+  const p=allPrograms.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('modal-program-title').textContent='Editar Programa';
+  document.getElementById('edit-program-id').value=id;
+  document.getElementById('p-name').value=p.name||'';
+  document.getElementById('p-desc').value=p.description||'';
+  document.getElementById('p-age').value=p.age_range||p.age||'';
+  document.getElementById('p-color').value=p.color||'#2563EB';
+  document.getElementById('p-icon').value=p.icon||'robot';
+  openModal('modal-program');
+}
 
-        function openClassModal() {
-            document.getElementById('classModalTitle').textContent = 'Nueva Clase';
-            document.getElementById('classForm').reset();
-            
-            const programSelect = document.getElementById('classProgram');
-            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
-            programs.forEach(program => {
-                const option = document.createElement('option');
-                option.value = program.id;
-                option.textContent = program.name;
-                programSelect.appendChild(option);
-            });
-            
-            document.getElementById('classModal').classList.add('active');
-        }
+async function deleteProgram(id){
+  if(!confirm('¿Eliminar este programa?')) return;
+  await db.collection('programs').doc(id).delete();
+  toast('Programa eliminado');
+  loadPrograms();
+}
 
-        function closeClassModal() {
-            document.getElementById('classModal').classList.remove('active');
-            document.getElementById('classForm').reset();
-        }
+// ─── CLASSES ─────────────────────────────────────────────────
+async function loadClasses(){
+  const snap=await db.collection('classes').orderBy('schedule_day').get().catch(()=>({docs:[]}));
+  allClasses=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const tbody=document.getElementById('classes-tbody');
+  if(allClasses.length===0){tbody.innerHTML='<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-calendar-days"></i><p>No hay clases creadas</p></div></td></tr>';return;}
+  tbody.innerHTML=allClasses.map(c=>{
+    const prog=allPrograms.find(p=>p.id===c.program_id);
+    const studs=allStudents.filter(s=>s.class_ids?.includes(c.id));
+    return`<tr>
+      <td style="font-weight:600">${c.name}</td>
+      <td>${prog?`<span class="badge badge-blue">${prog.name}</span>`:'—'}</td>
+      <td>${DAYS[c.schedule_day]||c.schedule_day||'—'}</td>
+      <td>${c.schedule_time||'—'}</td>
+      <td>${c.zoom_link?`<a href="${c.zoom_link}" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-solid fa-video"></i>Link</a>`:'<span style="color:var(--text-light)">Sin Zoom</span>'}</td>
+      <td><span class="badge badge-gray">${studs.length}/${c.max_students||10}</span></td>
+      <td><div class="td-actions">
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="editClass('${c.id}')"><i class="fa-solid fa-pen"></i></button>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteClass('${c.id}')"><i class="fa-solid fa-trash"></i></button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
 
-        function saveClass(event) {
-            event.preventDefault();
-            
-            const classData = {
-                program_id: document.getElementById('classProgram').value,
-                codeworks_course_id: document.getElementById('classCourse').value || null,
-                name: document.getElementById('className').value,
-                teacher_id: 2,
-                zoom_link: document.getElementById('classZoom').value,
-                schedule_day: document.getElementById('classDay').value,
-                schedule_time: document.getElementById('classTime').value,
-                description: document.getElementById('classDescription').value,
-                max_students: parseInt(document.getElementById('classMaxStudents').value)
-            };
-            
-            db.collection('classes').add(classData).then(() => {
-                showAlert('Clase creada', 'success');
-                closeClassModal();
-                loadClasses();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al crear clase', 'error');
-            });
-        }
+async function saveClass(e){
+  e.preventDefault();
+  const editId=document.getElementById('edit-class-id').value;
+  const data={name:document.getElementById('c-name').value,program_id:document.getElementById('c-program').value,level:document.getElementById('c-level').value,schedule_day:document.getElementById('c-day').value,schedule_time:document.getElementById('c-time').value,zoom_link:document.getElementById('c-zoom').value,max_students:parseInt(document.getElementById('c-max').value)||10};
+  try{
+    if(editId) await db.collection('classes').doc(editId).update(data);
+    else{data.created_at=TS(); await db.collection('classes').add(data);}
+    toast(editId?'Clase actualizada':'Clase creada correctamente');
+    closeModal('modal-class');
+    document.getElementById('form-class').reset();
+    document.getElementById('edit-class-id').value='';
+    loadClasses();
+  }catch(err){toast('Error: '+err.message,'error');}
+}
 
-        // ============================================
-        // EDITAR CLASE - COMPLETO
-        // ============================================
-        function editClass(classId) {
-            console.log('✏️ Editando clase:', classId);
-            
-            const cls = classes.find(c => c.id === classId);
-            if (!cls) {
-                showAlert('Clase no encontrada', 'error');
-                return;
-            }
-            
-            document.getElementById('classId').value = cls.id;
-            document.getElementById('classProgram').value = cls.program_id;
-            document.getElementById('classCourse').value = cls.codeworks_course_id || '';
-            document.getElementById('className').value = cls.name;
-            document.getElementById('classZoom').value = cls.zoom_link || '';
-            document.getElementById('classDay').value = cls.schedule_day;
-            document.getElementById('classTime').value = cls.schedule_time || '';
-            document.getElementById('classDescription').value = cls.description || '';
-            document.getElementById('classMaxStudents').value = cls.max_students || 4;
-            
-            document.getElementById('classModalTitle').textContent = 'Editar Clase';
-            
-            const form = document.getElementById('classForm');
-            form.onsubmit = function(event) {
-                event.preventDefault();
-                updateClass(cls.id);
-            };
-            
-            document.getElementById('classModal').classList.add('active');
-        }
+function editClass(id){
+  const c=allClasses.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById('modal-class-title').textContent='Editar Clase';
+  document.getElementById('edit-class-id').value=id;
+  document.getElementById('c-name').value=c.name||'';
+  document.getElementById('c-program').value=c.program_id||'';
+  document.getElementById('c-level').value=c.level||'';
+  document.getElementById('c-day').value=c.schedule_day||'monday';
+  document.getElementById('c-time').value=c.schedule_time||'';
+  document.getElementById('c-zoom').value=c.zoom_link||'';
+  document.getElementById('c-max').value=c.max_students||10;
+  openModal('modal-class');
+}
 
-        function updateClass(classId) {
-            const classData = {
-                program_id: document.getElementById('classProgram').value,
-                codeworks_course_id: document.getElementById('classCourse').value || null,
-                name: document.getElementById('className').value,
-                teacher_id: 2,
-                zoom_link: document.getElementById('classZoom').value,
-                schedule_day: document.getElementById('classDay').value,
-                schedule_time: document.getElementById('classTime').value,
-                description: document.getElementById('classDescription').value,
-                max_students: parseInt(document.getElementById('classMaxStudents').value)
-            };
-            
-            db.collection('classes').doc(classId).update(classData).then(() => {
-                showAlert('Clase actualizada', 'success');
-                closeClassModal();
-                loadClasses();
-                document.getElementById('classForm').onsubmit = saveClass;
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al actualizar', 'error');
-            });
-        }
+async function deleteClass(id){
+  if(!confirm('¿Eliminar esta clase?')) return;
+  await db.collection('classes').doc(id).delete();
+  toast('Clase eliminada');
+  loadClasses();
+}
 
-        function deleteClass(classId) {
-            if (!confirm('¿Estás seguro de eliminar esta clase?')) return;
-            
-            db.collection('classes').doc(classId).delete().then(() => {
-                showAlert('Clase eliminada', 'success');
-                loadClasses();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al eliminar', 'error');
-            });
-        }
+// ─── TASKS ───────────────────────────────────────────────────
+async function loadTasks(){
+  const snap=await db.collection('tasks').orderBy('created_at','desc').get().catch(()=>({docs:[]}));
+  allTasks=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const tbody=document.getElementById('tasks-tbody');
+  if(allTasks.length===0){tbody.innerHTML='<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-list-check"></i><p>No hay tareas publicadas</p></div></td></tr>';return;}
+  tbody.innerHTML=allTasks.map(t=>`<tr>
+    <td><div style="font-weight:600;margin-bottom:.2rem">${t.title}</div><div style="font-size:.75rem;color:var(--text-light)">${t.description||''}</div></td>
+    <td>${t.level?`<span class="badge ${LV_CLASS[t.level]||'badge-gray'}">${t.level}</span>`:'<span class="badge badge-gray">Todos</span>'}</td>
+    <td>${fmtDue(t.due_date)}</td>
+    <td>${t.file_url?`<a href="${t.file_url}" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-solid fa-link"></i>Ver</a>`:'—'}</td>
+    <td style="font-size:.75rem;color:var(--text-light)">${fmtDate(t.created_at)}</td>
+    <td><div class="td-actions">
+      <button class="btn btn-ghost btn-sm btn-icon" onclick="editTask('${t.id}')"><i class="fa-solid fa-pen"></i></button>
+      <button class="btn btn-danger btn-sm btn-icon" onclick="deleteTask('${t.id}')"><i class="fa-solid fa-trash"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
 
-        // ============================================
-        // ESTUDIANTES
-        // ============================================
-        function loadStudents() {
-            return new Promise((resolve) => {
-                console.log('📥 Cargando estudiantes...');
-                document.getElementById('studentsLoading').style.display = 'block';
-                document.getElementById('studentsTable').style.display = 'none';
-                
-                db.collection('students').get().then((querySnapshot) => {
-                    students = [];
-                    querySnapshot.forEach((doc) => {
-                        students.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    displayStudents();
-                    resolve();
-                }).catch((error) => {
-                    console.error('❌ Error:', error);
-                    document.getElementById('studentsLoading').style.display = 'none';
-                    resolve();
-                });
-            });
-        }
+async function saveTask(e){
+  e.preventDefault();
+  const editId=document.getElementById('edit-task-id').value;
+  const dueStr=document.getElementById('t-due').value;
+  const data={title:document.getElementById('t-title').value,description:document.getElementById('t-desc').value,level:document.getElementById('t-level').value,file_url:document.getElementById('t-file').value,due_date:dueStr?firebase.firestore.Timestamp.fromDate(new Date(dueStr)):null};
+  try{
+    if(editId) await db.collection('tasks').doc(editId).update(data);
+    else{data.created_at=TS(); await db.collection('tasks').add(data);}
+    toast(editId?'Tarea actualizada':'Tarea publicada. Los estudiantes ya pueden verla.');
+    closeModal('modal-task');
+    document.getElementById('form-task').reset();
+    document.getElementById('edit-task-id').value='';
+    loadTasks();
+  }catch(err){toast('Error: '+err.message,'error');}
+}
 
-        function displayStudents() {
-            const tbody = document.getElementById('studentsList');
-            tbody.innerHTML = '';
-            
-            if (students.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay estudiantes registrados</td></tr>';
-            } else {
-                students.forEach(student => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td><i class="fas fa-user-circle" style="font-size: 2rem; color: #2563EB;"></i></td>
-                        <td>${student.full_name}</td>
-                        <td>${student.username}</td>
-                        <td>${student.parent_phone || 'No registrado'}</td>
-                        <td><code>${student.invitation_code || 'N/A'}</code></td>
-                        <td>${student.class_ids?.length || 0} clases</td>
-                        <td><span class="status-badge status-warning">⏳ Pendiente</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn edit-btn" onclick="viewStudent('${student.id}')">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn edit-btn" onclick="editStudent('${student.id}')" style="background: #f39c12;">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete-btn" onclick="deleteStudent('${student.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-            
-            document.getElementById('studentsLoading').style.display = 'none';
-            document.getElementById('studentsTable').style.display = 'block';
-        }
+function editTask(id){
+  const t=allTasks.find(x=>x.id===id);
+  if(!t) return;
+  document.getElementById('modal-task-title').textContent='Editar Tarea';
+  document.getElementById('edit-task-id').value=id;
+  document.getElementById('t-title').value=t.title||'';
+  document.getElementById('t-desc').value=t.description||'';
+  document.getElementById('t-level').value=t.level||'';
+  document.getElementById('t-file').value=t.file_url||'';
+  if(t.due_date){const d=t.due_date.toDate?t.due_date.toDate():new Date(t.due_date);document.getElementById('t-due').value=d.toISOString().split('T')[0];}
+  openModal('modal-task');
+}
 
-        function openStudentModal() {
-            document.getElementById('studentForm').reset();
-            document.getElementById('availableClasses').innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
-            
-            const programSelect = document.getElementById('studentProgram');
-            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
-            
-            // Asegurarse de que programs esté cargado
-            if (programs.length === 0) {
-                db.collection('programs').get().then((querySnapshot) => {
-                    programs = [];
-                    querySnapshot.forEach((doc) => {
-                        programs.push({ id: doc.id, ...doc.data() });
-                    });
-                    fillProgramSelect(programSelect);
-                });
-            } else {
-                fillProgramSelect(programSelect);
-            }
-            
-            // Resetear el título del modal
-            document.querySelector('#studentModal .modal-header h3').textContent = 'Nuevo Estudiante';
-            const submitBtn = document.querySelector('#studentForm button[type="submit"]');
-            submitBtn.innerHTML = '<i class="fas fa-save"></i> Crear Estudiante';
-            
-            document.getElementById('studentModal').classList.add('active');
-        }
+async function deleteTask(id){
+  if(!confirm('¿Eliminar esta tarea?')) return;
+  await db.collection('tasks').doc(id).delete();
+  toast('Tarea eliminada');
+  loadTasks();
+}
 
-        function fillProgramSelect(programSelect, selectedProgramId = null) {
-            programs.forEach(program => {
-                const option = document.createElement('option');
-                option.value = program.id;
-                option.textContent = program.name;
-                if (selectedProgramId && selectedProgramId === program.id) {
-                    option.selected = true;
-                }
-                programSelect.appendChild(option);
-            });
-        }
+// ─── RESOURCES ───────────────────────────────────────────────
+async function loadResources(){
+  const snap=await db.collection('materials').orderBy('created_at','desc').get().catch(()=>({docs:[]}));
+  allResources=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderResources();
+}
 
-        function closeStudentModal() {
-            document.getElementById('studentModal').classList.remove('active');
-            document.getElementById('studentForm').reset();
-            document.getElementById('editingStudentId').value = '';
-        }
+const RES_ICON={pdf:'fa-file-pdf',video:'fa-play-circle',link:'fa-link',file:'fa-file'};
+const RES_BADGE={pdf:'badge-red',video:'badge-green',link:'badge-blue',file:'badge-orange'};
 
-        // ============================================
-        // LOAD AVAILABLE CLASSES CORREGIDO PARA CREACIÓN
-        // ============================================
-        function loadAvailableClasses() {
-            const programId = document.getElementById('studentProgram').value;
-            const container = document.getElementById('availableClasses');
-            
-            if (!programId) {
-                container.innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
-                return;
-            }
-            
-            // Mostrar indicador de carga
-            container.innerHTML = '<p style="color: #666;">Cargando clases...</p>';
-            
-            // Cargar clases de Firebase para ese programa
-            db.collection('classes').where('program_id', '==', programId).get().then((querySnapshot) => {
-                const filteredClasses = [];
-                querySnapshot.forEach((doc) => {
-                    filteredClasses.push({ id: doc.id, ...doc.data() });
-                });
-                
-                if (filteredClasses.length === 0) {
-                    container.innerHTML = '<p style="color: #666;">No hay clases disponibles para este programa</p>';
-                    return;
-                }
-                
-                let html = '';
-                filteredClasses.forEach(cls => {
-                    html += `
-                        <div class="class-item">
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="checkbox" value="${cls.id}">
-                                <div class="class-info">
-                                    <div class="class-name">${cls.name}</div>
-                                    <div class="class-details">
-                                        ${formatDay(cls.schedule_day)} ${cls.schedule_time || ''}
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                    `;
-                });
-                
-                container.innerHTML = html;
-            }).catch((error) => {
-                console.error('❌ Error cargando clases:', error);
-                container.innerHTML = '<p style="color: #dc2626;">Error al cargar clases</p>';
-            });
-        }
+function renderResources(){
+  const tbody=document.getElementById('resources-tbody');
+  let list=allResources;
+  if(resFilter!=='all') list=list.filter(r=>r.type===resFilter);
+  if(list.length===0){tbody.innerHTML='<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-folder-open"></i><p>No hay recursos en esta categoría</p></div></td></tr>';return;}
+  tbody.innerHTML=list.map(r=>`<tr>
+    <td style="font-weight:600">${r.title}</td>
+    <td><span class="badge ${RES_BADGE[r.type]||'badge-gray'}"><i class="fa-solid ${RES_ICON[r.type]||'fa-file'}"></i> ${(r.type||'archivo').toUpperCase()}</span></td>
+    <td>${r.level?`<span class="badge ${LV_CLASS[r.level]||'badge-gray'}">${r.level}</span>`:'<span class="badge badge-gray">Todos</span>'}</td>
+    <td style="font-size:.78rem;color:var(--text-light);max-width:200px">${r.description||'—'}</td>
+    <td>${r.file_url||r.url?`<a href="${r.file_url||r.url}" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-solid fa-arrow-up-right-from-square"></i>Abrir</a>`:'—'}</td>
+    <td><div class="td-actions">
+      <button class="btn btn-ghost btn-sm btn-icon" onclick="editResource('${r.id}')"><i class="fa-solid fa-pen"></i></button>
+      <button class="btn btn-danger btn-sm btn-icon" onclick="deleteResource('${r.id}')"><i class="fa-solid fa-trash"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
 
-        // ============================================
-        // SAVE STUDENT MODIFICADO PARA USAR FIREBASE
-        // ============================================
-        function saveStudent(event) {
-            event.preventDefault();
-            
-            const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
-            const classIds = Array.from(checkboxes).map(cb => cb.value);
-            
-            if (classIds.length === 0) {
-                alert('❌ Debes seleccionar al menos una clase');
-                return;
-            }
-            
-            const editingId = document.getElementById('editingStudentId')?.value;
-            
-            if (editingId) {
-                updateStudent(editingId);
-                return;
-            }
-            
-            const username = 'est_' + Math.floor(Math.random() * 10000);
-            const password = 'robo' + Math.floor(Math.random() * 1000);
-            const invitationCode = 'ROBO-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-            
-            const studentData = {
-                full_name: document.getElementById('studentName').value,
-                username: username,
-                password: password,
-                parent_phone: document.getElementById('parentPhone').value || null,
-                program_id: document.getElementById('studentProgram').value,
-                class_ids: classIds,
-                invitation_code: invitationCode,
-                temporary_password: true,
-                created_at: new Date().toISOString()
-            };
-            
-            db.collection('students').add(studentData).then(() => {
-                alert(`✅ Estudiante creado!\n\nUsuario: ${username}\nContraseña: ${password}\nCódigo: ${invitationCode}`);
-                closeStudentModal();
-                loadStudents();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al crear estudiante', 'error');
-            });
-        }
+function filterRes(f,btn){
+  resFilter=f;
+  document.querySelectorAll('#resources-filters .btn').forEach(b=>b.classList.remove('active-filter'));
+  if(btn) btn.classList.add('active-filter');
+  renderResources();
+}
 
-        // ============================================
-        // EDITAR ESTUDIANTE - CORREGIDO
-        // ============================================
-        function editStudent(studentId) {
-            console.log('✏️ Editando estudiante:', studentId);
-            
-            const student = students.find(s => s.id === studentId);
-            if (!student) {
-                showAlert('Estudiante no encontrado', 'error');
-                return;
-            }
-            
-            // Llenar campos básicos
-            document.getElementById('studentName').value = student.full_name;
-            document.getElementById('parentPhone').value = student.parent_phone || '';
-            
-            // Cargar programas en el selector
-            const programSelect = document.getElementById('studentProgram');
-            programSelect.innerHTML = '<option value="">Seleccionar programa...</option>';
-            
-            // Asegurarse de que programs esté cargado
-            if (programs.length === 0) {
-                db.collection('programs').get().then((querySnapshot) => {
-                    programs = [];
-                    querySnapshot.forEach((doc) => {
-                        programs.push({ id: doc.id, ...doc.data() });
-                    });
-                    fillProgramSelect(programSelect, student.program_id);
-                    
-                    // Después de seleccionar el programa, cargar las clases
-                    if (student.program_id) {
-                        loadAvailableClassesForEdit(student.program_id, student.class_ids || []);
-                    }
-                });
-            } else {
-                fillProgramSelect(programSelect, student.program_id);
-                
-                // Después de seleccionar el programa, cargar las clases
-                if (student.program_id) {
-                    loadAvailableClassesForEdit(student.program_id, student.class_ids || []);
-                }
-            }
-            
-            document.querySelector('#studentModal .modal-header h3').textContent = 'Editar Estudiante';
-            const submitBtn = document.querySelector('#studentForm button[type="submit"]');
-            submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Estudiante';
-            
-            let hiddenIdField = document.getElementById('editingStudentId');
-            if (!hiddenIdField) {
-                hiddenIdField = document.createElement('input');
-                hiddenIdField.type = 'hidden';
-                hiddenIdField.id = 'editingStudentId';
-                document.getElementById('studentForm').appendChild(hiddenIdField);
-            }
-            hiddenIdField.value = student.id;
-            
-            document.getElementById('studentModal').classList.add('active');
-        }
+async function saveResource(e){
+  e.preventDefault();
+  const editId=document.getElementById('edit-resource-id').value;
+  const data={title:document.getElementById('r-title').value,description:document.getElementById('r-desc').value,type:document.getElementById('r-type').value,level:document.getElementById('r-level').value,file_url:document.getElementById('r-url').value};
+  try{
+    if(editId) await db.collection('materials').doc(editId).update(data);
+    else{data.created_at=TS(); await db.collection('materials').add(data);}
+    toast(editId?'Recurso actualizado':'Recurso publicado correctamente');
+    closeModal('modal-resource');
+    document.getElementById('form-resource').reset();
+    document.getElementById('edit-resource-id').value='';
+    loadResources();
+  }catch(err){toast('Error: '+err.message,'error');}
+}
 
-        function loadAvailableClassesForEdit(programId, selectedClassIds) {
-            const container = document.getElementById('availableClasses');
-            
-            if (!programId) {
-                container.innerHTML = '<p style="color: #666;">Selecciona un programa primero</p>';
-                return;
-            }
-            
-            // Mostrar indicador de carga
-            container.innerHTML = '<p style="color: #666;">Cargando clases...</p>';
-            
-            // Asegurarse de que classes esté cargado o cargarlo de Firebase
-            if (classes.length === 0) {
-                db.collection('classes').where('program_id', '==', programId).get().then((querySnapshot) => {
-                    const filteredClasses = [];
-                    querySnapshot.forEach((doc) => {
-                        filteredClasses.push({ id: doc.id, ...doc.data() });
-                    });
-                    displayClassesForEdit(filteredClasses, selectedClassIds);
-                });
-            } else {
-                const filteredClasses = classes.filter(c => c.program_id === programId);
-                displayClassesForEdit(filteredClasses, selectedClassIds);
-            }
-        }
+function editResource(id){
+  const r=allResources.find(x=>x.id===id);
+  if(!r) return;
+  document.getElementById('edit-resource-id').value=id;
+  document.getElementById('r-title').value=r.title||'';
+  document.getElementById('r-desc').value=r.description||'';
+  document.getElementById('r-type').value=r.type||'link';
+  document.getElementById('r-level').value=r.level||'';
+  document.getElementById('r-url').value=r.file_url||r.url||'';
+  openModal('modal-resource');
+}
 
-        function displayClassesForEdit(filteredClasses, selectedClassIds) {
-            const container = document.getElementById('availableClasses');
-            
-            if (filteredClasses.length === 0) {
-                container.innerHTML = '<p style="color: #666;">No hay clases disponibles para este programa</p>';
-                return;
-            }
-            
-            let html = '';
-            filteredClasses.forEach(cls => {
-                const isSelected = selectedClassIds.includes(cls.id);
-                html += `
-                    <div class="class-item">
-                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                            <input type="checkbox" value="${cls.id}" ${isSelected ? 'checked' : ''}>
-                            <div class="class-info">
-                                <div class="class-name">${cls.name}</div>
-                                <div class="class-details">
-                                    ${formatDay(cls.schedule_day)} ${cls.schedule_time || ''}
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
+async function deleteResource(id){
+  if(!confirm('¿Eliminar este recurso?')) return;
+  await db.collection('materials').doc(id).delete();
+  toast('Recurso eliminado');
+  loadResources();
+}
 
-        function updateStudent(studentId) {
-            const checkboxes = document.querySelectorAll('#availableClasses input[type="checkbox"]:checked');
-            const classIds = Array.from(checkboxes).map(cb => cb.value);
-            
-            if (classIds.length === 0) {
-                alert('❌ Debes seleccionar al menos una clase');
-                return;
-            }
-            
-            const studentData = {
-                full_name: document.getElementById('studentName').value,
-                parent_phone: document.getElementById('parentPhone').value || null,
-                program_id: document.getElementById('studentProgram').value,
-                class_ids: classIds
-            };
-            
-            db.collection('students').doc(studentId).update(studentData).then(() => {
-                showAlert('Estudiante actualizado', 'success');
-                closeStudentModal();
-                loadStudents();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al actualizar', 'error');
-            });
-        }
+// ─── LEVELS / PROGRESS ───────────────────────────────────────
+async function loadLevels(){
+  if(allStudents.length===0) await loadStudents();
+  const LEVELS=['SPARK','RISE','CORE','SURGE','PINNACLE','LEGEND'];
+  const el=document.getElementById('levels-grid');
+  if(allStudents.length===0){
+    el.innerHTML='<div class="empty"><i class="fa-solid fa-trophy"></i><p>No hay estudiantes registrados aún</p></div>';
+    return;
+  }
+  el.innerHTML=LEVELS.map(lv=>{
+    const group=allStudents.filter(s=>s.level===lv);
+    if(group.length===0) return`<div style="border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:.75rem;opacity:.5"><div style="font-size:.8rem;font-weight:700;color:var(--text-light)">${lv} — Sin estudiantes</div></div>`;
+    return`<div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:.875rem">
+      <div class="badge ${LV_CLASS[lv]}" style="display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;border-radius:0;font-size:.82rem">
+        <span style="font-weight:700;font-size:.9rem">Nivel ${LV_NUM[lv]} — ${lv}</span>
+        <span>${group.length} estudiante${group.length!==1?'s':''}</span>
+      </div>
+      <div style="padding:.75rem 1.25rem">
+        ${group.map(s=>`<div style="display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--border)">
+          <div class="avatar" style="background:linear-gradient(135deg,${['#2563EB','#F97316','#10B981','#7C3AED'][Math.floor(Math.random()*4)]},#1E3A8A)">${initials(s.full_name)}</div>
+          <div style="flex:1"><div style="font-size:.85rem;font-weight:600">${s.full_name}</div><div style="font-size:.72rem;color:var(--text-light)">${s.username||''} &bull; ${s.xp||0} XP</div></div>
+          <button class="btn btn-ghost btn-sm" onclick="showCredentials('${s.id}');goTab('estudiantes',null)"><i class="fa-solid fa-key"></i></button>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
 
-        function deleteStudent(studentId) {
-            if (!confirm('¿Estás seguro de eliminar este estudiante?')) return;
-            
-            db.collection('students').doc(studentId).delete().then(() => {
-                showAlert('Estudiante eliminado', 'success');
-                loadStudents();
-            }).catch((error) => {
-                console.error('❌ Error:', error);
-                showAlert('Error al eliminar', 'error');
-            });
-        }
+// ─── INIT ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',async()=>{
+  if(localStorage.getItem('isAdmin')!=='true'){window.location.href='../login.html';return;}
+  // Pre-fill default task due date
+  const d=new Date();d.setDate(d.getDate()+7);
+  const di=document.getElementById('t-due');
+  if(di) di.value=d.toISOString().split('T')[0];
+  await loadOverview();
+});
 
-        function viewStudent(studentId) {
-            const student = students.find(s => s.id === studentId);
-            if (!student) return;
-            
-            const program = programs.find(p => p.id === student.program_id);
-            const studentClasses = classes.filter(c => student.class_ids?.includes(c.id));
-            
-            const content = `
-                <div style="text-align: center;">
-                    <h2>${student.full_name}</h2>
-                    <p>Usuario: ${student.username}</p>
-                    <p>Contraseña: ${student.password}</p>
-                    <p>Código: ${student.invitation_code}</p>
-                    <p>Programa: ${program?.name || 'No asignado'}</p>
-                    <h3>Clases (${studentClasses.length})</h3>
-                    ${studentClasses.map(c => `<p>${c.name}</p>`).join('')}
-                </div>
-            `;
-            
-            document.getElementById('studentDetailContent').innerHTML = content;
-            document.getElementById('studentDetailModal').classList.add('active');
-        }
-
-        // ============================================
-        // MATERIALES (simplificado)
-        // ============================================
-        let currentClassId = null;
-        let currentMaterials = [];
-        let currentCategories = [];
-
-        function loadClassesForMaterials() {
-            const select = document.getElementById('materialClassSelect');
-            select.innerHTML = '<option value="">Seleccionar clase...</option>';
-            classes.forEach(cls => {
-                const option = document.createElement('option');
-                option.value = cls.id;
-                option.textContent = cls.name;
-                select.appendChild(option);
-            });
-        }
-
-        function loadClassMaterials() {
-            const classId = document.getElementById('materialClassSelect').value;
-            if (!classId) {
-                document.getElementById('materialManagement').style.display = 'none';
-                return;
-            }
-            document.getElementById('materialManagement').style.display = 'block';
-        }
-
-        function openMaterialModal() {
-            document.getElementById('materialModal').classList.add('active');
-        }
-
-        function closeMaterialModal() {
-            document.getElementById('materialModal').classList.remove('active');
-        }
-
-        function showMaterialType(type) {
-            document.querySelectorAll('.material-field').forEach(f => f.style.display = 'none');
-            document.getElementById(`field-${type}`).style.display = 'block';
-            document.getElementById('materialType').value = type;
-        }
-
-        function saveMaterial(event) {
-            event.preventDefault();
-            const type = document.getElementById('materialType').value;
-            const title = document.getElementById('materialTitle').value;
-            const description = document.getElementById('materialDescription').value;
-            const classId = document.getElementById('materialClassSelect').value;
-            let file_url = '';
-            if(type==='link') file_url=document.getElementById('materialLinkUrl')?.value||'';
-            else if(type==='video') file_url=document.getElementById('materialVideoUrl')?.value||'';
-            else file_url=document.getElementById('materialFileUrl')?.value||'';
-            db.collection('materials').add({
-                title, description, type, file_url, class_id: classId,
-                created_at: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(()=>{
-                showAlert('Material publicado correctamente','success');
-                closeMaterialModal();
-                loadClassMaterials();
-            }).catch(e=>showAlert('Error al guardar material: '+e.message,'error'));
-        }
-
-        function filterMaterials(type) {}
-        function displayCategories() {}
-        function openCategoryModal() {}
-        function closeCategoryModal() {}
-        function saveCategory(event) { event.preventDefault(); }
-        function deleteCategory(id) {}
-        function viewMaterial(id) {}
-        function closeViewMaterialModal() {}
-        function closeStudentDetailModal() {
-            document.getElementById('studentDetailModal').classList.remove('active');
-        }
-
-        // ── TASKS ──────────────────────────────────────────────
-        let adminTasks=[];
-        function loadAdminTasks(){
-            db.collection('tasks').orderBy('created_at','desc').get().then(snap=>{
-                adminTasks=[];
-                snap.forEach(d=>adminTasks.push({id:d.id,...d.data()}));
-                renderAdminTasks();
-                document.getElementById('tasks-admin-loading').style.display='none';
-                document.getElementById('tasks-admin-list').style.display='block';
-            }).catch(()=>{
-                document.getElementById('tasks-admin-loading').innerHTML='<p style="color:#EF4444">Error al cargar tareas</p>';
-            });
-        }
-        function renderAdminTasks(){
-            const el=document.getElementById('tasks-admin-list');
-            if(adminTasks.length===0){
-                el.innerHTML='<div style="text-align:center;padding:3rem;color:#64748B"><i class="fas fa-list-check" style="font-size:2rem;margin-bottom:1rem;display:block;color:#E2E8F0"></i><p>No hay tareas creadas aún. Crea la primera tarea con el botón de arriba.</p></div>';
-                return;
-            }
-            el.innerHTML='<div class="table-responsive"><table><thead><tr><th>Título</th><th>Nivel</th><th>Entrega</th><th>Archivo</th><th>Acciones</th></tr></thead><tbody>'+
-            adminTasks.map(t=>{
-                const due=t.due_date?(t.due_date.toDate?t.due_date.toDate():new Date(t.due_date)):null;
-                return `<tr>
-                  <td><strong>${t.title}</strong><br><span style="font-size:.8rem;color:#64748B">${t.description||''}</span></td>
-                  <td><span style="background:#DBEAFE;color:#2563EB;padding:.2rem .6rem;border-radius:4px;font-size:.78rem;font-weight:600">${t.level||'Todos'}</span></td>
-                  <td style="font-size:.85rem">${due?due.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'}):'-'}</td>
-                  <td>${t.file_url?`<a href="${t.file_url}" target="_blank" style="color:#2563EB;font-size:.8rem"><i class="fas fa-link"></i> Ver</a>`:'-'}</td>
-                  <td><button class="btn-danger" onclick="deleteTask('${t.id}')"><i class="fas fa-trash"></i></button></td>
-                </tr>`;
-            }).join('')+
-            '</tbody></table></div>';
-        }
-        function openTaskModal(){
-            document.getElementById('taskModal').style.display='flex';
-            document.getElementById('taskModal').style.alignItems='center';
-            document.getElementById('taskModal').style.justifyContent='center';
-            const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+7);
-            document.getElementById('taskDueDate').value=tomorrow.toISOString().split('T')[0];
-        }
-        function closeTaskModal(){document.getElementById('taskModal').style.display='none';}
-        function saveTask(event){
-            event.preventDefault();
-            const title=document.getElementById('taskTitle').value;
-            const description=document.getElementById('taskDescription').value;
-            const dueDateStr=document.getElementById('taskDueDate').value;
-            const level=document.getElementById('taskLevel').value;
-            const file_url=document.getElementById('taskFileUrl').value;
-            db.collection('tasks').add({
-                title, description,
-                due_date: dueDateStr?firebase.firestore.Timestamp.fromDate(new Date(dueDateStr)):null,
-                level: level||'',
-                file_url: file_url||'',
-                created_at: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(()=>{
-                showAlert('Tarea publicada correctamente. Los estudiantes ya pueden verla.','success');
-                closeTaskModal();
-                document.getElementById('taskForm').reset();
-                loadAdminTasks();
-            }).catch(e=>showAlert('Error al guardar: '+e.message,'error'));
-        }
-        function deleteTask(id){
-            if(!confirm('¿Eliminar esta tarea?')) return;
-            db.collection('tasks').doc(id).delete().then(()=>{
-                showAlert('Tarea eliminada','success');
-                loadAdminTasks();
-            });
-        }
-
-        // Hook into showTab to load tasks
-        const _origShowTab=showTab;
-        function showTab(tabName, event){
-            _origShowTab(tabName, event);
-            if(tabName==='tasks') loadAdminTasks();
-        }
-    </script>
+function logout(){localStorage.removeItem('isAdmin');window.location.href='../login.html';}
+</script>
 </body>
 </html>
