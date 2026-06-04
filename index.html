@@ -95,8 +95,8 @@
   <link rel="manifest" href="assets/icons/site.webmanifest">
   
   <!-- Color theme para navegadores móviles -->
-  <meta name="theme-color" content="#00a8e8">
-  <meta name="msapplication-TileColor" content="#00a8e8">
+  <meta name="theme-color" content="#2563EB">
+  <meta name="msapplication-TileColor" content="#2563EB">
   <meta name="msapplication-TileImage" content="assets/icons/mstile-150x150.png">
 
   <!-- Three.js (necesario para el robot 3D) -->
@@ -114,15 +114,16 @@
         extend: {
           fontFamily: {
             nunito: ['Nunito', 'sans-serif'],
-            poppins: ['Poppins', 'sans-serif']
+            poppins: ['Poppins', 'sans-serif'],
+            inter: ['Inter', 'sans-serif']
           },
           colors: {
-            'robo-blue': '#00a8e8',
-            'robo-light-blue': '#6a3bc2',
-            'robo-purple': '#8a5cde',
-            'robo-yellow': '#ff7b42',
-            'robo-green': '#2dd4bf',
-            'robo-orange': '#ff7b42'
+            'robo-blue': '#2563EB',
+            'robo-light-blue': '#1E3A8A',
+            'robo-purple': '#1E3A8A',
+            'robo-yellow': '#F97316',
+            'robo-green': '#10B981',
+            'robo-orange': '#F97316'
           }
         }
       }
@@ -132,7 +133,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -179,6 +180,12 @@
       }
     }
     
+    /* ── MOBILE FIX FOR NEW SECTIONS ── */
+    @media(max-width:768px){
+      .platform-grid{grid-template-columns:1fr!important}
+      .levels-grid{flex-direction:column;align-items:stretch}
+    }
+
     /* 2. PREVENIR QUE JS CLONE ELEMENTOS EN LAS CARDS */
     .program-card nav,
     .program-card .btn-plataforma,
@@ -200,7 +207,7 @@
     
     /* Logo con color celeste en "Robo" */
     .logo-celeste {
-      color: #00a8e8 !important;
+      color: #2563EB !important;
     }
     
     /* Menú móvil - solo muestra botón Acceso Estudiantes */
@@ -213,7 +220,7 @@
     
     /* Botón Acceso Estudiantes */
     .btn-estudiante-mobile {
-      background-color: #00a8e8;
+      background-color: #2563EB;
       color: white;
       border: none;
       padding: 0.6rem 1.5rem;
@@ -227,7 +234,7 @@
     }
     
     .btn-estudiante-mobile:hover {
-      background-color: #0092cc;
+      background-color: #1D4ED8;
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0, 168, 232, 0.2);
     }
@@ -249,7 +256,7 @@
     }
     
     .nav-desktop-completo a:hover {
-      color: #00a8e8;
+      color: #2563EB;
     }
     
     /* Robot 3D */
@@ -325,7 +332,7 @@
         display: inline-block !important;
         margin: 1rem auto 0 auto !important;
         padding: 0.75rem 1.5rem !important;
-        background-color: #00a8e8 !important;
+        background-color: #2563EB !important;
         color: white !important;
         border-radius: 50px !important;
         font-weight: 600 !important;
@@ -365,7 +372,7 @@
     
     /* Estilo para resaltar ubicación */
     .location-badge {
-      background: linear-gradient(135deg, #2dd4bf 0%, #00a8e8 100%);
+      background: linear-gradient(135deg, #2dd4bf 0%, #2563EB 100%);
       color: white;
       padding: 8px 16px;
       border-radius: 20px;
@@ -449,13 +456,13 @@
       </span>
       
       <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-6 mobile-center leading-tight">
-        <span class="text-robo-blue">Robótica Educativa</span> para Niños<br>
-        en <span class="text-robo-orange">Ecuador</span>
+        El lugar donde los niños<br>
+        <span class="text-robo-blue">descubren su potencial</span>
       </h1>
-      
+
       <p class="text-lg md:text-xl mb-6 md:mb-8 mobile-center text-gray-600">
-        Clases especializadas de robótica para niños. 
-        <span class="block mt-2 font-semibold">¡Desarrollamos las habilidades del futuro!</span>
+        Robótica, programación y diseño 3D con valores humanos.<br>
+        <span class="font-semibold text-gray-700">Desde Ambato para Ecuador — porque cada niño merece el futuro.</span>
       </p>
       
       <div class="mobile-flex-center">
@@ -618,6 +625,118 @@
   </div>
 </section>
 
+<!-- SISTEMA DE NIVELES -->
+<section class="py-16 md:py-20 px-4" style="background:linear-gradient(160deg,#1E3A8A 0%,#2563EB 60%,#3B82F6 100%)">
+  <div class="max-w-6xl mx-auto text-center">
+    <span style="background:rgba(255,255,255,.15);color:#fff;padding:.4rem 1.2rem;border-radius:50px;font-size:.85rem;font-weight:600;letter-spacing:.5px;display:inline-block;margin-bottom:1.5rem">Sistema de Certificación RoboWorks</span>
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Un camino de 6 niveles.<br>3 años de formación real.</h2>
+    <p style="color:rgba(255,255,255,.75);font-size:1.05rem;max-width:560px;margin:0 auto 3rem;line-height:1.7">
+      Cada 6 meses tu hijo sube de nivel y recibe un certificado verificable con código QR. El mismo certificado vale porque el aprendizaje detrás es real.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem">
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
+        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 1</div>
+        <div style="font-size:1.2rem;font-weight:800;color:#fff">SPARK</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">5–7 años</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
+        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 2</div>
+        <div style="font-size:1.2rem;font-weight:800;color:#fff">RISE</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">7–10 años</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
+        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 3</div>
+        <div style="font-size:1.2rem;font-weight:800;color:#fff">CORE</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">9–12 años</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
+        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 4</div>
+        <div style="font-size:1.2rem;font-weight:800;color:#fff">SURGE</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">11–14 años</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
+        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 5</div>
+        <div style="font-size:1.2rem;font-weight:800;color:#fff">PINNACLE</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">13–16 años</div>
+      </div>
+      <div style="background:rgba(249,115,22,.25);border:1px solid rgba(249,115,22,.5);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
+        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 6</div>
+        <div style="font-size:1.2rem;font-weight:800;color:#F97316">LEGEND</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">15–17 años</div>
+      </div>
+    </div>
+    <a href="https://wa.me/593993340103" target="_blank"
+       style="background:#F97316;color:#fff;padding:.875rem 2rem;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 4px 16px rgba(249,115,22,.4);transition:.2s">
+      <i class="fab fa-whatsapp"></i> Inscribir a mi hijo
+    </a>
+  </div>
+</section>
+
+<!-- PLATAFORMA PARA PADRES -->
+<section class="py-16 md:py-20 px-4" style="background:#F8FAFC">
+  <div class="max-w-5xl mx-auto">
+    <div class="platform-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center">
+      <div>
+        <span style="background:#DBEAFE;color:#2563EB;padding:.35rem 1rem;border-radius:50px;font-size:.8rem;font-weight:700;display:inline-block;margin-bottom:1.25rem">Plataforma digital para estudiantes</span>
+        <h2 class="text-3xl font-bold mb-4" style="color:#1E293B;line-height:1.25">Tu hijo tiene su<br>propio espacio digital</h2>
+        <p style="color:#475569;font-size:1rem;line-height:1.7;margin-bottom:1.75rem">
+          Cada estudiante accede con usuario y contraseña a su plataforma personal. Puede ver su progreso, completar tareas, acceder a materiales de clase y llenar su portafolio digital — que termina en un certificado con código QR.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:.875rem;margin-bottom:2rem">
+          <div style="display:flex;align-items:center;gap:.875rem">
+            <div style="width:36px;height:36px;border-radius:8px;background:#DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <i class="fas fa-chart-line" style="color:#2563EB;font-size:.9rem"></i>
+            </div>
+            <span style="color:#475569;font-size:.9rem">Progreso visible clase a clase, nivel a nivel</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.875rem">
+            <div style="width:36px;height:36px;border-radius:8px;background:#FFF7ED;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <i class="fas fa-folder-open" style="color:#F97316;font-size:.9rem"></i>
+            </div>
+            <span style="color:#475569;font-size:.9rem">Materiales y tareas siempre disponibles</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.875rem">
+            <div style="width:36px;height:36px;border-radius:8px;background:#ECFDF5;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <i class="fas fa-certificate" style="color:#10B981;font-size:.9rem"></i>
+            </div>
+            <span style="color:#475569;font-size:.9rem">Certificado digital verificable con QR al terminar cada nivel</span>
+          </div>
+        </div>
+        <a href="/plataforma/login.html" style="background:#2563EB;color:#fff;padding:.8rem 1.75rem;border-radius:10px;font-weight:700;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem">
+          <i class="fas fa-arrow-right-to-bracket"></i> Acceso Estudiantes
+        </a>
+      </div>
+      <div style="background:linear-gradient(135deg,#1E3A8A,#2563EB);border-radius:20px;padding:2rem;color:#fff">
+        <div style="background:rgba(255,255,255,.1);border-radius:12px;padding:1.25rem;margin-bottom:1rem">
+          <div style="font-size:.7rem;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.5rem">Progreso del estudiante</div>
+          <div style="font-size:1.1rem;font-weight:700;margin-bottom:.75rem">Nivel CORE — 18 / 26 clases</div>
+          <div style="height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden">
+            <div style="height:100%;width:69%;background:#F97316;border-radius:4px"></div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:12px;padding:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.875rem">
+          <div style="width:36px;height:36px;border-radius:8px;background:#F97316;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <div>
+            <div style="font-size:.85rem;font-weight:600">Tarea nueva disponible</div>
+            <div style="font-size:.75rem;opacity:.7">Práctica de sensores — Entrega: viernes</div>
+          </div>
+        </div>
+        <div style="background:rgba(16,185,129,.2);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:.875rem">
+          <div style="width:36px;height:36px;border-radius:8px;background:#10B981;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <i class="fas fa-certificate"></i>
+          </div>
+          <div>
+            <div style="font-size:.85rem;font-weight:600">Certificado RISE completado</div>
+            <div style="font-size:.75rem;opacity:.7">QR verificable — listo para imprimir</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SECCIÓN CONFIANZA - CENTRADO EN MÓVIL -->
 <!-- CAMBIO: Eliminé bg-gray-50 de aquí -->
 <section id="confianza" class="py-16 md:py-20 px-4">
@@ -660,15 +779,20 @@
       </div>
     </div>
     
-    <!-- Información de ubicación para SEO local -->
-    <div class="mt-16 p-6 bg-gradient-to-r from-robo-blue to-robo-light-blue rounded-2xl text-white text-center">
-      <h3 class="text-2xl font-bold mb-4">📍 Ubicación Conveniente en Ambato</h3>
-      <p class="mb-2">Nuestro centro está estratégicamente ubicado en Ambato, Tungurahua</p>
-      <p class="mb-4">Fácil acceso para familias de toda la provincia</p>
-      <div class="flex flex-wrap justify-center gap-4 mt-4">
-        <span class="bg-white/20 px-4 py-2 rounded-full">🤖 Competencias y desafíos</span>
-        <span class="bg-white/20 px-4 py-2 rounded-full">🏫 Zona Segura</span>
-        <span class="bg-white/20 px-4 py-2 rounded-full">👨‍👩‍👧‍👦 Ambiente Familiar</span>
+    <!-- Información de ubicación -->
+    <div class="mt-16 p-8 rounded-2xl text-white text-center" style="background:linear-gradient(135deg,#1E3A8A,#2563EB)">
+      <h3 class="text-2xl font-bold mb-3">Estamos en Ambato, Tungurahua</h3>
+      <p class="mb-2" style="opacity:.85">Centro de robótica educativa accesible para familias de toda la provincia</p>
+      <p class="mb-6" style="opacity:.75;font-size:.9rem">Lunes a Viernes 09:00–18:00 &bull; Sábados 09:00–13:00</p>
+      <div class="flex flex-wrap justify-center gap-3 mt-4">
+        <span class="px-4 py-2 rounded-full text-sm font-semibold" style="background:rgba(255,255,255,.15)"><i class="fas fa-trophy mr-2" style="color:#F97316"></i>Competencias nacionales</span>
+        <span class="px-4 py-2 rounded-full text-sm font-semibold" style="background:rgba(255,255,255,.15)"><i class="fas fa-shield-halved mr-2" style="color:#10B981"></i>Zona segura</span>
+        <span class="px-4 py-2 rounded-full text-sm font-semibold" style="background:rgba(255,255,255,.15)"><i class="fas fa-heart mr-2" style="color:#FB7185"></i>Ambiente familiar</span>
+      </div>
+      <div class="mt-6">
+        <a href="https://wa.me/593993340103" target="_blank" style="background:#F97316;color:#fff;padding:.75rem 1.75rem;border-radius:50px;font-weight:700;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem">
+          <i class="fab fa-whatsapp"></i> Consultar horarios
+        </a>
       </div>
     </div>
   </div>
@@ -791,7 +915,7 @@
     // 6. Forzar color celeste en el logo
     const roboElements = document.querySelectorAll('.logo-celeste');
     roboElements.forEach(el => {
-      el.style.color = '#00a8e8';
+      el.style.color = '#2563EB';
     });
   });
   
