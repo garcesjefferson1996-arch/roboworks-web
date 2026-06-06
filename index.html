@@ -415,430 +415,231 @@
 
 <body class="bg-gray-50 font-poppins text-gray-700" itemscope itemtype="https://schema.org/EducationalOrganization">
 
-<!-- HEADER CORREGIDO - CON LOGO COMPLETO Y COLORES -->
-<header class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center md:flex-row flex-col md:space-y-0 space-y-4">
-    <!-- Logo corregido - Icono + Texto con colores -->
-    <div class="flex items-center gap-3 mobile-logo-center w-full md:w-auto justify-center md:justify-start">
-      <a href="index.html" class="flex items-center gap-3" aria-label="RoboWorks Ambato - Inicio">
-        <img src="assets/icons/logo.png" alt="RoboWorks Logo - Centro de robótica educativa en Ambato" class="h-10 w-auto">
-        <span class="text-2xl font-bold text-center md:text-left">
-          <span class="text-[#6a3bc2]">Robo</span><span class="text-[#ff7b42]">Works</span>
-          <span class="block text-xs font-normal text-gray-600">Ambato, Ecuador</span>
-        </span>
-      </a>
-    </div>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="index.html" class="brand-link" aria-label="RoboWorks Ambato - Inicio">
+      <img src="assets/icons/logo.png" alt="RoboWorks Logo" class="brand-logo">
+      <span class="brand-copy">
+        <span><span class="brand-robo">Robo</span><span class="brand-works">Works</span></span>
+        <small>Ambato, Ecuador</small>
+      </span>
+    </a>
 
-    <!-- Navegación con botón de plataforma -->
-    <nav class="flex flex-wrap gap-4 md:gap-6 font-medium items-center mobile-center w-full md:w-auto justify-center md:justify-end" aria-label="Navegación principal">
-      <a href="index.html#programas" class="hover:text-[#6a3bc2] transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">Programas</a>
-      <a href="index.html#confianza" class="hover:text-[#6a3bc2] transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">¿Por qué RoboWorks?</a>
-      <a href="index.html#contacto" class="hover:text-[#6a3bc2] transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-blue-50">Contacto</a>
-      
-      <!-- 🆕 BOTÓN "ACCESO ESTUDIANTES" -->
-      <a href="/plataforma/login.html" 
-         class="btn-plataforma flex items-center gap-2 bg-gradient-to-r from-[#6a3bc2] to-[#8a5cde] text-white font-semibold py-2 px-4 md:py-3 md:px-6 rounded-full hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 ml-0 md:ml-2 mt-2 md:mt-0"
-         aria-label="Acceso a la plataforma virtual para estudiantes">
-        <i class="fas fa-user-graduate text-sm md:text-base"></i>
-        <span class="text-sm md:text-base">Acceso Estudiantes</span>
+    <nav class="site-nav" aria-label="Navegación principal">
+      <a href="#programas">Programas</a>
+      <a href="#virtudes">Virtudes</a>
+      <a href="#confianza">Por qué RoboWorks</a>
+      <a href="#contacto">Contacto</a>
+      <a href="/plataforma/login.html" class="student-access">
+        <i class="fas fa-user-graduate"></i>
+        Acceso Estudiantes
       </a>
     </nav>
   </div>
 </header>
 
-<!-- HERO CON ONDAS Y ROBOT 3D - CENTRADO EN MÓVIL -->
-<section class="hero-wave bg-gradient-to-br from-blue-50 to-purple-50 py-12 md:py-20 px-4">
-  <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
-    <!-- Contenido de texto - Centrado en móvil -->
-    <div class="fade-in-up mobile-center">
-      <span class="inline-block bg-blue-100 text-robo-blue px-4 py-2 rounded-full mb-4 md:mb-6 font-medium mobile-block-center">
-        <i class="fas fa-map-marker-alt mr-2"></i>Ambato, Tungurahua
-      </span>
-      
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-6 mobile-center leading-tight">
-        El lugar donde los niños<br>
-        <span class="text-robo-blue">descubren su potencial</span>
-      </h1>
-
-      <p class="text-lg md:text-xl mb-6 md:mb-8 mobile-center text-gray-600">
-        Robótica, programación y diseño 3D con valores humanos.<br>
-        <span class="font-semibold text-gray-700">Desde Ambato para Ecuador — porque cada niño merece el futuro.</span>
+<section class="hero-wave hero-redesign">
+  <div class="hero-layout">
+    <div class="hero-copy">
+      <span class="eyebrow"><i class="fas fa-map-marker-alt"></i> Ambato, Tungurahua</span>
+      <h1>Robots por fuera. Virtud por dentro.</h1>
+      <p class="hero-lead">
+        En RoboWorks los niños aprenden robótica, programación y diseño 3D mientras entrenan algo más importante:
+        resolver problemas, trabajar con otros, cuidar sus ideas y levantarse cuando algo no funciona.
       </p>
-      
-      <div class="mobile-flex-center">
-        <a href="https://wa.me/593993340103" target="_blank"
-          class="btn-hover inline-block bg-gradient-to-r from-robo-blue to-robo-light-blue text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 mobile-margin-auto"
-          aria-label="Contáctanos por WhatsApp para inscripciones en RoboWorks Ambato">
-          <i class="fab fa-whatsapp mr-2"></i> Inscribirse en Ambato
+      <div class="hero-actions">
+        <a href="https://wa.me/593993340103" target="_blank" class="primary-cta" aria-label="Contactar a RoboWorks por WhatsApp">
+          <i class="fab fa-whatsapp"></i> Quiero inscribir a mi hijo
         </a>
+        <a href="#programas" class="secondary-cta">Ver programas</a>
       </div>
-      
-      <!-- Badge de ubicación para SEO local -->
-      <div class="location-badge mt-4">
-        <i class="fas fa-graduation-cap mr-2"></i>
-        Centro de robótica educativa en Ambato, Ecuador
+      <div class="hero-proof">
+        <span><strong>5-17</strong> años</span>
+        <span><strong>6</strong> niveles</span>
+        <span><strong>1</strong> comunidad</span>
       </div>
-      
-      <p class="mt-6 text-sm text-gray-600 mobile-center">
-        <i class="fas fa-robot text-robo-blue mr-2"></i>
-        Interactúa con nuestro robot 3D: arrastra para rotar, usa la rueda del mouse para zoom
+    </div>
+
+    <div class="hero-visual">
+      <div id="robot-hero" class="hero-robot" aria-label="Robot educativo 3D interactivo"></div>
+      <div class="hero-note">
+        <i class="fas fa-hand-sparkles"></i>
+        Aprender haciendo: construir, probar, fallar, mejorar.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="programas" class="programs-section">
+  <div class="section-shell">
+    <div class="section-heading">
+      <span class="eyebrow">Programas por edad y necesidad</span>
+      <h2>Un camino para cada niño, no una receta igual para todos.</h2>
+      <p>
+        Cada programa combina tecnología con juego, paciencia, retos y acompañamiento. El objetivo no es solo que sepan usar herramientas,
+        sino que aprendan a pensar, crear y actuar con seguridad.
       </p>
     </div>
 
-    <!-- Robot 3D - Centrado en móvil -->
-    <div class="fade-in-up order-first lg:order-last mobile-center">
-      <div id="robot-hero" class="hero-robot mobile-margin-auto" aria-label="Robot educativo 3D - Demostración de robótica para niños">
-        <!-- El robot 3D se renderizará aquí -->
-      </div>
+    <div class="program-grid">
+      <article class="program-card rw-card">
+        <img src="images/optimized/fot1.jpg" alt="Niños aprendiendo robótica inicial en RoboWorks Ambato">
+        <div>
+          <span class="program-age">5 a 7 años</span>
+          <h3>RoboStart</h3>
+          <p>Primer contacto con la robótica desde el juego, la curiosidad y la imaginación.</p>
+          <a href="robo-start.html">Conocer RoboStart</a>
+        </div>
+      </article>
+
+      <article class="program-card rw-card">
+        <img src="images/optimized/fot2.jpg" alt="Robótica inclusiva y desarrollo social para niños">
+        <div>
+          <span class="program-age">Acompañamiento inclusivo</span>
+          <h3>RoboSense</h3>
+          <p>Un espacio seguro para fortalecer atención, comunicación, autonomía y confianza.</p>
+          <a href="robo-sense.html">Consultar cupos</a>
+        </div>
+      </article>
+
+      <article class="program-card rw-card">
+        <img src="images/optimized/fot3.jpg" alt="Construcción con LEGO educativo en RoboWorks">
+        <div>
+          <span class="program-age">6 a 10 años</span>
+          <h3>RoboCare</h3>
+          <p>Construcción guiada con LEGO para aprender con las maños y crecer con calma.</p>
+          <a href="robo-care.html">Ver detalles</a>
+        </div>
+      </article>
+
+      <article class="program-card rw-card">
+        <img src="images/optimized/fot4.jpg" alt="Inglés práctico con robótica educativa">
+        <div>
+          <span class="program-age">7 a 11 años</span>
+          <h3>RoboEnglish</h3>
+          <p>Inglés práctico mientras construyen, explican, prueban y programan robots.</p>
+          <a href="robo-english.html">Conocer programa</a>
+        </div>
+      </article>
+
+      <article class="program-card rw-card">
+        <img src="images/optimized/fot5.jpg" alt="Jóvenes en robótica de competencia en Ecuador">
+        <div>
+          <span class="program-age">10 a 17 años</span>
+          <h3>RoboPro</h3>
+          <p>Competencia, estrategia y alto nivel: aprender a exigirse sin perder el propósito.</p>
+          <a href="robo-pro.html">Explorar RoboPro</a>
+        </div>
+      </article>
+
+      <article class="program-card rw-card">
+        <img src="images/optimized/fot6.jpg" alt="Programación virtual para niños y jóvenes en Ecuador">
+        <div>
+          <span class="program-age">10 a 18 años | Virtual</span>
+          <h3>CodeWorks</h3>
+          <p>Videojuegos, lógica computacional y Python para crear desde cualquier ciudad.</p>
+          <a href="code-works.html">Inscripción online</a>
+        </div>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- PROGRAMAS - CENTRADO EN MÓVIL -->
-<!-- CAMBIO IMPORTANTE: Eliminé bg-white de aquí y lo controlo con CSS -->
-<section id="programas" class="py-16 md:py-20 px-4">
-  <div class="max-w-7xl mx-auto">
-    <!-- Título centrado optimizado para SEO local -->
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-14 mobile-center">
-      Programas de <span class="text-robo-blue">Robótica para Niños</span> en <span class="text-robo-orange">Ambato</span>
-    </h2>
-    
-    <!-- Descripción para SEO -->
-    <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto">
-      Ofrecemos los mejores cursos de robótica educativa para niños en Ambato, Ecuador. 
-      Programas especializados por edades con metodología práctica y divertida.
-    </p>
+<section id="virtudes" class="virtues-section">
+  <div class="section-shell virtues-layout">
+    <div class="virtues-copy">
+      <span class="eyebrow">Más que una academia</span>
+      <h2>Un lugar donde los niños siguen siendo niños.</h2>
+      <p>
+        La tecnología no debería apagar la infancia. En RoboWorks se juega, se pregunta, se intenta de nuevo y se celebra el esfuerzo.
+        Queremos que cada estudiante aprenda a enfrentar la vida con criterio, bondad y valentía.
+      </p>
+      <a href="https://wa.me/593993340103" target="_blank" class="primary-cta">Hablar con RoboWorks</a>
+    </div>
 
-    <!-- Grid de programas - Centrado en móvil -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 justify-items-center">
-
-      <!-- RoboStart - ELIMINÉ LAS CLASES bg-green-50 -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto" 
-           itemscope itemtype="https://schema.org/Product">
-        <img src="images/optimized/fot1.jpg" alt="RoboStart - Clases de robótica para niños de 5 a 7 años en Ambato" class="w-full h-48 md:h-56 object-cover">
-        <div class="p-5 md:p-6 mobile-center">
-          <h3 class="text-xl md:text-2xl font-bold mb-1" itemprop="name">🤖 RoboStart</h3>
-          <p class="text-sm text-gray-500 mb-3" itemprop="description">5 a 7 años · Ambato</p>
-          <p class="font-medium mb-2 mobile-center">Primer contacto con la robótica a través del juego y la imaginación.</p>
-          <p class="text-sm mb-4 md:mb-5 mobile-center">Aprenden jugando, creando y compartiendo en nuestras clases en Ambato.</p>
-          <div class="mobile-flex-center">
-            <a href="robo-start.html" class="bg-robo-green text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-green-600 transition-colors mobile-block-center"
-               aria-label="Más información sobre RoboStart en Ambato">
-              Más información
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- RoboSense - ELIMINÉ bg-yellow-50 -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
-           itemscope itemtype="https://schema.org/Product">
-        <img src="images/optimized/fot2.jpg" alt="RoboSense - Robótica inclusiva para niños en Ambato, Ecuador" class="w-full h-48 md:h-56 object-cover">
-        <div class="p-5 md:p-6 mobile-center">
-          <h3 class="text-xl md:text-2xl font-bold mb-2" itemprop="name">🧠 RoboSense</h3>
-          <p class="font-medium mb-2 mobile-center" itemprop="description">Robótica inclusiva para el desarrollo emocional y social.</p>
-          <p class="text-sm mb-3 mobile-center">Apoyo en atención, comunicación y habilidades sociales en Ambato.</p>
-          <p class="italic text-sm mb-4 md:mb-5 mobile-center">Un espacio seguro donde aprender y sonreír en Tungurahua.</p>
-          <div class="mobile-flex-center">
-            <a href="robo-sense.html" class="bg-robo-yellow text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-yellow-600 transition-colors mobile-block-center"
-               aria-label="Consultar cupos para RoboSense en Ambato">
-              Consultar cupos
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- RoboCare - ELIMINÉ bg-blue-50 -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
-           itemscope itemtype="https://schema.org/Product">
-        <img src="images/optimized/fot3.jpg" alt="RoboCare - Construcción con LEGO para niños de 6 a 10 años en Ambato" class="w-full h-48 md:h-56 object-cover">
-        <div class="p-5 md:p-6 mobile-center">
-          <h3 class="text-xl md:text-2xl font-bold mb-1" itemprop="name">🧩 RoboCare</h3>
-          <p class="text-sm text-gray-500 mb-3" itemprop="description">6 a 10 años · Ambato</p>
-          <p class="font-medium mb-2 mobile-center">Construcción guiada con LEGO en entornos tranquilos.</p>
-          <p class="italic text-sm mb-4 md:mb-5 mobile-center">Aprender con las manos, crecer con el corazón en Ecuador.</p>
-          <div class="mobile-flex-center">
-            <a href="robo-care.html" class="bg-robo-blue text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-blue-600 transition-colors mobile-block-center"
-               aria-label="Más información sobre RoboCare en Ambato">
-              Más información
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- RoboEnglish - ELIMINÉ bg-purple-50 -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
-           itemscope itemtype="https://schema.org/Product">
-        <img src="images/optimized/fot4.jpg" alt="RoboEnglish - Inglés y robótica para niños de 7 a 11 años en Ambato" class="w-full h-48 md:h-56 object-cover">
-        <div class="p-5 md:p-6 mobile-center">
-          <h3 class="text-xl md:text-2xl font-bold mb-1" itemprop="name">🌍 RoboEnglish</h3>
-          <p class="text-sm text-gray-500 mb-3" itemprop="description">7 a 11 años · Ambato, Ecuador</p>
-          <p class="font-medium mb-4 md:mb-5 mobile-center">Inglés práctico mientras construyen y programan robots.</p>
-          <div class="mobile-flex-center">
-            <a href="robo-english.html" class="bg-robo-purple text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-purple-600 transition-colors mobile-block-center"
-               aria-label="Conocer programa RoboEnglish en Ambato">
-              Conocer programa
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- RoboPro - ELIMINÉ bg-orange-50 -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
-           itemscope itemtype="https://schema.org/Product">
-        <img src="images/optimized/fot5.jpg" alt="RoboPro - Robótica de competencia para jóvenes en Ambato" class="w-full h-48 md:h-56 object-cover">
-        <div class="p-5 md:p-6 mobile-center">
-          <h3 class="text-xl md:text-2xl font-bold mb-1" itemprop="name">🏆 RoboPro</h3>
-          <p class="text-sm text-gray-500 mb-3" itemprop="description">10 a 17 años · Competencias Ecuador</p>
-          <p class="font-medium mb-2 mobile-center">Robótica de competencia y alto nivel.</p>
-          <p class="italic text-sm mb-4 md:mb-5 mobile-center">Competir con propósito desde Ambato.</p>
-          <div class="mobile-flex-center">
-            <a href="robo-pro.html" class="bg-robo-orange text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-orange-600 transition-colors mobile-block-center"
-               aria-label="Más información sobre RoboPro en Ambato">
-              Más información
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- CodeWorks - ELIMINÉ bg-gray-100 -->
-      <div class="program-card rounded-3xl shadow-lg overflow-hidden card-hover transition-all duration-300 w-full max-w-md mobile-margin-auto"
-           itemscope itemtype="https://schema.org/Product">
-        <div class="h-48 md:h-56 flex items-center justify-center overflow-hidden">
-          <img src="images/optimized/fot6.jpg" alt="CodeWorks - Programación virtual para niños y jóvenes en Ecuador" 
-               class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-        </div>
-        <div class="p-5 md:p-6 mobile-center">
-          <h3 class="text-xl md:text-2xl font-bold mb-1" itemprop="name">CodeWorks</h3>
-          <p class="text-sm text-gray-500 mb-3" itemprop="description">10 a 18 años · Virtual · Todo Ecuador</p>
-          <p class="font-medium mb-4 md:mb-5 mobile-center">Programación de videojuegos, lógica computacional y Python.</p>
-          <div class="mobile-flex-center">
-            <a href="code-works.html" class="bg-gray-800 text-white px-5 py-2 md:px-6 md:py-3 rounded-full font-semibold inline-block hover:bg-gray-900 transition-colors mobile-block-center"
-               aria-label="Inscripción online para CodeWorks desde cualquier parte de Ecuador">
-              Inscripción online
-            </a>
-          </div>
-        </div>
-      </div>
-
+    <div class="virtue-grid">
+      <div class="virtue-card"><i class="fas fa-lightbulb"></i><h3>Ingenio</h3><p>Mirar un problema y encontrar caminos posibles.</p></div>
+      <div class="virtue-card"><i class="fas fa-heart"></i><h3>Empatía</h3><p>Crear pensando en otros, no solo en la máquina.</p></div>
+      <div class="virtue-card"><i class="fas fa-mountain"></i><h3>Perseverancia</h3><p>Probar, fallar, ajustar y volver a intentar.</p></div>
+      <div class="virtue-card"><i class="fas fa-people-group"></i><h3>Colaboración</h3><p>Escuchar, explicar y construir en equipo.</p></div>
     </div>
   </div>
 </section>
 
-<!-- SISTEMA DE NIVELES -->
-<section class="py-16 md:py-20 px-4" style="background:linear-gradient(160deg,#1E3A8A 0%,#2563EB 60%,#3B82F6 100%)">
-  <div class="max-w-6xl mx-auto text-center">
-    <span style="background:rgba(255,255,255,.15);color:#fff;padding:.4rem 1.2rem;border-radius:50px;font-size:.85rem;font-weight:600;letter-spacing:.5px;display:inline-block;margin-bottom:1.5rem">Sistema de Certificación RoboWorks</span>
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Un camino de 6 niveles.<br>3 años de formación real.</h2>
-    <p style="color:rgba(255,255,255,.75);font-size:1.05rem;max-width:560px;margin:0 auto 3rem;line-height:1.7">
-      Cada 6 meses tu hijo sube de nivel y recibe un certificado verificable con código QR. El mismo certificado vale porque el aprendizaje detrás es real.
-    </p>
-    <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem">
-      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
-        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 1</div>
-        <div style="font-size:1.2rem;font-weight:800;color:#fff">SPARK</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">5–7 años</div>
-      </div>
-      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
-        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 2</div>
-        <div style="font-size:1.2rem;font-weight:800;color:#fff">RISE</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">7–10 años</div>
-      </div>
-      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
-        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 3</div>
-        <div style="font-size:1.2rem;font-weight:800;color:#fff">CORE</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">9–12 años</div>
-      </div>
-      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
-        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 4</div>
-        <div style="font-size:1.2rem;font-weight:800;color:#fff">SURGE</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">11–14 años</div>
-      </div>
-      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
-        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 5</div>
-        <div style="font-size:1.2rem;font-weight:800;color:#fff">PINNACLE</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">13–16 años</div>
-      </div>
-      <div style="background:rgba(249,115,22,.25);border:1px solid rgba(249,115,22,.5);border-radius:14px;padding:1.25rem 1.5rem;min-width:130px;text-align:center;flex:1;max-width:160px">
-        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem">Nivel 6</div>
-        <div style="font-size:1.2rem;font-weight:800;color:#F97316">LEGEND</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.25rem">15–17 años</div>
-      </div>
+<section class="levels-section">
+  <div class="section-shell centered">
+    <span class="eyebrow light">Sistema de Certificación RoboWorks</span>
+    <h2>6 niveles. 3 años de formación real.</h2>
+    <p>Cada 6 meses tu hijo sube de nivel y recibe un certificado verificable con código QR. El certificado vale porque el aprendizaje detrás es real.</p>
+    <div class="levels-grid">
+      <div><small>Nivel 1</small><strong>SPARK</strong><span>5-7 años</span></div>
+      <div><small>Nivel 2</small><strong>RISE</strong><span>7-10 años</span></div>
+      <div><small>Nivel 3</small><strong>CORE</strong><span>9-12 años</span></div>
+      <div><small>Nivel 4</small><strong>SURGE</strong><span>11-14 años</span></div>
+      <div><small>Nivel 5</small><strong>PINNACLE</strong><span>13-16 años</span></div>
+      <div class="featured"><small>Nivel 6</small><strong>LEGEND</strong><span>15-17 años</span></div>
     </div>
-    <a href="https://wa.me/593993340103" target="_blank"
-       style="background:#F97316;color:#fff;padding:.875rem 2rem;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 4px 16px rgba(249,115,22,.4);transition:.2s">
-      <i class="fab fa-whatsapp"></i> Inscribir a mi hijo
-    </a>
   </div>
 </section>
 
-<!-- PLATAFORMA PARA PADRES -->
-<section class="py-16 md:py-20 px-4" style="background:#F8FAFC">
-  <div class="max-w-5xl mx-auto">
-    <div class="platform-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center">
+<section class="platform-section">
+  <div class="section-shell platform-layout">
+    <div>
+      <span class="eyebrow">Plataforma digital para estudiantes</span>
+      <h2>Su propio espacio para ver progreso, tareas y logros.</h2>
+      <p>
+        Cada estudiante accede con usuario y contraseña a materiales de clase, tareas, portafolio digital y certificados verificables con QR.
+        Para los padres, esto convierte el aprendizaje en algo visible y acompañable.
+      </p>
+      <a href="/plataforma/login.html" class="secondary-cta solid">Acceso Estudiantes</a>
+    </div>
+    <div class="platform-preview" aria-label="Vista previa de progreso del estudiante">
+      <div class="preview-card"><small>Progreso del estudiante</small><strong>Nivel CORE - 18 / 26 clases</strong><span><b style="width:69%"></b></span></div>
+      <div class="preview-row"><i class="fas fa-clipboard-list"></i><p><strong>Tarea nueva disponible</strong><small>Práctica de sensores - entrega: viernes</small></p></div>
+      <div class="preview-row success"><i class="fas fa-certificate"></i><p><strong>Certificado RISE completado</strong><small>QR verificable listo para imprimir</small></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="confianza" class="trust-section">
+  <div class="section-shell">
+    <div class="section-heading">
+      <span class="eyebrow">Por qué elegir RoboWorks</span>
+      <h2>Tecnología con alma, estructura y acompañamiento.</h2>
+      <p>Acercamos la robótica a niños y jóvenes con grupos pequeños, retos reales y una cultura donde el error es parte del aprendizaje.</p>
+    </div>
+
+    <div class="trust-grid">
+      <div class="trust-item"><i class="fas fa-heart"></i><h3>Enfoque humano</h3><p>Formamos habilidades emocionales, sociales y creativas junto con la tecnología.</p></div>
+      <div class="trust-item"><i class="fas fa-robot"></i><h3>Robótica real</h3><p>Construyen, programan, miden, prueban y presentan proyectos con sentido.</p></div>
+      <div class="trust-item"><i class="fas fa-users"></i><h3>Atención personal</h3><p>Grupos pequeños para acompañar el ritmo y la personalidad de cada estudiante.</p></div>
+    </div>
+
+    <div class="location-panel">
+      <h3>Estamos en Ambato, Tungurahua</h3>
+      <p>Un centro de robótica educativa para familias que quieren futuro sin perder humanidad.</p>
       <div>
-        <span style="background:#DBEAFE;color:#2563EB;padding:.35rem 1rem;border-radius:50px;font-size:.8rem;font-weight:700;display:inline-block;margin-bottom:1.25rem">Plataforma digital para estudiantes</span>
-        <h2 class="text-3xl font-bold mb-4" style="color:#1E293B;line-height:1.25">Tu hijo tiene su<br>propio espacio digital</h2>
-        <p style="color:#475569;font-size:1rem;line-height:1.7;margin-bottom:1.75rem">
-          Cada estudiante accede con usuario y contraseña a su plataforma personal. Puede ver su progreso, completar tareas, acceder a materiales de clase y llenar su portafolio digital — que termina en un certificado con código QR.
-        </p>
-        <div style="display:flex;flex-direction:column;gap:.875rem;margin-bottom:2rem">
-          <div style="display:flex;align-items:center;gap:.875rem">
-            <div style="width:36px;height:36px;border-radius:8px;background:#DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-              <i class="fas fa-chart-line" style="color:#2563EB;font-size:.9rem"></i>
-            </div>
-            <span style="color:#475569;font-size:.9rem">Progreso visible clase a clase, nivel a nivel</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:.875rem">
-            <div style="width:36px;height:36px;border-radius:8px;background:#FFF7ED;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-              <i class="fas fa-folder-open" style="color:#F97316;font-size:.9rem"></i>
-            </div>
-            <span style="color:#475569;font-size:.9rem">Materiales y tareas siempre disponibles</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:.875rem">
-            <div style="width:36px;height:36px;border-radius:8px;background:#ECFDF5;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-              <i class="fas fa-certificate" style="color:#10B981;font-size:.9rem"></i>
-            </div>
-            <span style="color:#475569;font-size:.9rem">Certificado digital verificable con QR al terminar cada nivel</span>
-          </div>
-        </div>
-        <a href="/plataforma/login.html" style="background:#2563EB;color:#fff;padding:.8rem 1.75rem;border-radius:10px;font-weight:700;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem">
-          <i class="fas fa-arrow-right-to-bracket"></i> Acceso Estudiantes
-        </a>
+        <span><i class="fas fa-trophy"></i> Competencias nacionales</span>
+        <span><i class="fas fa-shield-halved"></i> Ambiente seguro</span>
+        <span><i class="fas fa-heart"></i> Comunidad familiar</span>
       </div>
-      <div style="background:linear-gradient(135deg,#1E3A8A,#2563EB);border-radius:20px;padding:2rem;color:#fff">
-        <div style="background:rgba(255,255,255,.1);border-radius:12px;padding:1.25rem;margin-bottom:1rem">
-          <div style="font-size:.7rem;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.5rem">Progreso del estudiante</div>
-          <div style="font-size:1.1rem;font-weight:700;margin-bottom:.75rem">Nivel CORE — 18 / 26 clases</div>
-          <div style="height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:69%;background:#F97316;border-radius:4px"></div>
-          </div>
-        </div>
-        <div style="background:rgba(255,255,255,.1);border-radius:12px;padding:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.875rem">
-          <div style="width:36px;height:36px;border-radius:8px;background:#F97316;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <i class="fas fa-clipboard-list"></i>
-          </div>
-          <div>
-            <div style="font-size:.85rem;font-weight:600">Tarea nueva disponible</div>
-            <div style="font-size:.75rem;opacity:.7">Práctica de sensores — Entrega: viernes</div>
-          </div>
-        </div>
-        <div style="background:rgba(16,185,129,.2);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:.875rem">
-          <div style="width:36px;height:36px;border-radius:8px;background:#10B981;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <i class="fas fa-certificate"></i>
-          </div>
-          <div>
-            <div style="font-size:.85rem;font-weight:600">Certificado RISE completado</div>
-            <div style="font-size:.75rem;opacity:.7">QR verificable — listo para imprimir</div>
-          </div>
-        </div>
-      </div>
+      <a href="https://wa.me/593993340103" target="_blank" class="primary-cta">Consultar horarios</a>
     </div>
   </div>
 </section>
 
-<!-- SECCIÓN CONFIANZA - CENTRADO EN MÓVIL -->
-<!-- CAMBIO: Eliminé bg-gray-50 de aquí -->
-<section id="confianza" class="py-16 md:py-20 px-4">
-  <div class="max-w-6xl mx-auto">
-    <!-- Título centrado optimizado -->
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 md:mb-12 mobile-center">
-      ¿Por qué elegir <span class="text-robo-blue">RoboWorks en Ambato</span>?
-    </h2>
-    
-    <!-- Descripción para SEO -->
-    <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
-      Creemos en una tecnología que no apague el alma.
-      En RoboWorks acercamos la robótica a todos los niños, especialmente a quienes enfrentan barreras económicas o desafíos especiales, formando capacidades, virtudes y esperanza.
-    </p>
-
-    <!-- Grid de confianza - Centrado en móvil -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 justify-items-center">
-      <div class="trust-item p-6 rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
-        <div class="mobile-flex-center mb-4">
-          <i class="fas fa-heart text-3xl text-robo-orange"></i>
-        </div>
-        <h3 class="font-bold text-lg mb-2">Enfoque Humano</h3>
-        <p class="font-medium mobile-center">Educación con enfoque humano y emocional en Ambato</p>
-      </div>
-      
-      <div class="trust-item p-6 rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
-        <div class="mobile-flex-center mb-4">
-          <i class="fas fa-robot text-3xl text-robo-blue"></i>
-        </div>
-        <h3 class="font-bold text-lg mb-2">Robótica Real</h3>
-        <p class="font-medium mobile-center">Aprendizaje práctico con robótica real en Tungurahua</p>
-      </div>
-      
-      <div class="trust-item p-6 rounded-2xl shadow-md w-full max-w-sm mobile-center mobile-margin-auto">
-        <div class="mobile-flex-center mb-4">
-          <i class="fas fa-users text-3xl text-robo-green"></i>
-        </div>
-        <h3 class="font-bold text-lg mb-2">Atención Personal</h3>
-        <p class="font-medium mobile-center">Grupos pequeños y atención personalizada en Ecuador</p>
-      </div>
+<footer id="contacto" class="site-footer">
+  <div class="section-shell">
+    <h2>RoboWorks <span>Ambato</span></h2>
+    <p>Centro de Robótica Educativa en Tungurahua, Ecuador.</p>
+    <div class="footer-contact">
+      <a href="mailto:info@roboworks.com">info@roboworks.com</a>
+      <a href="https://wa.me/593993340103">WhatsApp: +593 99 334 0103</a>
+      <span>Ambato, Tungurahua - Ecuador</span>
     </div>
-    
-    <!-- Información de ubicación -->
-    <div class="mt-16 p-8 rounded-2xl text-white text-center" style="background:linear-gradient(135deg,#1E3A8A,#2563EB)">
-      <h3 class="text-2xl font-bold mb-3">Estamos en Ambato, Tungurahua</h3>
-      <p class="mb-2" style="opacity:.85">Centro de robótica educativa accesible para familias de toda la provincia</p>
-      <p class="mb-6" style="opacity:.75;font-size:.9rem">Lunes a Viernes 09:00–18:00 &bull; Sábados 09:00–13:00</p>
-      <div class="flex flex-wrap justify-center gap-3 mt-4">
-        <span class="px-4 py-2 rounded-full text-sm font-semibold" style="background:rgba(255,255,255,.15)"><i class="fas fa-trophy mr-2" style="color:#F97316"></i>Competencias nacionales</span>
-        <span class="px-4 py-2 rounded-full text-sm font-semibold" style="background:rgba(255,255,255,.15)"><i class="fas fa-shield-halved mr-2" style="color:#10B981"></i>Zona segura</span>
-        <span class="px-4 py-2 rounded-full text-sm font-semibold" style="background:rgba(255,255,255,.15)"><i class="fas fa-heart mr-2" style="color:#FB7185"></i>Ambiente familiar</span>
-      </div>
-      <div class="mt-6">
-        <a href="https://wa.me/593993340103" target="_blank" style="background:#F97316;color:#fff;padding:.75rem 1.75rem;border-radius:50px;font-weight:700;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem">
-          <i class="fab fa-whatsapp"></i> Consultar horarios
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER - SIEMPRE CENTRADO -->
-<footer id="contacto" class="bg-gray-800 text-gray-300 py-10 text-center">
-  <div class="max-w-4xl mx-auto px-4">
-    <div class="mb-6">
-      <h2 class="text-2xl font-bold text-white mb-2">RoboWorks <span class="text-robo-orange">Ambato</span></h2>
-      <p class="text-lg">Centro de Robótica Educativa en Tungurahua, Ecuador</p>
-    </div>
-    
-    <p>&copy; 2026 RoboWorks Ambato. Todos los derechos reservados.</p>
-    <p class="mt-2">Diseñado con ❤️ para inspirar a los pequeños inventores de Ecuador.</p>
-    
-    <!-- Contacto adicional centrado -->
-    <div class="mt-6 pt-6 border-t border-gray-700 mobile-center">
-      <h3 class="text-xl font-bold text-white mb-4">Contáctanos en Ambato</h3>
-      <p class="text-sm mb-2">¿Tienes preguntas sobre nuestros cursos de robótica en Ambato?</p>
-      <a href="mailto:info@roboworks.com" class="text-robo-blue hover:text-blue-300 transition-colors duration-300 font-medium">
-        info@roboworks.com
-      </a>
-      <p class="mt-4 text-sm">
-        <i class="fab fa-whatsapp mr-1"></i>
-        <a href="https://wa.me/593993340103" class="text-green-400 hover:text-green-300 transition-colors duration-300 font-medium">
-          WhatsApp: +593 99 334 0103
-        </a>
-      </p>
-      <p class="mt-2 text-sm">
-        <i class="fas fa-map-marker-alt mr-1"></i>
-        <span class="text-gray-400">Ambato, Tungurahua - Ecuador</span>
-      </p>
-    </div>
-    
-    <!-- Enlaces locales para SEO -->
-    <div class="mt-8 pt-6 border-t border-gray-700">
-      <p class="text-sm text-gray-400 mb-2">Encuéntranos como:</p>
-      <p class="text-sm">
-        "robótica para niños Ambato" · "clases de robótica Ecuador" · 
-        "robótica educativa Tungurahua" · "tecnología para niños Ambato"
-      </p>
-    </div>
+    <p class="footer-small">© 2026 RoboWorks Ambato. Todos los derechos reservados.</p>
   </div>
 </footer>
-
 <!-- Scripts -->
 <script src="js/robot-hero.js"></script>
 <script src="js/main.js"></script>
@@ -874,45 +675,21 @@
       }
     });
     
-    // 3. Forzar fondo blanco en móvil
-    function forceWhiteBackground() {
-      if (window.innerWidth <= 768) {
-        document.body.style.backgroundColor = 'white';
-        
-        // Fondo blanco para secciones
-        const sections = document.querySelectorAll('section');
-        sections.forEach(section => {
-          section.style.backgroundColor = 'white';
-        });
-        
-        // Fondo blanco para cards
-        programCards.forEach(card => {
-          card.style.backgroundColor = 'white';
-          const innerDiv = card.querySelector('div');
-          if (innerDiv) innerDiv.style.backgroundColor = 'white';
-        });
-        
-        // Fondo blanco para trust items
-        const trustItems = document.querySelectorAll('.trust-item');
-        trustItems.forEach(item => {
-          item.style.backgroundColor = 'white';
-        });
-      }
+    // 3. Mantener limpias las cards sin pisar los fondos del nuevo diseño
+    function normalizeProgramCards() {
+      programCards.forEach(card => {
+        card.style.backgroundColor = 'white';
+      });
     }
     
-    // Ejecutar al cargar y al redimensionar
-    forceWhiteBackground();
-    window.addEventListener('resize', forceWhiteBackground);
+    normalizeProgramCards();
+    window.addEventListener('resize', normalizeProgramCards);
     
     // 4. Precarga mejorada para móviles
     if ('ontouchstart' in window) {
       console.log('Dispositivo táctil detectado - optimizando para móvil');
     }
-    
-    // 5. Actualizar título dinámico con ubicación
-    document.title = "RoboWorks Ambato | " + document.title;
-    
-    // 6. Forzar color celeste en el logo
+    // 5. Forzar color celeste en el logo
     const roboElements = document.querySelectorAll('.logo-celeste');
     roboElements.forEach(el => {
       el.style.color = '#2563EB';
@@ -928,8 +705,6 @@
   window.addEventListener('resize', function() {
     if (isMobile()) {
       document.body.classList.add('mobile-view');
-      // Forzar fondo blanco cada vez que se redimensione a móvil
-      document.body.style.backgroundColor = 'white';
     } else {
       document.body.classList.remove('mobile-view');
     }
@@ -938,7 +713,7 @@
   // Inicializar
   if (isMobile()) {
     document.body.classList.add('mobile-view');
-    document.body.style.backgroundColor = 'white';
+
   }
 </script>
 
