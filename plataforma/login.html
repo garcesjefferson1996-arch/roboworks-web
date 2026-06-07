@@ -256,19 +256,34 @@ form.addEventListener('submit',async e=>{
   setLoading(true);
   alertEl.style.display='none';
 
-  // Admin shortcut
-  const admins=[
-    {user:'JeffGarces',pass:'roboworks01',name:'Jeff Garces'},
-    {user:'EsthelitaTorres',pass:'roboworks02',name:'Esthelita Torres'},
+  // Admins fijos (superadmin)
+  const fixedAdmins=[
+    {user:'JeffGarces',pass:'roboworks01',name:'Jeff Garces',role:'superadmin'},
+    {user:'EsthelitaTorres',pass:'roboworks02',name:'Esthelita Torres',role:'superadmin'},
   ];
-  const adminMatch=admins.find(a=>a.user===username&&a.pass===password);
-  if(adminMatch){
+  const fixedMatch=fixedAdmins.find(a=>a.user===username&&a.pass===password);
+  if(fixedMatch){
     localStorage.setItem('isAdmin','true');
-    localStorage.setItem('adminName',adminMatch.name);
-    showAlert('Bienvenido, '+adminMatch.name,'success');
+    localStorage.setItem('adminName',fixedMatch.name);
+    localStorage.setItem('adminRole',fixedMatch.role);
+    showAlert('Bienvenido, '+fixedMatch.name,'success');
     setTimeout(()=>window.location.href='admin/dashboard.html',900);
     return;
   }
+
+  // Admins dinámicos (creados desde el panel)
+  try{
+    const adminSnap=await db.collection('admins').where('username','==',username).where('password','==',password).where('active','==',true).get();
+    if(!adminSnap.empty){
+      const adminDoc=adminSnap.docs[0].data();
+      localStorage.setItem('isAdmin','true');
+      localStorage.setItem('adminName',adminDoc.name);
+      localStorage.setItem('adminRole',adminDoc.role||'admin');
+      showAlert('Bienvenido, '+adminDoc.name,'success');
+      setTimeout(()=>window.location.href='admin/dashboard.html',900);
+      return;
+    }
+  }catch(e){console.warn('Admin lookup error:',e);}
 
   try{
     const snap=await db.collection('students').where('username','==',username).where('password','==',password).get();

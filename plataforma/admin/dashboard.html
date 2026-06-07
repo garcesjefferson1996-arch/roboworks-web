@@ -198,6 +198,78 @@ textarea.form-control{resize:vertical;min-height:80px}
   .overview-grid{grid-template-columns:1fr}
 }
 @media(max-width:500px){.stats-grid{grid-template-columns:1fr}}
+
+/* ─── ASISTENCIA / LECCIONARIO ───────────────────────── */
+.att-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.att-table{border-collapse:collapse;font-size:.78rem;width:100%}
+.att-table th{background:var(--bg);padding:.6rem .75rem;text-align:center;font-size:.67rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border);white-space:nowrap;min-width:58px}
+.att-table th.sticky-col{text-align:left;min-width:150px;position:sticky;left:0;background:var(--bg);z-index:2}
+.att-table td{padding:.5rem .6rem;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle}
+.att-table td.sticky-col{text-align:left;position:sticky;left:0;background:var(--white);z-index:1;font-weight:600;font-size:.82rem}
+.att-table tr:hover td{background:#f9fafb}
+.att-table tr:hover td.sticky-col{background:#f9fafb}
+.att-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;font-size:.72rem;font-weight:800}
+.att-P{background:var(--green-light);color:var(--green)}
+.att-A{background:var(--red-light);color:var(--red)}
+.att-T{background:var(--gold-light);color:var(--gold)}
+.att-J{background:var(--blue-xlight);color:var(--blue)}
+.att-empty{color:var(--border)}
+.att-stat{font-size:.72rem;color:var(--text-light);white-space:nowrap}
+.att-row{display:flex;align-items:center;gap:.75rem;padding:.75rem;border-radius:10px;border:1px solid var(--border);margin-bottom:.5rem;transition:.15s}
+.att-row:hover{border-color:#DBEAFE;background:#EFF6FF}
+.att-btn-grp{display:flex;gap:.35rem;margin-left:auto}
+.abtn{padding:.38rem .7rem;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:.73rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.12s;min-width:36px;text-align:center}
+.abtn:hover{transform:scale(1.08)}
+.abtn.sel-P{background:var(--green);border-color:var(--green);color:#fff}
+.abtn.sel-A{background:var(--red);border-color:var(--red);color:#fff}
+.abtn.sel-T{background:var(--gold);border-color:var(--gold);color:#fff}
+.abtn.sel-J{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ─── PAGOS ──────────────────────────────────────────── */
+.pay-cell{display:inline-flex;align-items:center;justify-content:center;min-width:68px;padding:.28rem .45rem;border-radius:8px;font-size:.71rem;font-weight:700;cursor:pointer;border:1.5px solid var(--border);transition:.12s;gap:.2rem;white-space:nowrap}
+.pay-cell:hover{transform:scale(1.05)}
+.pay-paid{background:var(--green-light);color:#065f46;border-color:#6ee7b7;cursor:default}
+.pay-pending{background:var(--gold-light);color:#92400e;border-color:#fde68a}
+.pay-overdue{background:var(--red-light);color:#991b1b;border-color:#fca5a5}
+.pay-na{background:var(--bg);color:var(--text-light);border-color:var(--border);cursor:default;font-size:.68rem}
+.pay-th{font-size:.72rem;font-weight:700;color:var(--text-light);text-align:center;background:var(--bg);padding:.65rem .5rem;border-bottom:1px solid var(--border);white-space:nowrap}
+.pay-th.current{color:var(--blue);background:var(--blue-xlight)}
+
+/* ─── EQUIPO ─────────────────────────────────────────── */
+.role-super{background:#fef3c7;color:#92400e;padding:.22rem .55rem;border-radius:5px;font-size:.69rem;font-weight:700}
+.role-admin{background:var(--blue-xlight);color:var(--blue);padding:.22rem .55rem;border-radius:5px;font-size:.69rem;font-weight:700}
+.active-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.dot-on{background:var(--green)}.dot-off{background:var(--red)}
+
+/* ─── DOCUMENTOS ─────────────────────────────────────── */
+.doc-card{text-align:center;padding:2rem;cursor:default}
+.doc-icon{font-size:2.8rem;margin-bottom:1rem;display:block}
+.doc-card h3{font-size:.95rem;margin-bottom:.4rem;color:var(--text)}
+.doc-card p{font-size:.8rem;color:var(--text-light);margin-bottom:1.1rem;line-height:1.45}
+
+/* ─── PRINT ──────────────────────────────────────────── */
+#print-area{display:none}
+@media print{
+  body > *:not(#print-area){display:none!important}
+  #print-area{display:block!important;font-family:'Inter',sans-serif;font-size:11pt;color:#000;margin:20px}
+  .print-header{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:16px}
+  .print-logo-row{display:flex;align-items:center;justify-content:space-between}
+  .print-title{font-size:14pt;font-weight:700;margin:4px 0}
+  .print-sub{font-size:10pt;color:#555}
+  .print-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:9pt}
+  .print-table th{background:#f0f0f0;border:1px solid #ccc;padding:5px 7px;font-weight:700;text-align:left}
+  .print-table td{border:1px solid #ddd;padding:4px 7px;vertical-align:middle}
+  .print-table td.center{text-align:center}
+  .print-P{background:#d1fae5;color:#065f46;font-weight:700;text-align:center}
+  .print-A{background:#fee2e2;color:#991b1b;font-weight:700;text-align:center}
+  .print-T{background:#fef3c7;color:#92400e;font-weight:700;text-align:center}
+  .print-J{background:#dbeafe;color:#1e40af;font-weight:700;text-align:center}
+  .print-footer{margin-top:20px;border-top:1px solid #ccc;padding-top:8px;font-size:9pt;color:#666;display:flex;justify-content:space-between}
+  .receipt-box{max-width:420px;margin:0 auto;border:2px solid #000;padding:20px}
+  .receipt-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee;font-size:11pt}
+  .receipt-total{font-weight:700;font-size:13pt;border-top:2px solid #000;margin-top:8px;padding-top:8px}
+}
+
 </style>
 </head>
 <body>
@@ -228,7 +300,14 @@ const db=firebase.firestore();
     <button class="sb-item" onclick="goTab('recursos',this)"><i class="fa-solid fa-folder-open"></i>Recursos</button>
     <button class="sb-item" onclick="goTab('niveles',this)"><i class="fa-solid fa-trophy"></i>Progreso Niveles</button>
   </div>
-  <div class="sb-footer">
+  
+    <div class="sb-section">Operaciones</div>
+    <button class="sb-item" onclick="goTab('asistencia',this)"><i class="fa-solid fa-clipboard-check"></i>Asistencia</button>
+    <button class="sb-item" onclick="goTab('pagos',this)"><i class="fa-solid fa-money-bill-wave"></i>Pagos<span class="sb-badge" id="badge-pay" style="display:none">!</span></button>
+    <div class="sb-section">Sistema</div>
+    <button class="sb-item" onclick="goTab('documentos',this)"><i class="fa-solid fa-file-lines"></i>Documentos</button>
+    <button class="sb-item" onclick="goTab('equipo',this)"><i class="fa-solid fa-users-gear"></i>Equipo Admin</button>
+<div class="sb-footer">
     <div class="sb-user">
       <div class="sb-avatar">JG</div>
       <div class="sb-user-info">
@@ -406,6 +485,129 @@ const db=firebase.firestore();
         </div>
         <div class="card-body" id="levels-grid">
           <div class="loader"><div class="spin"></div>Cargando progreso...</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══ ASISTENCIA ════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-asistencia">
+      <div class="card" style="margin-bottom:1.25rem">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-clipboard-check"></i>Leccionario de asistencia</div>
+          <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+            <select class="form-control" id="att-class-sel" style="width:220px;padding:.4rem .75rem;font-size:.8rem" onchange="loadLeccionario()">
+              <option value="">Seleccionar clase...</option>
+            </select>
+            <input type="date" class="form-control" id="att-date-filter" style="width:150px;padding:.4rem .75rem;font-size:.8rem">
+            <button class="btn btn-primary" onclick="openAttModal()"><i class="fa-solid fa-plus"></i>Tomar asistencia</button>
+            <button class="btn btn-ghost btn-sm" onclick="printAttendance()"><i class="fa-solid fa-print"></i>Imprimir</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body" id="leccionario-wrap">
+          <div class="empty"><i class="fa-solid fa-clipboard"></i><p>Selecciona una clase para ver el leccionario</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGOS ═══════════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-pagos">
+      <div class="stats-grid" style="margin-bottom:1.25rem">
+        <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div><div><div class="stat-value" id="pay-stat-col">—</div><div class="stat-label">Cobrado este mes</div></div></div>
+        <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-clock"></i></div><div><div class="stat-value" id="pay-stat-pend">—</div><div class="stat-label">Pendientes</div></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><i class="fa-solid fa-triangle-exclamation"></i></div><div><div class="stat-value" id="pay-stat-over">—</div><div class="stat-label">En mora (+30 días)</div></div></div>
+        <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-calendar-check"></i></div><div><div class="stat-value" id="pay-stat-total">—</div><div class="stat-label">Total mensual proyectado</div></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-money-bill-wave"></i>Estado de pagos por estudiante</div>
+          <div style="display:flex;gap:.5rem">
+            <button class="btn btn-ghost btn-sm" onclick="printPaymentReport()"><i class="fa-solid fa-print"></i>Reporte</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead id="pay-thead"><tr></tr></thead>
+            <tbody id="pay-tbody"><tr><td colspan="8"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr></tbody>
+          </table>
+        </div>
+        <div style="padding:.75rem 1.25rem;font-size:.72rem;color:var(--text-light);border-top:1px solid var(--border)">
+          Haz clic en una celda pendiente/mora para registrar el pago. Las celdas en verde ya están pagadas.
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ DOCUMENTOS ══════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-documentos">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem">
+        <div class="card">
+          <div class="doc-card">
+            <i class="fa-solid fa-clipboard-list doc-icon" style="color:var(--blue)"></i>
+            <h3>Lista de asistencia</h3>
+            <p>Leccionario completo por clase y período, listo para imprimir o archivar.</p>
+            <select class="form-control" id="doc-att-cls" style="margin-bottom:.75rem">
+              <option value="">Seleccionar clase...</option>
+            </select>
+            <button class="btn btn-primary" onclick="printAttendanceFull()"><i class="fa-solid fa-print"></i> Generar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="doc-card">
+            <i class="fa-solid fa-receipt doc-icon" style="color:var(--green)"></i>
+            <h3>Comprobante de pago</h3>
+            <p>Recibo mensual para el representante del estudiante.</p>
+            <select class="form-control" id="doc-pay-stu" style="margin-bottom:.5rem">
+              <option value="">Seleccionar estudiante...</option>
+            </select>
+            <select class="form-control" id="doc-pay-month" style="margin-bottom:.75rem"></select>
+            <button class="btn btn-primary" onclick="printPaymentReceipt()"><i class="fa-solid fa-print"></i> Generar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="doc-card">
+            <i class="fa-solid fa-chart-line doc-icon" style="color:var(--orange)"></i>
+            <h3>Reporte del estudiante</h3>
+            <p>Progreso, asistencia y estado de pago — ideal para entregar al representante.</p>
+            <select class="form-control" id="doc-rep-stu" style="margin-bottom:.75rem">
+              <option value="">Seleccionar estudiante...</option>
+            </select>
+            <button class="btn btn-primary" onclick="printStudentReport()"><i class="fa-solid fa-print"></i> Generar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="doc-card">
+            <i class="fa-solid fa-users doc-icon" style="color:var(--gold)"></i>
+            <h3>Directorio de estudiantes</h3>
+            <p>Lista completa con datos de contacto, nivel y programa.</p>
+            <button class="btn btn-primary" onclick="printDirectory()"><i class="fa-solid fa-print"></i> Generar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ EQUIPO ═══════════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-equipo">
+      <div class="card" style="margin-bottom:1.25rem">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-users-gear"></i>Equipo administrativo</div>
+          <button class="btn btn-primary" onclick="openModal('modal-admin')"><i class="fa-solid fa-plus"></i>Añadir administrador</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Estado</th><th>Creado por</th><th>Acciones</th></tr></thead>
+            <tbody id="admins-tbody"><tr><td colspan="6"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <p style="font-size:.84rem;color:var(--text-light);display:flex;gap:.5rem;align-items:flex-start">
+            <i class="fa-solid fa-circle-info" style="color:var(--blue);margin-top:.15rem;flex-shrink:0"></i>
+            Los administradores inician sesión usando su usuario y contraseña en la pantalla de acceso.
+            Todos tienen acceso completo al panel. Solo tú puedes añadir o desactivar admins.
+          </p>
         </div>
       </div>
     </div>
@@ -684,6 +886,138 @@ const db=firebase.firestore();
   </div>
 </div>
 
+<!-- MODAL: ASISTENCIA -->
+<div class="modal-overlay" id="modal-attendance">
+  <div class="modal-box modal-lg">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-clipboard-check"></i>Tomar asistencia</h3>
+      <button class="modal-close" onclick="closeModal('modal-attendance')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Clase <span class="req">*</span></label>
+          <select class="form-control" id="att-m-class" required>
+            <option value="">Seleccionar clase...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha de la sesión <span class="req">*</span></label>
+          <input type="date" class="form-control" id="att-m-date" required>
+        </div>
+      </div>
+      <div id="att-m-note" style="display:none" class="form-group">
+        <label>Observación general (opcional)</label>
+        <input type="text" class="form-control" id="att-m-obs" placeholder="Ej: Clase especial, visita, etc.">
+      </div>
+      <div id="att-student-list" style="margin-top:.5rem">
+        <div class="empty"><i class="fa-solid fa-users"></i><p>Selecciona una clase para ver los estudiantes</p></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-attendance')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAttendance()"><i class="fa-solid fa-floppy-disk"></i>Guardar asistencia</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: PAGO -->
+<div class="modal-overlay" id="modal-payment">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-money-bill-wave"></i>Registrar pago</h3>
+      <button class="modal-close" onclick="closeModal('modal-payment')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="pay-m-student-id">
+      <input type="hidden" id="pay-m-month">
+      <div class="form-group">
+        <label>Estudiante</label>
+        <input type="text" class="form-control" id="pay-m-student-name" readonly style="background:var(--bg)">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Mes <span class="req">*</span></label>
+          <input type="month" class="form-control" id="pay-m-month-disp" required>
+        </div>
+        <div class="form-group">
+          <label>Monto (USD) <span class="req">*</span></label>
+          <input type="number" class="form-control" id="pay-m-amount" min="1" max="500" step="0.50" required placeholder="0.00">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Método de pago</label>
+          <select class="form-control" id="pay-m-method">
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia bancaria</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha de pago</label>
+          <input type="date" class="form-control" id="pay-m-date" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Observación (opcional)</label>
+        <input type="text" class="form-control" id="pay-m-note" placeholder="Ej: Pago con descuento, cuota parcial, etc.">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-payment')">Cancelar</button>
+      <button class="btn btn-green" onclick="savePayment()"><i class="fa-solid fa-circle-check"></i>Confirmar pago</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADMIN -->
+<div class="modal-overlay" id="modal-admin">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-user-plus"></i>Añadir administrador</h3>
+      <button class="modal-close" onclick="closeModal('modal-admin')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="admin-edit-id">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre completo <span class="req">*</span></label>
+          <input type="text" class="form-control" id="adm-name" required placeholder="Ej: María González">
+        </div>
+        <div class="form-group">
+          <label>Usuario <span class="req">*</span></label>
+          <input type="text" class="form-control" id="adm-user" required placeholder="Ej: mariaGonzalez" autocomplete="off">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Contraseña <span class="req">*</span></label>
+          <input type="text" class="form-control" id="adm-pass" required placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label>Rol</label>
+          <select class="form-control" id="adm-role">
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+      </div>
+      <div class="creds-box" style="margin-top:.5rem">
+        <h4>Recuerda compartir estas credenciales al nuevo administrador</h4>
+        <p style="font-size:.78rem;color:rgba(255,255,255,.6);margin-top:.25rem">El admin ingresará con su usuario y contraseña en la misma pantalla de login.</p>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-admin')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAdmin()"><i class="fa-solid fa-floppy-disk"></i>Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA DE IMPRESIÓN (oculta en pantalla) -->
+<div id="print-area"></div>
+
+
 <script>
 // ─── HELPERS ─────────────────────────────────────────────────
 const TS=firebase.firestore.FieldValue.serverTimestamp;
@@ -721,8 +1055,8 @@ function closeModal(id){
 document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m){const id=m.id;m.classList.remove('open');if(id==='modal-student'){document.getElementById('modal-student-title').textContent='Nuevo Estudiante';document.getElementById('edit-student-id').value='';document.getElementById('form-student').reset();document.getElementById('form-student').style.display='block';document.getElementById('creds-result').style.display='none';}}});});
 
 // ─── TAB NAVIGATION ──────────────────────────────────────────
-const TABS={resumen:'Resumen',estudiantes:'Estudiantes',programas:'Programas',clases:'Clases',tareas:'Tareas',recursos:'Recursos y Materiales',niveles:'Progreso de Niveles'};
-const TAB_SUBS={resumen:'Visión general de la academia',estudiantes:'Gestiona los estudiantes inscritos',programas:'Programas de enseñanza STEAM',clases:'Horarios y grupos de clase',tareas:'Asignaciones para los estudiantes',recursos:'Materiales y documentos de clase',niveles:'Seguimiento del camino SPARK → LEGEND'};
+const TABS={resumen:'Resumen',estudiantes:'Estudiantes',programas:'Programas',clases:'Clases',tareas:'Tareas',recursos:'Recursos y Materiales',niveles:'Progreso de Niveles',asistencia:'Asistencia',pagos:'Pagos',documentos:'Documentos',equipo:'Equipo Admin'};
+const TAB_SUBS={resumen:'Visión general de la academia',estudiantes:'Gestiona los estudiantes inscritos',programas:'Programas de enseñanza STEAM',clases:'Horarios y grupos de clase',tareas:'Asignaciones para los estudiantes',recursos:'Materiales y documentos de clase',niveles:'Seguimiento del camino SPARK → LEGEND',asistencia:'Leccionario y registro de asistencia',pagos:'Seguimiento de pagos mensuales',documentos:'Genera e imprime documentos oficiales',equipo:'Gestión del equipo administrativo'};
 function goTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
@@ -736,6 +1070,10 @@ function goTab(id,btn){
   if(id==='tareas') loadTasks();
   if(id==='recursos') loadResources();
   if(id==='niveles') loadLevels();
+  if(id==='asistencia'){fillClassSelects();initAttDate();}
+  if(id==='pagos') loadPayments();
+  if(id==='documentos') fillDocSelects();
+  if(id==='equipo') loadAdmins();
 }
 
 // ─── STATE ───────────────────────────────────────────────────
@@ -1227,6 +1565,493 @@ document.addEventListener('DOMContentLoaded',async()=>{
   if(di) di.value=d.toISOString().split('T')[0];
   await loadOverview();
 });
+
+// ═════════════════════════════════════════════════════════════
+// HELPERS COMUNES
+// ═════════════════════════════════════════════════════════════
+function fmtMonth(ym){const[y,m]=ym.split('-');const names=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return names[parseInt(m)-1]+' '+y;}
+function getMonthKey(offset=0){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()+offset);const y=d.getFullYear();const m=String(d.getMonth()+1).padStart(2,'0');return y+'-'+m;}
+
+function fillClassSelects(){
+  ['att-class-sel','att-m-class','doc-att-cls'].forEach(id=>{
+    const sel=document.getElementById(id);if(!sel)return;
+    const val=sel.value;
+    while(sel.options.length>1)sel.remove(1);
+    allClasses.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name+(c.schedule_day?' ('+DAYS[c.schedule_day]+' '+c.schedule_time+')':'');sel.appendChild(o);});
+    if(val)sel.value=val;
+  });
+}
+
+function fillDocSelects(){
+  fillClassSelects();
+  ['doc-pay-stu','doc-rep-stu'].forEach(id=>{
+    const sel=document.getElementById(id);if(!sel)return;
+    while(sel.options.length>1)sel.remove(1);
+    allStudents.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.full_name;sel.appendChild(o);});
+  });
+  // Month select for payment receipt
+  const ms=document.getElementById('doc-pay-month');if(ms){
+    ms.innerHTML='';
+    for(let i=0;i>=−5;i--){const k=getMonthKey(i);const o=document.createElement('option');o.value=k;o.textContent=fmtMonth(k);ms.appendChild(o);}
+  }
+}
+
+// ═════════════════════════════════════════════════════════════
+// ASISTENCIA
+// ═════════════════════════════════════════════════════════════
+let attData={};  // {date: {studentId: status}}
+let attSessions=[];
+
+function initAttDate(){
+  const d=document.getElementById('att-m-date');
+  if(d&&!d.value)d.value=new Date().toISOString().split('T')[0];
+}
+
+async function loadLeccionario(){
+  const classId=document.getElementById('att-class-sel').value;
+  const wrap=document.getElementById('leccionario-wrap');
+  if(!classId){wrap.innerHTML='<div class="empty"><i class="fa-solid fa-clipboard"></i><p>Selecciona una clase</p></div>';return;}
+  wrap.innerHTML='<div class="loader"><div class="spin"></div>Cargando leccionario...</div>';
+  try{
+    const snap=await db.collection('attendance').where('class_id','==',classId).orderBy('date','asc').get().catch(()=>({docs:[]}));
+    const records=snap.docs.map(d=>({id:d.id,...d.data()}));
+    // Agrupar por fecha
+    const dateSet=new Set(records.map(r=>r.date));
+    const dates=[...dateSet].sort();
+    const cls=allClasses.find(c=>c.id===classId);
+    const enrolled=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(classId));
+    // Build lookup: date->studentId->status
+    const lookup={};
+    records.forEach(r=>{if(!lookup[r.date])lookup[r.date]={};lookup[r.date][r.student_id]=r.status;});
+    renderLeccionario(enrolled,dates,lookup,cls);
+  }catch(e){wrap.innerHTML='<div class="empty"><p>Error al cargar. '+e.message+'</p></div>';}
+}
+
+function renderLeccionario(students,dates,lookup,cls){
+  const wrap=document.getElementById('leccionario-wrap');
+  if(students.length===0){wrap.innerHTML='<div class="empty"><i class="fa-solid fa-users"></i><p>No hay estudiantes inscritos en esta clase</p></div>';return;}
+  const visibleDates=dates.slice(-15); // last 15 sessions
+  let html='<div class="att-wrap"><table class="att-table"><thead><tr><th class="sticky-col">Estudiante</th>';
+  visibleDates.forEach(d=>{const dt=new Date(d+'T12:00');html+=`<th>${dt.toLocaleDateString('es-ES',{day:'2-digit',month:'short'})}</th>`;});
+  html+='<th>% Asist.</th></tr></thead><tbody>';
+  students.forEach(s=>{
+    const total=visibleDates.length;
+    const present=visibleDates.filter(d=>lookup[d]&&lookup[d][s.id]==='P').length;
+    const pct=total>0?Math.round(present/total*100):0;
+    const pctColor=pct>=80?'var(--green)':pct>=60?'var(--gold)':'var(--red)';
+    html+=`<tr><td class="sticky-col">${s.full_name}</td>`;
+    visibleDates.forEach(d=>{
+      const st=(lookup[d]&&lookup[d][s.id])||'';
+      if(st) html+=`<td><span class="att-badge att-${st}">${st}</span></td>`;
+      else html+=`<td><span class="att-empty">—</span></td>`;
+    });
+    html+=`<td><span class="att-stat" style="color:${pctColor};font-weight:700">${total>0?pct+'%':'—'}</span></td></tr>`;
+  });
+  html+='</tbody></table></div>';
+  if(dates.length>15) html+=`<p style="font-size:.75rem;color:var(--text-light);padding:.75rem 0">Mostrando las últimas 15 sesiones de ${dates.length} registradas.</p>`;
+  wrap.innerHTML=html;
+}
+
+function openAttModal(){
+  fillClassSelects();
+  // Pre-select if class already chosen
+  const sel=document.getElementById('att-class-sel').value;
+  if(sel) document.getElementById('att-m-class').value=sel;
+  initAttDate();
+  document.getElementById('att-m-obs').value='';
+  document.getElementById('att-m-note').style.display='block';
+  renderAttStudentList();
+  openModal('modal-attendance');
+}
+
+function renderAttStudentList(){
+  const classId=document.getElementById('att-m-class').value;
+  const list=document.getElementById('att-student-list');
+  if(!classId){list.innerHTML='<div class="empty"><i class="fa-solid fa-users"></i><p>Selecciona una clase</p></div>';return;}
+  const enrolled=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(classId));
+  if(enrolled.length===0){list.innerHTML='<div class="empty"><p>No hay estudiantes inscritos</p></div>';return;}
+  list.innerHTML=enrolled.map(s=>`
+    <div class="att-row">
+      <div class="avatar">${initials(s.full_name)}</div>
+      <div style="flex:1"><div style="font-weight:600;font-size:.88rem">${s.full_name}</div>
+      <div style="font-size:.72rem;color:var(--text-light)">${s.level||'—'}</div></div>
+      <div class="att-btn-grp">
+        <button class="abtn" onclick="setAtt('${s.id}','P',this)" title="Presente">P</button>
+        <button class="abtn" onclick="setAtt('${s.id}','A',this)" title="Ausente">A</button>
+        <button class="abtn" onclick="setAtt('${s.id}','T',this)" title="Tarde">T</button>
+        <button class="abtn" onclick="setAtt('${s.id}','J',this)" title="Justificado">J</button>
+      </div>
+    </div>`).join('');
+}
+
+const attSelections={};
+function setAtt(studentId,status,btn){
+  attSelections[studentId]=status;
+  const row=btn.closest('.att-row');
+  row.querySelectorAll('.abtn').forEach(b=>{b.className='abtn';});
+  btn.className=`abtn sel-${status}`;
+}
+
+document.getElementById('att-m-class').addEventListener('change',()=>{Object.keys(attSelections).forEach(k=>delete attSelections[k]);renderAttStudentList();});
+
+async function saveAttendance(){
+  const classId=document.getElementById('att-m-class').value;
+  const date=document.getElementById('att-m-date').value;
+  const obs=document.getElementById('att-m-obs').value;
+  if(!classId||!date){toast('Selecciona clase y fecha','error');return;}
+  const keys=Object.keys(attSelections);
+  if(keys.length===0){toast('Marca la asistencia de al menos un estudiante','error');return;}
+  const adminName=localStorage.getItem('adminName')||'Admin';
+  const batch=db.batch();
+  keys.forEach(studentId=>{
+    const ref=db.collection('attendance').doc();
+    batch.set(ref,{class_id:classId,student_id:studentId,date,status:attSelections[studentId],note:obs||null,recorded_by:adminName,created_at:TS()});
+  });
+  try{
+    await batch.commit();
+    toast(`Asistencia guardada para ${keys.length} estudiante(s)`);
+    closeModal('modal-attendance');
+    Object.keys(attSelections).forEach(k=>delete attSelections[k]);
+    // If leccionario is showing same class, reload
+    if(document.getElementById('att-class-sel').value===classId) loadLeccionario();
+  }catch(e){toast('Error: '+e.message,'error');}
+}
+
+function printAttendance(){
+  const classId=document.getElementById('att-class-sel').value;
+  if(!classId){toast('Selecciona una clase primero','error');return;}
+  document.getElementById('doc-att-cls').value=classId;
+  printAttendanceFull();
+}
+
+async function printAttendanceFull(){
+  const classId=document.getElementById('doc-att-cls').value;
+  if(!classId){toast('Selecciona una clase','error');return;}
+  const cls=allClasses.find(c=>c.id===classId);
+  const enrolled=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(classId));
+  const snap=await db.collection('attendance').where('class_id','==',classId).orderBy('date','asc').get().catch(()=>({docs:[]}));
+  const records=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const dates=[...new Set(records.map(r=>r.date))].sort();
+  const lookup={};
+  records.forEach(r=>{if(!lookup[r.date])lookup[r.date]={};lookup[r.date][r.student_id]=r.status;});
+  const prog=allPrograms.find(p=>p.id===cls?.program_id);
+  const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
+  let html=`<div class="print-header">
+    <div class="print-logo-row"><div><div class="print-title">LECCIONARIO DE ASISTENCIA</div>
+    <div class="print-sub">RoboWorks Ambato · Ambato, Tungurahua, Ecuador</div></div>
+    <div style="text-align:right;font-size:9pt;color:#555">Generado: ${today}</div></div>
+    <div style="margin-top:8px;font-size:10pt"><strong>Clase:</strong> ${cls?.name||'—'} &nbsp;|&nbsp;
+    <strong>Programa:</strong> ${prog?.name||'—'} &nbsp;|&nbsp;
+    <strong>Horario:</strong> ${DAYS[cls?.schedule_day]||'—'} ${cls?.schedule_time||''} &nbsp;|&nbsp;
+    <strong>Sesiones:</strong> ${dates.length}</div>
+  </div>
+  <table class="print-table"><thead><tr><th>Estudiante</th>`;
+  dates.forEach(d=>{const dt=new Date(d+'T12:00');html+=`<th class="center" style="min-width:44px">${dt.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit'})}</th>`;});
+  html+=`<th class="center">%</th></tr></thead><tbody>`;
+  enrolled.forEach(s=>{
+    const total=dates.length;
+    const pres=dates.filter(d=>lookup[d]&&lookup[d][s.id]==='P').length;
+    const pct=total>0?Math.round(pres/total*100):0;
+    html+=`<tr><td>${s.full_name}</td>`;
+    dates.forEach(d=>{const st=(lookup[d]&&lookup[d][s.id])||'';html+=st?`<td class="print-${st} center">${st}</td>`:`<td class="center" style="color:#ccc">-</td>`;});
+    html+=`<td class="center" style="font-weight:700;color:${pct>=80?'#065f46':pct>=60?'#92400e':'#991b1b'}">${total>0?pct+'%':'—'}</td></tr>`;
+  });
+  html+=`</tbody></table>
+  <div class="print-footer"><span>P=Presente &nbsp; A=Ausente &nbsp; T=Tarde &nbsp; J=Justificado</span>
+  <span>Firma del instructor: _______________________</span></div>`;
+  document.getElementById('print-area').innerHTML=html;
+  window.print();
+}
+
+// ═════════════════════════════════════════════════════════════
+// PAGOS
+// ═════════════════════════════════════════════════════════════
+let allPayments=[];
+const PROG_FEES={};  // programId -> fee
+
+async function loadPayments(){
+  document.getElementById('pay-tbody').innerHTML='<tr><td colspan="8"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr>';
+  // Load payments for last 5 months
+  const months=[getMonthKey(-4),getMonthKey(-3),getMonthKey(-2),getMonthKey(-1),getMonthKey(0)];
+  const snap=await db.collection('payments').get().catch(()=>({docs:[]}));
+  allPayments=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderPaymentsTable(months);
+  updatePayStats(months);
+}
+
+function renderPaymentsTable(months){
+  // Header
+  const thead=document.getElementById('pay-thead');
+  const curMonth=getMonthKey(0);
+  thead.innerHTML='<tr><th style="text-align:left;min-width:150px">Estudiante</th><th style="text-align:left">Nivel</th>'+
+    months.map(m=>`<th class="pay-th${m===curMonth?' current':''}">${fmtMonth(m)}</th>`).join('')+
+    '<th>Mensualidad</th></tr>';
+  // Body
+  const tbody=document.getElementById('pay-tbody');
+  if(allStudents.length===0){tbody.innerHTML='<tr><td colspan="8"><div class="empty"><p>No hay estudiantes</p></div></td></tr>';return;}
+  tbody.innerHTML=allStudents.map(s=>{
+    const prog=allPrograms.find(p=>p.id===s.program_id);
+    const fee=s.monthly_fee||prog?.monthly_fee||0;
+    const cells=months.map(m=>{
+      const pay=allPayments.find(p=>p.student_id===s.id&&p.month===m);
+      const now=new Date();const mDate=new Date(m+'-01');const isOver=mDate<new Date(now.getFullYear(),now.getMonth(),1);
+      if(pay&&pay.status==='paid') return`<td><span class="pay-cell pay-paid" title="Pagado el ${pay.paid_at?new Date(pay.paid_at.toDate?pay.paid_at.toDate():pay.paid_at).toLocaleDateString('es-ES',{day:'2-digit',month:'short'}):'—'} · ${pay.method||''}"><i class="fa-solid fa-check"></i>$${Number(pay.amount||0).toFixed(2)}</span></td>`;
+      if(isOver) return`<td><span class="pay-cell pay-overdue" onclick="openPayModal('${s.id}','${m}',${fee})" title="En mora"><i class="fa-solid fa-clock"></i>${fee?'$'+fee:'—'}</span></td>`;
+      return`<td><span class="pay-cell pay-pending" onclick="openPayModal('${s.id}','${m}',${fee})" title="Registrar pago"><i class="fa-solid fa-dollar-sign"></i>${fee?'$'+fee:'—'}</span></td>`;
+    }).join('');
+    return`<tr><td style="display:flex;align-items:center;gap:.5rem;padding:.75rem 1rem"><div class="avatar">${initials(s.full_name)}</div><div><div style="font-weight:600;font-size:.82rem">${s.full_name}</div><div style="font-size:.7rem;color:var(--text-light)">${prog?prog.name:''}</div></div></td>
+      <td><span class="badge ${LV_CLASS[s.level]||'badge-gray'}">${s.level||'—'}</span></td>
+      ${cells}
+      <td style="font-weight:700;font-size:.82rem;color:var(--text)">${fee?'$'+Number(fee).toFixed(2):'<span style=\"color:var(--text-light);font-weight:400\">Sin tarifa</span>'}</td></tr>`;
+  }).join('');
+}
+
+function updatePayStats(months){
+  const curMonth=getMonthKey(0);
+  const prevMonths=months.filter(m=>m!==curMonth);
+  const paidThisMonth=allPayments.filter(p=>p.month===curMonth&&p.status==='paid').reduce((a,p)=>a+(p.amount||0),0);
+  const pendingCount=allStudents.filter(s=>{const p=allPayments.find(x=>x.student_id===s.id&&x.month===curMonth&&x.status==='paid');return!p;}).length;
+  const overdueCount=allStudents.filter(s=>{const p=allPayments.find(x=>x.student_id===s.id&&x.month===prevMonths[prevMonths.length-1]&&x.status==='paid');return!p;}).length;
+  const totalFees=allStudents.reduce((a,s=>{const prog=allPrograms.find(p=>p.id===s.program_id);return a+(s.monthly_fee||prog?.monthly_fee||0);},0);
+  document.getElementById('pay-stat-col').textContent='$'+paidThisMonth.toFixed(2);
+  document.getElementById('pay-stat-pend').textContent=pendingCount;
+  document.getElementById('pay-stat-over').textContent=overdueCount;
+  document.getElementById('pay-stat-total').textContent=totalFees?'$'+Number(totalFees).toFixed(2):'—';
+  const badge=document.getElementById('badge-pay');
+  if(badge){badge.style.display=pendingCount>0?'inline':'none';badge.textContent=pendingCount;}
+}
+
+function openPayModal(studentId,month,defaultFee){
+  const s=allStudents.find(x=>x.id===studentId);
+  if(!s) return;
+  document.getElementById('pay-m-student-id').value=studentId;
+  document.getElementById('pay-m-month').value=month;
+  document.getElementById('pay-m-student-name').value=s.full_name;
+  document.getElementById('pay-m-month-disp').value=month;
+  document.getElementById('pay-m-amount').value=defaultFee||'';
+  document.getElementById('pay-m-method').value='efectivo';
+  document.getElementById('pay-m-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('pay-m-note').value='';
+  openModal('modal-payment');
+}
+
+async function savePayment(){
+  const studentId=document.getElementById('pay-m-student-id').value;
+  const month=document.getElementById('pay-m-month-disp').value;
+  const amount=parseFloat(document.getElementById('pay-m-amount').value);
+  const method=document.getElementById('pay-m-method').value;
+  const date=document.getElementById('pay-m-date').value;
+  const note=document.getElementById('pay-m-note').value;
+  if(!studentId||!month||!amount){toast('Completa los campos requeridos','error');return;}
+  const adminName=localStorage.getItem('adminName')||'Admin';
+  const data={student_id:studentId,month,amount,status:'paid',method,note:note||null,
+    paid_at:date?db.app.firebase_.firestore.Timestamp.fromDate(new Date(date)):TS(),
+    recorded_by:adminName,created_at:TS()};
+  // Check if payment already exists for this student+month
+  const existing=allPayments.find(p=>p.student_id===studentId&&p.month===month);
+  try{
+    if(existing) await db.collection('payments').doc(existing.id).update({...data,updated_at:TS()});
+    else await db.collection('payments').add(data);
+    toast('Pago registrado correctamente');
+    closeModal('modal-payment');
+    loadPayments();
+  }catch(e){
+    // Fallback timestamp
+    try{data.paid_at=TS();await db.collection('payments').add(data);toast('Pago registrado');closeModal('modal-payment');loadPayments();}
+    catch(e2){toast('Error: '+e2.message,'error');}
+  }
+}
+
+async function printPaymentReport(){
+  const months=[getMonthKey(-2),getMonthKey(-1),getMonthKey(0)];
+  const curMonth=getMonthKey(0);
+  const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
+  let html=`<div class="print-header">
+    <div class="print-title">REPORTE DE PAGOS</div>
+    <div class="print-sub">RoboWorks Ambato &nbsp;|&nbsp; Generado: ${today}</div>
+  </div>
+  <table class="print-table"><thead><tr><th>Estudiante</th><th>Nivel</th><th>Programa</th>
+    ${months.map(m=>`<th class="center">${fmtMonth(m)}</th>`).join('')}</tr></thead><tbody>`;
+  allStudents.forEach(s=>{
+    const prog=allPrograms.find(p=>p.id===s.program_id);
+    html+=`<tr><td>${s.full_name}</td><td>${s.level||'—'}</td><td>${prog?.name||'—'}</td>`;
+    months.forEach(m=>{const p=allPayments.find(x=>x.student_id===s.id&&x.month===m&&x.status==='paid');
+      html+=p?`<td class="center" style="color:#065f46;font-weight:700">✓ $${Number(p.amount||0).toFixed(2)}</td>`:
+               `<td class="center" style="color:#991b1b">Pendiente</td>`;
+    });
+    html+='</tr>';
+  });
+  html+=`</tbody></table><div class="print-footer"><span>Estado de pagos — generado automáticamente</span>
+  <span>Firma: _______________________</span></div>`;
+  document.getElementById('print-area').innerHTML=html;
+  window.print();
+}
+
+async function printPaymentReceipt(){
+  const studentId=document.getElementById('doc-pay-stu').value;
+  const month=document.getElementById('doc-pay-month').value;
+  if(!studentId||!month){toast('Selecciona estudiante y mes','error');return;}
+  const s=allStudents.find(x=>x.id===studentId);
+  const pay=allPayments.find(p=>p.student_id===studentId&&p.month===month);
+  const prog=allPrograms.find(p=>p.id===s?.program_id);
+  const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
+  const paidDate=pay?.paid_at?(pay.paid_at.toDate?pay.paid_at.toDate():new Date(pay.paid_at)).toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'}):today;
+  const amount=pay?.amount||(s?.monthly_fee||prog?.monthly_fee||0);
+  const html=`<div class="receipt-box">
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:14pt;font-weight:700">RoboWorks Ambato</div>
+      <div style="font-size:9pt;color:#666">Centro de Robótica Educativa · Ambato, Ecuador</div>
+      <div style="font-size:11pt;font-weight:700;margin-top:8px;border:2px solid #000;padding:4px">COMPROBANTE DE PAGO</div>
+    </div>
+    <div class="receipt-row"><span>Fecha:</span><span>${paidDate}</span></div>
+    <div class="receipt-row"><span>Estudiante:</span><span>${s?.full_name||'—'}</span></div>
+    <div class="receipt-row"><span>Programa:</span><span>${prog?.name||'—'}</span></div>
+    <div class="receipt-row"><span>Nivel:</span><span>${s?.level||'—'}</span></div>
+    <div class="receipt-row"><span>Período:</span><span>${fmtMonth(month)}</span></div>
+    <div class="receipt-row"><span>Método:</span><span style="text-transform:capitalize">${pay?.method||'Efectivo'}</span></div>
+    ${pay?.note?`<div class="receipt-row"><span>Nota:</span><span>${pay.note}</span></div>`:''}
+    <div class="receipt-row receipt-total"><span>TOTAL:</span><span>$${Number(amount).toFixed(2)}</span></div>
+    <div style="margin-top:20px;font-size:9pt;color:#555;text-align:center">
+      Gracias por confiar en RoboWorks.<br>
+      info@roboworks.com · +593 99 334 0103<br>
+      _________________________<br>Firma y sello
+    </div>
+  </div>`;
+  document.getElementById('print-area').innerHTML=html;
+  window.print();
+}
+
+async function printStudentReport(){
+  const studentId=document.getElementById('doc-rep-stu').value;
+  if(!studentId){toast('Selecciona un estudiante','error');return;}
+  const s=allStudents.find(x=>x.id===studentId);
+  const prog=allPrograms.find(p=>p.id===s?.program_id);
+  const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
+  // Count attendance
+  const attSnap=await db.collection('attendance').where('student_id','==',studentId).get().catch(()=>({docs:[]}));
+  const attRecs=attSnap.docs.map(d=>d.data());
+  const pCount=attRecs.filter(r=>r.status==='P').length;
+  const aCount=attRecs.filter(r=>r.status==='A').length;
+  const tCount=attRecs.filter(r=>r.status==='T').length;
+  const jCount=attRecs.filter(r=>r.status==='J').length;
+  const total=attRecs.length;
+  const pct=total>0?Math.round(pCount/total*100):0;
+  // Payment status last 3 months
+  const months=[getMonthKey(-2),getMonthKey(-1),getMonthKey(0)];
+  const payRows=months.map(m=>{
+    const p=allPayments.find(x=>x.student_id===studentId&&x.month===m);
+    return`<div class="receipt-row"><span>${fmtMonth(m)}:</span><span style="color:${p?.status==='paid'?'#065f46':'#991b1b'};font-weight:700">${p?.status==='paid'?'✓ Pagado ($'+Number(p.amount||0).toFixed(2)+')':'Pendiente'}</span></div>`;
+  }).join('');
+  const html=`<div class="receipt-box" style="max-width:480px">
+    <div style="text-align:center;margin-bottom:12px">
+      <div style="font-size:13pt;font-weight:700">RoboWorks Ambato</div>
+      <div style="font-size:11pt;font-weight:700;border:2px solid #000;padding:4px;margin-top:6px">REPORTE DEL ESTUDIANTE</div>
+      <div style="font-size:9pt;color:#666;margin-top:4px">Generado: ${today}</div>
+    </div>
+    <div class="receipt-row" style="font-size:12pt"><span><strong>Estudiante:</strong></span><span>${s?.full_name||'—'}</span></div>
+    <div class="receipt-row"><span>Programa:</span><span>${prog?.name||'—'}</span></div>
+    <div class="receipt-row"><span>Nivel actual:</span><span><strong>${s?.level||'—'}</strong></span></div>
+    <div class="receipt-row"><span>Teléfono representante:</span><span>${s?.parent_phone||'—'}</span></div>
+    <hr style="margin:12px 0;border-color:#eee">
+    <div style="font-weight:700;margin-bottom:8px">ASISTENCIA</div>
+    <div class="receipt-row"><span>Clases registradas:</span><span>${total}</span></div>
+    <div class="receipt-row"><span>Presentes:</span><span style="color:#065f46;font-weight:700">${pCount} (${pct}%)</span></div>
+    <div class="receipt-row"><span>Ausencias:</span><span style="color:#991b1b">${aCount}</span></div>
+    <div class="receipt-row"><span>Tardanzas:</span><span style="color:#92400e">${tCount}</span></div>
+    <div class="receipt-row"><span>Justificadas:</span><span style="color:#1e40af">${jCount}</span></div>
+    <hr style="margin:12px 0;border-color:#eee">
+    <div style="font-weight:700;margin-bottom:8px">ESTADO DE PAGOS</div>
+    ${payRows}
+    <hr style="margin:12px 0;border-color:#eee">
+    <div style="font-size:9pt;color:#555;text-align:center;margin-top:12px">
+      RoboWorks Ambato · info@roboworks.com · +593 99 334 0103
+    </div>
+  </div>`;
+  document.getElementById('print-area').innerHTML=html;
+  window.print();
+}
+
+function printDirectory(){
+  const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
+  let html=`<div class="print-header">
+    <div class="print-title">DIRECTORIO DE ESTUDIANTES</div>
+    <div class="print-sub">RoboWorks Ambato &nbsp;|&nbsp; ${today} &nbsp;|&nbsp; Total: ${allStudents.length} estudiantes</div>
+  </div>
+  <table class="print-table"><thead><tr><th>N°</th><th>Nombre completo</th><th>Nivel</th><th>Programa</th><th>Teléfono representante</th><th>Usuario plataforma</th></tr></thead><tbody>`;
+  allStudents.forEach((s,i)=>{
+    const prog=allPrograms.find(p=>p.id===s.program_id);
+    html+=`<tr><td class="center">${i+1}</td><td>${s.full_name}</td><td class="center">${s.level||'—'}</td><td>${prog?.name||'—'}</td><td>${s.parent_phone||'—'}</td><td style="font-family:monospace">${s.username||'—'}</td></tr>`;
+  });
+  html+=`</tbody></table><div class="print-footer"><span>Documento interno — RoboWorks</span><span>Firma: _______________________</span></div>`;
+  document.getElementById('print-area').innerHTML=html;
+  window.print();
+}
+
+// ═════════════════════════════════════════════════════════════
+// EQUIPO ADMIN
+// ═════════════════════════════════════════════════════════════
+let allAdmins=[];
+
+async function loadAdmins(){
+  document.getElementById('admins-tbody').innerHTML='<tr><td colspan="6"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr>';
+  const snap=await db.collection('admins').get().catch(()=>({docs:[]}));
+  allAdmins=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderAdmins();
+}
+
+function renderAdmins(){
+  const tbody=document.getElementById('admins-tbody');
+  // Include hardcoded admins as reference
+  const hardcoded=[
+    {id:'_jeff',name:'Jeff Garces',username:'JeffGarces',role:'superadmin',active:true,createdBy:'Sistema'},
+    {id:'_estelita',name:'Esthelita Torres',username:'EsthelitaTorres',role:'superadmin',active:true,createdBy:'Sistema'},
+  ];
+  const all=[...hardcoded,...allAdmins];
+  tbody.innerHTML=all.map(a=>`<tr>
+    <td style="font-weight:600">${a.name}</td>
+    <td><code style="background:var(--bg);padding:.2rem .5rem;border-radius:4px;font-size:.78rem">${a.username}</code></td>
+    <td>${a.role==='superadmin'?'<span class="role-super"><i class="fa-solid fa-crown"></i> Super Admin</span>':'<span class="role-admin"><i class="fa-solid fa-user-shield"></i> Admin</span>'}</td>
+    <td><span class="active-dot ${a.active?'dot-on':'dot-off'}"></span>${a.active?'Activo':'Inactivo'}</td>
+    <td style="font-size:.78rem;color:var(--text-light)">${a.createdBy||a.created_by||'—'}</td>
+    <td>${a.id.startsWith('_')?'<span style="font-size:.72rem;color:var(--text-light)">Fijo</span>':`<div class="td-actions">
+      <button class="btn btn-ghost btn-sm btn-icon" onclick="toggleAdmin('${a.id}',${!a.active})" title="${a.active?'Desactivar':'Activar'}"><i class="fa-solid fa-${a.active?'ban':'check'}"></i></button>
+      <button class="btn btn-danger btn-sm btn-icon" onclick="deleteAdmin('${a.id}')" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+    </div>`}</td>
+  </tr>`).join('');
+}
+
+async function saveAdmin(){
+  const name=document.getElementById('adm-name').value.trim();
+  const username=document.getElementById('adm-user').value.trim();
+  const pass=document.getElementById('adm-pass').value;
+  const role=document.getElementById('adm-role').value;
+  if(!name||!username||!pass){toast('Completa todos los campos','error');return;}
+  if(pass.length<6){toast('La contraseña debe tener al menos 6 caracteres','error');return;}
+  const adminName=localStorage.getItem('adminName')||'Admin';
+  try{
+    await db.collection('admins').add({name,username,password:pass,role,active:true,created_by:adminName,created_at:TS()});
+    toast('Administrador añadido correctamente');
+    closeModal('modal-admin');
+    document.getElementById('adm-name').value='';
+    document.getElementById('adm-user').value='';
+    document.getElementById('adm-pass').value='';
+    loadAdmins();
+  }catch(e){toast('Error: '+e.message,'error');}
+}
+
+async function toggleAdmin(id,newActive){
+  await db.collection('admins').doc(id).update({active:newActive});
+  toast(newActive?'Administrador activado':'Administrador desactivado');
+  loadAdmins();
+}
+
+async function deleteAdmin(id){
+  if(!confirm('¿Eliminar este administrador? Esta acción no se puede deshacer.')) return;
+  await db.collection('admins').doc(id).delete();
+  toast('Administrador eliminado');
+  loadAdmins();
+}
+
 
 function logout(){localStorage.removeItem('isAdmin');window.location.href='../login.html';}
 </script>
