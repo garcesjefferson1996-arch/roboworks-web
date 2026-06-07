@@ -216,6 +216,7 @@ body{display:flex;min-height:100vh;background:var(--gray-light)}
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 <script>
 const firebaseConfig={apiKey:"AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",authDomain:"roboworks-app.firebaseapp.com",projectId:"roboworks-app",storageBucket:"roboworks-app.firebasestorage.app",messagingSenderId:"824986583831",appId:"1:824986583831:web:7477911bd5cb95a18a6d52"};
@@ -255,6 +256,8 @@ form.addEventListener('submit',async e=>{
   if(!username||!password){showAlert('Ingresa usuario y contraseña');return;}
   setLoading(true);
   alertEl.style.display='none';
+  // Autenticación anónima para habilitar Firestore
+  try{await firebase.auth().signInAnonymously();}catch(_){}
 
   // Admins fijos (superadmin)
   const fixedAdmins=[

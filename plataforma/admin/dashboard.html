@@ -276,6 +276,7 @@ textarea.form-control{resize:vertical;min-height:80px}
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 <script>
 firebase.initializeApp({apiKey:"AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",authDomain:"roboworks-app.firebaseapp.com",projectId:"roboworks-app",storageBucket:"roboworks-app.firebasestorage.app",messagingSenderId:"824986583831",appId:"1:824986583831:web:7477911bd5cb95a18a6d52"});
@@ -1138,7 +1139,15 @@ async function loadOverview(){
       </div>`).join('');
     }
     fillProgramSelects();
-  }catch(e){console.error(e);}
+  }catch(e){
+    console.error('Error cargando Firestore:',e);
+    const errHtml=`<div class="empty"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red)"></i><p style="color:var(--red);font-weight:600">Error al cargar datos</p><p style="font-size:.75rem;margin-top:.25rem">${e.code||e.message||'Sin conexión'}</p><button class="btn btn-primary" style="margin-top:.75rem" onclick="loadOverview()"><i class="fa-solid fa-rotate-right"></i>Reintentar</button></div>`;
+    const pg=document.getElementById('overview-programs');
+    const os=document.getElementById('overview-students');
+    if(pg)pg.innerHTML=errHtml;
+    if(os)os.innerHTML=errHtml;
+    ['st-students','st-classes','st-tasks','st-materials'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='—';});
+  }
 }
 
 function fillProgramSelects(){
@@ -1598,6 +1607,10 @@ document.addEventListener('DOMContentLoaded',async()=>{
   const d=new Date();d.setDate(d.getDate()+7);
   const di=document.getElementById('t-due');
   if(di) di.value=d.toISOString().split('T')[0];
+  // Autenticación anónima para habilitar acceso a Firestore (solo en http/https)
+  if(location.protocol!=='file:'){
+    try{await firebase.auth().signInAnonymously();}catch(authErr){console.warn('Auth anónima:',authErr.code);}
+  }
   await loadOverview();
 });
 
@@ -1627,7 +1640,7 @@ function fillDocSelects(){
   // Month select for payment receipt
   const ms=document.getElementById('doc-pay-month');if(ms){
     ms.innerHTML='';
-    for(let i=0;i>=−5;i--){const k=getMonthKey(i);const o=document.createElement('option');o.value=k;o.textContent=fmtMonth(k);ms.appendChild(o);}
+    for(let i=0;i>=-5;i--){const k=getMonthKey(i);const o=document.createElement('option');o.value=k;o.textContent=fmtMonth(k);ms.appendChild(o);}
   }
 }
 
