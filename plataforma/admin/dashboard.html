@@ -306,7 +306,7 @@ const db=firebase.firestore();
           <div class="card-title"><i class="fa-solid fa-users"></i>Estudiantes</div>
           <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
             <input type="text" class="form-control" id="student-search" placeholder="Buscar estudiante..." style="width:200px;padding:.4rem .75rem;font-size:.8rem" oninput="filterStudents()">
-            <button class="btn btn-primary" onclick="openModal('modal-student')"><i class="fa-solid fa-plus"></i>Nuevo estudiante</button>
+            <button class="btn btn-primary" onclick="newStudent()"><i class="fa-solid fa-plus"></i>Nuevo estudiante</button>
           </div>
         </div>
         <div class="table-wrap">
@@ -707,8 +707,18 @@ function toast(msg,type='success'){
 
 // ─── MODALS ──────────────────────────────────────────────────
 function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  // Resetear modal estudiante al cerrar
+  if(id==='modal-student'){
+    document.getElementById('modal-student-title').textContent='Nuevo Estudiante';
+    document.getElementById('edit-student-id').value='';
+    document.getElementById('form-student').reset();
+    document.getElementById('form-student').style.display='block';
+    document.getElementById('creds-result').style.display='none';
+  }
+}
+document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m){const id=m.id;m.classList.remove('open');if(id==='modal-student'){document.getElementById('modal-student-title').textContent='Nuevo Estudiante';document.getElementById('edit-student-id').value='';document.getElementById('form-student').reset();document.getElementById('form-student').style.display='block';document.getElementById('creds-result').style.display='none';}}});});
 
 // ─── TAB NAVIGATION ──────────────────────────────────────────
 const TABS={resumen:'Resumen',estudiantes:'Estudiantes',programas:'Programas',clases:'Clases',tareas:'Tareas',recursos:'Recursos y Materiales',niveles:'Progreso de Niveles'};
@@ -866,10 +876,25 @@ async function saveStudent(e){
   }catch(err){console.error(err);toast('Error al guardar: '+err.message,'error');}
 }
 
+// ─── NUEVO ESTUDIANTE (reset limpio) ─────────────────────────
+function newStudent(){
+  document.getElementById('modal-student-title').textContent='Nuevo Estudiante';
+  document.getElementById('edit-student-id').value='';
+  document.getElementById('form-student').reset();
+  document.getElementById('form-student').style.display='block';
+  document.getElementById('creds-result').style.display='none';
+  fillProgramSelects();
+  // Pre-fill default due date for context
+  const d=new Date();d.setDate(d.getDate()+7);
+  openModal('modal-student');
+}
+
 function editStudent(id){
   const s=allStudents.find(x=>x.id===id);
   if(!s) return;
   document.getElementById('modal-student-title').textContent='Editar Estudiante';
+  document.getElementById('form-student').style.display='block';
+  document.getElementById('creds-result').style.display='none';
   document.getElementById('edit-student-id').value=id;
   document.getElementById('s-name').value=s.full_name||'';
   document.getElementById('s-phone').value=s.parent_phone||'';
@@ -885,18 +910,19 @@ function showCredentials(id){
   const s=allStudents.find(x=>x.id===id);
   if(!s) return;
   document.getElementById('modal-student-title').textContent='Credenciales de acceso';
-  document.getElementById('edit-student-id').value='';
-  document.getElementById('form-student').style.display='none';
+  document.getElementById('edit-student-id').value=''; // modo lectura, no edición
+  document.getElementById('form-student').style.display='none'; // ocultar form, mostrar solo creds
   document.getElementById('creds-result').style.display='block';
   document.getElementById('creds-result').innerHTML=`<div class="creds-box">
     <h4>Credenciales del estudiante</h4>
     <div class="cred-row"><span class="cred-label">Nombre</span><span class="cred-val">${s.full_name}</span></div>
-    <div class="cred-row"><span class="cred-label">Usuario</span><span class="cred-val">${s.username||'—'}</span><button class="cred-copy" onclick="navigator.clipboard.writeText('${s.username||''}');this.textContent='OK'">Copiar</button></div>
-    <div class="cred-row"><span class="cred-label">Contraseña</span><span class="cred-val">${s.password||'—'}</span><button class="cred-copy" onclick="navigator.clipboard.writeText('${s.password||''}');this.textContent='OK'">Copiar</button></div>
+    <div class="cred-row"><span class="cred-label">Usuario</span><span class="cred-val">${s.username||'—'}</span><button class="cred-copy" onclick="navigator.clipboard.writeText('${s.username||''}');this.textContent='✓ OK'">Copiar</button></div>
+    <div class="cred-row"><span class="cred-label">Contraseña</span><span class="cred-val">${s.password||'—'}</span><button class="cred-copy" onclick="navigator.clipboard.writeText('${s.password||''}');this.textContent='✓ OK'">Copiar</button></div>
     <div class="cred-row"><span class="cred-label">Nivel</span><span class="cred-val">${s.level||'—'}</span></div>
-  </div>`;
+  </div>
+  <p style="margin-top:.75rem;font-size:.75rem;color:var(--text-light);text-align:center">Cierra este diálogo cuando hayas copiado las credenciales</p>`;
   openModal('modal-student');
-  setTimeout(()=>document.getElementById('form-student').style.display='block',100);
+  // El form se restaura automáticamente cuando se cierra el modal (en closeModal)
 }
 
 async function deleteStudent(id){
