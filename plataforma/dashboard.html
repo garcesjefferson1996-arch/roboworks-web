@@ -707,6 +707,7 @@ const LEVELS=[
 let student=null;
 let allTasks=[];
 let allMaterials=[];
+let portCache={}; // portfolio data keyed by 'lvl_cls'
 let portCurrentLevel=1;
 let portCurrentUnit=0;
 let tasksFilter='all';
@@ -717,7 +718,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
   student=JSON.parse(localStorage.getItem('currentStudent'));
   if(!student){window.location.href='login.html';return;}
   initUI();
-  await Promise.all([loadClasses(),loadTasks(),loadMaterials()]);
+  await Promise.all([loadPortfolioFromFirebase(),loadClasses(),loadTasks(),loadMaterials()]);
   renderPortfolioLevelTabs();
   renderPortfolioUnit();
 });
@@ -975,14 +976,55 @@ function filterMats(f,btn){
 }
 
 // ─── PORTFOLIO ───────────────────────────────────────────────
-function portKey(lvl,cls){return `rw_port_${student.id}_${lvl}_${cls}`;}
-function isClassDone(lvl,cls){const d=localStorage.getItem(portKey(lvl,cls));return d&&JSON.parse(d)?.reto?.trim().length>3;}
-function getPortEntry(lvl,cls){const d=localStorage.getItem(portKey(lvl,cls));return d?JSON.parse(d):null;}
+// ─── PORTFOLIO — Firebase como fuente principal, localStorage como caché offline ───
+async function loadPortfolioFromFirebase(){
+  try{
+    const snap=await fdb.collection('portfolio').where('student_id','==',student.id).get();
+    snap.forEach(doc=>{
+      const d=doc.data();
+      if(d.level_id&&d.class_num) portCache[d.level_id+'_'+d.class_num]=d;
+    });
+  }catch(e){console.warn('Firebase portfolio unavailable, using localStorage');}
+  // Migrate localStorage entries → Firebase (primera vez o datos previos)
+  for(let lvl=1;lvl<=6;lvl++){
+    for(let cls=1;cls<=26;cls++){
+      const lsKey='rw_port_'+student.id+'_'+lvl+'_'+cls;
+      const raw=localStorage.getItem(lsKey);
+      if(!raw) continue;
+      let parsed; try{parsed=JSON.parse(raw);}catch(e){continue;}
+      const cKey=lvl+'_'+cls;
+      if(!portCache[cKey]&&parsed.reto&&parsed.reto.trim().length>3){
+        portCache[cKey]=parsed;
+        const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
+        fdb.collection('portfolio').doc(fbKey).set({
+          student_id:student.id,level_id:lvl,
+          level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
+          class_num:cls,...parsed,
+          migrated:true,savedAt:firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(()=>{});
+      }
+    }
+  }
+}
+
+function isClassDone(lvl,cls){
+  const e=portCache[lvl+'_'+cls];
+  return !!(e&&e.reto&&e.reto.trim().length>3);
+}
+function getPortEntry(lvl,cls){return portCache[lvl+'_'+cls]||null;}
 function savePortEntry(lvl,cls,obj){
-  localStorage.setItem(portKey(lvl,cls),JSON.stringify({...obj,savedAt:new Date().toISOString()}));
-  // Also save to Firebase
-  const key=`port_${student.id}_${lvl}_${cls}`;
-  fdb.collection('portfolio').doc(key).set({student_id:student.id,level:LEVELS[lvl-1]?.name,class_num:cls,...obj,savedAt:firebase.firestore.FieldValue.serverTimestamp()}).catch(()=>{});
+  const cKey=lvl+'_'+cls;
+  portCache[cKey]={...obj,savedAt:new Date().toISOString()};
+  // localStorage como caché offline
+  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(portCache[cKey]));
+  // Firebase como fuente principal
+  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
+  fdb.collection('portfolio').doc(fbKey).set({
+    student_id:student.id,level_id:lvl,
+    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
+    class_num:cls,...obj,
+    savedAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(()=>{});
 }
 
 function renderPortfolioLevelTabs(){
