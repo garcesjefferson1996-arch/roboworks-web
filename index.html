@@ -99,11 +99,6 @@
   <meta name="msapplication-TileColor" content="#2563EB">
   <meta name="msapplication-TileImage" content="assets/icons/mstile-150x150.png">
 
-  <!-- Three.js (necesario para el robot 3D) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
-
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -137,6 +132,9 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Estilos personalizados RoboWorks -->
+  <link rel="stylesheet" href="css/styles.css" />
   
   <style>
     /* ======================================================
@@ -461,7 +459,18 @@
     </div>
 
     <div class="hero-visual">
-      <div id="robot-hero" class="hero-robot" aria-label="Robot educativo 3D interactivo"></div>
+      <div id="robot-hero">
+        <iframe
+          title="Cyberpunk Robot – RoboWorks"
+          frameborder="0"
+          allowfullscreen
+          mozallowfullscreen="true"
+          webkitallowfullscreen="true"
+          allow="autoplay; fullscreen; xr-spatial-tracking"
+          src="https://sketchfab.com/models/79369b97f0d74fd1a5c4fe824040cbce/embed?autostart=1&ui_infos=0&ui_watermark=0&ui_stop=0&ui_controls=1&dnt=1&autospin=0.15&ui_theme=dark"
+          loading="lazy"
+        ></iframe>
+      </div>
       <div class="hero-note">
         <i class="fas fa-hand-sparkles"></i>
         Aprender haciendo: construir, probar, fallar, mejorar.
@@ -482,63 +491,63 @@
     </div>
 
     <div class="program-grid">
-      <article class="program-card rw-card">
+      <article class="program-card rw-card pc-green">
         <img src="images/optimized/fot1.jpg" alt="Niños aprendiendo robótica inicial en RoboWorks Ambato">
         <div>
           <span class="program-age">5 a 7 años</span>
           <h3>RoboStart</h3>
           <p>Primer contacto con la robótica desde el juego, la curiosidad y la imaginación.</p>
-          <a href="robo-start.html">Conocer RoboStart</a>
+          <a href="robo-start.html"><i class="fas fa-arrow-right"></i> Conocer RoboStart</a>
         </div>
       </article>
 
-      <article class="program-card rw-card">
+      <article class="program-card rw-card pc-amber">
         <img src="images/optimized/fot2.jpg" alt="Robótica inclusiva y desarrollo social para niños">
         <div>
           <span class="program-age">Acompañamiento inclusivo</span>
           <h3>RoboSense</h3>
           <p>Un espacio seguro para fortalecer atención, comunicación, autonomía y confianza.</p>
-          <a href="robo-sense.html">Consultar cupos</a>
+          <a href="robo-sense.html"><i class="fas fa-arrow-right"></i> Consultar cupos</a>
         </div>
       </article>
 
-      <article class="program-card rw-card">
+      <article class="program-card rw-card pc-cyan">
         <img src="images/optimized/fot3.jpg" alt="Construcción con LEGO educativo en RoboWorks">
         <div>
           <span class="program-age">6 a 10 años</span>
           <h3>RoboCare</h3>
-          <p>Construcción guiada con LEGO para aprender con las maños y crecer con calma.</p>
-          <a href="robo-care.html">Ver detalles</a>
+          <p>Construcción guiada con LEGO para aprender con las manos y crecer con calma.</p>
+          <a href="robo-care.html"><i class="fas fa-arrow-right"></i> Ver detalles</a>
         </div>
       </article>
 
-      <article class="program-card rw-card">
+      <article class="program-card rw-card pc-purple">
         <img src="images/optimized/fot4.jpg" alt="Inglés práctico con robótica educativa">
         <div>
           <span class="program-age">7 a 11 años</span>
           <h3>RoboEnglish</h3>
           <p>Inglés práctico mientras construyen, explican, prueban y programan robots.</p>
-          <a href="robo-english.html">Conocer programa</a>
+          <a href="robo-english.html"><i class="fas fa-arrow-right"></i> Conocer programa</a>
         </div>
       </article>
 
-      <article class="program-card rw-card">
+      <article class="program-card rw-card pc-orange">
         <img src="images/optimized/fot5.jpg" alt="Jóvenes en robótica de competencia en Ecuador">
         <div>
           <span class="program-age">10 a 17 años</span>
           <h3>RoboPro</h3>
           <p>Competencia, estrategia y alto nivel: aprender a exigirse sin perder el propósito.</p>
-          <a href="robo-pro.html">Explorar RoboPro</a>
+          <a href="robo-pro.html"><i class="fas fa-arrow-right"></i> Explorar RoboPro</a>
         </div>
       </article>
 
-      <article class="program-card rw-card">
+      <article class="program-card rw-card pc-dark">
         <img src="images/optimized/fot6.jpg" alt="Programación virtual para niños y jóvenes en Ecuador">
         <div>
           <span class="program-age">10 a 18 años | Virtual</span>
           <h3>CodeWorks</h3>
           <p>Videojuegos, lógica computacional y Python para crear desde cualquier ciudad.</p>
-          <a href="code-works.html">Inscripción online</a>
+          <a href="code-works.html"><i class="fas fa-arrow-right"></i> Inscripción online</a>
         </div>
       </article>
     </div>
@@ -641,7 +650,6 @@
   </div>
 </footer>
 <!-- Scripts -->
-<script src="js/robot-hero.js"></script>
 <script src="js/main.js"></script>
 
 <!-- SCRIPT CORREGIDO PARA PREVENIR PROBLEMAS -->
