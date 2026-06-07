@@ -1031,6 +1031,7 @@ const db=firebase.firestore();
 
 
 <script>
+window.onerror=function(msg,src,line){console.error('RW Admin Error:',msg,'@',src,'L'+line);return false;};
 // ─── HELPERS ─────────────────────────────────────────────────
 const TS=firebase.firestore.FieldValue.serverTimestamp;
 const DAYS={monday:'Lunes',tuesday:'Martes',wednesday:'Miércoles',thursday:'Jueves',friday:'Viernes',saturday:'Sábado'};
@@ -1141,13 +1142,6 @@ async function loadOverview(){
 }
 
 function fillProgramSelects(){
-  // Also trigger class check re-render if modal is open
-  const modal=document.getElementById('modal-student');
-  if(modal&&modal.classList.contains('open')){
-    const selId=document.getElementById('edit-student-id').value;
-    const s=selId?allStudents.find(x=>x.id===selId):null;
-    renderClassChecks(s?s.class_ids||[]:[]);
-  }
   ['s-program','c-program'].forEach(id=>{
     const sel=document.getElementById(id);
     if(!sel) return;
@@ -1733,7 +1727,7 @@ function setAtt(studentId,status,btn){
   btn.className=`abtn sel-${status}`;
 }
 
-document.getElementById('att-m-class').addEventListener('change',()=>{Object.keys(attSelections).forEach(k=>delete attSelections[k]);renderAttStudentList();});
+(function(){const _ac=document.getElementById('att-m-class');if(_ac)_ac.addEventListener('change',()=>{Object.keys(attSelections).forEach(k=>delete attSelections[k]);renderAttStudentList();});})();
 
 async function saveAttendance(){
   const classId=document.getElementById('att-m-class').value;
