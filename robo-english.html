@@ -3,719 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RoboEnglish - Inglés práctico con robótica | RoboWorks</title>
-  <meta name="description" content="RoboEnglish: Aprende inglés de forma natural mientras construyes y programas robots. Inglés práctico para niños de 7 a 11 años." />
-
-  <!-- FAVICONS PARA TODOS LOS DISPOSITIVOS -->
-  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <title>RoboEnglish — Inglés y Robótica para niños 7 a 11 años | RoboWorks Ambato</title>
+  <meta name="description" content="RoboEnglish: aprende inglés real mientras construyes y programas robots. Para niños de 7 a 11 años en Ambato, Ecuador." />
+  <meta name="geo.region" content="EC-T" />
+  <meta name="geo.placename" content="Ambato" />
   <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
-  <link rel="shortcut icon" type="image/x-icon" href="assets/icons/favicon.ico">
-  
-  <!-- Apple Touch Icon (iOS y algunos Android) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  
-  <!-- Iconos para diferentes dispositivos -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
-  
-  <!-- Manifest para PWA (opcional pero recomendado) -->
-  <link rel="manifest" href="assets/icons/site.webmanifest">
-  
-  <!-- Color theme para navegadores móviles -->
-  <meta name="theme-color" content="#8b5cf6">
-  <meta name="msapplication-TileColor" content="#8b5cf6">
-  <meta name="msapplication-TileImage" content="assets/icons/mstile-150x150.png">
-
-  <!-- Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Configuración Tailwind -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            nunito: ['Nunito', 'sans-serif'],
-            poppins: ['Poppins', 'sans-serif']
-          },
-          colors: {
-            'robo-blue': '#3b82f6',
-            'robo-purple': '#8b5cf6',
-            'robo-yellow': '#fbbf24',
-            'robo-green': '#10b981',
-            'robo-orange': '#fb923c'
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Google Fonts -->
+  <meta name="theme-color" content="#7c3aed">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- CSS personalizado -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/programa.css" />
+  <style>
+    :root { --prog-color:#7c3aed; --prog-dark:#6d28d9; --prog-light:#f5f3ff; }
+  </style>
 </head>
+<body>
 
-<body class="bg-gray-50 font-poppins text-gray-700">
-
-<!-- HEADER -->
-<header class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center md:flex-row flex-col md:space-y-0 space-y-4">
-    <!-- Logo -->
-    <div class="flex items-center gap-3 mobile-logo-center w-full md:w-auto justify-center md:justify-start">
-      <a href="index.html" class="flex items-center gap-3">
-        <img src="assets/icons/logo.png" alt="RoboWorks Logo" class="h-10 w-auto">
-        <span class="text-2xl font-bold text-robo-blue text-center md:text-left">
-          Robo<span class="text-robo-orange">Works</span>
-        </span>
-      </a>
-    </div>
-
-    <!-- Navegación -->
-    <nav class="flex gap-6 font-medium mobile-center w-full md:w-auto justify-center md:justify-end">
-      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300">Programas</a>
-      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300">¿Por qué RoboWorks?</a>
-      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300">Contacto</a>
+<header class="prog-header">
+  <div class="prog-header__inner">
+    <a href="index.html" class="prog-brand" aria-label="RoboWorks Inicio">
+      <img src="assets/icons/logo.png" alt="RoboWorks">
+      <span class="prog-brand-name"><span class="r">Robo</span><span class="w">Works</span></span>
+    </a>
+    <nav class="prog-header__nav" aria-label="Navegación">
+      <a href="index.html#programas">Programas</a>
+      <a href="index.html#confianza">Nosotros</a>
+      <a href="https://wa.me/593993340103" target="_blank" class="cta"><i class="fab fa-whatsapp"></i> Consultar</a>
     </nav>
   </div>
 </header>
 
-<!-- HERO DEL PROGRAMA -->
-<section class="program-hero robo-english-hero">
-  <div class="max-w-6xl mx-auto">
-    <div class="program-hero-content text-center text-white">
-      <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6 font-medium">
-        🌍 Programa RoboEnglish
-      </span>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-        RoboEnglish – Inglés práctico con robótica
-      </h1>
-      <p class="text-xl md:text-2xl mb-8 opacity-90">
-        Donde el inglés deja de ser una asignatura y se convierte en una herramienta
-      </p>
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="index.html#programas" class="back-button">
-          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
-        </a>
-        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboEnglish" 
-           target="_blank" class="whatsapp-button bg-purple-600 hover:bg-purple-700">
-          <i class="fab fa-whatsapp mr-2"></i> Conocer programa
-        </a>
-      </div>
+<section class="prog-hero">
+  <div class="prog-hero__inner">
+    <div class="prog-hero__badge"><i class="fas fa-language"></i>Programa RoboEnglish</div>
+    <h1>RoboEnglish</h1>
+    <p class="prog-hero__sub">Inglés real mientras construyen, prueban y programan robots — sin memorizar, aprendiendo haciendo</p>
+    <div class="prog-hero__actions">
+      <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboEnglish%20para%20mi%20hijo/a" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> Inscribir a mi hijo</a>
+      <a href="index.html#programas" class="btn-back"><i class="fas fa-arrow-left"></i> Ver todos los programas</a>
     </div>
+    <div class="prog-stats"><div class="prog-stat"><i class="fas fa-child"></i>7 a 11 años</div><div class="prog-stat"><i class="fas fa-language"></i>Inglés + Robótica</div><div class="prog-stat"><i class="fas fa-users"></i>Grupos de 6</div><div class="prog-stat"><i class="fas fa-comments"></i>Conversación real</div></div>
   </div>
 </section>
 
-<!-- CONTENIDO DEL PROGRAMA -->
-<section class="program-content">
-  <div class="max-w-6xl mx-auto">
-    <div class="program-detail-container">
-      
-      <!-- Imagen del programa -->
-      <div class="program-image">
-        <img src="images/programs/robo-english.jpg" alt="RoboEnglish - Inglés con robótica" 
-             onerror="this.src='images/optimized/fot4.jpg'">
-      </div>
+<main class="prog-body">
 
-      <!-- Edad -->
-      <div class="program-age">
-        <i class="fas fa-child mr-2"></i> Edad: 7 a 11 años
-      </div>
-
-      <!-- Descripción -->
-      <div class="program-description">
-        <h2 class="program-title">El inglés que se vive, no se memoriza</h2>
-        
-        <p>
-          <strong>RoboEnglish</strong> une el aprendizaje del inglés con la robótica educativa de una manera 
-          <span class="text-robo-purple font-semibold">natural, práctica y divertida</span>.
-        </p>
-
-        <p>
-          Los niños aprenden inglés de forma natural mientras construyen, programan y juegan con robots. 
-          El idioma se vive como una <span class="text-robo-purple font-semibold">herramienta práctica</span> 
-          para lograr objetivos reales: programar un robot, seguir instrucciones de construcción, 
-          presentar un proyecto o resolver un desafío tecnológico.
-        </p>
-
-        <p>
-          Aquí el inglés <span class="text-robo-purple font-semibold">se usa, no se memoriza</span>. 
-          No hay listas de verbos irregulares, sino conversaciones reales sobre robots reales. 
-          No hay exámenes de gramática, sino presentaciones de proyectos funcionando.
-        </p>
-
-        <div class="bg-purple-50 p-6 rounded-xl mt-6 border-l-4 border-robo-purple">
-          <div class="flex items-start">
-            <div class="text-2xl text-robo-purple mr-3">
-              <i class="fas fa-lightbulb"></i>
-            </div>
-            <div>
-              <p class="font-semibold text-purple-800 mb-2">Nuestra filosofía:</p>
-              <p class="text-gray-700">
-                "Si un niño puede explicar en inglés cómo hacer que su robot gire a la derecha, 
-                ya ha aprendido más inglés útil que en meses de clases tradicionales."
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lo que aprenden -->
-      <div class="program-highlights">
-        <h3>¿Qué hace único a RoboEnglish?</h3>
-        
-        <div class="highlight-item">
-          <div class="highlight-icon" style="background-color: #8b5cf6;">
-            <i class="fas fa-robot"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Inmersión contextualizada</strong> - Aprenden inglés para lograr objetivos reales con robots
-          </div>
-        </div>
-
-        <div class="highlight-item">
-          <div class="highlight-icon" style="background-color: #8b5cf6;">
-            <i class="fas fa-code"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Vocabulario técnico práctico</strong> - Palabras que usan inmediatamente en programación
-          </div>
-        </div>
-
-        <div class="highlight-item">
-          <div class="highlight-icon" style="background-color: #8b5cf6;">
-            <i class="fas fa-headphones"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Comprensión auditiva aplicada</strong> - Siguen instrucciones en inglés para programar
-          </div>
-        </div>
-
-        <div class="highlight-item">
-          <div class="highlight-icon" style="background-color: #8b5cf6;">
-            <i class="fas fa-presentation"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Habilidades de presentación</strong> - Explican sus proyectos en inglés
-          </div>
-        </div>
-
-        <div class="highlight-item">
-          <div class="highlight-icon" style="background-color: #8b5cf6;">
-            <i class="fas fa-book-reader"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Lectura con propósito</strong> - Leen manuales y tutoriales en inglés para construir
-          </div>
-        </div>
-      </div>
-
-      <!-- Metodología -->
-      <div class="program-description">
-        <h3 class="text-2xl font-bold mb-6 text-gray-800">Metodología CLIL (Content and Language Integrated Learning)</h3>
-        
-        <div class="grid md:grid-cols-2 gap-8 mt-6">
-          <div class="bg-white p-6 rounded-xl shadow-md border border-purple-100">
-            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-robo-purple text-2xl mb-4 mx-auto">
-              <i class="fas fa-comments"></i>
-            </div>
-            <h4 class="font-bold text-lg text-center mb-3">Comunicación Real</h4>
-            <p class="text-gray-600 text-center">
-              Conversaciones auténticas sobre proyectos reales. No diálogos de libro de texto.
-            </p>
-          </div>
-          
-          <div class="bg-white p-6 rounded-xl shadow-md border border-purple-100">
-            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-robo-purple text-2xl mb-4 mx-auto">
-              <i class="fas fa-tasks"></i>
-            </div>
-            <h4 class="font-bold text-lg text-center mb-3">Tareas Significativas</h4>
-            <p class="text-gray-600 text-center">
-              Cada actividad tiene un propósito claro: construir, programar, presentar.
-            </p>
-          </div>
-          
-          <div class="bg-white p-6 rounded-xl shadow-md border border-purple-100">
-            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-robo-purple text-2xl mb-4 mx-auto">
-              <i class="fas fa-user-friends"></i>
-            </div>
-            <h4 class="font-bold text-lg text-center mb-3">Colaboración</h4>
-            <p class="text-gray-600 text-center">
-              Trabajo en equipo donde el inglés es la herramienta para coordinarse.
-            </p>
-          </div>
-          
-          <div class="bg-white p-6 rounded-xl shadow-md border border-purple-100">
-            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-robo-purple text-2xl mb-4 mx-auto">
-              <i class="fas fa-award"></i>
-            </div>
-            <h4 class="font-bold text-lg text-center mb-3">Logros Tangibles</h4>
-            <p class="text-gray-600 text-center">
-              El éxito se mide en robots funcionando, no en notas de exámenes.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Niveles de inglés -->
-      <div class="program-description mt-10">
-        <h3 class="text-2xl font-bold mb-6 text-gray-800">Niveles y progresión</h3>
-        
-        <div class="overflow-x-auto">
-          <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-sm">
-            <thead class="bg-purple-50">
-              <tr>
-                <th class="py-3 px-4 text-left font-semibold text-purple-800">Nivel</th>
-                <th class="py-3 px-4 text-left font-semibold text-purple-800">Descripción</th>
-                <th class="py-3 px-4 text-left font-semibold text-purple-800">Proyecto Final</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-              <tr class="hover:bg-purple-50/50">
-                <td class="py-3 px-4">
-                  <span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
-                    Beginner
-                  </span>
-                </td>
-                <td class="py-3 px-4">Instrucciones básicas, vocabulario de partes del robot, colores, números</td>
-                <td class="py-3 px-4">Robot que sigue una línea con comandos simples</td>
-              </tr>
-              <tr class="hover:bg-purple-50/50">
-                <td class="py-3 px-4">
-                  <span class="inline-block bg-purple-200 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
-                    Intermediate
-                  </span>
-                </td>
-                <td class="py-3 px-4">Descripción de procesos, presentaciones básicas, trabajo en equipo en inglés</td>
-                <td class="py-3 px-4">Robot resuelve laberinto con programación visual</td>
-              </tr>
-              <tr class="hover:bg-purple-50/50">
-                <td class="py-3 px-4">
-                  <span class="inline-block bg-purple-300 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
-                    Advanced
-                  </span>
-                </td>
-                <td class="py-3 px-4">Presentaciones técnicas, troubleshooting, documentación de proyectos</td>
-                <td class="py-3 px-4">Robot automatizado con sensores y presentación completa en inglés</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Vocabulario que aprenden -->
-      <div class="program-highlights mt-10">
-        <h3>Vocabulario técnico que dominarán</h3>
-        
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-          <div class="bg-white p-4 rounded-lg border border-purple-100 shadow-sm">
-            <h4 class="font-bold text-purple-700 mb-2 flex items-center">
-              <i class="fas fa-microchip mr-2 text-sm"></i> Componentes
-            </h4>
-            <p class="text-sm text-gray-600">Sensor, motor, battery, wheel, cable, button, display</p>
-          </div>
-          
-          <div class="bg-white p-4 rounded-lg border border-purple-100 shadow-sm">
-            <h4 class="font-bold text-purple-700 mb-2 flex items-center">
-              <i class="fas fa-code mr-2 text-sm"></i> Programación
-            </h4>
-            <p class="text-sm text-gray-600">Loop, condition, variable, function, algorithm, debug</p>
-          </div>
-          
-          <div class="bg-white p-4 rounded-lg border border-purple-100 shadow-sm">
-            <h4 class="font-bold text-purple-700 mb-2 flex items-center">
-              <i class="fas fa-cogs mr-2 text-sm"></i> Movimiento
-            </h4>
-            <p class="text-sm text-gray-600">Forward, backward, rotate, speed, direction, stop</p>
-          </div>
-          
-          <div class="bg-white p-4 rounded-lg border border-purple-100 shadow-sm">
-            <h4 class="font-bold text-purple-700 mb-2 flex items-center">
-              <i class="fas fa-tasks mr-2 text-sm"></i> Proyectos
-            </h4>
-            <p class="text-sm text-gray-600">Design, build, test, improve, presentation, teamwork</p>
-          </div>
-          
-          <div class="bg-white p-4 rounded-lg border border-purple-100 shadow-sm">
-            <h4 class="font-bold text-purple-700 mb-2 flex items-center">
-              <i class="fas fa-comment-dots mr-2 text-sm"></i> Comunicación
-            </h4>
-            <p class="text-sm text-gray-600">Explain, describe, demonstrate, ask for help, suggest</p>
-          </div>
-          
-          <div class="bg-white p-4 rounded-lg border border-purple-100 shadow-sm">
-            <h4 class="font-bold text-purple-700 mb-2 flex items-center">
-              <i class="fas fa-globe-americas mr-2 text-sm"></i> Cultura
-            </h4>
-            <p class="text-sm text-gray-600">Innovator, technology, future, global, invention</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Testimonio -->
-      <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-8 rounded-2xl mt-10 border border-purple-200">
-        <div class="flex flex-col md:flex-row items-center">
-          <div class="md:w-1/4 mb-6 md:mb-0">
-            <div class="w-24 h-24 bg-purple-100 rounded-full flex items-center justify-center text-4xl text-robo-purple mx-auto">
-              <i class="fas fa-user-graduate"></i>
-            </div>
-          </div>
-          <div class="md:w-3/4 md:pl-8">
-            <div class="text-3xl text-purple-300 mb-4">
-              <i class="fas fa-quote-left"></i>
-            </div>
-            <p class="text-gray-700 text-lg italic mb-6">
-              "Antes mi hija odiaba el inglés. Ahora viene emocionada a contarme que programó su robot 
-              para que evite obstáculos, y me lo explica TODO en inglés sin darse cuenta. 
-              Ha ganado más confianza en 3 meses que en 2 años de academia tradicional."
-            </p>
-            <div class="flex items-center">
-              <div>
-                <p class="font-bold text-gray-800">María Fernanda</p>
-                <p class="text-gray-600 text-sm">Madre de Valentina, 9 años</p>
-              </div>
-              <div class="ml-auto">
-                <div class="flex text-yellow-400">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Proyectos internacionales -->
-      <div class="program-description mt-10">
-        <h3 class="text-2xl font-bold mb-6 text-gray-800">Proyectos colaborativos internacionales</h3>
-        
-        <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-1 rounded-2xl">
-          <div class="bg-white p-6 rounded-2xl">
-            <div class="flex flex-col md:flex-row items-center">
-              <div class="md:w-1/3 mb-6 md:mb-0 text-center">
-                <div class="text-5xl mb-4 globe-float">🌐</div>
-                <h4 class="font-bold text-xl text-gray-800">Conectamos con el mundo</h4>
-              </div>
-              <div class="md:w-2/3 md:pl-8">
-                <p class="text-gray-700 mb-4">
-                  Los estudiantes de RoboEnglish participan en <strong>proyectos virtuales colaborativos</strong> 
-                  con niños de otros países. Juntos resuelven desafíos de robótica comunicándose en inglés.
-                </p>
-                <ul class="space-y-2">
-                  <li class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                    <span>Intercambio cultural con estudiantes de EE.UU., Canadá y Reino Unido</span>
-                  </li>
-                  <li class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                    <span>Desafíos mensuales internacionales de robótica</span>
-                  </li>
-                  <li class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                    <span>Videoconferencias con inventores y educadores angloparlantes</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Detalles prácticos -->
-      <div class="program-description mt-10">
-        <h3 class="text-2xl font-bold mb-6 text-gray-800">Información práctica</h3>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-200">
-            <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-xl mb-4 mx-auto">
-              <i class="fas fa-calendar-week"></i>
-            </div>
-            <h4 class="font-bold text-lg mb-2">Frecuencia</h4>
-            <p class="text-gray-600">2 sesiones por semana (90 min c/u)</p>
-          </div>
-          
-          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-200">
-            <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-xl mb-4 mx-auto">
-              <i class="fas fa-users"></i>
-            </div>
-            <h4 class="font-bold text-lg mb-2">Grupos</h4>
-            <p class="text-gray-600">Máximo 8 estudiantes por nivel</p>
-          </div>
-          
-          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-200">
-            <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-xl mb-4 mx-auto">
-              <i class="fas fa-chalkboard-teacher"></i>
-            </div>
-            <h4 class="font-bold text-lg mb-2">Instructores</h4>
-            <p class="text-gray-600">Bilingües certificados en educación STEM</p>
-          </div>
-          
-          <div class="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-200">
-            <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-xl mb-4 mx-auto">
-              <i class="fas fa-graduation-cap"></i>
-            </div>
-            <h4 class="font-bold text-lg mb-2">Certificación</h4>
-            <p class="text-gray-600">Diploma por niveles completados</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pregunta importante -->
-      <div class="bg-purple-50 p-6 rounded-2xl mt-10 text-center">
-        <h3 class="text-2xl font-bold text-purple-800 mb-4">
-          ¿Mi hijo necesita saber inglés para empezar?
-        </h3>
-        <p class="text-gray-700 text-lg">
-          <strong>¡No!</strong> RoboEnglish está diseñado para todos los niveles. 
-          Empezamos desde cero y el inglés se aprende de forma natural mientras se construyen robots. 
-          Muchos de nuestros estudiantes comienzan sin saber decir "hello" y en pocas semanas 
-          están dando instrucciones completas en inglés.
-        </p>
-      </div>
-
-      <!-- Botones de acción -->
-      <div class="program-actions mt-12">
-        <a href="index.html#programas" class="back-button">
-          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
-        </a>
-        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboEnglish,%20quisiera%20más%20información" 
-           target="_blank" class="whatsapp-button bg-purple-600 hover:bg-purple-700">
-          <i class="fab fa-whatsapp mr-2"></i> Solicitar información completa
-        </a>
-        <a href="https://wa.me/593993340103?text=Hola,%20quiero%20agendar%20una%20clase%20demo%20de%20RoboEnglish" 
-           target="_blank" class="back-button bg-green-100 text-green-700 hover:bg-green-200 border border-green-200">
-          <i class="fas fa-play-circle mr-2"></i> Agendar clase demostrativa
-        </a>
-      </div>
-
-      <!-- FAQ -->
-      <div class="program-description mt-12 pt-8 border-t border-gray-200">
-        <h3 class="text-2xl font-bold mb-6 text-gray-800">Preguntas frecuentes sobre RoboEnglish</h3>
-        
-        <div class="space-y-4">
-          <div class="border border-gray-200 rounded-lg overflow-hidden">
-            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
-              <span>¿Cuál es el porcentaje de inglés usado en las clases?</span>
-              <i class="fas fa-chevron-down transition-transform"></i>
-            </button>
-            <div class="faq-answer p-4 bg-white hidden">
-              <p>Combinamos según el nivel del grupo. En niveles iniciales: 60% inglés - 40% español. 
-              En niveles intermedios: 80% inglés - 20% español. En niveles avanzados: 95% inglés - 5% español 
-              (solo para aclaraciones complejas). La transición es gradual y natural.</p>
-            </div>
-          </div>
-          
-          <div class="border border-gray-200 rounded-lg overflow-hidden">
-            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
-              <span>¿Cómo evalúan el progreso en inglés?</span>
-              <i class="fas fa-chevron-down transition-transform"></i>
-            </button>
-            <div class="faq-answer p-4 bg-white hidden">
-              <p>No usamos exámenes tradicionales. Evaluamos mediante: 
-              <strong>1)</strong> Proyectos completados exitosamente siguiendo instrucciones en inglés, 
-              <strong>2)</strong> Presentaciones orales de sus robots, 
-              <strong>3)</strong> Capacidad para trabajar en equipo usando inglés, 
-              <strong>4)</strong> Portafolio de proyectos documentados en inglés.</p>
-            </div>
-          </div>
-          
-          <div class="border border-gray-200 rounded-lg overflow-hidden">
-            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
-              <span>¿Puede mi hijo tomar RoboEnglish si ya estudia inglés en el colegio?</span>
-              <i class="fas fa-chevron-down transition-transform"></i>
-            </button>
-            <div class="faq-answer p-4 bg-white hidden">
-              <p>¡Absolutamente! RoboEnglish es el complemento perfecto. Mientras en el colegio 
-              aprenden gramática y vocabulario, aquí practican ese conocimiento en contextos reales 
-              y significativos. Muchos padres reportan que las notas de inglés en el colegio 
-              mejoran notablemente después de unos meses en RoboEnglish.</p>
-            </div>
-          </div>
-          
-          <div class="border border-gray-200 rounded-lg overflow-hidden">
-            <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
-              <span>¿Qué pasa si mi hijo no entiende algo en inglés?</span>
-              <i class="fas fa-chevron-down transition-transform"></i>
-            </button>
-            <div class="faq-answer p-4 bg-white hidden">
-              <p>Usamos técnicas de <strong>scaffolding</strong> (andamiaje): demostraciones visuales, 
-              gestos, repetición, y apoyo entre compañeros. Nunca dejamos a un niño frustrado. 
-              Si después de varios intentos no se comprende, hacemos una breve explicación en español 
-              y volvemos al inglés. El objetivo es comprensión, no confusión.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
+  <div class="prog-intro-grid">
+    <div class="prog-intro-img">
+      <img src="images/optimized/fot4.jpg" alt="Niños aprendiendo inglés con robótica en RoboEnglish Ambato" onerror="this.src='images/optimized/fot1.jpg'">
+    </div>
+    <div class="prog-intro-text">
+      <span class="prog-age-chip"><i class="fas fa-child"></i>7 a 11 años</span>
+      <h2>El inglés que se aprende haciendo</h2>
+      <p>En RoboEnglish el inglés no se aprende repitiendo palabras — se aprende <strong>construyendo, explicando y presentando robots</strong>.</p><p>Los niños reciben instrucciones en inglés, nombran las partes de su robot en inglés y presentan su proyecto en inglés. El idioma se convierte en herramienta, no en materia.</p><p>Al final del programa, tu hijo no solo sabe más inglés — <strong>sabe usarlo</strong> con confianza en contextos reales.</p>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="bg-gray-800 text-gray-300 py-10 text-center">
-  <div class="max-w-4xl mx-auto px-4">
-    <p>&copy; 2026 RoboWorks. Todos los derechos reservados.</p>
-    <p class="mt-2">Diseñado con ❤️ para inspirar a los pequeños inventores.</p>
-    
-    <div class="mt-6 pt-6 border-t border-gray-700 mobile-center">
-      <p class="text-sm mb-2">¿Tienes preguntas sobre RoboEnglish?</p>
-      <a href="mailto:info@roboworks.com?subject=Consulta%20sobre%20RoboEnglish" class="text-purple-400 hover:text-purple-300 transition-colors duration-300">
-        info@roboworks.com
-      </a>
-      <p class="mt-2 text-sm">
-        <i class="fab fa-whatsapp mr-1"></i>
-        <a href="https://wa.me/593993340103?text=Hola,%20tengo%20preguntas%20sobre%20RoboEnglish" 
-           class="text-green-400 hover:text-green-300 transition-colors duration-300">
-          WhatsApp: +593 99 334 0103
-        </a>
-      </p>
+  <section class="learns-section">
+    <span class="section-eyebrow"><i class="fas fa-graduation-cap"></i>¿Qué aprenden?</span>
+    <h2 class="section-title">Lo que tu hijo desarrolla en este programa</h2>
+    <p class="section-sub">Cada habilidad está pensada para el largo plazo — no solo para pasar una clase.</p>
+    <div class="learns-grid"><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-language"></i></div>
+          <div><h4>Vocabulario técnico STEM</h4><p>Aprenden el inglés de la ciencia y la tecnología — el más útil para su futuro.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-microphone"></i></div>
+          <div><h4>Pronunciación y fluidez</h4><p>Hablar en inglés sobre algo que construyeron ellos hace que quieran hablar.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-comments"></i></div>
+          <div><h4>Instrucciones y comprensión</h4><p>Seguir instrucciones en inglés mejora la comprensión auditiva rápidamente.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-presentation"></i></div>
+          <div><h4>Presentaciones orales</h4><p>Cada proyecto se presenta en inglés ante el grupo — confianza real.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-robot"></i></div>
+          <div><h4>Robótica de nivel</h4><p>El componente técnico no es menor — aprenden robótica RISE en paralelo.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-globe"></i></div>
+          <div><h4>Conciencia global</h4><p>Entienden que la tecnología es un lenguaje universal y el inglés abre esas puertas.</p></div>
+        </div></div>
+  </section>
+
+  <section class="tools-section">
+    <span class="section-eyebrow"><i class="fas fa-wrench"></i>Herramientas</span>
+    <h2 class="section-title">Las mismas herramientas que usan los profesionales</h2>
+    <p class="section-sub">No usamos versiones simplificadas. Desde el inicio trabajan con tecnología real.</p>
+    <div class="tools-row"><span class="tool-chip"><i class="fas fa-cubes"></i>LEGO WeDo (en inglés)</span><span class="tool-chip"><i class="fas fa-code"></i>Scratch (en inglés)</span><span class="tool-chip"><i class="fas fa-cube"></i>TinkerCAD</span><span class="tool-chip"><i class="fas fa-book"></i>Vocabulario STEM</span><span class="tool-chip"><i class="fas fa-person-chalkboard"></i>Presentaciones</span></div>
+  </section>
+
+  <section class="level-section">
+    <span class="section-eyebrow"><i class="fas fa-trophy"></i>Inglés + Nivel RISE RoboWorks</span>
+    <h2 class="section-title">Doble aprendizaje: idioma y robótica</h2>
+    <p class="section-sub">RoboEnglish no sacrifica el nivel técnico por el idioma. Los estudiantes completan el equivalente al nivel RISE mientras desarrollan fluidez en inglés.</p>
+    <div class="level-badges"><div class="level-badge  featured">RISE equiv.<small style="display:block;font-size:.72rem;opacity:.7;font-weight:600;margin-top:3px">Nivel técnico</small></div><div class="level-badge">English<small style="display:block;font-size:.72rem;opacity:.7;font-weight:600;margin-top:3px">B1 conversacional</small></div></div>
+    <div class="cert-info">
+      <i class="fas fa-qrcode"></i>
+      <span>Al finalizar reciben un certificado que reconoce tanto el nivel de robótica alcanzado como el uso del inglés en contextos técnicos.</span>
     </div>
+  </section>
+
+  <section class="why-section">
+    <span class="section-eyebrow"><i class="fas fa-heart"></i>Por qué elegirlo</span>
+    <h2 class="section-title">Lo que los padres más valoran</h2>
+    <p class="section-sub">Estas no son promesas — son las razones reales por las que las familias nos eligen.</p>
+    <div class="why-grid"><div class="why-card">
+          <i class="fas fa-language"></i>
+          <h4>Inglés con propósito</h4>
+          <p>No es vocabulario de lista — es el inglés que van a necesitar en la universidad y el trabajo.</p>
+        </div><div class="why-card">
+          <i class="fas fa-robot"></i>
+          <h4>Sin sacrificar la robótica</h4>
+          <p>El programa tiene la misma exigencia técnica que el resto de los niveles RoboWorks.</p>
+        </div><div class="why-card">
+          <i class="fas fa-star"></i>
+          <h4>Confianza al hablar</h4>
+          <p>Hablar sobre algo que construiste tú quita el miedo al idioma.</p>
+        </div><div class="why-card">
+          <i class="fas fa-chart-line"></i>
+          <h4>Progreso medible</h4>
+          <p>Pueden seguir su avance en vocabulario y fluidez a través del portafolio.</p>
+        </div></div>
+  </section>
+
+  <section class="prog-cta">
+    <h2>¿Tu hijo quiere aprender inglés de verdad?</h2>
+    <p>No es inglés de pizarrón — es inglés con robots. Escríbenos y te contamos cómo funciona una clase típica.</p>
+    <div class="prog-cta-btns">
+      <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboEnglish%20para%20mi%20hijo/a" target="_blank" class="btn-wa-lg"><i class="fab fa-whatsapp"></i> Escribir por WhatsApp</a>
+      <a href="index.html#programas" class="btn-ghost-lg"><i class="fas fa-grid"></i> Ver otros programas</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="prog-footer">
+  <div style="max-width:860px;margin:0 auto">
+    <h3>RoboWorks <span>Ambato</span></h3>
+    <p style="font-size:.9rem;margin-bottom:0">Centro de Robótica Educativa · Tungurahua, Ecuador</p>
+    <div class="prog-footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#programas">Todos los programas</a>
+      <a href="mailto:info@roboworks.com">info@roboworks.com</a>
+      <a href="https://wa.me/593993340103">+593 99 334 0103</a>
+    </div>
+    <small>&copy; 2026 RoboWorks Ambato &mdash; Todos los derechos reservados</small>
   </div>
 </footer>
 
-<!-- Scripts -->
-<script src="js/main.js"></script>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Animación de entrada
-    const animatedElements = document.querySelectorAll('.program-description, .program-highlights, .program-image');
-    animatedElements.forEach((el, index) => {
-      setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      }, index * 100);
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    });
-
-    // FAQ interactivo
-    document.querySelectorAll('.faq-question').forEach(question => {
-      question.addEventListener('click', function() {
-        const answer = this.nextElementSibling;
-        const icon = this.querySelector('i');
-        
-        // Toggle respuesta actual
-        answer.classList.toggle('hidden');
-        icon.classList.toggle('fa-chevron-down');
-        icon.classList.toggle('fa-chevron-up');
-        
-        // Animar la aparición/desaparición
-        if (!answer.classList.contains('hidden')) {
-          answer.style.maxHeight = answer.scrollHeight + 'px';
-          answer.style.opacity = '1';
-        } else {
-          answer.style.maxHeight = '0';
-          answer.style.opacity = '0';
-        }
-      });
-    });
-
-    // Inicializar alturas FAQ
-    document.querySelectorAll('.faq-answer').forEach(answer => {
-      answer.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-      if (answer.classList.contains('hidden')) {
-        answer.style.maxHeight = '0';
-        answer.style.opacity = '0';
-      } else {
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-        answer.style.opacity = '1';
-      }
-    });
-
-    // Efecto hover en tarjetas de vocabulario
-    document.querySelectorAll('.bg-white.rounded-lg').forEach(card => {
-      card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-5px)';
-        this.style.boxShadow = '0 10px 25px rgba(139, 92, 246, 0.15)';
-      });
-      
-      card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0)';
-        this.style.boxShadow = '';
-      });
-    });
-  });
-
-  // Efecto parallax suave en scroll
-  window.addEventListener('scroll', function() {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.program-hero');
-    if (hero) {
-      hero.style.transform = `translateY(${scrolled * 0.05}px)`;
-    }
-  });
+document.addEventListener('DOMContentLoaded',()=>{{
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{{if(e.isIntersecting)e.target.classList.add('fade-up')}}),{{threshold:.1}});
+  document.querySelectorAll('.learn-card,.why-card,.tool-chip').forEach(el=>obs.observe(el));
+}});
 </script>
-
-<style>
-  .program-hero {
-    transition: transform 0.3s ease-out;
-  }
-  
-  .bg-white.rounded-lg {
-    transition: all 0.3s ease;
-  }
-  
-  .faq-answer {
-    overflow: hidden;
-  }
-  
-  /* Animaciones específicas para RoboEnglish */
-  @keyframes floatGlobe {
-    0%, 100% {
-      transform: translateY(0) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-10px) rotate(5deg);
-    }
-  }
-  
-  .globe-float {
-    animation: floatGlobe 4s ease-in-out infinite;
-  }
-  
-  /* Efecto de brillo en botones */
-  .whatsapp-button {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .whatsapp-button::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-      to right,
-      transparent 20%,
-      rgba(255, 255, 255, 0.3) 50%,
-      transparent 80%
-    );
-    transform: rotate(30deg);
-    transition: transform 0.6s;
-  }
-  
-  .whatsapp-button:hover::after {
-    transform: rotate(30deg) translateX(100%);
-  }
-</style>
-</body>
-</html>
+</body></html>

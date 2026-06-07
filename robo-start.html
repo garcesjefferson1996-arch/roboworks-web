@@ -3,272 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RoboStart - Primeros pasos en robótica | RoboWorks</title>
-  <meta name="description" content="RoboStart: La puerta de entrada al mundo de la robótica para niños de 5 a 7 años. Aprender jugando, crear y compartir." />
-
-  <!-- FAVICONS PARA TODOS LOS DISPOSITIVOS -->
-  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <title>RoboStart — Robótica para niños 5 a 7 años | RoboWorks Ambato</title>
+  <meta name="description" content="RoboStart: primer contacto con la tecnología desde el juego. Programas de robótica educativa para niños de 5 a 7 años en Ambato, Ecuador." />
+  <meta name="geo.region" content="EC-T" />
+  <meta name="geo.placename" content="Ambato" />
   <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
-  <link rel="shortcut icon" type="image/x-icon" href="assets/icons/favicon.ico">
-  
-  <!-- Apple Touch Icon (iOS y algunos Android) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  
-  <!-- Iconos para diferentes dispositivos -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
-  
-  <!-- Manifest para PWA (opcional pero recomendado) -->
-  <link rel="manifest" href="assets/icons/site.webmanifest">
-  
-  <!-- Color theme para navegadores móviles -->
   <meta name="theme-color" content="#10b981">
-  <meta name="msapplication-TileColor" content="#10b981">
-  <meta name="msapplication-TileImage" content="assets/icons/mstile-150x150.png">
-
-  <!-- Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Configuración Tailwind -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            nunito: ['Nunito', 'sans-serif'],
-            poppins: ['Poppins', 'sans-serif']
-          },
-          colors: {
-            'robo-blue': '#3b82f6',
-            'robo-purple': '#8b5cf6',
-            'robo-yellow': '#fbbf24',
-            'robo-green': '#10b981',
-            'robo-orange': '#fb923c'
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- CSS personalizado -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/programa.css" />
+  <style>
+    :root { --prog-color:#10b981; --prog-dark:#059669; --prog-light:#ecfdf5; }
+  </style>
 </head>
+<body>
 
-<body class="bg-gray-50 font-poppins text-gray-700">
-
-<!-- HEADER -->
-<header class="bg-white shadow-md sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center md:flex-row flex-col md:space-y-0 space-y-4">
-    <!-- Logo -->
-    <div class="flex items-center gap-3 mobile-logo-center w-full md:w-auto justify-center md:justify-start">
-      <a href="index.html" class="flex items-center gap-3">
-        <img src="assets/icons/logo.png" alt="RoboWorks Logo" class="h-10 w-auto">
-        <span class="text-2xl font-bold text-robo-blue text-center md:text-left">
-          Robo<span class="text-robo-orange">Works</span>
-        </span>
-      </a>
-    </div>
-
-    <!-- Navegación -->
-    <nav class="flex gap-6 font-medium mobile-center w-full md:w-auto justify-center md:justify-end">
-      <a href="index.html#programas" class="hover:text-robo-blue transition-colors duration-300">Programas</a>
-      <a href="index.html#confianza" class="hover:text-robo-blue transition-colors duration-300">¿Por qué RoboWorks?</a>
-      <a href="index.html#contacto" class="hover:text-robo-blue transition-colors duration-300">Contacto</a>
+<header class="prog-header">
+  <div class="prog-header__inner">
+    <a href="index.html" class="prog-brand" aria-label="RoboWorks Inicio">
+      <img src="assets/icons/logo.png" alt="RoboWorks">
+      <span class="prog-brand-name"><span class="r">Robo</span><span class="w">Works</span></span>
+    </a>
+    <nav class="prog-header__nav" aria-label="Navegación">
+      <a href="index.html#programas">Programas</a>
+      <a href="index.html#confianza">Nosotros</a>
+      <a href="https://wa.me/593993340103" target="_blank" class="cta"><i class="fab fa-whatsapp"></i> Consultar</a>
     </nav>
   </div>
 </header>
 
-<!-- HERO DEL PROGRAMA -->
-<section class="program-hero robo-start-hero">
-  <div class="max-w-6xl mx-auto">
-    <div class="program-hero-content text-center text-white">
-      <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6 font-medium">
-        🤖 Programa RoboStart
-      </span>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-        RoboStart – Primeros pasos en robótica
-      </h1>
-      <p class="text-xl md:text-2xl mb-8 opacity-90">
-        Donde la imaginación encuentra la tecnología
-      </p>
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="index.html#programas" class="back-button">
-          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
-        </a>
-        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboStart" 
-           target="_blank" class="whatsapp-button">
-          <i class="fab fa-whatsapp mr-2"></i> Inscribirse ahora
-        </a>
-      </div>
+<section class="prog-hero">
+  <div class="prog-hero__inner">
+    <div class="prog-hero__badge"><i class="fas fa-seedling"></i>Programa RoboStart</div>
+    <h1>RoboStart</h1>
+    <p class="prog-hero__sub">El primer contacto con la tecnología, desde el juego y la curiosidad</p>
+    <div class="prog-hero__actions">
+      <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboStart%20para%20mi%20hijo/a" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> Inscribir a mi hijo</a>
+      <a href="index.html#programas" class="btn-back"><i class="fas fa-arrow-left"></i> Ver todos los programas</a>
     </div>
+    <div class="prog-stats"><div class="prog-stat"><i class="fas fa-child"></i>5 a 7 años</div><div class="prog-stat"><i class="fas fa-trophy"></i>Nivel SPARK</div><div class="prog-stat"><i class="fas fa-users"></i>Grupos de 6 niños</div><div class="prog-stat"><i class="fas fa-clock"></i>2 × semana</div></div>
   </div>
 </section>
 
-<!-- CONTENIDO DEL PROGRAMA -->
-<section class="program-content">
-  <div class="max-w-6xl mx-auto">
-    <div class="program-detail-container">
-      
-      <!-- Imagen del programa -->
-      <div class="program-image">
-        <img src="images/programs/robo-start.jpg" alt="Niños en RoboStart aprendiendo robótica" 
-             onerror="this.src='images/optimized/fot1.jpg'">
-      </div>
+<main class="prog-body">
 
-      <!-- Edad -->
-      <div class="program-age">
-        <i class="fas fa-child mr-2"></i> Edad: 5 a 7 años
-      </div>
-
-      <!-- Descripción -->
-      <div class="program-description">
-        <h2 class="program-title">La aventura comienza aquí</h2>
-        
-        <p>
-          <strong>RoboStart</strong> es la puerta de entrada al mundo de la robótica para los más pequeños. 
-          Aquí no se empieza con cables ni pantallas, sino con <span class="text-robo-green font-semibold">juego, imaginación y curiosidad</span>.
-        </p>
-
-        <p>
-          Cada clase está diseñada para que los niños <span class="text-robo-green font-semibold">exploren sin miedo, creen con sus manos</span> 
-          y descubran que aprender puede ser divertido. Trabajamos con bloques de construcción especiales, 
-          robots simples y actividades que estimulan la creatividad natural de cada niño.
-        </p>
-
-        <p>
-          En RoboStart no buscamos que sepan robótica, sino que <span class="text-robo-green font-semibold">se enamoren de aprender</span>. 
-          Cada robot construido es una historia, cada movimiento programado es un logro, y cada sonrisa 
-          es nuestra mayor recompensa.
-        </p>
-      </div>
-
-      <!-- Lo que aprenden -->
-      <div class="program-highlights">
-        <h3>¿Qué aprenderán en RoboStart?</h3>
-        
-        <div class="highlight-item">
-          <div class="highlight-icon">
-            <i class="fas fa-puzzle-piece"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Pensamiento lógico</strong> a través de secuencias y patrones
-          </div>
-        </div>
-
-        <div class="highlight-item">
-          <div class="highlight-icon">
-            <i class="fas fa-robot"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Conceptos básicos de robótica</strong> sin complicaciones
-          </div>
-        </div>
-
-        <div class="highlight-item">
-          <div class="highlight-icon">
-            <i class="fas fa-hands-helping"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Trabajo en equipo</strong> y colaboración
-          </div>
-        </div>
-
-        <div class="highlight-item">
-          <div class="highlight-icon">
-            <i class="fas fa-lightbulb"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Creatividad</strong> y resolución de problemas simples
-          </div>
-        </div>
-
-        <div class="highlight-item">
-          <div class="highlight-icon">
-            <i class="fas fa-comments"></i>
-          </div>
-          <div class="highlight-text">
-            <strong>Comunicación</strong> al explicar sus creaciones
-          </div>
-        </div>
-      </div>
-
-      <!-- Metodología -->
-      <div class="program-description">
-        <h3 class="text-2xl font-bold mb-4 text-gray-800">Nuestra metodología</h3>
-        <p>
-          Utilizamos el método <strong>"Aprender Jugando"</strong> donde cada sesión es una nueva aventura. 
-          Los niños no siguen instrucciones rígidas; exploran, prueban, ajustan y celebran sus descubrimientos.
-        </p>
-        <p>
-          <strong>Grupos pequeños</strong> (máximo 6 niños) garantizan atención personalizada. 
-          <strong>Materiales seguros</strong> y adaptados a sus manos. <strong>Ambiente positivo</strong> 
-          donde el error es parte del aprendizaje.
-        </p>
-      </div>
-
-      <!-- Botones de acción -->
-      <div class="program-actions">
-        <a href="index.html#programas" class="back-button">
-          <i class="fas fa-arrow-left mr-2"></i> Volver a Programas
-        </a>
-        <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboStart" 
-           target="_blank" class="whatsapp-button">
-          <i class="fab fa-whatsapp mr-2"></i> Solicitar información
-        </a>
-      </div>
-
+  <div class="prog-intro-grid">
+    <div class="prog-intro-img">
+      <img src="images/optimized/fot1.jpg" alt="Niños aprendiendo robótica en RoboStart Ambato" onerror="this.src='images/optimized/fot1.jpg'">
+    </div>
+    <div class="prog-intro-text">
+      <span class="prog-age-chip"><i class="fas fa-child"></i>5 a 7 años</span>
+      <h2>Donde todo empieza</h2>
+      <p>RoboStart es la puerta de entrada al mundo de la tecnología para los más pequeños. No empezamos con cables ni pantallas — empezamos con <strong>juego, bloques y curiosidad</strong>.</p><p>Cada clase es una aventura distinta. Los niños exploran sin miedo, construyen con sus manos y descubren que aprender puede ser la parte más divertida del día.</p><p>El objetivo no es que salgan sabiendo robótica. El objetivo es que <strong>se enamoren de aprender</strong> y lleguen a casa queriendo construir más.</p>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="bg-gray-800 text-gray-300 py-10 text-center">
-  <div class="max-w-4xl mx-auto px-4">
-    <p>&copy; 2026 RoboWorks. Todos los derechos reservados.</p>
-    <p class="mt-2">Diseñado con ❤️ para inspirar a los pequeños inventores.</p>
-    
-    <div class="mt-6 pt-6 border-t border-gray-700 mobile-center">
-      <p class="text-sm mb-2">¿Tienes preguntas? Contáctanos</p>
-      <a href="mailto:info@roboworks.com" class="text-robo-blue hover:text-blue-300 transition-colors duration-300">
-        info@roboworks.com
-      </a>
-      <p class="mt-2 text-sm">
-        <i class="fab fa-whatsapp mr-1"></i>
-        <a href="https://wa.me/593993340103" 
-           class="text-green-400 hover:text-green-300 transition-colors duration-300">
-          WhatsApp: +593 99 334 0103
-        </a>
-      </p>
+  <section class="learns-section">
+    <span class="section-eyebrow"><i class="fas fa-graduation-cap"></i>¿Qué aprenden?</span>
+    <h2 class="section-title">Lo que tu hijo desarrolla en este programa</h2>
+    <p class="section-sub">Cada habilidad está pensada para el largo plazo — no solo para pasar una clase.</p>
+    <div class="learns-grid"><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-puzzle-piece"></i></div>
+          <div><h4>Pensamiento lógico</h4><p>Secuencias, patrones y órdenes simples que forman la base del pensamiento computacional.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-robot"></i></div>
+          <div><h4>Primeros robots</h4><p>Construyen y programan robots con tarjetas físicas — sin pantalla, con las manos.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-hands"></i></div>
+          <div><h4>Motricidad fina</h4><p>Trabajar con piezas pequeñas fortalece la coordinación y la concentración.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-lightbulb"></i></div>
+          <div><h4>Creatividad</h4><p>Cada proyecto es único. Los niños diseñan, prueban y celebran sus ideas.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-comments"></i></div>
+          <div><h4>Expresión oral</h4><p>Presentan su robot a sus compañeros — confianza y comunicación desde pequeños.</p></div>
+        </div><div class="learn-card">
+          <div class="learn-icon"><i class="fas fa-people-group"></i></div>
+          <div><h4>Trabajo en equipo</h4><p>Aprenden a escuchar, compartir y construir juntos.</p></div>
+        </div></div>
+  </section>
+
+  <section class="tools-section">
+    <span class="section-eyebrow"><i class="fas fa-wrench"></i>Herramientas</span>
+    <h2 class="section-title">Las mismas herramientas que usan los profesionales</h2>
+    <p class="section-sub">No usamos versiones simplificadas. Desde el inicio trabajan con tecnología real.</p>
+    <div class="tools-row"><span class="tool-chip"><i class="fas fa-robot"></i>Zmrobo Alpha</span><span class="tool-chip"><i class="fas fa-code"></i>Scratch Jr</span><span class="tool-chip"><i class="fas fa-cubes"></i>LEGO WeDo</span><span class="tool-chip"><i class="fas fa-cube"></i>TinkerCAD (intro)</span><span class="tool-chip"><i class="fas fa-print"></i>Impresora 3D (observación)</span></div>
+  </section>
+
+  <section class="level-section">
+    <span class="section-eyebrow"><i class="fas fa-trophy"></i>Nivel SPARK — Certificación RoboWorks</span>
+    <h2 class="section-title">Al completar RoboStart reciben el certificado SPARK</h2>
+    <p class="section-sub">Cada 6 meses de formación, el estudiante sube de nivel y recibe un certificado con código QR verificable — una prueba real de lo que aprendió.</p>
+    <div class="level-badges"><div class="level-badge  featured">SPARK<small style="display:block;font-size:.72rem;opacity:.7;font-weight:600;margin-top:3px">Nivel 1 — activo</small></div></div>
+    <div class="cert-info">
+      <i class="fas fa-qrcode"></i>
+      <span>El certificado SPARK está respaldado por el portafolio digital del estudiante. Cualquier persona puede escanearlo y ver sus proyectos.</span>
     </div>
+  </section>
+
+  <section class="why-section">
+    <span class="section-eyebrow"><i class="fas fa-heart"></i>Por qué elegirlo</span>
+    <h2 class="section-title">Lo que los padres más valoran</h2>
+    <p class="section-sub">Estas no son promesas — son las razones reales por las que las familias nos eligen.</p>
+    <div class="why-grid"><div class="why-card">
+          <i class="fas fa-heart"></i>
+          <h4>Ambiente seguro y cálido</h4>
+          <p>Grupos pequeños, instructores pacientes y un espacio donde equivocarse está bien.</p>
+        </div><div class="why-card">
+          <i class="fas fa-star"></i>
+          <h4>Aprendizaje por descubrimiento</h4>
+          <p>No hay hojas ni tareas aburridas — todo se aprende construyendo y probando.</p>
+        </div><div class="why-card">
+          <i class="fas fa-shield-halved"></i>
+          <h4>Materiales seguros</h4>
+          <p>Todo nuestro material está pensado para manos de 5 a 7 años.</p>
+        </div><div class="why-card">
+          <i class="fas fa-chart-line"></i>
+          <h4>Progreso visible</h4>
+          <p>Los padres reciben reportes y pueden ver el portafolio digital de su hijo.</p>
+        </div></div>
+  </section>
+
+  <section class="prog-cta">
+    <h2>¿Tu hijo tiene entre 5 y 7 años?</h2>
+    <p>Cupos limitados por trimestre. Escríbenos por WhatsApp y en menos de 24 horas te decimos disponibilidad y horarios.</p>
+    <div class="prog-cta-btns">
+      <a href="https://wa.me/593993340103?text=Hola,%20me%20interesa%20el%20programa%20RoboStart%20para%20mi%20hijo/a" target="_blank" class="btn-wa-lg"><i class="fab fa-whatsapp"></i> Escribir por WhatsApp</a>
+      <a href="index.html#programas" class="btn-ghost-lg"><i class="fas fa-grid"></i> Ver otros programas</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="prog-footer">
+  <div style="max-width:860px;margin:0 auto">
+    <h3>RoboWorks <span>Ambato</span></h3>
+    <p style="font-size:.9rem;margin-bottom:0">Centro de Robótica Educativa · Tungurahua, Ecuador</p>
+    <div class="prog-footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#programas">Todos los programas</a>
+      <a href="mailto:info@roboworks.com">info@roboworks.com</a>
+      <a href="https://wa.me/593993340103">+593 99 334 0103</a>
+    </div>
+    <small>&copy; 2026 RoboWorks Ambato &mdash; Todos los derechos reservados</small>
   </div>
 </footer>
 
-<!-- Scripts -->
-<script src="js/main.js"></script>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Animación de entrada
-    const elements = document.querySelectorAll('.program-description, .program-highlights');
-    elements.forEach((el, index) => {
-      el.style.animationDelay = `${index * 0.2}s`;
-      el.classList.add('fade-in-up');
-    });
-  });
+document.addEventListener('DOMContentLoaded',()=>{{
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{{if(e.isIntersecting)e.target.classList.add('fade-up')}}),{{threshold:.1}});
+  document.querySelectorAll('.learn-card,.why-card,.tool-chip').forEach(el=>obs.observe(el));
+}});
 </script>
-</body>
-</html>
+</body></html>
