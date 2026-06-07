@@ -42,7 +42,15 @@
 
 /* ── RESET ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+
+/* ── ANTI-OVERFLOW GLOBAL ───────────────────────────────────────
+   Previene el espacio en blanco lateral en móvil / iPhone
+   ─────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+}
 body {
   background: var(--bg);
   color: var(--text);
@@ -50,11 +58,17 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
-img { display: block; max-width: 100%; }
+img { display: block; max-width: 100%; height: auto; }
 a { text-decoration: none; color: inherit; }
 h1, h2, h3 { line-height: 1.06; letter-spacing: -0.025em; color: var(--dark); }
 p { color: var(--text); }
+
+/* Versiones del label del botón de acceso */
+.nav-label-full  { display: inline; }
+.nav-label-short { display: none; }
 
 /* ── KEYFRAMES ──────────────────────────────────────────────── */
 @keyframes fadeInUp {
@@ -964,10 +978,16 @@ p { color: var(--text); }
   animation: none !important;
 }
 
+/* ════════════════════════════════════════════════════════════
+   RESPONSIVE — Sistema completo probado en iPhone SE, 12, 14
+   ════════════════════════════════════════════════════════════ */
+
 /* ── TABLET (≤980px) ────────────────────────────────────────── */
 @media (max-width: 980px) {
+  /* Header: ocultar links de nav, dejar solo el botón */
   .site-nav a:not(.student-access) { display: none; }
 
+  /* Layouts de dos columnas pasan a una */
   .hero-layout,
   .virtues-layout,
   .platform-layout {
@@ -996,55 +1016,131 @@ p { color: var(--text); }
   .hero-lead { margin: 0 auto; }
 }
 
-/* ── MÓVIL (≤640px) ─────────────────────────────────────────── */
+/* ── MÓVIL MEDIO — iPhone 12/13/14 (≤640px) ─────────────────── */
 @media (max-width: 640px) {
-  .site-header__inner { padding: 12px 0; min-height: 66px; }
+  /* Header */
+  .site-header__inner {
+    min-height: 62px;
+    gap: 12px;
+  }
+  /* En ≤640px mostrar texto corto del botón */
+  .nav-label-full  { display: none; }
+  .nav-label-short { display: inline; }
 
+  /* Secciones */
   .hero-redesign,
   .programs-section,
   .virtues-section,
   .platform-section,
   .trust-section,
-  .levels-section { padding: 56px 0; }
+  .levels-section { padding: 52px 0; }
 
-  .hero-copy h1 { font-size: clamp(2.2rem, 8vw, 3rem); }
-  .hero-lead    { font-size: 0.98rem; }
+  /* Hero */
+  .hero-copy h1 { font-size: clamp(2rem, 7.5vw, 2.8rem); }
+  .hero-lead    { font-size: 0.97rem; }
+  .hero-note    { display: none; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .primary-cta,
+  .secondary-cta { width: 100%; max-width: 320px; }
 
-  #robot-hero { height: 310px; }
+  /* Robot */
+  #robot-hero { height: 290px; }
 
-  .rw-card img { height: 180px; }
-
+  /* Grids */
   .program-grid,
   .virtue-grid,
-  .trust-grid,
-  .levels-grid { grid-template-columns: 1fr; }
-
+  .trust-grid    { grid-template-columns: 1fr; }
+  .levels-grid   { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .virtues-layout,
   .platform-layout { grid-template-columns: 1fr; }
 
-  .location-panel { padding: 28px 18px; }
-  .location-panel h3 { font-size: 1.55rem; }
+  /* Cards */
+  .rw-card img { height: 180px; }
+  .virtue-card,
+  .trust-item  { padding: 20px; }
 
-  .levels-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Location panel */
+  .location-panel { padding: 26px 18px; }
+  .location-panel h3 { font-size: 1.45rem; }
+  .location-panel > div { gap: 8px; }
+  .location-panel span { font-size: 0.78rem; padding: 7px 12px; }
 
-  .hero-actions { flex-direction: column; align-items: center; }
-  .primary-cta,
-  .secondary-cta { width: 100%; max-width: 340px; }
-
+  /* Section heading */
   .section-heading { text-align: center; }
 
-  .hero-note { display: none; } /* En móvil muy pequeño no hay espacio */
+  /* Plataforma */
+  .platform-preview { padding: 22px; }
+  .preview-row { padding: 12px; gap: 10px; }
+
+  /* Footer */
+  .footer-contact { gap: 10px 16px; }
+  .site-footer { padding: 40px 0; }
 }
 
-/* ── MUY PEQUEÑO (≤420px) ───────────────────────────────────── */
-@media (max-width: 420px) {
+/* ── MÓVIL PEQUEÑO — iPhone SE (≤390px) ─────────────────────── */
+@media (max-width: 390px) {
+  /* Header — reducir brand para que el botón quepa sin overflow */
+  .site-header__inner {
+    width: calc(100% - 32px);
+    min-height: 58px;
+    gap: 10px;
+  }
+  .brand-logo  { width: 36px; height: 36px; }
+  .brand-copy  { font-size: 1.2rem; }
   .brand-copy small { display: none; }
-  .brand-copy { font-size: 1.22rem; }
-  .brand-logo { width: 36px; height: 36px; }
-  #robot-hero { height: 270px; }
+
+  /* Botón de acceso — icono + texto corto con padding mínimo */
+  .student-access {
+    padding: 9px 13px !important;
+    font-size: 0.8rem !important;
+    gap: 6px !important;
+  }
+
+  /* Hero */
+  .hero-redesign { padding: 44px 0 68px; }
+  .hero-copy h1  { font-size: clamp(1.8rem, 7vw, 2.2rem); }
+  .hero-proof span { font-size: 0.8rem; padding: 8px 11px; }
+
+  /* Robot */
+  #robot-hero { height: 260px; }
+
+  /* Niveles — 2 columnas más compactas */
+  .levels-grid > div { padding: 14px 10px; }
+  .levels-grid strong { font-size: 0.92rem; }
+
+  /* Game section */
+  .game-container { padding: 12px; }
+  .gbtn { width: 42px; height: 42px; }
 }
 
-/* ── ACCESIBILIDAD ──────────────────────────────────────────── */
+/* ── MUY PEQUEÑO (≤360px — iPhone SE 1ª gen, Galaxy A) ──────── */
+@media (max-width: 360px) {
+  .brand-copy  { font-size: 1.05rem; }
+  .brand-logo  { width: 32px; height: 32px; }
+  .site-header__inner { gap: 8px; width: calc(100% - 28px); }
+
+  /* Solo icono en botón si la pantalla es muy estrecha */
+  .nav-label-short { display: none; }
+  .student-access  {
+    padding: 10px 11px !important;
+    font-size: 0; /* oculta texto — deja solo icono */
+    gap: 0 !important;
+  }
+  .student-access i { font-size: 1rem !important; }
+
+  .hero-copy h1 { font-size: 1.7rem; }
+  #robot-hero { height: 240px; }
+  .levels-grid { grid-template-columns: 1fr; }
+}
+
+/* ── LANDSCAPE MÓVIL ────────────────────────────────────────── */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-redesign { padding: 36px 0 60px; }
+  #robot-hero    { height: 220px; }
+  .hero-copy h1  { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+}
+
+/* ── ACCESIBILIDAD ──────────────────────────
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
