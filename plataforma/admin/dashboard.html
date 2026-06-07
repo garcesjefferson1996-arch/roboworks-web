@@ -1160,7 +1160,7 @@ function renderStudents(){
       <td><code style="background:var(--bg);padding:.2rem .5rem;border-radius:4px;font-size:.78rem">${s.username||'—'}</code></td>
       <td><span class="badge ${LV_CLASS[s.level]||'badge-gray'}">${s.level||'—'}</span></td>
       <td>${prog?`<span class="badge badge-blue">${prog.name}</span>`:'<span class="badge badge-gray">Sin asignar</span>'}</td>
-      <td><span class="badge badge-gray">${s.class_ids?.length||0} clases</span></td>
+      <td><span class="badge badge-gray">${(s.class_ids&&s.class_ids.length)||0} clases</span></td>
       <td style="color:var(--text-light);font-size:.78rem">${fmtDate(s.created_at)}</td>
       <td><div class="td-actions">
         <button class="btn btn-ghost btn-sm btn-icon" title="Ver credenciales" onclick="showCredentials('${s.id}')"><i class="fa-solid fa-key"></i></button>
@@ -1346,7 +1346,7 @@ async function loadClasses(){
   if(allClasses.length===0){tbody.innerHTML='<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-calendar-days"></i><p>No hay clases creadas</p></div></td></tr>';return;}
   tbody.innerHTML=allClasses.map(c=>{
     const prog=allPrograms.find(p=>p.id===c.program_id);
-    const studs=allStudents.filter(s=>s.class_ids?.includes(c.id));
+    const studs=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(c.id));
     return`<tr>
       <td style="font-weight:600">${c.name}</td>
       <td>${prog?`<span class="badge badge-blue">${prog.name}</span>`:'—'}</td>
@@ -1734,15 +1734,15 @@ async function printAttendanceFull(){
   const dates=[...new Set(records.map(r=>r.date))].sort();
   const lookup={};
   records.forEach(r=>{if(!lookup[r.date])lookup[r.date]={};lookup[r.date][r.student_id]=r.status;});
-  const prog=allPrograms.find(p=>p.id===cls?.program_id);
+  const prog=allPrograms.find(p=>p.id===(cls&&cls.program_id));
   const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
   let html=`<div class="print-header">
     <div class="print-logo-row"><div><div class="print-title">LECCIONARIO DE ASISTENCIA</div>
     <div class="print-sub">RoboWorks Ambato · Ambato, Tungurahua, Ecuador</div></div>
     <div style="text-align:right;font-size:9pt;color:#555">Generado: ${today}</div></div>
-    <div style="margin-top:8px;font-size:10pt"><strong>Clase:</strong> ${cls?.name||'—'} &nbsp;|&nbsp;
-    <strong>Programa:</strong> ${prog?.name||'—'} &nbsp;|&nbsp;
-    <strong>Horario:</strong> ${DAYS[cls?.schedule_day]||'—'} ${cls?.schedule_time||''} &nbsp;|&nbsp;
+    <div style="margin-top:8px;font-size:10pt"><strong>Clase:</strong> ${(cls&&cls.name)||'—'} &nbsp;|&nbsp;
+    <strong>Programa:</strong> ${(prog&&prog.name)||'—'} &nbsp;|&nbsp;
+    <strong>Horario:</strong> ${DAYS[(cls&&cls.schedule_day)]||'—'} ${(cls&&cls.schedule_time)||''} &nbsp;|&nbsp;
     <strong>Sesiones:</strong> ${dates.length}</div>
   </div>
   <table class="print-table"><thead><tr><th>Estudiante</th>`;
@@ -1791,7 +1791,7 @@ function renderPaymentsTable(months){
   if(allStudents.length===0){tbody.innerHTML='<tr><td colspan="8"><div class="empty"><p>No hay estudiantes</p></div></td></tr>';return;}
   tbody.innerHTML=allStudents.map(s=>{
     const prog=allPrograms.find(p=>p.id===s.program_id);
-    const fee=s.monthly_fee||prog?.monthly_fee||0;
+    const fee=s.monthly_fee||(prog&&prog.monthly_fee)||0;
     const cells=months.map(m=>{
       const pay=allPayments.find(p=>p.student_id===s.id&&p.month===m);
       const now=new Date();const mDate=new Date(m+'-01');const isOver=mDate<new Date(now.getFullYear(),now.getMonth(),1);
@@ -1812,7 +1812,7 @@ function updatePayStats(months){
   const paidThisMonth=allPayments.filter(p=>p.month===curMonth&&p.status==='paid').reduce((a,p)=>a+(p.amount||0),0);
   const pendingCount=allStudents.filter(s=>{const p=allPayments.find(x=>x.student_id===s.id&&x.month===curMonth&&x.status==='paid');return!p;}).length;
   const overdueCount=allStudents.filter(s=>{const p=allPayments.find(x=>x.student_id===s.id&&x.month===prevMonths[prevMonths.length-1]&&x.status==='paid');return!p;}).length;
-  const totalFees=allStudents.reduce((a,s=>{const prog=allPrograms.find(p=>p.id===s.program_id);return a+(s.monthly_fee||prog?.monthly_fee||0);},0);
+  const totalFees=allStudents.reduce((a,s)=>{const prog=allPrograms.find(p=>p.id===s.program_id);return a+(s.monthly_fee||(prog&&prog.monthly_fee)||0);},0);
   document.getElementById('pay-stat-col').textContent='$'+paidThisMonth.toFixed(2);
   document.getElementById('pay-stat-pend').textContent=pendingCount;
   document.getElementById('pay-stat-over').textContent=overdueCount;
@@ -1845,7 +1845,7 @@ async function savePayment(){
   if(!studentId||!month||!amount){toast('Completa los campos requeridos','error');return;}
   const adminName=localStorage.getItem('adminName')||'Admin';
   const data={student_id:studentId,month,amount,status:'paid',method,note:note||null,
-    paid_at:date?db.app.firebase_.firestore.Timestamp.fromDate(new Date(date)):TS(),
+    paid_at:date?firebase.firestore.Timestamp.fromDate(new Date(date)):TS(),
     recorded_by:adminName,created_at:TS()};
   // Check if payment already exists for this student+month
   const existing=allPayments.find(p=>p.student_id===studentId&&p.month===month);
@@ -1874,7 +1874,7 @@ async function printPaymentReport(){
     ${months.map(m=>`<th class="center">${fmtMonth(m)}</th>`).join('')}</tr></thead><tbody>`;
   allStudents.forEach(s=>{
     const prog=allPrograms.find(p=>p.id===s.program_id);
-    html+=`<tr><td>${s.full_name}</td><td>${s.level||'—'}</td><td>${prog?.name||'—'}</td>`;
+    html+=`<tr><td>${s.full_name}</td><td>${s.level||'—'}</td><td>${(prog&&prog.name)||'—'}</td>`;
     months.forEach(m=>{const p=allPayments.find(x=>x.student_id===s.id&&x.month===m&&x.status==='paid');
       html+=p?`<td class="center" style="color:#065f46;font-weight:700">✓ $${Number(p.amount||0).toFixed(2)}</td>`:
                `<td class="center" style="color:#991b1b">Pendiente</td>`;
@@ -1893,10 +1893,10 @@ async function printPaymentReceipt(){
   if(!studentId||!month){toast('Selecciona estudiante y mes','error');return;}
   const s=allStudents.find(x=>x.id===studentId);
   const pay=allPayments.find(p=>p.student_id===studentId&&p.month===month);
-  const prog=allPrograms.find(p=>p.id===s?.program_id);
+  const prog=allPrograms.find(p=>p.id===(s&&s.program_id));
   const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
-  const paidDate=pay?.paid_at?(pay.paid_at.toDate?pay.paid_at.toDate():new Date(pay.paid_at)).toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'}):today;
-  const amount=pay?.amount||(s?.monthly_fee||prog?.monthly_fee||0);
+  const paidDate=(pay&&pay.paid_at)?(pay.paid_at.toDate?pay.paid_at.toDate():new Date(pay.paid_at)).toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'}):today;
+  const amount=(pay&&pay.amount)||((s&&s.monthly_fee)||(prog&&prog.monthly_fee)||0);
   const html=`<div class="receipt-box">
     <div style="text-align:center;margin-bottom:16px">
       <div style="font-size:14pt;font-weight:700">RoboWorks Ambato</div>
@@ -1904,12 +1904,12 @@ async function printPaymentReceipt(){
       <div style="font-size:11pt;font-weight:700;margin-top:8px;border:2px solid #000;padding:4px">COMPROBANTE DE PAGO</div>
     </div>
     <div class="receipt-row"><span>Fecha:</span><span>${paidDate}</span></div>
-    <div class="receipt-row"><span>Estudiante:</span><span>${s?.full_name||'—'}</span></div>
-    <div class="receipt-row"><span>Programa:</span><span>${prog?.name||'—'}</span></div>
-    <div class="receipt-row"><span>Nivel:</span><span>${s?.level||'—'}</span></div>
+    <div class="receipt-row"><span>Estudiante:</span><span>${(s&&s.full_name)||'—'}</span></div>
+    <div class="receipt-row"><span>Programa:</span><span>${(prog&&prog.name)||'—'}</span></div>
+    <div class="receipt-row"><span>Nivel:</span><span>${(s&&s.level)||'—'}</span></div>
     <div class="receipt-row"><span>Período:</span><span>${fmtMonth(month)}</span></div>
-    <div class="receipt-row"><span>Método:</span><span style="text-transform:capitalize">${pay?.method||'Efectivo'}</span></div>
-    ${pay?.note?`<div class="receipt-row"><span>Nota:</span><span>${pay.note}</span></div>`:''}
+    <div class="receipt-row"><span>Método:</span><span style="text-transform:capitalize">${(pay&&pay.method)||'Efectivo'}</span></div>
+    ${(pay&&pay.note)?`<div class="receipt-row"><span>Nota:</span><span>${pay.note}</span></div>`:''}
     <div class="receipt-row receipt-total"><span>TOTAL:</span><span>$${Number(amount).toFixed(2)}</span></div>
     <div style="margin-top:20px;font-size:9pt;color:#555;text-align:center">
       Gracias por confiar en RoboWorks.<br>
@@ -1925,7 +1925,7 @@ async function printStudentReport(){
   const studentId=document.getElementById('doc-rep-stu').value;
   if(!studentId){toast('Selecciona un estudiante','error');return;}
   const s=allStudents.find(x=>x.id===studentId);
-  const prog=allPrograms.find(p=>p.id===s?.program_id);
+  const prog=allPrograms.find(p=>p.id===(s&&s.program_id));
   const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
   // Count attendance
   const attSnap=await db.collection('attendance').where('student_id','==',studentId).get().catch(()=>({docs:[]}));
@@ -1940,7 +1940,7 @@ async function printStudentReport(){
   const months=[getMonthKey(-2),getMonthKey(-1),getMonthKey(0)];
   const payRows=months.map(m=>{
     const p=allPayments.find(x=>x.student_id===studentId&&x.month===m);
-    return`<div class="receipt-row"><span>${fmtMonth(m)}:</span><span style="color:${p?.status==='paid'?'#065f46':'#991b1b'};font-weight:700">${p?.status==='paid'?'✓ Pagado ($'+Number(p.amount||0).toFixed(2)+')':'Pendiente'}</span></div>`;
+    return`<div class="receipt-row"><span>${fmtMonth(m)}:</span><span style="color:${(p&&p.status)==='paid'?'#065f46':'#991b1b'};font-weight:700">${(p&&p.status)==='paid'?'✓ Pagado ($'+Number(p.amount||0).toFixed(2)+')':'Pendiente'}</span></div>`;
   }).join('');
   const html=`<div class="receipt-box" style="max-width:480px">
     <div style="text-align:center;margin-bottom:12px">
@@ -1948,10 +1948,10 @@ async function printStudentReport(){
       <div style="font-size:11pt;font-weight:700;border:2px solid #000;padding:4px;margin-top:6px">REPORTE DEL ESTUDIANTE</div>
       <div style="font-size:9pt;color:#666;margin-top:4px">Generado: ${today}</div>
     </div>
-    <div class="receipt-row" style="font-size:12pt"><span><strong>Estudiante:</strong></span><span>${s?.full_name||'—'}</span></div>
-    <div class="receipt-row"><span>Programa:</span><span>${prog?.name||'—'}</span></div>
-    <div class="receipt-row"><span>Nivel actual:</span><span><strong>${s?.level||'—'}</strong></span></div>
-    <div class="receipt-row"><span>Teléfono representante:</span><span>${s?.parent_phone||'—'}</span></div>
+    <div class="receipt-row" style="font-size:12pt"><span><strong>Estudiante:</strong></span><span>${(s&&s.full_name)||'—'}</span></div>
+    <div class="receipt-row"><span>Programa:</span><span>${(prog&&prog.name)||'—'}</span></div>
+    <div class="receipt-row"><span>Nivel actual:</span><span><strong>${(s&&s.level)||'—'}</strong></span></div>
+    <div class="receipt-row"><span>Teléfono representante:</span><span>${(s&&s.parent_phone)||'—'}</span></div>
     <hr style="margin:12px 0;border-color:#eee">
     <div style="font-weight:700;margin-bottom:8px">ASISTENCIA</div>
     <div class="receipt-row"><span>Clases registradas:</span><span>${total}</span></div>
@@ -1980,7 +1980,7 @@ function printDirectory(){
   <table class="print-table"><thead><tr><th>N°</th><th>Nombre completo</th><th>Nivel</th><th>Programa</th><th>Teléfono representante</th><th>Usuario plataforma</th></tr></thead><tbody>`;
   allStudents.forEach((s,i)=>{
     const prog=allPrograms.find(p=>p.id===s.program_id);
-    html+=`<tr><td class="center">${i+1}</td><td>${s.full_name}</td><td class="center">${s.level||'—'}</td><td>${prog?.name||'—'}</td><td>${s.parent_phone||'—'}</td><td style="font-family:monospace">${s.username||'—'}</td></tr>`;
+    html+=`<tr><td class="center">${i+1}</td><td>${s.full_name}</td><td class="center">${s.level||'—'}</td><td>${(prog&&prog.name)||'—'}</td><td>${s.parent_phone||'—'}</td><td style="font-family:monospace">${s.username||'—'}</td></tr>`;
   });
   html+=`</tbody></table><div class="print-footer"><span>Documento interno — RoboWorks</span><span>Firma: _______________________</span></div>`;
   document.getElementById('print-area').innerHTML=html;
@@ -2012,7 +2012,7 @@ function renderAdmins(){
     <td><code style="background:var(--bg);padding:.2rem .5rem;border-radius:4px;font-size:.78rem">${a.username}</code></td>
     <td>${a.role==='superadmin'?'<span class="role-super"><i class="fa-solid fa-crown"></i> Super Admin</span>':'<span class="role-admin"><i class="fa-solid fa-user-shield"></i> Admin</span>'}</td>
     <td><span class="active-dot ${a.active?'dot-on':'dot-off'}"></span>${a.active?'Activo':'Inactivo'}</td>
-    <td style="font-size:.78rem;color:var(--text-light)">${a.createdBy||a.created_by||'—'}</td>
+    <td style="font-size:.78rem;color:var(--text-light)">${(a.createdBy)||a.created_by||'—'}</td>
     <td>${a.id.startsWith('_')?'<span style="font-size:.72rem;color:var(--text-light)">Fijo</span>':`<div class="td-actions">
       <button class="btn btn-ghost btn-sm btn-icon" onclick="toggleAdmin('${a.id}',${!a.active})" title="${a.active?'Desactivar':'Activar'}"><i class="fa-solid fa-${a.active?'ban':'check'}"></i></button>
       <button class="btn btn-danger btn-sm btn-icon" onclick="deleteAdmin('${a.id}')" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
