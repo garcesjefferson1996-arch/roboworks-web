@@ -246,41 +246,41 @@ const db=firebase.firestore();
 // ── LEVEL DATA ────────────────────────────────────
 const LEVELS=[
   {id:1,name:'SPARK',color:'#06B6D4',units:[
-    {name:'U1 — Programación: My First Instructions',classes:[
-      {n:1,topic:'¿Qué es un robot?',reto:'¿Cuántas instrucciones le darías a un robot para ir de la puerta a tu silla? Dibuja el camino con flechas y descríbelo.'},
-      {n:2,topic:'¿Qué es una instrucción?',reto:'¿Qué pasó cuando tu amigo siguió tus instrucciones? ¿Tuvo que corregir algo? ¿Por qué crees que pasó eso?'},
-      {n:3,topic:'Zmrobo Alpha — primeras secuencias',reto:'¿Cuántas tarjetas usaste para llegar a la meta? ¿Puedes hacerlo con menos? Describe el camino más corto que encontraste.'},
-      {n:4,topic:'Construyo un camino con desafío',reto:'Describe tu laberinto. ¿Cuántos intentos necesitó el Zmrobo para resolverlo? ¿Qué aprendiste de cada intento?'},
-      {n:5,topic:'Loops — introducción',reto:'Sin LOOP necesitas 20 instrucciones. ¿Cuántas necesitas CON loop? Escribe los dos números y explica por qué son diferentes.'},
-      {n:6,topic:'Mini-proyecto: Mi primera historia programada',reto:'¿De qué trata tu historia? Describe tus 3 escenas. ¿Cuál fue la parte más difícil de programar y cómo la resolviste?'},
+    {name:'U1 — Hello, Robot World!',classes:[
+      {n:1,topic:'Hola, Mundo Robot! 🤖',reto:'Construye tu torre de colores con LEGO. Toma una foto de tu creación.',q1:'¿Qué colores usaste en tu torre? ¿Cómo se llama el robot que conociste hoy?',q2:'¿Qué fue lo más divertido de conocer al AlphaBot por primera vez?'},
+      {n:2,topic:'Build It! Count It! 🏗️',reto:'Construye algo con un plan. Toma una foto de tu construcción terminada.',q1:'¿Cuántas piezas tiene tu construcción? ¿Qué construiste?',q2:'¿Qué pasos le diste al AlphaBot para que se moviera?'},
+      {n:3,topic:'Patterns & Robots 🔁',reto:'Crea tu muro de patrones de colores con LEGO. Toma una foto.',q1:'¿Cuál es tu patrón de colores? ¿Cuántas veces se repite?',q2:'¿En qué se parece un patrón de colores a un LOOP de programación?'},
+      {n:4,topic:'ROBOMISION! — Reto U1 🏆',reto:'Toma una foto de tu construcción libre más creativa del ROBOMISION.',q1:'¿Qué construiste libremente hoy? ¿Qué es?',q2:'¿Pudo el AlphaBot ir del punto A al punto B? ¿Cuántos intentos necesitó?'},
     ]},
-    {name:'U2 — Electrónica: Lights & Circuits',classes:[
-      {n:7,topic:'¿Qué es la electricidad?',reto:'¿Qué necesitas para encender el LED? Describe el camino que recorre la electricidad desde la batería hasta la luz.'},
-      {n:8,topic:'Circuitos de papel',reto:'¿Qué pasa si cortas el circuito en cualquier punto? ¿Qué descubriste sobre cómo viaja la electricidad?'},
-      {n:9,topic:'¿Qué es un sensor?',reto:'Encuentra 3 cosas en tu casa que usen sensores. Escríbelas y explica qué detecta cada una.'},
-      {n:10,topic:'LEGO WeDo — mi primer motor',reto:'¿Cómo se mueve tu modelo? ¿Qué pasa si cambias la dirección del motor? Describe lo que observaste.'},
-      {n:11,topic:'Programo mi motor',reto:'¿Cómo hiciste que tu motor fuera más rápido? ¿Y más lento? Describe los pasos que seguiste.'},
-      {n:12,topic:'Mini-proyecto: Mi animal mecánico',reto:'¿Qué animal creaste? ¿Cómo se mueve? Describe tu animal y explica qué hiciste para que cobrara vida.'},
+    {name:'U2 — My Body, My Robot',classes:[
+      {n:5,topic:'Robot Body Parts 🦾',reto:'Construye un robot LEGO con partes del cuerpo. Toma una foto.',q1:'¿Cómo se llama tu robot? ¿Qué partes del cuerpo tiene?',q2:'¿En qué se parece un robot a una persona? ¿En qué se diferencia?'},
+      {n:6,topic:'How Does a Robot Feel? 😊',reto:'Crea una cara de emoción con LEGO. Toma una foto.',q1:'¿Qué emoción tiene tu robot? ¿Por qué elegiste esa emoción?',q2:'¿Qué color de luz le pusiste al AlphaBot para esa emoción? ¿Por qué?'},
+      {n:7,topic:'Step by Step! — Debugging 🐛',reto:'Construye tu circuito de obstáculos. Toma una foto.',q1:'¿Encontraste un bug hoy? ¿Qué tarjeta estaba mal y cómo lo arreglaste?',q2:'¿Qué aprendiste sobre el debugging?'},
+      {n:8,topic:'ROBOMISION! — Reto U2 🏆',reto:'Primera exploración en Scratch Jr. Comparte el link de tu proyecto.',q1:'¿Qué descubriste cuando exploraste Scratch Jr por primera vez?',q2:'¿Qué le pasa a SPARKY cuando le das instrucciones? Describe 2 cosas.'},
     ]},
-    {name:'U3 — Diseño 3D: I Create in 3D',classes:[
-      {n:13,topic:'¿Qué es 3D?',reto:'Encuentra 5 objetos en el salón: ¿cuáles son 2D y cuáles son 3D? ¿Cómo sabes la diferencia?'},
-      {n:14,topic:'TinkerCAD — mis primeras formas',reto:'¿Qué formas usaste? ¿Cuál fue más difícil de controlar? Describe tu diseño con palabras y colores.'},
-      {n:15,topic:'Diseño mi nombre en 3D',reto:'¿Cuántas letras tiene tu nombre? ¿Cuál fue la letra más difícil? ¿De qué color la hiciste y por qué?'},
-      {n:16,topic:'¿Cómo funciona la impresora 3D?',reto:'¿Cuánto tiempo tardó la impresora? ¿Por qué crees que imprime capa por capa y no de una sola vez?'},
-      {n:17,topic:'Mi diseño se imprime',reto:'¿Cómo se siente esperar que tu diseño se imprima? ¿Crees que saldrá exactamente como lo diseñaste?'},
-      {n:18,topic:'Mini-proyecto: Recibo mi creación',reto:'¿Tu pieza es exactamente como la imaginaste? ¿Qué cambiarías si la diseñaras de nuevo? ¿Para qué la usarás?'},
+    {name:'U3 — Animals & Habitats',classes:[
+      {n:9,topic:'Animal World — Habitat LEGO 🌊',reto:'Construye el hábitat de tu animal con LEGO. Toma una foto.',q1:'¿Qué animal elegiste? ¿Qué tiene su hábitat (agua, comida, refugio)?',q2:'¿Cómo programaste al AlphaBot para moverse como tu animal?'},
+      {n:10,topic:'Design a Robot Animal! 🦅🤖',reto:'Construye tu animal robot con LEGO. Sube una foto o link del diseño digital.',q1:'¿Cómo se llama tu animal robot? ¿Qué partes de distintos animales tiene?',q2:'¿Cuál es el superpoder de tu animal robot?'},
+      {n:11,topic:'Scratch Jr Animal Stories 🎬',reto:'Crea tu historia de animales en Scratch Jr. Comparte el link.',q1:'¿Qué animales están en tu historia? ¿Qué les pasa al final?',q2:'¿Cuántas escenas tiene tu historia? ¿Qué fue lo más difícil de programar?'},
+      {n:12,topic:'ROBOMISION! — Reto U3 🏆',reto:'Programa al AlphaBot para recorrer el hábitat. Toma una foto.',q1:'¿Pudo el AlphaBot recorrer el hábitat sin chocar? ¿Qué tarjetas usaste?',q2:'¿Qué fue lo más emocionante del ROBOMISION de animales?'},
     ]},
-    {name:'U4 — Proyecto: Mini RoboWorks Expo',classes:[
-      {n:19,topic:'Planifico mi exposición',reto:'¿Qué vas a mostrar? ¿Cómo explicarás tu proyecto a alguien que no sabe nada de robótica?'},
-      {n:20,topic:'Preparo mi presentación',reto:'¿Cuál es la parte más difícil de explicar? ¿Cómo la simplificarías para que un niño de 5 años lo entienda?'},
-      {n:21,topic:'Día de la Expo — presento',reto:'¿Cómo te sentiste al presentar? ¿Qué pregunta te sorprendió? ¿Qué responderías diferente?'},
-      {n:22,topic:'Reflexión final SPARK',reto:'¿Cuál fue tu momento favorito del nivel SPARK? ¿Qué fue lo más difícil? ¿A quién le contarías lo que aprendiste?'},
-      {n:23,topic:'Celebración y cierre',reto:'¿Cómo te sentiste al llegar al final de SPARK? ¿Qué consejo le darías a un amigo que va a empezar?'},
-      {n:24,topic:'Certificación SPARK',reto:'Escribe una carta corta a tu "yo del futuro" sobre lo que aprendiste en SPARK y lo que esperas aprender después.'},
+    {name:'U4 — Build & Code',classes:[
+      {n:13,topic:'Numbers 6-10 & Directions 🗺️',reto:'Construye tu mapa numerado con LEGO. Toma una foto.',q1:'¿De qué casilla a qué casilla llegó tu AlphaBot? ¿Cuántos pasos dio?',q2:'¿Qué dirección fue la más difícil de programar?'},
+      {n:14,topic:'Loops & Repeats! — SPARKY Baila 💃',reto:'Crea el baile de SPARKY en Scratch Jr con loops. Comparte el link.',q1:'¿Cuántas veces se repite el baile? ¿Qué movimientos tiene SPARKY?',q2:'¿Por qué los loops hacen los programas más cortos?'},
+      {n:15,topic:'Tinkercad: My First 3D World 🖥️',reto:'Diseña tu robot en Tinkercad. Comparte el link de tu diseño.',q1:'¿Qué formas 3D usaste? ¿De qué color es tu diseño?',q2:'¿En qué se parece tu diseño Tinkercad a tu robot LEGO?'},
+      {n:16,topic:'ROBOMISION! — Reto U4 🏆',reto:'Lleva a SPARKY a casa en Scratch Jr con loops. Comparte el link.',q1:'¿Cuántos bloques usaste? ¿Usaste un LOOP?',q2:'¿Qué fue más difícil: el camino de SPARKY o el AlphaBot avanzado?'},
     ]},
-    {name:'U5 — Certificación',classes:[
-      {n:25,topic:'Evaluación SPARK',reto:'Describe con tus propias palabras qué es un robot, qué es un circuito y qué es el diseño 3D.'},
-      {n:26,topic:'Ceremonia SPARK',reto:'¿Qué significa para ti recibir tu primer certificado? ¿Qué quieres lograr en el siguiente nivel?'},
+    {name:'U5 — Light Up!',classes:[
+      {n:17,topic:'¡Mi Primera Luz! ⚡',reto:'¡Hiciste brillar tu primer LED! Toma una foto del circuito encendido.',q1:'¿Qué 3 cosas necesitas para que un LED se encienda?',q2:'¿Qué es un circuito cerrado? ¿Y uno abierto?'},
+      {n:18,topic:'Build a Robot Flashlight! 🔦',reto:'Construye tu robot linterna. Toma una foto con la luz encendida.',q1:'¿Cómo diseñaste tu robot linterna? ¿Dónde pusiste el LED?',q2:'¿Tuviste algún bug con el circuito? ¿Cómo lo arreglaste?'},
+      {n:19,topic:'Robot Traffic Lights — IF/THEN 🚦',reto:'Construye tu semáforo robot con 3 LEDs. Toma una foto.',q1:'¿Qué significa cada color? ¿Qué secuencia sigue el semáforo?',q2:'¿Qué es un IF/THEN? Da un ejemplo de tu vida diaria.'},
+      {n:20,topic:'ROBOMISION! — Reto U5 🏆',reto:'Crea tu indicador de emoción con LED. Toma una foto encendido.',q1:'¿Qué color usaste para cada emoción? ¿Por qué esos colores?',q2:'¿Qué fue lo más sorprendente sobre la electricidad?'},
+    ]},
+    {name:'U6 — SPARK Showcase',classes:[
+      {n:21,topic:'Design My Showcase Project 🎨',reto:'Finaliza tu diseño 3D en Tinkercad. Comparte el link.',q1:'¿Qué proyecto elegiste para el Showcase? ¿Por qué ese?',q2:'¿Qué vas a decir en inglés cuando presentes? Escribe 2 oraciones.'},
+      {n:22,topic:'3D Print Day! 🖨️',reto:'¡Tu diseño se imprimió! Toma una foto con tu objeto en la mano.',q1:'¿Cómo se sintió ver tu diseño convertido en objeto real?',q2:'¿Por qué la impresora 3D imprime capa por capa?'},
+      {n:23,topic:'ROBOMISION Grand Tournament! 🏆',reto:'Toma una foto de tu mejor programa AlphaBot del nivel.',q1:'¿Cuántas tarjetas usaste? ¿Qué hacía el robot?',q2:'¿Qué fue lo más difícil de todo el nivel SPARK?'},
+      {n:24,topic:'SPARK Showcase Day! 🎉',reto:'Toma una foto con tu familia y tu proyecto en el Showcase.',q1:'¿Qué presentaste a tu familia? ¿Cómo te sentiste hablando en inglés?',q2:'Mensaje para el próximo estudiante SPARK: ¿Qué consejo le darías?'},
     ]},
   ]},
   {id:2,name:'RISE',color:'#3B82F6',units:[{name:'Nivel RISE',classes:[{n:1,topic:'Clases RISE'},{n:2,topic:''},{n:3,topic:''},{n:4,topic:''},{n:5,topic:''},{n:6,topic:''},{n:7,topic:''},{n:8,topic:''},{n:9,topic:''},{n:10,topic:''},{n:11,topic:''},{n:12,topic:''},{n:13,topic:''},{n:14,topic:''},{n:15,topic:''},{n:16,topic:''},{n:17,topic:''},{n:18,topic:''},{n:19,topic:''},{n:20,topic:''},{n:21,topic:''},{n:22,topic:''},{n:23,topic:''},{n:24,topic:''},{n:25,topic:''},{n:26,topic:''}]}]},
@@ -423,12 +423,12 @@ function renderContent(portMap, student){
             ${cls.reto?`<div class="reto-q">${cls.reto}</div>`:''}
             ${entry.reto?`
               <div class="resp-block">
-                <div class="resp-label"><i class="fas fa-comment-dots"></i> Mi respuesta</div>
+                <div class="resp-label"><i class="fas fa-comment-dots"></i> ${escHtml(cls.q1||'Mi respuesta')}</div>
                 <div class="resp-text">${escHtml(entry.reto)}</div>
               </div>`:''}
             ${entry.difficulty?`
               <div class="resp-block">
-                <div class="resp-label"><i class="fas fa-mountain"></i> Lo más difícil fue...</div>
+                <div class="resp-label"><i class="fas fa-mountain"></i> ${escHtml(cls.q2||'Lo más difícil fue...')}</div>
                 <div class="resp-text">${escHtml(entry.difficulty)}</div>
               </div>`:''}
             ${entry.learning?`

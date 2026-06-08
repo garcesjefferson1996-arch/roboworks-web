@@ -713,7 +713,7 @@ const db=firebase.firestore();
         </div>
         <div class="form-group">
           <label>Programa</label>
-          <select class="form-control" id="s-program">
+          <select class="form-control" id="s-program" onchange="renderClassChecks([])">
             <option value="">Sin asignar</option>
           </select>
         </div>
@@ -1314,8 +1314,14 @@ function newStudent(){
 function renderClassChecks(selectedIds){
   const wrap=document.getElementById('s-classes-list');
   if(!wrap) return;
+  const programId=document.getElementById('s-program').value;
+  const filtered=programId ? allClasses.filter(c=>c.program_id===programId) : allClasses;
   if(allClasses.length===0){wrap.innerHTML='<span style="font-size:.75rem;color:var(--text-light)">No hay clases creadas aún</span>';return;}
-  wrap.innerHTML=allClasses.map(c=>{
+  if(filtered.length===0){
+    wrap.innerHTML=`<span style="font-size:.75rem;color:var(--text-light)">${programId?'Este programa no tiene clases asignadas aún':'Selecciona un programa para ver sus clases'}</span>`;
+    return;
+  }
+  wrap.innerHTML=filtered.map(c=>{
     const chk=selectedIds.includes(c.id)?'checked':'';
     return`<label style="display:flex;align-items:center;gap:.4rem;padding:.35rem .7rem;border-radius:7px;border:1.5px solid ${chk?'var(--blue)':'var(--border)'};background:${chk?'var(--blue-xlight)':'var(--white)'};cursor:pointer;font-size:.78rem;font-weight:600;white-space:nowrap">
       <input type="checkbox" name="s-class" value="${c.id}" ${chk} style="accent-color:var(--blue)">${c.name}</label>`;
