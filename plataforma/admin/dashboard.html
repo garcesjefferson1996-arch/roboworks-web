@@ -642,6 +642,21 @@ const db=firebase.firestore();
       </div>
       <div class="form-row">
         <div class="form-group">
+          <label>Fecha de ingreso <span class="req">*</span></label>
+          <input type="date" class="form-control" id="s-enrolled-at">
+          <div class="form-hint">Desde este mes se empiezan a contar los pagos</div>
+        </div>
+        <div class="form-group">
+          <label>Mensualidad ($) <span class="req">*</span></label>
+          <select class="form-control" id="s-monthly-fee">
+            <option value="45">$45 — Estudiante actual</option>
+            <option value="55">$55 — Estudiante nuevo</option>
+          </select>
+          <div class="form-hint">Tarifa mensual de este estudiante</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
           <label>Día de pago <span class="req">*</span></label>
           <select class="form-control" id="s-payment-day">
             <option value="">Seleccionar día...</option>
@@ -1224,14 +1239,16 @@ async function saveStudent(e){
   const phone=document.getElementById('s-phone').value.trim();
   const program=document.getElementById('s-program').value;
   const payDay=parseInt(document.getElementById('s-payment-day').value)||null;
+  const enrolledAt=document.getElementById('s-enrolled-at').value||null;
+  const monthlyFee=parseInt(document.getElementById('s-monthly-fee').value)||45;
 
   const checkedClasses=[...document.querySelectorAll('#s-classes-list input[type=checkbox]:checked')].map(cb=>cb.value);
-  const data={full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:checkedClasses,payment_day:payDay,xp:0};
+  const data={full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:checkedClasses,payment_day:payDay,enrolled_at:enrolledAt,monthly_fee:monthlyFee,xp:0};
 
   try{
     if(editId){
       const editClasses=[...document.querySelectorAll('#s-classes-list input[type=checkbox]:checked')].map(cb=>cb.value);
-      await db.collection('students').doc(editId).update({full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:editClasses,payment_day:payDay});
+      await db.collection('students').doc(editId).update({full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:editClasses,payment_day:payDay,enrolled_at:enrolledAt,monthly_fee:monthlyFee});
       toast('Estudiante actualizado correctamente');
     } else {
       data.created_at=TS();
@@ -1300,6 +1317,8 @@ function editStudent(id){
   document.getElementById('s-username').value=s.username||'';
   document.getElementById('s-password').value=s.password||'';
   document.getElementById('s-payment-day').value=s.payment_day||'';
+  document.getElementById('s-enrolled-at').value=s.enrolled_at||'';
+  document.getElementById('s-monthly-fee').value=s.monthly_fee||45;
   document.getElementById('creds-result').style.display='none';
   renderClassChecks(s.class_ids||[]);
   openModal('modal-student');
@@ -1878,16 +1897,23 @@ async function loadPayments(){
   updatePayStats(months);
 }
 
+function enrolledMonth(s){
+  // Returns YYYY-MM of enrollment, or null
+  if(!s.enrolled_at) return null;
+  const d=new Date(s.enrolled_at);
+  if(isNaN(d)) return null;
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+}
+
 function getPayStatus(s, m){
-  // Returns: 'paid' | 'overdue' | 'pending'
+  // If month is before enrollment → not applicable
+  const em=enrolledMonth(s);
+  if(em&&m<em) return{status:'na',pay:null};
   const pay=allPayments.find(p=>p.student_id===s.id&&p.month===m&&p.status==='paid');
   if(pay) return{status:'paid',pay};
   const now=new Date();
   const curMonth=getMonthKey(0);
-  const [y,mo]=m.split('-').map(Number);
-  // Past months = always overdue if unpaid
   if(m<curMonth) return{status:'overdue',pay:null};
-  // Current month: overdue if today >= payment_day
   if(m===curMonth&&s.payment_day&&now.getDate()>=s.payment_day) return{status:'overdue',pay:null};
   return{status:'pending',pay:null};
 }
@@ -1902,12 +1928,13 @@ function renderPaymentsTable(months){
   if(allStudents.length===0){tbody.innerHTML='<tr><td colspan="9"><div class="empty"><p>No hay estudiantes</p></div></td></tr>';return;}
   tbody.innerHTML=allStudents.map(s=>{
     const prog=allPrograms.find(p=>p.id===s.program_id);
-    const fee=55; // tarifa fija RoboWorks
+    const fee=s.monthly_fee||45;
     const curStatus=getPayStatus(s,curMonth);
     const isOverdueNow=curStatus.status==='overdue';
 
     const cells=months.map(m=>{
       const {status,pay}=getPayStatus(s,m);
+      if(status==='na') return`<td><span style="color:var(--text-light);font-size:.72rem;padding:.2rem .4rem">—</span></td>`;
       if(status==='paid'){
         const d=pay.paid_at?(pay.paid_at.toDate?pay.paid_at.toDate():new Date(pay.paid_at)).toLocaleDateString('es-EC',{day:'2-digit',month:'short'}):'—';
         return`<td><span class="pay-cell pay-paid" title="Pagado el ${d} · ${pay.method||''}"><i class="fa-solid fa-check"></i>${d}</span></td>`;
@@ -1942,10 +1969,10 @@ function renderPaymentsTable(months){
 
 function updatePayStats(months){
   const curMonth=getMonthKey(0);
-  const paidThisMonth=allPayments.filter(p=>p.month===curMonth&&p.status==='paid').reduce((a,p)=>a+(p.amount||55),0);
+  const paidThisMonth=allPayments.filter(p=>p.month===curMonth&&p.status==='paid').reduce((a,p)=>a+(p.amount||0),0);
   const overdueNow=allStudents.filter(s=>getPayStatus(s,curMonth).status==='overdue').length;
   const pendingNow=allStudents.filter(s=>getPayStatus(s,curMonth).status==='pending').length;
-  const totalProjected=allStudents.length*55;
+  const totalProjected=allStudents.filter(s=>getPayStatus(s,curMonth).status!=='na').reduce((a,s)=>a+(s.monthly_fee||45),0);
   document.getElementById('pay-stat-col').textContent='$'+paidThisMonth.toFixed(2);
   document.getElementById('pay-stat-pend').textContent=pendingNow;
   document.getElementById('pay-stat-over').textContent=overdueNow;
