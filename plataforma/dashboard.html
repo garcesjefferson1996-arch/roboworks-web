@@ -170,6 +170,19 @@ textarea.port-input:focus{border-color:var(--cyan);background:var(--cyan-light)}
 .save-btn{background:linear-gradient(135deg,var(--green),#059669);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:50px;font-size:.84rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:.4rem;transition:.15s;box-shadow:0 4px 14px rgba(16,185,129,.3)}
 .save-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(16,185,129,.45)}
 .saved-chip{background:var(--green-light);color:var(--green);font-size:.75rem;font-weight:800;padding:.35rem .875rem;border-radius:50px;display:none;font-family:'Nunito',sans-serif}
+/* ── PORTFOLIO LINKS ── */
+.links-list{display:flex;flex-wrap:wrap;gap:.5rem;min-height:24px;margin-bottom:.5rem}
+.link-chip{display:flex;align-items:center;gap:.45rem;background:var(--blue-xlight);border:1.5px solid var(--blue-light);border-radius:8px;padding:.35rem .65rem;font-size:.75rem;max-width:100%}
+.link-chip a{color:var(--blue);font-weight:600;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.link-chip a:hover{text-decoration:underline}
+.link-chip-del{background:none;border:none;color:var(--red);cursor:pointer;font-size:.68rem;padding:.1rem .2rem;border-radius:4px;line-height:1;flex-shrink:0}
+.link-chip-del:hover{background:var(--red-light)}
+.link-add-row{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+.link-add-row .port-input{padding:.45rem .65rem;font-size:.78rem}
+.link-url-in{flex:1;min-width:160px}
+.link-label-in{width:110px}
+.link-add-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:.45rem .85rem;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.3rem}
+.link-add-btn:hover{background:var(--blue-dark)}
 .qr-section{text-align:center;padding:1.75rem;background:var(--cyan-light);border-radius:20px;margin-top:1.25rem}
 .qr-section h4{font-size:1.05rem;font-weight:800;color:var(--cyan-dark);margin-bottom:.4rem;font-family:'Nunito',sans-serif}
 .qr-section p{font-size:.84rem;color:var(--muted);margin-bottom:1rem}
@@ -405,8 +418,23 @@ const fdb=firebase.firestore();
       <div class="port-unit-tabs" id="port-unit-tabs"></div>
       <div id="port-class-list"></div>
 
+      <!-- Share button — siempre visible -->
+      <div style="margin-top:1.5rem;background:var(--blue-xlight);border:1.5px solid var(--blue-light);border-radius:16px;padding:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px">
+          <div style="font-weight:700;font-size:.9rem;margin-bottom:.2rem"><i class="fas fa-share-nodes" style="color:var(--blue);margin-right:.4rem"></i>Compartir mi portafolio</div>
+          <div style="font-size:.78rem;color:var(--muted)">Los papitos pueden ver tu progreso en cualquier momento, aunque no hayas terminado el nivel.</div>
+        </div>
+        <button id="share-port-btn" onclick="sharePortfolio()" style="background:var(--blue);color:#fff;border:none;border-radius:10px;padding:.6rem 1.2rem;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.4rem">
+          <i class="fas fa-link"></i> Copiar link
+        </button>
+        <a id="open-port-link" href="#" target="_blank" style="background:#fff;color:var(--blue);border:1.5px solid var(--blue-light);border-radius:10px;padding:.6rem 1.2rem;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.4rem;text-decoration:none">
+          <i class="fas fa-eye"></i> Ver portafolio
+        </a>
+      </div>
+
+      <!-- QR solo al completar nivel -->
       <div class="qr-section" id="qr-section" style="display:none">
-        <h4>Nivel completado — Genera tu QR</h4>
+        <h4>🎉 Nivel completado — Genera tu QR</h4>
         <p>Este código va en tu certificado. Cualquier persona que lo escanee verá tu portafolio completo.</p>
         <div id="qrcode"></div>
         <p style="font-size:.75rem;color:var(--gray)">Toma una captura de pantalla y compártela con tu instructor.</p>
@@ -741,6 +769,10 @@ function initUI(){
   const xp=student.xp||0;
   const initials=name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   const color=LEVEL_COLORS[lvl]||'var(--blue)';
+  // Portfolio link
+  const portUrl=`${location.origin}/plataforma/portfolio.html?s=${student.id}`;
+  const openLink=document.getElementById('open-port-link');
+  if(openLink) openLink.href=portUrl;
 
   document.getElementById('sb-avatar').textContent=initials;
   document.getElementById('sb-avatar').style.background=`linear-gradient(135deg,${color},${color}bb)`;
@@ -1101,6 +1133,15 @@ function renderPortfolioUnit(){
         <div class="field-label"><i class="fas fa-lightbulb"></i> Hoy aprendí que...</div>
         <textarea class="port-input" rows="2" id="learn-${lv.id}-${cls.n}" placeholder="Una frase que resuma tu aprendizaje...">${entry.learning||''}</textarea>
       </div>
+      <div class="field-group">
+        <div class="field-label"><i class="fas fa-link"></i> Mis trabajos y proyectos</div>
+        <div class="links-list" id="links-${lv.id}-${cls.n}"></div>
+        <div class="link-add-row">
+          <input class="port-input link-url-in" id="link-url-${lv.id}-${cls.n}" placeholder="https://... (Drive, Tinkercad, YouTube...)">
+          <input class="port-input link-label-in" id="link-label-${lv.id}-${cls.n}" placeholder="Descripción">
+          <button class="link-add-btn" onclick="addLink(${lv.id},${cls.n})"><i class="fas fa-plus"></i> Agregar</button>
+        </div>
+      </div>
       <div class="save-row">
         <span class="xp-note"><i class="fas fa-star"></i> +100 XP al completar</span>
         <div style="display:flex;align-items:center;gap:.5rem">
@@ -1110,6 +1151,7 @@ function renderPortfolioUnit(){
       </div>
     </div>`;
     list.appendChild(card);
+    renderLinks(lv.id, cls.n, entry.links||[]);
   });
   updatePortProgress();
   checkQR(lv);
@@ -1127,7 +1169,8 @@ function savePort(lvl,cls){
   if(!reto.trim()){alert('Por favor escribe tu respuesta al reto antes de guardar.');return;}
   const difficulty=document.getElementById(`diff-${lvl}-${cls}`)?.value||'';
   const learning=document.getElementById(`learn-${lvl}-${cls}`)?.value||'';
-  savePortEntry(lvl,cls,{reto,difficulty,learning});
+  const existing=portCache[`${lvl}_${cls}`]||{};
+  savePortEntry(lvl,cls,{...existing,reto,difficulty,learning});
   const chip=document.getElementById(`chip-${lvl}-${cls}`);
   if(chip){chip.style.display='inline-block';}
   // Update XP
@@ -1166,6 +1209,88 @@ function checkQR(lv){
   } else {
     qrSection.style.display='none';
   }
+}
+
+// ─── SHARE PORTFOLIO ─────────────────────────────────────────
+function sharePortfolio(){
+  const url=`${location.origin}/plataforma/portfolio.html?s=${student.id}`;
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn=document.getElementById('share-port-btn');
+    btn.innerHTML='<i class="fas fa-check"></i> ¡Copiado!';
+    setTimeout(()=>{btn.innerHTML='<i class="fas fa-link"></i> Copiar link';},2200);
+  }).catch(()=>{prompt('Copia este link:',url);});
+}
+
+// ─── PORTFOLIO LINKS ─────────────────────────────────────────
+function getLinkIcon(url){
+  if(!url) return 'fa-link';
+  const u=url.toLowerCase();
+  if(u.includes('drive.google')||u.includes('docs.google')) return 'fa-brands fa-google-drive';
+  if(u.includes('youtube')||u.includes('youtu.be')) return 'fa-brands fa-youtube';
+  if(u.includes('tinkercad')) return 'fa-cube';
+  if(u.includes('scratch.mit')) return 'fa-cat';
+  if(u.includes('github')) return 'fa-brands fa-github';
+  return 'fa-link';
+}
+
+function renderLinks(lvlId,clsN,links){
+  const el=document.getElementById(`links-${lvlId}-${clsN}`);
+  if(!el) return;
+  if(!links||links.length===0){
+    el.innerHTML='<span style="font-size:.75rem;color:var(--gray)">Agrega el link de tu proyecto aquí ↓</span>';
+    return;
+  }
+  el.innerHTML=links.map((l,i)=>`
+    <div class="link-chip">
+      <i class="fas ${getLinkIcon(l.url)}" style="color:var(--blue);font-size:.8rem"></i>
+      <a href="${l.url}" target="_blank" rel="noopener" title="${l.url}">${l.label||'Ver proyecto'}</a>
+      <button class="link-chip-del" onclick="removeLink(${lvlId},${clsN},${i})"><i class="fas fa-xmark"></i></button>
+    </div>
+  `).join('');
+}
+
+function addLink(lvl,cls){
+  const urlEl=document.getElementById(`link-url-${lvl}-${cls}`);
+  const labelEl=document.getElementById(`link-label-${lvl}-${cls}`);
+  const url=(urlEl?.value||'').trim();
+  const label=(labelEl?.value||'').trim();
+  if(!url){alert('Pega primero el link de tu proyecto.');return;}
+  if(!url.startsWith('http')){alert('El link debe comenzar con https://');return;}
+  const cKey=`${lvl}_${cls}`;
+  const entry=portCache[cKey]||{};
+  const links=entry.links?[...entry.links]:[];
+  links.push({url,label:label||'Proyecto '+(links.length+1)});
+  entry.links=links;
+  portCache[cKey]=entry;
+  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
+  fdb.collection('portfolio').doc(fbKey).set({
+    student_id:student.id,level_id:lvl,
+    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
+    class_num:cls,...entry,
+    savedAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(()=>{});
+  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(entry));
+  if(urlEl) urlEl.value='';
+  if(labelEl) labelEl.value='';
+  renderLinks(lvl,cls,links);
+}
+
+function removeLink(lvl,cls,idx){
+  const cKey=`${lvl}_${cls}`;
+  const entry=portCache[cKey]||{};
+  const links=entry.links?[...entry.links]:[];
+  links.splice(idx,1);
+  entry.links=links;
+  portCache[cKey]=entry;
+  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
+  fdb.collection('portfolio').doc(fbKey).set({
+    student_id:student.id,level_id:lvl,
+    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
+    class_num:cls,...entry,
+    savedAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(()=>{});
+  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(entry));
+  renderLinks(lvl,cls,links);
 }
 
 // ─── TAB NAVIGATION ──────────────────────────────────────────
