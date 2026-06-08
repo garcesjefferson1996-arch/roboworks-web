@@ -488,33 +488,29 @@
     <div class="game-layout">
       <div class="game-copy">
         <span class="eyebrow"><i class="fas fa-gamepad"></i> Prueba antes de inscribirte</span>
-        <h2>¿Puedes programar el robot?</h2>
-        <p>Mueve el robot, recoge las estrellas y llega a la meta. Así se siente aprender en RoboWorks — exactamente así.</p>
+        <h2>¡Juega con nuestros robots!</h2>
+        <p>Este juego lo hicimos nosotros en RoboWorks. Así se ve aprender a programar — creando cosas reales que otros pueden jugar.</p>
         <div class="game-hints">
-          <span><i class="fas fa-keyboard"></i> Flechas del teclado</span>
-          <span><i class="fas fa-hand-pointer"></i> O los botones de pantalla</span>
+          <span><i class="fas fa-mouse-pointer"></i> Haz clic en el juego para empezar</span>
+          <span><i class="fas fa-mobile-alt"></i> Compatible con móvil</span>
         </div>
         <a href="https://wa.me/593993340103?text=Hola,%20quiero%20inscribir%20a%20mi%20hijo%20en%20RoboWorks" target="_blank" class="primary-cta" style="margin-top:24px;display:inline-flex">
           <i class="fab fa-whatsapp"></i> ¡Quiero inscribir a mi hijo!
         </a>
       </div>
 
-      <div class="game-container" id="game-wrap">
-        <div class="game-stats-bar">
-          <span id="g-stars">⭐ 0 / 3</span>
-          <span id="g-moves">🔋 20 mov.</span>
-          <span id="g-level">Nivel 1</span>
-        </div>
-        <canvas id="rw-game" width="420" height="280" style="display:block;width:100%;max-width:420px;border-radius:16px;margin:0 auto"></canvas>
-        <div class="game-btns">
-          <div class="game-row"><button class="gbtn" id="g-up" aria-label="Arriba">↑</button></div>
-          <div class="game-row">
-            <button class="gbtn" id="g-left" aria-label="Izquierda">←</button>
-            <button class="gbtn" id="g-down" aria-label="Abajo">↓</button>
-            <button class="gbtn" id="g-right" aria-label="Derecha">→</button>
-          </div>
-        </div>
-        <div class="game-msg" id="g-msg"></div>
+      <div class="game-container">
+        <iframe
+          src="https://scratch.mit.edu/projects/1329707697/embed"
+          allowtransparency="true"
+          width="485"
+          height="402"
+          frameborder="0"
+          scrolling="no"
+          allowfullscreen
+          title="Juego RoboWorks en Scratch"
+          style="display:block;width:100%;max-width:485px;border-radius:14px;aspect-ratio:485/402"
+        ></iframe>
       </div>
     </div>
   </div>
@@ -559,34 +555,8 @@
   background:rgba(255,255,255,.04);
   border:1px solid rgba(0,168,232,.2);
   border-radius:22px;
-  padding:20px;
+  padding:16px;
   box-shadow:0 20px 60px rgba(0,168,232,.15);
-}
-.game-stats-bar{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:12px;
-  font-size:.82rem;font-weight:700;color:rgba(255,255,255,.72);
-  font-family:'Nunito','Poppins',sans-serif;
-}
-.game-btns{
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  margin-top:14px;
-}
-.game-row{display:flex;gap:6px}
-.gbtn{
-  width:46px;height:46px;border-radius:12px;
-  border:1.5px solid rgba(0,168,232,.3);
-  background:rgba(0,168,232,.12);
-  color:#fff;font-size:1.1rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:.15s;font-family:inherit;
-}
-.gbtn:hover{background:rgba(0,168,232,.28);transform:scale(1.06)}
-.gbtn:active{transform:scale(.92)}
-.game-msg{
-  min-height:32px;text-align:center;margin-top:10px;
-  font-size:.88rem;font-weight:700;color:#fcd34d;
-  font-family:'Nunito',sans-serif;
 }
 @media(max-width:860px){
   .game-layout{grid-template-columns:1fr;gap:32px}
@@ -595,131 +565,9 @@
 }
 @media(max-width:480px){
   .game-section{padding:56px 0}
-  .game-container{padding:14px}
+  .game-container{padding:10px}
 }
 </style>
-
-<script>
-(function(){
-  const cv=document.getElementById('rw-game');
-  if(!cv) return;
-  const ctx=cv.getContext('2d');
-  const W=12,H=8,CS=35;
-  cv.width=W*CS;cv.height=H*CS;
-
-  const CYAN='#00a8e8',ORANGE='#ff7b42',GREEN='#10b981',GOLD='#f59e0b',DARK='#0f1c2e';
-
-  const LEVELS=[
-    {walls:[[1,0],[1,1],[1,2],[3,2],[3,3],[3,4],[5,1],[5,2],[5,4],[5,5],[7,2],[7,3],[7,5],[9,1],[9,2],[9,4]],
-     stars:[[2,6],[6,1],[10,5]],start:[0,4],goal:[11,3],moves:22},
-    {walls:[[1,1],[1,2],[2,4],[3,1],[3,5],[4,2],[4,3],[5,5],[6,1],[6,4],[7,2],[7,5],[8,1],[8,3],[9,4],[10,2]],
-     stars:[[2,6],[5,2],[9,1]],start:[0,7],goal:[11,0],moves:24},
-    {walls:[[1,0],[1,3],[2,1],[2,5],[3,3],[4,0],[4,4],[5,2],[5,6],[6,1],[6,4],[7,3],[7,6],[8,0],[8,2],[9,5],[10,3]],
-     stars:[[3,6],[6,0],[10,6]],start:[0,3],goal:[11,4],moves:26},
-  ];
-
-  let lv=0,robot,stars,movs,won,lost,wset,sparkles=[],shk=0;
-
-  function init(){
-    const L=LEVELS[lv];
-    robot={x:L.start[0],y:L.start[1],face:'right'};
-    stars=L.stars.map(s=>({x:s[0],y:s[1],c:false}));
-    movs=L.moves;won=false;lost=false;
-    wset=new Set(L.walls.map(w=>w[0]+','+w[1]));
-    sparkles=[];
-    setMsg('');
-    upd();draw();
-  }
-
-  function upd(){
-    document.getElementById('g-stars').textContent='⭐ '+stars.filter(s=>s.c).length+' / 3';
-    document.getElementById('g-moves').textContent='🔋 '+movs+' mov.';
-    document.getElementById('g-level').textContent='Nivel '+(lv+1);
-  }
-  function setMsg(t){document.getElementById('g-msg').textContent=t;}
-
-  function hasWall(x,y){return x<0||x>=W||y<0||y>=H||wset.has(x+','+y);}
-
-  function move(dx,dy){
-    if(won||lost) return;
-    const nx=robot.x+dx,ny=robot.y+dy;
-    if(hasWall(nx,ny)){shk=6;draw();return;}
-    if(dx>0)robot.face='right';if(dx<0)robot.face='left';
-    robot.x=nx;robot.y=ny;movs--;
-    const L=LEVELS[lv];
-    stars.forEach(s=>{if(!s.c&&s.x===nx&&s.y===ny){s.c=true;for(let i=0;i<8;i++)sparkles.push({x:nx*CS+CS/2,y:ny*CS+CS/2,vx:(Math.random()-.5)*4,vy:(Math.random()-1)*4,life:1});}});
-    const ok=stars.every(s=>s.c);
-    if(ok&&nx===L.goal[0]&&ny===L.goal[1]){
-      won=true;
-      if(lv<LEVELS.length-1){setMsg('¡Nivel superado! 🎉');setTimeout(()=>{lv++;init();},1400);}
-      else{setMsg('¡Ganaste! 🏆 ¡Así se programa en RoboWorks!');}
-    } else if(movs<=0&&!won){lost=true;setMsg('Sin movimientos 😅 ¡Inténtalo de nuevo!');}
-    upd();draw();
-  }
-
-  function draw(){
-    ctx.fillStyle=DARK;ctx.fillRect(0,0,cv.width,cv.height);
-    for(let x=0;x<W;x++)for(let y=0;y<H;y++){ctx.strokeStyle='rgba(0,168,232,.07)';ctx.lineWidth=.5;ctx.strokeRect(x*CS,y*CS,CS,CS);}
-    LEVELS[lv].walls.forEach(([wx,wy])=>{
-      ctx.fillStyle='#1e3a5f';ctx.fillRect(wx*CS+1,wy*CS+1,CS-2,CS-2);
-      ctx.strokeStyle='rgba(0,168,232,.25)';ctx.lineWidth=1;ctx.strokeRect(wx*CS+2,wy*CS+2,CS-4,CS-4);
-    });
-    const L=LEVELS[lv],ok=stars.every(s=>s.c);
-    ctx.fillStyle=ok?'rgba(16,185,129,.28)':'rgba(16,185,129,.1)';ctx.fillRect(L.goal[0]*CS+2,L.goal[1]*CS+2,CS-4,CS-4);
-    ctx.fillStyle=ok?GREEN:'rgba(16,185,129,.5)';ctx.font='18px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('🏁',L.goal[0]*CS+CS/2,L.goal[1]*CS+CS/2);
-    const t=Date.now()/800;
-    stars.forEach(s=>{
-      if(s.c)return;const b=Math.sin(t+s.x)*2;
-      ctx.save();ctx.translate(s.x*CS+CS/2,s.y*CS+CS/2+b);
-      ctx.beginPath();for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2,b2=a+Math.PI/5;ctx.lineTo(Math.cos(a)*9,Math.sin(a)*9);ctx.lineTo(Math.cos(b2)*4,Math.sin(b2)*4);}
-      ctx.closePath();ctx.fillStyle=GOLD;ctx.fill();ctx.restore();
-    });
-    const rx=robot.x*CS+CS/2+(shk>0?shk:0),ry=robot.y*CS+CS/2;
-    if(shk>0)shk=Math.max(0,shk-1.8);
-    ctx.save();ctx.translate(rx,ry);if(robot.face==='left')ctx.scale(-1,1);
-    ctx.fillStyle=CYAN;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(-10,-8,20,14,3);else ctx.rect(-10,-8,20,14);ctx.fill();
-    ctx.fillStyle='#33c6f4';ctx.beginPath();if(ctx.roundRect)ctx.roundRect(-8,-18,16,12,4);else ctx.rect(-8,-18,16,12);ctx.fill();
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-3,-13,3,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(3,-13,3,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle=DARK;ctx.beginPath();ctx.arc(-3,-13,1.5,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(3,-13,1.5,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='#33c6f4';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,-18);ctx.lineTo(0,-23);ctx.stroke();
-    ctx.fillStyle=ORANGE;ctx.beginPath();ctx.arc(0,-24,2.5,0,Math.PI*2);ctx.fill();
-    const aw=Math.sin(Date.now()/400)*.4;
-    ctx.strokeStyle=CYAN;ctx.lineWidth=3;ctx.lineCap='round';
-    ctx.beginPath();ctx.moveTo(10,-4);ctx.lineTo(10+Math.cos(aw)*7,-4+Math.sin(aw)*7);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(-10,-4);ctx.lineTo(-17,-4);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(-5,6);ctx.lineTo(-5,10);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(5,6);ctx.lineTo(5,10);ctx.stroke();
-    ctx.restore();
-    sparkles.forEach(s=>{s.x+=s.vx;s.y+=s.vy;s.vy+=.15;s.life-=.04;});
-    sparkles=sparkles.filter(s=>s.life>0);
-    sparkles.forEach(s=>{ctx.globalAlpha=s.life;ctx.fillStyle=GOLD;ctx.beginPath();ctx.arc(s.x,s.y,3*s.life,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;});
-  }
-
-  setInterval(()=>{if(!won||sparkles.length)draw();},70);
-
-  document.getElementById('g-up').addEventListener('click',()=>move(0,-1));
-  document.getElementById('g-down').addEventListener('click',()=>move(0,1));
-  document.getElementById('g-left').addEventListener('click',()=>move(-1,0));
-  document.getElementById('g-right').addEventListener('click',()=>move(1,0));
-
-  document.addEventListener('keydown',e=>{
-    const el=document.getElementById('game-wrap');
-    if(!el) return;
-    const r=el.getBoundingClientRect();
-    if(r.top>window.innerHeight||r.bottom<0) return;
-    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){
-      e.preventDefault();
-      if(e.key==='ArrowUp')move(0,-1);
-      if(e.key==='ArrowDown')move(0,1);
-      if(e.key==='ArrowLeft')move(-1,0);
-      if(e.key==='ArrowRight')move(1,0);
-    }
-  });
-
-  init();
-})();
-</script>
 
 <section id="programas" class="programs-section">
   <div class="section-shell">
