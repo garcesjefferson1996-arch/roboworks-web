@@ -244,6 +244,7 @@ textarea.port-input:focus{border-color:var(--cyan);background:var(--cyan-light)}
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 <script>
 const firebaseConfig={apiKey:"AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",authDomain:"roboworks-app.firebaseapp.com",projectId:"roboworks-app",storageBucket:"roboworks-app.firebasestorage.app",messagingSenderId:"824986583831",appId:"1:824986583831:web:7477911bd5cb95a18a6d52"};
@@ -717,6 +718,9 @@ let matsFilter='all';
 document.addEventListener('DOMContentLoaded',async()=>{
   student=JSON.parse(localStorage.getItem('currentStudent'));
   if(!student){window.location.href='login.html';return;}
+  if(location.protocol!=='file:'){
+    try{await firebase.auth().signInAnonymously();}catch(_){}
+  }
   initUI();
   await Promise.all([loadPortfolioFromFirebase(),loadClasses(),loadTasks(),loadMaterials()]);
   renderPortfolioLevelTabs();
@@ -822,10 +826,13 @@ async function loadClasses(){
     const myCls=classes.filter(c=>studentClassIds.includes(c.id));
     const dayOrder={monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6};
     myCls.sort((a,b)=>(dayOrder[a.schedule_day]||7)-(dayOrder[b.schedule_day]||7));
+    // Clases completadas = registros de asistencia P o T marcados por el docente
+    const attSnap=await fdb.collection('attendance').where('student_id','==',student.id).get().catch(()=>({docs:[]}));
+    const clasesCompletadas=attSnap.docs.filter(d=>['P','T'].includes(d.data().status)).length;
     const nc=document.getElementById('next-class-content');
     const stat=document.getElementById('hs-classes');
-    stat.textContent=myCls.length+' clase'+(myCls.length!==1?'s':'');
-    document.getElementById('stat-classes').textContent=myCls.length;
+    stat.textContent=clasesCompletadas+' clase'+(clasesCompletadas!==1?'s':'');
+    document.getElementById('stat-classes').textContent=clasesCompletadas;
     document.getElementById('profileClasses');
     if(myCls.length===0){
       nc.innerHTML='<div class="empty-state"><i class="fas fa-calendar-xmark"></i><p>No hay clases programadas</p></div>';

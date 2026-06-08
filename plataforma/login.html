@@ -259,22 +259,7 @@ form.addEventListener('submit',async e=>{
   // Autenticación anónima para habilitar Firestore
   try{await firebase.auth().signInAnonymously();}catch(_){}
 
-  // Admins fijos (superadmin)
-  const fixedAdmins=[
-    {user:'JeffGarces',pass:'roboworks01',name:'Jeff Garces',role:'superadmin'},
-    {user:'EsthelitaTorres',pass:'roboworks02',name:'Esthelita Torres',role:'superadmin'},
-  ];
-  const fixedMatch=fixedAdmins.find(a=>a.user===username&&a.pass===password);
-  if(fixedMatch){
-    localStorage.setItem('isAdmin','true');
-    localStorage.setItem('adminName',fixedMatch.name);
-    localStorage.setItem('adminRole',fixedMatch.role);
-    showAlert('Bienvenido, '+fixedMatch.name,'success');
-    setTimeout(()=>window.location.href='admin/dashboard.html',900);
-    return;
-  }
-
-  // Admins dinámicos (creados desde el panel)
+  // Admins (verificados en Firestore)
   try{
     const adminSnap=await db.collection('admins').where('username','==',username).where('password','==',password).where('active','==',true).get();
     if(!adminSnap.empty){
