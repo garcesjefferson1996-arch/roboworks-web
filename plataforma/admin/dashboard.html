@@ -422,12 +422,13 @@ const db=firebase.firestore();
       <div class="card">
         <div class="card-header">
           <div class="card-title"><i class="fa-solid fa-calendar-days"></i>Clases</div>
-          <button class="btn btn-primary" onclick="openModal('modal-class')"><i class="fa-solid fa-plus"></i>Nueva clase</button>
+          <button class="btn btn-primary" onclick="openClassModal()"><i class="fa-solid fa-plus"></i>Nueva clase</button>
         </div>
+        <div id="classes-prog-tabs" style="display:flex;gap:.4rem;padding:.25rem 1.25rem 1rem;flex-wrap:wrap;border-bottom:1px solid var(--border);margin-bottom:.5rem"></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Nombre</th><th>Programa</th><th>Día</th><th>Horario</th><th>Zoom</th><th>Estudiantes</th><th>Acciones</th></tr></thead>
-            <tbody id="classes-tbody"><tr><td colspan="7"><div class="loader"><div class="spin"></div>Cargando clases...</div></td></tr></tbody>
+            <thead><tr><th>Nombre</th><th>Día</th><th>Horario</th><th>Zoom</th><th>Estudiantes</th><th>Acciones</th></tr></thead>
+            <tbody id="classes-tbody"><tr><td colspan="6"><div class="loader"><div class="spin"></div>Cargando clases...</div></td></tr></tbody>
           </table>
         </div>
       </div>
@@ -1150,6 +1151,7 @@ function goTab(id,btn){
 
 // ─── STATE ───────────────────────────────────────────────────
 let allStudents=[],allPrograms=[],allClasses=[],allTasks=[],allResources=[];
+let classesCurrentProgram=null;
 let studentsFilter='',resFilter='all';
 
 // ─── OVERVIEW ────────────────────────────────────────────────
@@ -1456,14 +1458,45 @@ async function deleteProgram(id){
 async function loadClasses(){
   const snap=await db.collection('classes').orderBy('schedule_day').get().catch(()=>({docs:[]}));
   allClasses=snap.docs.map(d=>({id:d.id,...d.data()}));
+  // Si el programa activo ya no existe, reset
+  if(classesCurrentProgram && !allPrograms.find(p=>p.id===classesCurrentProgram)) classesCurrentProgram=null;
+  // Si no hay programa activo, seleccionar el primero
+  if(!classesCurrentProgram && allPrograms.length>0) classesCurrentProgram=allPrograms[0].id;
+  renderClassTabs();
+  renderClassTable();
+}
+
+function renderClassTabs(){
+  const wrap=document.getElementById('classes-prog-tabs');
+  if(!wrap) return;
+  if(allPrograms.length===0){wrap.innerHTML='<span style="font-size:.78rem;color:var(--text-light)">No hay programas creados aún</span>';return;}
+  wrap.innerHTML=allPrograms.map(p=>{
+    const count=allClasses.filter(c=>c.program_id===p.id).length;
+    const active=p.id===classesCurrentProgram;
+    return`<button onclick="classesCurrentProgram='${p.id}';renderClassTabs();renderClassTable();"
+      style="padding:.45rem 1.1rem;border-radius:20px;border:2px solid ${active?(p.color||'var(--blue)'):'var(--border)'};
+      background:${active?(p.color||'var(--blue)'):'var(--white)'};color:${active?'#fff':'var(--text)'};
+      font-size:.8rem;font-weight:700;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:.4rem;font-family:'Nunito',sans-serif">
+      ${p.name}
+      <span style="background:${active?'rgba(255,255,255,.25)':'var(--bg)'};color:${active?'#fff':'var(--muted)'};
+        padding:.1rem .5rem;border-radius:10px;font-size:.72rem;font-weight:800">${count}</span>
+    </button>`;
+  }).join('');
+}
+
+function renderClassTable(){
   const tbody=document.getElementById('classes-tbody');
-  if(allClasses.length===0){tbody.innerHTML='<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-calendar-days"></i><p>No hay clases creadas</p></div></td></tr>';return;}
-  tbody.innerHTML=allClasses.map(c=>{
-    const prog=allPrograms.find(p=>p.id===c.program_id);
+  if(!tbody) return;
+  const list=classesCurrentProgram ? allClasses.filter(c=>c.program_id===classesCurrentProgram) : allClasses;
+  if(list.length===0){
+    const prog=allPrograms.find(p=>p.id===classesCurrentProgram);
+    tbody.innerHTML=`<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-calendar-days"></i><p>No hay clases en ${prog?prog.name:'este programa'}. Crea la primera con el botón de arriba.</p></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML=list.map(c=>{
     const studs=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(c.id));
     return`<tr>
       <td style="font-weight:600">${c.name}</td>
-      <td>${prog?`<span class="badge badge-blue">${prog.name}</span>`:'—'}</td>
       <td>${DAYS[c.schedule_day]||c.schedule_day||'—'}</td>
       <td>${c.schedule_time||'—'}</td>
       <td>${c.zoom_link?`<a href="${c.zoom_link}" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-solid fa-video"></i>Link</a>`:'<span style="color:var(--text-light)">Sin Zoom</span>'}</td>
@@ -1474,6 +1507,16 @@ async function loadClasses(){
       </div></td>
     </tr>`;
   }).join('');
+}
+
+function openClassModal(){
+  document.getElementById('modal-class-title').textContent='Nueva Clase';
+  document.getElementById('edit-class-id').value='';
+  document.getElementById('form-class').reset();
+  fillProgramSelects();
+  // Pre-seleccionar el programa activo en la pestaña
+  if(classesCurrentProgram) document.getElementById('c-program').value=classesCurrentProgram;
+  openModal('modal-class');
 }
 
 async function saveClass(e){
