@@ -71,10 +71,13 @@ body{display:flex;background:var(--bg)}
 .hero{border-radius:24px;padding:2rem;margin-bottom:1.5rem;background:linear-gradient(140deg,#003d63 0%,#005f88 30%,var(--cyan) 72%,#33c6f4 100%);color:#fff;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-70px;right:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.06)}
 .hero::after{content:'';position:absolute;bottom:-50px;left:15%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04)}
-.hero-worky{display:block;width:110px;margin:0 auto .75rem;position:relative;z-index:1;filter:drop-shadow(0 8px 20px rgba(0,0,0,.3))}
-.hero h2{font-size:1.75rem;font-weight:900;margin-bottom:.3rem;font-family:'Nunito',sans-serif;position:relative;z-index:1;text-align:center}
-.hero p{opacity:.82;font-size:.9rem;margin-bottom:1.25rem;position:relative;z-index:1;text-align:center}
-.hero-stats{display:flex;gap:.75rem;flex-wrap:wrap;position:relative;z-index:1;justify-content:center}
+.hero-inner{display:flex;align-items:center;gap:1.25rem;position:relative;z-index:1}
+.hero-worky{width:130px;flex-shrink:0;filter:drop-shadow(0 10px 24px rgba(0,0,0,.35))}
+.hero-text{flex:1}
+.hero h2{font-size:1.75rem;font-weight:900;margin-bottom:.3rem;font-family:'Nunito',sans-serif}
+.hero p{opacity:.82;font-size:.9rem;margin-bottom:1.25rem}
+.hero-stats{display:flex;gap:.75rem;flex-wrap:wrap;position:relative;z-index:1}
+.hero-lema{position:absolute;bottom:.75rem;right:1.25rem;font-size:.65rem;font-style:italic;color:rgba(255,255,255,.35);letter-spacing:1.5px;font-family:'Nunito',sans-serif;z-index:1;pointer-events:none}
 .hero-stat{background:rgba(255,255,255,.15);border-radius:12px;padding:.6rem 1rem;display:flex;align-items:center;gap:.6rem;font-size:.84rem;font-weight:700;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);font-family:'Nunito',sans-serif}
 
 /* ── STAT CARDS ── */
@@ -307,14 +310,19 @@ const fdb=firebase.firestore();
     ═══════════════════════════════════════════════ -->
     <div class="tab-panel active" id="tab-inicio">
       <div class="hero">
-        <img src="../images/worky.png" alt="Worky" class="hero-worky">
-        <h2 id="hero-name">¡Hola, Robotista!</h2>
-        <p id="hero-sub">Continúa tu aventura donde la dejaste</p>
-        <div class="hero-stats">
-          <div class="hero-stat"><i class="fas fa-star"></i><span id="hs-xp">0 XP</span></div>
-          <div class="hero-stat"><i class="fas fa-check-circle"></i><span id="hs-classes">0 clases completadas</span></div>
-          <div class="hero-stat"><i class="fas fa-trophy"></i><span id="hs-level">Nivel SPARK</span></div>
+        <div class="hero-inner">
+          <img src="../images/worky.png" alt="Worky" class="hero-worky">
+          <div class="hero-text">
+            <h2 id="hero-name">¡Hola, Robotista!</h2>
+            <p id="hero-sub">Continúa tu aventura donde la dejaste</p>
+            <div class="hero-stats">
+              <div class="hero-stat"><i class="fas fa-star"></i><span id="hs-xp">0 XP</span></div>
+              <div class="hero-stat"><i class="fas fa-check-circle"></i><span id="hs-classes">0 clases completadas</span></div>
+              <div class="hero-stat"><i class="fas fa-trophy"></i><span id="hs-level">Nivel SPARK</span></div>
+            </div>
+          </div>
         </div>
+        <span class="hero-lema">Totus Tuus</span>
       </div>
 
       <div class="grid-3" style="margin-bottom:1.25rem">
