@@ -642,6 +642,22 @@ const db=firebase.firestore();
       </div>
       <div class="form-row">
         <div class="form-group">
+          <label>Día de pago <span class="req">*</span></label>
+          <select class="form-control" id="s-payment-day">
+            <option value="">Seleccionar día...</option>
+            ${[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28].map(d=>`<option value="${d}">Día ${d} de cada mes</option>`).join('')}
+          </select>
+          <div class="form-hint">El día del mes en que este estudiante realiza su pago</div>
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:.1rem">
+          <div style="background:var(--blue-xlight);border:1px solid var(--blue-light);border-radius:8px;padding:.55rem .75rem;font-size:.78rem;color:var(--blue-dark);line-height:1.5">
+            <i class="fa-solid fa-circle-info" style="color:var(--blue)"></i>
+            El día de pago define cuándo aparece en mora en la sección de pagos.
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
           <label>Nivel RoboWorks <span class="req">*</span></label>
           <select class="form-control" id="s-level" required>
             <option value="">Seleccionar nivel...</option>
@@ -1207,14 +1223,15 @@ async function saveStudent(e){
   const password=document.getElementById('s-password').value.trim()||genPass();
   const phone=document.getElementById('s-phone').value.trim();
   const program=document.getElementById('s-program').value;
+  const payDay=parseInt(document.getElementById('s-payment-day').value)||null;
 
   const checkedClasses=[...document.querySelectorAll('#s-classes-list input[type=checkbox]:checked')].map(cb=>cb.value);
-  const data={full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:checkedClasses,xp:0};
+  const data={full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:checkedClasses,payment_day:payDay,xp:0};
 
   try{
     if(editId){
       const editClasses=[...document.querySelectorAll('#s-classes-list input[type=checkbox]:checked')].map(cb=>cb.value);
-      await db.collection('students').doc(editId).update({full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:editClasses});
+      await db.collection('students').doc(editId).update({full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:editClasses,payment_day:payDay});
       toast('Estudiante actualizado correctamente');
     } else {
       data.created_at=TS();
@@ -1282,6 +1299,7 @@ function editStudent(id){
   document.getElementById('s-program').value=s.program_id||'';
   document.getElementById('s-username').value=s.username||'';
   document.getElementById('s-password').value=s.password||'';
+  document.getElementById('s-payment-day').value=s.payment_day||'';
   document.getElementById('creds-result').style.display='none';
   renderClassChecks(s.class_ids||[]);
   openModal('modal-student');
@@ -1817,6 +1835,39 @@ async function printAttendanceFull(){
 let allPayments=[];
 const PROG_FEES={};  // programId -> fee
 
+function sendWhatsAppReminder(studentId){
+  const s=allStudents.find(x=>x.id===studentId);
+  if(!s||!s.parent_phone) return;
+  const phone=s.parent_phone.replace(/[\s\-\+\(\)]/g,'');
+  const curMonth=getMonthKey(0);
+
+  // Detect siblings — same parent phone, also overdue this month
+  const siblings=allStudents.filter(x=>
+    x.id!==studentId &&
+    x.parent_phone &&
+    x.parent_phone.replace(/[\s\-\+\(\)]/g,'')===phone &&
+    getPayStatus(x,curMonth).status==='overdue'
+  );
+
+  let nombres='';
+  if(siblings.length===0){
+    nombres=s.full_name.split(' ')[0];
+  } else {
+    const todos=[s,...siblings].map(x=>x.full_name.split(' ')[0]);
+    if(todos.length===2) nombres=todos[0]+' y '+todos[1];
+    else nombres=todos.slice(0,-1).join(', ')+' y '+todos[todos.length-1];
+  }
+
+  const mesNombre=fmtMonth(curMonth);
+  const esSolo=siblings.length===0;
+  const msg=esSolo
+    ?`Hola! Te recordamos que la mensualidad de ${nombres} en RoboWorks correspondiente a ${mesNombre} está pendiente. Puedes coordinar el pago con nosotros al 0993340103. ¡Gracias por confiar en RoboWorks! 🤖`
+    :`Hola! Te recordamos que las mensualidades de ${nombres} en RoboWorks correspondientes a ${mesNombre} están pendientes. Puedes coordinar el pago al 0993340103. ¡Gracias por confiar en RoboWorks! 🤖`;
+
+  const url=`https://wa.me/593${phone.replace(/^0/,'')}?text=${encodeURIComponent(msg)}`;
+  window.open(url,'_blank');
+}
+
 async function loadPayments(){
   document.getElementById('pay-tbody').innerHTML='<tr><td colspan="8"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr>';
   // Load payments for last 5 months
@@ -1827,46 +1878,80 @@ async function loadPayments(){
   updatePayStats(months);
 }
 
+function getPayStatus(s, m){
+  // Returns: 'paid' | 'overdue' | 'pending'
+  const pay=allPayments.find(p=>p.student_id===s.id&&p.month===m&&p.status==='paid');
+  if(pay) return{status:'paid',pay};
+  const now=new Date();
+  const curMonth=getMonthKey(0);
+  const [y,mo]=m.split('-').map(Number);
+  // Past months = always overdue if unpaid
+  if(m<curMonth) return{status:'overdue',pay:null};
+  // Current month: overdue if today >= payment_day
+  if(m===curMonth&&s.payment_day&&now.getDate()>=s.payment_day) return{status:'overdue',pay:null};
+  return{status:'pending',pay:null};
+}
+
 function renderPaymentsTable(months){
-  // Header
   const thead=document.getElementById('pay-thead');
   const curMonth=getMonthKey(0);
-  thead.innerHTML='<tr><th style="text-align:left;min-width:150px">Estudiante</th><th style="text-align:left">Nivel</th>'+
+  thead.innerHTML='<tr><th style="text-align:left;min-width:180px">Estudiante</th><th style="text-align:left">Nivel</th><th>Día pago</th>'+
     months.map(m=>`<th class="pay-th${m===curMonth?' current':''}">${fmtMonth(m)}</th>`).join('')+
-    '<th>Mensualidad</th></tr>';
-  // Body
+    '<th>Acción</th></tr>';
   const tbody=document.getElementById('pay-tbody');
-  if(allStudents.length===0){tbody.innerHTML='<tr><td colspan="8"><div class="empty"><p>No hay estudiantes</p></div></td></tr>';return;}
+  if(allStudents.length===0){tbody.innerHTML='<tr><td colspan="9"><div class="empty"><p>No hay estudiantes</p></div></td></tr>';return;}
   tbody.innerHTML=allStudents.map(s=>{
     const prog=allPrograms.find(p=>p.id===s.program_id);
-    const fee=s.monthly_fee||(prog&&prog.monthly_fee)||0;
+    const fee=55; // tarifa fija RoboWorks
+    const curStatus=getPayStatus(s,curMonth);
+    const isOverdueNow=curStatus.status==='overdue';
+
     const cells=months.map(m=>{
-      const pay=allPayments.find(p=>p.student_id===s.id&&p.month===m);
-      const now=new Date();const mDate=new Date(m+'-01');const isOver=mDate<new Date(now.getFullYear(),now.getMonth(),1);
-      if(pay&&pay.status==='paid') return`<td><span class="pay-cell pay-paid" title="Pagado el ${pay.paid_at?new Date(pay.paid_at.toDate?pay.paid_at.toDate():pay.paid_at).toLocaleDateString('es-ES',{day:'2-digit',month:'short'}):'—'} · ${pay.method||''}"><i class="fa-solid fa-check"></i>$${Number(pay.amount||0).toFixed(2)}</span></td>`;
-      if(isOver) return`<td><span class="pay-cell pay-overdue" onclick="openPayModal('${s.id}','${m}',${fee})" title="En mora"><i class="fa-solid fa-clock"></i>${fee?'$'+fee:'—'}</span></td>`;
-      return`<td><span class="pay-cell pay-pending" onclick="openPayModal('${s.id}','${m}',${fee})" title="Registrar pago"><i class="fa-solid fa-dollar-sign"></i>${fee?'$'+fee:'—'}</span></td>`;
+      const {status,pay}=getPayStatus(s,m);
+      if(status==='paid'){
+        const d=pay.paid_at?(pay.paid_at.toDate?pay.paid_at.toDate():new Date(pay.paid_at)).toLocaleDateString('es-EC',{day:'2-digit',month:'short'}):'—';
+        return`<td><span class="pay-cell pay-paid" title="Pagado el ${d} · ${pay.method||''}"><i class="fa-solid fa-check"></i>${d}</span></td>`;
+      }
+      if(status==='overdue') return`<td><span class="pay-cell pay-overdue" onclick="openPayModal('${s.id}','${m}',${fee})" title="En mora — clic para registrar pago"><i class="fa-solid fa-triangle-exclamation"></i>Mora</span></td>`;
+      return`<td><span class="pay-cell pay-pending" onclick="openPayModal('${s.id}','${m}',${fee})" title="Pendiente — clic para registrar pago"><i class="fa-solid fa-clock"></i>Pdte.</span></td>`;
     }).join('');
-    return`<tr><td style="display:flex;align-items:center;gap:.5rem;padding:.75rem 1rem"><div class="avatar">${initials(s.full_name)}</div><div><div style="font-weight:600;font-size:.82rem">${s.full_name}</div><div style="font-size:.7rem;color:var(--text-light)">${prog?prog.name:''}</div></div></td>
+
+    const dayBadge=s.payment_day
+      ?`<span style="background:var(--blue-xlight);color:var(--blue);border-radius:6px;padding:.2rem .5rem;font-size:.75rem;font-weight:700">Día ${s.payment_day}</span>`
+      :'<span style="color:var(--text-light);font-size:.75rem">—</span>';
+
+    const waBtn=isOverdueNow&&s.parent_phone
+      ?`<button class="btn btn-ghost btn-sm" onclick="sendWhatsAppReminder('${s.id}')" title="Enviar recordatorio WhatsApp" style="color:#25D366;border-color:#25D366"><i class="fa-brands fa-whatsapp"></i></button>`
+      :'';
+
+    return`<tr>
+      <td style="display:flex;align-items:center;gap:.5rem;padding:.75rem 1rem">
+        <div class="avatar">${initials(s.full_name)}</div>
+        <div>
+          <div style="font-weight:600;font-size:.82rem">${s.full_name}</div>
+          <div style="font-size:.7rem;color:var(--text-light)">${prog?prog.name:''}</div>
+        </div>
+      </td>
       <td><span class="badge ${LV_CLASS[s.level]||'badge-gray'}">${s.level||'—'}</span></td>
+      <td>${dayBadge}</td>
       ${cells}
-      <td style="font-weight:700;font-size:.82rem;color:var(--text)">${fee?'$'+Number(fee).toFixed(2):'<span style=\"color:var(--text-light);font-weight:400\">Sin tarifa</span>'}</td></tr>`;
+      <td style="white-space:nowrap">${waBtn}<button class="btn btn-ghost btn-sm btn-icon" onclick="openPayModal('${s.id}','${curMonth}',${fee})" title="Registrar pago este mes"><i class="fa-solid fa-plus"></i></button></td>
+    </tr>`;
   }).join('');
 }
 
 function updatePayStats(months){
   const curMonth=getMonthKey(0);
-  const prevMonths=months.filter(m=>m!==curMonth);
-  const paidThisMonth=allPayments.filter(p=>p.month===curMonth&&p.status==='paid').reduce((a,p)=>a+(p.amount||0),0);
-  const pendingCount=allStudents.filter(s=>{const p=allPayments.find(x=>x.student_id===s.id&&x.month===curMonth&&x.status==='paid');return!p;}).length;
-  const overdueCount=allStudents.filter(s=>{const p=allPayments.find(x=>x.student_id===s.id&&x.month===prevMonths[prevMonths.length-1]&&x.status==='paid');return!p;}).length;
-  const totalFees=allStudents.reduce((a,s)=>{const prog=allPrograms.find(p=>p.id===s.program_id);return a+(s.monthly_fee||(prog&&prog.monthly_fee)||0);},0);
+  const paidThisMonth=allPayments.filter(p=>p.month===curMonth&&p.status==='paid').reduce((a,p)=>a+(p.amount||55),0);
+  const overdueNow=allStudents.filter(s=>getPayStatus(s,curMonth).status==='overdue').length;
+  const pendingNow=allStudents.filter(s=>getPayStatus(s,curMonth).status==='pending').length;
+  const totalProjected=allStudents.length*55;
   document.getElementById('pay-stat-col').textContent='$'+paidThisMonth.toFixed(2);
-  document.getElementById('pay-stat-pend').textContent=pendingCount;
-  document.getElementById('pay-stat-over').textContent=overdueCount;
-  document.getElementById('pay-stat-total').textContent=totalFees?'$'+Number(totalFees).toFixed(2):'—';
+  document.getElementById('pay-stat-pend').textContent=pendingNow;
+  document.getElementById('pay-stat-over').textContent=overdueNow;
+  document.getElementById('pay-stat-total').textContent='$'+totalProjected.toFixed(2);
   const badge=document.getElementById('badge-pay');
-  if(badge){badge.style.display=pendingCount>0?'inline':'none';badge.textContent=pendingCount;}
+  if(badge){badge.style.display=overdueNow>0?'inline':'none';badge.textContent=overdueNow;}
 }
 
 function openPayModal(studentId,month,defaultFee){
