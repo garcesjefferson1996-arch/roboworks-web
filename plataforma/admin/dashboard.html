@@ -679,8 +679,8 @@ const db=firebase.firestore();
           <div class="form-hint">Deja vacío para generar automáticamente</div>
         </div>
       </div>
-      <div id="creds-result" style="display:none"></div>
     </form>
+    <div id="creds-result" style="display:none"></div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('modal-student')">Cancelar</button>
       <button class="btn btn-primary" onclick="document.getElementById('form-student').requestSubmit()"><i class="fa-solid fa-floppy-disk"></i>Guardar estudiante</button>
@@ -1214,7 +1214,7 @@ async function saveStudent(e){
   try{
     if(editId){
       const editClasses=[...document.querySelectorAll('#s-classes-list input[type=checkbox]:checked')].map(cb=>cb.value);
-      await db.collection('students').doc(editId).update({full_name:name,level,level_num:LV_NUM[level]||1,parent_phone:phone||null,program_id:program||null,class_ids:editClasses});
+      await db.collection('students').doc(editId).update({full_name:name,level,level_num:LV_NUM[level]||1,username,password,parent_phone:phone||null,program_id:program||null,class_ids:editClasses});
       toast('Estudiante actualizado correctamente');
     } else {
       data.created_at=TS();
