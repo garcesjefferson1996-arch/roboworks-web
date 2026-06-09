@@ -165,6 +165,14 @@ body{display:flex;background:var(--bg)}
 .field-label i{font-size:.85rem}
 textarea.port-input{width:100%;padding:.75rem;border:2px solid var(--border);border-radius:12px;font-family:'Inter',sans-serif;font-size:.85rem;resize:vertical;min-height:72px;outline:none;transition:border-color .2s,background .2s;color:var(--text)}
 textarea.port-input:focus{border-color:var(--cyan);background:var(--cyan-light)}
+.grade-display{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1.5px solid #93C5FD;border-radius:14px;padding:.9rem 1.1rem;margin-bottom:.75rem}
+.grade-display-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;flex-wrap:wrap;gap:.5rem}
+.grade-score-big{font-size:1.6rem;font-weight:900;font-family:'Nunito',sans-serif;color:#1D4ED8;line-height:1}
+.grade-score-label{font-size:.65rem;color:#3B82F6;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:.1rem}
+.grade-criteria-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem}
+.grade-criterion-chip{background:#fff;border:1px solid #BFDBFE;border-radius:8px;padding:.25rem .6rem;font-size:.72rem;font-weight:700;color:#1E40AF}
+.grade-note-student{font-size:.8rem;color:#1E40AF;font-style:italic;background:#fff;border-left:3px solid #3B82F6;padding:.4rem .7rem;border-radius:0 8px 8px 0}
+.grade-pending-chip{background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:10px;padding:.5rem .9rem;margin-bottom:.75rem;font-size:.78rem;color:#92400E;font-weight:700;display:flex;align-items:center;gap:.4rem}
 .save-row{display:flex;align-items:center;justify-content:space-between;margin-top:.75rem;flex-wrap:wrap;gap:.5rem}
 .xp-note{font-size:.78rem;color:var(--gold);font-weight:800;display:flex;align-items:center;gap:.3rem;font-family:'Nunito',sans-serif}
 .save-btn{background:linear-gradient(135deg,var(--green),#059669);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:50px;font-size:.84rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:.4rem;transition:.15s;box-shadow:0 4px 14px rgba(16,185,129,.3)}
@@ -1416,6 +1424,27 @@ function renderPortfolioUnit(){
           <button class="link-add-btn" onclick="addLink(${lv.id},${cls.n})"><i class="fas fa-plus"></i> Agregar</button>
         </div>
       </div>
+      ${(()=>{
+        if(entry.score_total!=null){
+          const sc=entry.score_total;
+          const cl=sc>=8?'#059669':sc>=6?'#D97706':'#DC2626';
+          return `<div class="grade-display">
+            <div class="grade-display-top">
+              <div><div class="grade-score-big" style="color:${cl}">${sc}<span style="font-size:.9rem;opacity:.6">/10</span></div><div class="grade-score-label">Calificación del docente</div></div>
+              <div style="font-size:.7rem;color:#3B82F6;font-weight:700">${sc>=9?'⭐ Excelente':sc>=7?'✅ Bien':sc>=6?'💪 Suficiente':'📚 A mejorar'}</div>
+            </div>
+            <div class="grade-criteria-row">
+              <span class="grade-criterion-chip">🎯 Reto: ${entry.score_reto??'—'}/4</span>
+              <span class="grade-criterion-chip">💭 Reflexión: ${entry.score_reflex??'—'}/4</span>
+              <span class="grade-criterion-chip">🙋 Participación: ${entry.score_part??'—'}/2</span>
+            </div>
+            ${entry.teacher_note?`<div class="grade-note-student"><i class="fas fa-comment-dots" style="margin-right:.35rem;color:#3B82F6"></i>${entry.teacher_note}</div>`:''}
+          </div>`;
+        } else if(entry.reto&&entry.reto.trim().length>2){
+          return '<div class="grade-pending-chip"><i class="fas fa-hourglass-half"></i>Entregado — esperando calificación del docente</div>';
+        }
+        return '';
+      })()}
       <div class="save-row">
         <span class="xp-note"><i class="fas fa-star"></i> +100 XP al completar</span>
         <div style="display:flex;align-items:center;gap:.5rem">
