@@ -131,6 +131,39 @@ textarea.form-control{resize:vertical;min-height:80px}
 .form-hint{font-size:.72rem;color:var(--text-light);margin-top:.3rem}
 
 /* ─── MODAL ─────────────────────────────────────────── */
+/* ── CALIFICACIONES ── */
+.grade-row{background:#fff;border:1.5px solid var(--border);border-radius:12px;margin-bottom:.75rem;overflow:hidden}
+.grade-row.submitted{border-color:#BFDBFE}
+.grade-row-head{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;cursor:pointer}
+.grade-row-head:hover{background:var(--bg)}
+.grade-num{width:28px;height:28px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0;font-family:'Nunito',sans-serif;color:var(--text-light)}
+.grade-num.graded{background:#ECFDF5;border-color:var(--green);color:var(--green)}
+.grade-topic{flex:1;font-weight:600;font-size:.85rem}
+.grade-badge{font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:20px}
+.grade-badge.done{background:#ECFDF5;color:var(--green)}
+.grade-badge.submitted{background:#DBEAFE;color:var(--blue)}
+.grade-badge.empty{background:var(--bg);color:var(--text-light)}
+.grade-body{display:none;padding:.75rem 1rem 1rem;border-top:1px solid var(--border);background:#FAFBFF}
+.grade-body.open{display:block}
+.grade-criteria{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:.75rem}
+.grade-criterion label{display:block;font-size:.7rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.35rem}
+.grade-criterion .criterion-title{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.grade-criterion .criterion-max{font-size:.7rem;color:var(--text-light)}
+.score-btns{display:flex;gap:.25rem;flex-wrap:wrap}
+.score-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;color:var(--text);transition:.12s}
+.score-btn:hover{border-color:var(--blue);color:var(--blue)}
+.score-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.grade-total-row{display:flex;align-items:center;gap:.75rem;padding:.6rem .75rem;background:#fff;border-radius:10px;border:1.5px solid var(--border);margin-bottom:.6rem}
+.grade-total-num{font-size:1.4rem;font-weight:900;font-family:'Nunito',sans-serif;color:var(--blue);min-width:56px}
+.grade-note-input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:.4rem .7rem;font-size:.82rem;font-family:inherit;resize:none}
+.grade-save-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:.45rem 1.1rem;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.grade-save-btn:hover{background:var(--blue-dark)}
+.month-tab-btn{padding:.35rem .85rem;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.12s}
+.month-tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.grade-avg-chip{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:20px;font-size:.78rem;font-weight:700;background:#fff;border:1.5px solid var(--border)}
+.grade-avg-chip.high{border-color:var(--green);color:var(--green);background:#ECFDF5}
+.grade-avg-chip.mid{border-color:var(--gold);color:#92400E;background:#FFFBEB}
+.grade-avg-chip.low{border-color:var(--red);color:var(--red);background:#FEF2F2}
 .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,.6);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(2px)}
 .modal-overlay.open{display:flex}
 .modal-box{background:var(--white);border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:slideUp .2s ease}
@@ -304,6 +337,7 @@ const db=firebase.firestore();
   
     <div class="sb-section">Operaciones</div>
     <button class="sb-item" onclick="goTab('asistencia',this)"><i class="fa-solid fa-clipboard-check"></i>Asistencia</button>
+    <button class="sb-item" onclick="goTab('calificaciones',this)"><i class="fa-solid fa-star-half-stroke"></i>Calificaciones</button>
     <button class="sb-item" onclick="goTab('pagos',this)"><i class="fa-solid fa-money-bill-wave"></i>Pagos<span class="sb-badge" id="badge-pay" style="display:none">!</span></button>
     <div class="sb-section">Sistema</div>
     <button class="sb-item" onclick="goTab('documentos',this)"><i class="fa-solid fa-file-lines"></i>Documentos</button>
@@ -491,6 +525,37 @@ const db=firebase.firestore();
       </div>
     </div>
 
+
+    <!-- ══ CALIFICACIONES ═════════════════════════════════ -->
+    <div class="tab-panel" id="tab-calificaciones">
+      <div class="stats-grid" style="margin-bottom:1.25rem">
+        <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div><div class="stat-value" id="grade-stat-students">—</div><div class="stat-label">Estudiantes</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-star"></i></div><div><div class="stat-value" id="grade-stat-avg">—</div><div class="stat-label">Promedio general</div></div></div>
+        <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-clipboard-check"></i></div><div><div class="stat-value" id="grade-stat-graded">—</div><div class="stat-label">Clases calificadas</div></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><i class="fa-solid fa-clock"></i></div><div><div class="stat-value" id="grade-stat-pending">—</div><div class="stat-label">Por calificar</div></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-star-half-stroke"></i>Calificaciones por estudiante</div>
+          <div style="display:flex;gap:.5rem;align-items:center">
+            <select class="form-control" id="grade-filter-prog" onchange="renderGradeTable()" style="width:200px;font-size:.8rem">
+              <option value="">Todos los programas</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Estudiante</th><th>Programa</th><th>Nivel</th>
+              <th>Calificadas</th><th>Promedio</th>
+              <th>Bim. 1</th><th>Bim. 2</th><th>Bim. 3</th>
+              <th>Acciones</th>
+            </tr></thead>
+            <tbody id="grade-tbody"><tr><td colspan="9"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
     <!-- ══ ASISTENCIA ════════════════════════════════════ -->
     <div class="tab-panel" id="tab-asistencia">
@@ -1001,6 +1066,19 @@ const db=firebase.firestore();
   </div>
 </div>
 
+<!-- MODAL: CALIFICAR ESTUDIANTE -->
+<div class="modal-overlay" id="modal-grade" style="align-items:stretch;padding:0">
+  <div class="modal-box" style="max-width:760px;width:100%;height:100vh;max-height:100vh;border-radius:0;display:flex;flex-direction:column">
+    <div class="modal-head" style="flex-shrink:0">
+      <h3><i class="fa-solid fa-star-half-stroke"></i><span id="modal-grade-title">Calificar portafolio</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-grade')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="grade-summary-bar" style="flex-shrink:0;display:flex;gap:1rem;padding:.75rem 1.25rem;background:var(--bg);border-bottom:1px solid var(--border);flex-wrap:wrap"></div>
+    <div id="grade-month-tabs" style="flex-shrink:0;display:flex;gap:.3rem;padding:.6rem 1.25rem;border-bottom:1px solid var(--border);overflow-x:auto"></div>
+    <div id="grade-classes-wrap" style="flex:1;overflow-y:auto;padding:1rem 1.25rem"></div>
+  </div>
+</div>
+
 <!-- MODAL: PAGO -->
 <div class="modal-overlay" id="modal-payment">
   <div class="modal-box">
@@ -1136,8 +1214,8 @@ function closeModal(id){
 document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m){const id=m.id;m.classList.remove('open');if(id==='modal-student'){document.getElementById('modal-student-title').textContent='Nuevo Estudiante';document.getElementById('edit-student-id').value='';document.getElementById('form-student').reset();document.getElementById('form-student').style.display='block';document.getElementById('creds-result').style.display='none';}}});});
 
 // ─── TAB NAVIGATION ──────────────────────────────────────────
-const TABS={resumen:'Resumen',estudiantes:'Estudiantes',programas:'Programas',clases:'Clases',tareas:'Tareas',recursos:'Recursos y Materiales',niveles:'Progreso de Niveles',asistencia:'Asistencia',pagos:'Pagos',documentos:'Documentos',equipo:'Equipo Admin'};
-const TAB_SUBS={resumen:'Visión general de la academia',estudiantes:'Gestiona los estudiantes inscritos',programas:'Programas de enseñanza STEAM',clases:'Horarios y grupos de clase',tareas:'Asignaciones para los estudiantes',recursos:'Materiales y documentos de clase',niveles:'Seguimiento del camino SPARK → LEGEND',asistencia:'Leccionario y registro de asistencia',pagos:'Seguimiento de pagos mensuales',documentos:'Genera e imprime documentos oficiales',equipo:'Gestión del equipo administrativo'};
+const TABS={resumen:'Resumen',estudiantes:'Estudiantes',programas:'Programas',clases:'Clases',tareas:'Tareas',recursos:'Recursos y Materiales',niveles:'Progreso de Niveles',calificaciones:'Calificaciones',asistencia:'Asistencia',pagos:'Pagos',documentos:'Documentos',equipo:'Equipo Admin'};
+const TAB_SUBS={resumen:'Visión general de la academia',estudiantes:'Gestiona los estudiantes inscritos',programas:'Programas de enseñanza STEAM',clases:'Horarios y grupos de clase',tareas:'Asignaciones para los estudiantes',recursos:'Materiales y documentos de clase',niveles:'Seguimiento del camino SPARK → LEGEND',calificaciones:'Evalúa el portafolio y tareas de cada estudiante',asistencia:'Leccionario y registro de asistencia',pagos:'Seguimiento de pagos mensuales',documentos:'Genera e imprime documentos oficiales',equipo:'Gestión del equipo administrativo'};
 function goTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
@@ -1153,6 +1231,8 @@ function goTab(id,btn){
   if(id==='niveles') loadLevels();
   if(id==='asistencia'){fillClassSelects();initAttDate();}
   if(id==='pagos') loadPayments();
+  if(id==='calificaciones'){if(allStudents.length===0){await loadStudents();}loadCalificacionesIfNeeded();}
+
   if(id==='documentos') fillDocSelects();
   if(id==='equipo') loadAdmins();
 }
@@ -1971,6 +2051,224 @@ function sendWhatsAppReminder(studentId){
   const url=`https://wa.me/593${phone.replace(/^0/,'')}?text=${encodeURIComponent(msg)}`;
   window.open(url,'_blank');
 }
+
+// ─── CALIFICACIONES ─────────────────────────────────────────────
+let gradeCurrentStudent=null;
+let gradePortMap={};
+let gradeScoreMap={};
+let gradeCurrentMonth=1;
+let gradeCurriculum=[];
+
+const CURRICULUM_CW_ADMIN=[
+  {id:1,name:'SPARK',units:[
+    {name:'M1 — Variables',classes:[{n:1,t:'Variables y print()'},{n:2,t:'Tipos de datos'},{n:3,t:'Operaciones y f-strings'},{n:4,t:'App de estadísticas'}]},
+    {name:'M2 — Condicionales',classes:[{n:5,t:'if / else'},{n:6,t:'elif y condiciones'},{n:7,t:'Flujos complejos'},{n:8,t:'Asistente de hogar'}]},
+    {name:'M3 — Bucles',classes:[{n:9,t:'for y range()'},{n:10,t:'while — Marte'},{n:11,t:'Acumuladores'},{n:12,t:'Arte ASCII'}]},
+    {name:'M4 — Funciones',classes:[{n:13,t:'def — Funciones'},{n:14,t:'Funciones avanzadas'},{n:15,t:'Librerías'},{n:16,t:'Mi librería'}]},
+    {name:'M5 — Datos',classes:[{n:17,t:'Listas — ISS'},{n:18,t:'Diccionarios NASA'},{n:19,t:'Archivos'},{n:20,t:'App misiones'}]},
+    {name:'M6 — Final',classes:[{n:21,t:'Intro POO'},{n:22,t:'Intro Arduino'},{n:23,t:'Proyecto final'},{n:24,t:'Demo Day'}]},
+  ]},
+];
+const CURRICULUM_RW_ADMIN=[
+  {id:1,name:'SPARK',units:[
+    {name:'M1',classes:[{n:1,t:'Intro Robótica'},{n:2,t:'Motores y sensores'},{n:3,t:'Programación básica'},{n:4,t:'Proyecto libre'}]},
+    {name:'M2',classes:[{n:5,t:'Sensores avanzados'},{n:6,t:'Condicionales'},{n:7,t:'Bucles'},{n:8,t:'Proyecto libre'}]},
+    {name:'M3',classes:[{n:9,t:'Comunicación'},{n:10,t:'Bluetooth'},{n:11,t:'Automatización'},{n:12,t:'Proyecto libre'}]},
+    {name:'M4',classes:[{n:13,t:'Diseño 3D'},{n:14,t:'TinkerCAD'},{n:15,t:'Impresión 3D'},{n:16,t:'Proyecto libre'}]},
+    {name:'M5',classes:[{n:17,t:'Scratch avanzado'},{n:18,t:'Animación'},{n:19,t:'Juegos'},{n:20,t:'Proyecto libre'}]},
+    {name:'M6',classes:[{n:21,t:'IA básica'},{n:22,t:'Machine Learning'},{n:23,t:'Proyecto final'},{n:24,t:'Demo Day'}]},
+  ]},
+];
+
+async function loadCalificaciones(){
+  const sel=document.getElementById('grade-filter-prog');
+  if(sel.options.length<=1){
+    allPrograms.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.name;sel.appendChild(o);});
+  }
+  const portSnap=await db.collection('portfolio').get().catch(()=>({docs:[]}));
+  const allPort={};
+  portSnap.docs.forEach(d=>{
+    const data=d.data();
+    if(data.student_id!=null){
+      const key=`${data.student_id}_${data.level_id}_${data.class_num}`;
+      allPort[key]={id:d.id,...data};
+    }
+  });
+  window._allPort=allPort;
+  renderGradeTable();
+}
+
+function renderGradeTable(){
+  const tbody=document.getElementById('grade-tbody');
+  const progFilter=document.getElementById('grade-filter-prog').value;
+  const students=progFilter?allStudents.filter(s=>s.program_id===progFilter):allStudents;
+  if(students.length===0){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--text-light);padding:2rem">No hay estudiantes</td></tr>';return;}
+  const allPort=window._allPort||{};
+  let totalGraded=0,totalPending=0,scoreSum=0,scoreCount=0;
+  tbody.innerHTML=students.map(s=>{
+    const prog=allPrograms.find(p=>p.id===s.program_id);
+    const entries=Object.values(allPort).filter(e=>e.student_id===s.id&&e.level_id===1);
+    const submitted=entries.filter(e=>e.reto&&e.reto.trim().length>2);
+    const graded=entries.filter(e=>e.score_total!=null);
+    totalGraded+=graded.length;
+    totalPending+=submitted.filter(e=>e.score_total==null).length;
+    function bimAvg(from,to){
+      const g=entries.filter(e=>e.class_num>=from&&e.class_num<=to&&e.score_total!=null);
+      if(!g.length) return null;
+      return (g.reduce((a,b)=>a+(b.score_total||0),0)/g.length).toFixed(1);
+    }
+    const allGr=entries.filter(e=>e.score_total!=null);
+    const avg=allGr.length?(allGr.reduce((a,b)=>a+(b.score_total||0),0)/allGr.length):null;
+    if(avg!=null){scoreSum+=avg;scoreCount++;}
+    const b1=bimAvg(1,8),b2=bimAvg(9,16),b3=bimAvg(17,24);
+    function chip(v){if(v==null) return '<span style="color:var(--text-light);font-size:.75rem">—</span>';
+      const cl=v>=8?'high':v>=6?'mid':'low';
+      return `<span class="grade-avg-chip ${cl}">${v}</span>`;}
+    return `<tr>
+      <td><div style="font-weight:600;font-size:.85rem">${s.full_name||s.name||''}</div><div style="font-size:.72rem;color:var(--text-light)">${s.username||''}</div></td>
+      <td>${prog?`<span class="lv-badge" style="background:${prog.color||'#2563EB'}20;color:${prog.color||'#2563EB'}">${prog.name}</span>`:'—'}</td>
+      <td><span class="lv-badge lv-${(s.level||'SPARK').toLowerCase()}">${s.level||'SPARK'}</span></td>
+      <td><div style="display:flex;align-items:center;gap:.5rem"><div style="flex:1;background:var(--bg);border-radius:4px;height:6px;overflow:hidden;min-width:60px"><div style="height:100%;background:var(--blue);border-radius:4px;width:${Math.round(graded.length/24*100)}%"></div></div><span style="font-size:.75rem;font-weight:700;color:var(--text-light)">${graded.length}/24</span></div></td>
+      <td>${chip(avg!=null?parseFloat(avg.toFixed?avg.toFixed(1):avg):null)}</td>
+      <td>${chip(b1)}</td><td>${chip(b2)}</td><td>${chip(b3)}</td>
+      <td><button class="btn btn-sm" style="background:var(--blue);color:#fff;font-size:.75rem" onclick="openGradeModal('${s.id}')"><i class="fa-solid fa-pen-to-square"></i> Calificar</button></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('grade-stat-students').textContent=students.length;
+  document.getElementById('grade-stat-graded').textContent=totalGraded;
+  document.getElementById('grade-stat-pending').textContent=totalPending;
+  document.getElementById('grade-stat-avg').textContent=scoreCount?(scoreSum/scoreCount).toFixed(1)+'/10':'—';
+}
+
+async function openGradeModal(studentId){
+  const s=allStudents.find(x=>x.id===studentId);
+  if(!s) return;
+  gradeCurrentStudent=s;
+  gradeCurrentMonth=1;
+  const prog=allPrograms.find(p=>p.id===s.program_id);
+  gradeCurriculum=(prog&&prog.curriculum_type==='codeworks')?CURRICULUM_CW_ADMIN:CURRICULUM_RW_ADMIN;
+  document.getElementById('modal-grade-title').textContent=`Calificar — ${s.full_name||s.name}`;
+  const snap=await db.collection('portfolio').where('student_id','==',studentId).get().catch(()=>({docs:[]}));
+  gradePortMap={};gradeScoreMap={};
+  snap.docs.forEach(d=>{
+    const data=d.data();
+    if(data.level_id!=null&&data.class_num!=null){
+      const k=`${data.level_id}_${data.class_num}`;
+      gradePortMap[k]={id:d.id,...data};
+      if(data.score_total!=null) gradeScoreMap[k]={reto:data.score_reto??0,reflex:data.score_reflex??0,part:data.score_part??0,note:data.teacher_note||''};
+    }
+  });
+  renderGradeSummary();renderGradeMonthTabs();renderGradeClasses();
+  openModal('modal-grade');
+}
+
+function renderGradeSummary(){
+  const bar=document.getElementById('grade-summary-bar');
+  function bimAvg(from,to){
+    const g=[];for(let i=from;i<=to;i++){const e=gradePortMap[`1_${i}`];if(e&&e.score_total!=null)g.push(e.score_total);}
+    return g.length?(g.reduce((a,b)=>a+b,0)/g.length).toFixed(1):null;
+  }
+  const allG=Object.values(gradePortMap).filter(e=>e.level_id===1&&e.score_total!=null);
+  const avg=allG.length?(allG.reduce((a,b)=>a+b.score_total,0)/allG.length).toFixed(1):null;
+  const total=Object.values(gradePortMap).filter(e=>e.level_id===1&&e.reto&&e.reto.trim().length>2).length;
+  const graded=allG.length;
+  function chip(label,val){
+    if(val==null) return `<div class="grade-avg-chip"><span style="font-size:.7rem;color:var(--text-light)">${label}</span>&nbsp;<b>—</b></div>`;
+    const cl=val>=8?'high':val>=6?'mid':'low';
+    return `<div class="grade-avg-chip ${cl}"><span style="font-size:.7rem">${label}</span>&nbsp;<b>${val}/10</b></div>`;}
+  bar.innerHTML=`
+    <div style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--text-light)"><i class="fa-solid fa-clipboard-check" style="color:var(--blue)"></i><b>${graded}</b>/${total} calificadas</div>
+    ${chip('General',avg)}${chip('Bim.1',bimAvg(1,8))}${chip('Bim.2',bimAvg(9,16))}${chip('Bim.3',bimAvg(17,24))}
+    ${avg!=null&&parseFloat(avg)>=7?'<div style="margin-left:auto;display:flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:700;color:var(--green)"><i class="fa-solid fa-certificate"></i>Apto para certificar</div>':''}`;}
+
+function renderGradeMonthTabs(){
+  const wrap=document.getElementById('grade-month-tabs');
+  const lv=gradeCurriculum[0];
+  if(!lv){wrap.innerHTML='';return;}
+  wrap.innerHTML=lv.units.map((u,i)=>{
+    const mn=i+1;
+    const classes=u.classes.map(c=>c.n);
+    const graded=classes.filter(n=>gradePortMap[`1_${n}`]&&gradePortMap[`1_${n}`].score_total!=null).length;
+    return `<button class="month-tab-btn${gradeCurrentMonth===mn?' active':''}" onclick="gradeCurrentMonth=${mn};renderGradeMonthTabs();renderGradeClasses()">${u.name} <span style="font-size:.65rem;opacity:.75">(${graded}/4)</span></button>`;
+  }).join('');}
+
+function renderGradeClasses(){
+  const wrap=document.getElementById('grade-classes-wrap');
+  const lv=gradeCurriculum[0];
+  if(!lv){wrap.innerHTML='';return;}
+  const unit=lv.units[gradeCurrentMonth-1];
+  if(!unit){wrap.innerHTML='';return;}
+  wrap.innerHTML=unit.classes.map(cls=>{
+    const k=`1_${cls.n}`;
+    const entry=gradePortMap[k]||{};
+    const scores=gradeScoreMap[k]||{reto:0,reflex:0,part:0,note:''};
+    const hasSubmission=!!(entry.reto&&entry.reto.trim().length>2);
+    const isGraded=entry.score_total!=null;
+    const total=(scores.reto||0)+(scores.reflex||0)+(scores.part||0);
+    function scoreBtns(field,max,current){
+      return Array.from({length:max+1},(_,i)=>`<button class="score-btn${current===i?' active':''}" onclick="setScore('${k}','${field}',${i})">${i}</button>`).join('');}
+    return `<div class="grade-row${hasSubmission?' submitted':''}" id="grade-row-${k}">
+      <div class="grade-row-head" onclick="toggleGradeRow('${k}')">
+        <div class="grade-num${isGraded?' graded':''}">${isGraded?'<i class="fas fa-check" style="font-size:.55rem"></i>':cls.n}</div>
+        <div class="grade-topic">${cls.t}</div>
+        <span class="grade-badge ${isGraded?'done':hasSubmission?'submitted':'empty'}">${isGraded?`✓ ${entry.score_total}/10`:hasSubmission?'Entregado':'Sin entregar'}</span>
+        <i class="fas fa-chevron-right" style="font-size:.65rem;color:var(--text-light);margin-left:.5rem;transition:.2s" id="chev-${k}"></i>
+      </div>
+      <div class="grade-body" id="gbody-${k}">
+        ${!hasSubmission?'<div style="text-align:center;padding:.75rem;font-size:.82rem;color:var(--text-light)"><i class="fas fa-clock" style="margin-right:.35rem"></i>El estudiante aún no ha entregado esta clase</div>':''}
+        ${entry.reto?`<div style="background:var(--blue-xlight);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:.5rem .75rem;font-size:.8rem;color:var(--blue-dark);margin-bottom:.75rem;font-style:italic">${entry.reto.substring(0,200)}${entry.reto.length>200?'...':''}</div>`:''}
+        <div class="grade-criteria">
+          <div class="grade-criterion"><div class="criterion-title">Reto / Proyecto</div><div class="criterion-max" style="margin-bottom:.4rem">Calidad del trabajo — /4 pts</div><div class="score-btns">${scoreBtns('reto',4,scores.reto||0)}</div></div>
+          <div class="grade-criterion"><div class="criterion-title">Reflexión</div><div class="criterion-max" style="margin-bottom:.4rem">Profundidad Q1+Q2 — /4 pts</div><div class="score-btns">${scoreBtns('reflex',4,scores.reflex||0)}</div></div>
+          <div class="grade-criterion"><div class="criterion-title">Participación</div><div class="criterion-max" style="margin-bottom:.4rem">Criterio docente — /2 pts</div><div class="score-btns">${scoreBtns('part',2,scores.part||0)}</div></div>
+        </div>
+        <div class="grade-total-row">
+          <div><div style="font-size:.65rem;color:var(--text-light);font-weight:700;text-transform:uppercase;letter-spacing:.5px">Total</div><div class="grade-total-num" id="total-${k}">${total}/10</div></div>
+          <textarea class="grade-note-input" id="note-${k}" rows="2" placeholder="Comentario para el estudiante (opcional)...">${scores.note||''}</textarea>
+          <button class="grade-save-btn" onclick="saveGrade('${k}',${cls.n})"><i class="fas fa-floppy-disk"></i> Guardar</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');}
+
+function toggleGradeRow(k){
+  const body=document.getElementById(`gbody-${k}`);
+  const chev=document.getElementById(`chev-${k}`);
+  const isOpen=body.classList.toggle('open');
+  if(chev) chev.style.transform=isOpen?'rotate(90deg)':'none';}
+
+function setScore(k,field,val){
+  if(!gradeScoreMap[k]) gradeScoreMap[k]={reto:0,reflex:0,part:0,note:''};
+  gradeScoreMap[k][field]=val;
+  const idx=field==='reto'?1:field==='reflex'?2:3;
+  const container=document.querySelector(`#gbody-${k} .grade-criterion:nth-child(${idx}) .score-btns`);
+  if(container) container.querySelectorAll('.score-btn').forEach((btn,i)=>btn.classList.toggle('active',i===val));
+  const s=gradeScoreMap[k];
+  const el=document.getElementById(`total-${k}`);
+  if(el) el.textContent=`${(s.reto||0)+(s.reflex||0)+(s.part||0)}/10`;}
+
+async function saveGrade(k,classNum){
+  const s=gradeScoreMap[k]||{reto:0,reflex:0,part:0,note:''};
+  const note=document.getElementById(`note-${k}`)?.value||''  ;
+  const total=(s.reto||0)+(s.reflex||0)+(s.part||0);
+  const portDocId=`port_${gradeCurrentStudent.id}_1_${classNum}`;
+  const gradeData={score_reto:s.reto||0,score_reflex:s.reflex||0,score_part:s.part||0,score_total:total,teacher_note:note,graded_by:'admin',graded_at:TS()};
+  try{
+    const existing=gradePortMap[k];
+    if(existing&&existing.id) await db.collection('portfolio').doc(existing.id).update(gradeData);
+    else await db.collection('portfolio').doc(portDocId).set({student_id:gradeCurrentStudent.id,level_id:1,class_num:parseInt(classNum),level:'SPARK',...gradeData});
+    const allG=Object.values(gradePortMap).filter(e=>e.level_id===1&&e.score_total!=null);
+    await db.collection('students').doc(gradeCurrentStudent.id).update({xp:allG.reduce((a,e)=>a+(e.score_total||0)*10,0)+(total*10)});
+    gradePortMap[k]={...(gradePortMap[k]||{}),student_id:gradeCurrentStudent.id,level_id:1,class_num:parseInt(classNum),...gradeData};
+    gradeScoreMap[k]={...s,note};
+    toast(`Clase ${classNum} calificada — ${total}/10`,'success');
+    renderGradeSummary();renderGradeMonthTabs();renderGradeClasses();
+    setTimeout(()=>{const b=document.getElementById(`gbody-${k}`);const c=document.getElementById(`chev-${k}`);if(b){b.classList.add('open');if(c)c.style.transform='rotate(90deg)';}},50);
+  }catch(err){toast('Error: '+err.message,'error');}}
+
+async function loadCalificacionesIfNeeded(){
+  if(!window._allPort) await loadCalificaciones();
+  else renderGradeTable();}
 
 async function loadPayments(){
   document.getElementById('pay-tbody').innerHTML='<tr><td colspan="8"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr>';
