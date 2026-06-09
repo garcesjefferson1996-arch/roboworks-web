@@ -1285,4 +1285,304 @@ function filterMats(f,btn){
   renderMaterials();
 }
 
-// ─── PORTFOLIO ──────────────────────────────────────────────�
+// ─── PORTFOLIO ───────────────────────────────────────────────
+// ─── PORTFOLIO — Firebase como fuente principal, localStorage como caché offline ───
+async function loadPortfolioFromFirebase(){
+  try{
+    const snap=await fdb.collection('portfolio').where('student_id','==',student.id).get();
+    snap.forEach(doc=>{
+      const d=doc.data();
+      if(d.level_id&&d.class_num) portCache[d.level_id+'_'+d.class_num]=d;
+    });
+  }catch(e){console.warn('Firebase portfolio unavailable, using localStorage');}
+  // Migrate localStorage entries → Firebase (primera vez o datos previos)
+  for(let lvl=1;lvl<=6;lvl++){
+    for(let cls=1;cls<=26;cls++){
+      const lsKey='rw_port_'+student.id+'_'+lvl+'_'+cls;
+      const raw=localStorage.getItem(lsKey);
+      if(!raw) continue;
+      let parsed; try{parsed=JSON.parse(raw);}catch(e){continue;}
+      const cKey=lvl+'_'+cls;
+      if(!portCache[cKey]&&parsed.reto&&parsed.reto.trim().length>3){
+        portCache[cKey]=parsed;
+        const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
+        fdb.collection('portfolio').doc(fbKey).set({
+          student_id:student.id,level_id:lvl,
+          level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
+          class_num:cls,...parsed,
+          migrated:true,savedAt:firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(()=>{});
+      }
+    }
+  }
+}
+
+function isClassDone(lvl,cls){
+  const e=portCache[lvl+'_'+cls];
+  return !!(e&&e.reto&&e.reto.trim().length>3);
+}
+function getPortEntry(lvl,cls){return portCache[lvl+'_'+cls]||null;}
+function savePortEntry(lvl,cls,obj){
+  const cKey=lvl+'_'+cls;
+  portCache[cKey]={...obj,savedAt:new Date().toISOString()};
+  // localStorage como caché offline
+  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(portCache[cKey]));
+  // Firebase como fuente principal
+  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
+  fdb.collection('portfolio').doc(fbKey).set({
+    student_id:student.id,level_id:lvl,
+    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
+    class_num:cls,...obj,
+    savedAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(()=>{});
+}
+
+function renderPortfolioLevelTabs(){
+  const el=document.getElementById('port-level-tabs');
+  el.innerHTML='';
+  LEVELS.forEach(lv=>{
+    const done=lv.units.reduce((a,u)=>a+u.classes.filter(c=>isClassDone(lv.id,c.n)).length,0);
+    const btn=document.createElement('button');
+    btn.className='port-level-btn'+(lv.id===portCurrentLevel?' active':'');
+    btn.innerHTML=`${lv.name} <span style="font-size:.65rem;opacity:.7">${done}/26</span>`;
+    btn.onclick=()=>{portCurrentLevel=lv.id;portCurrentUnit=0;renderPortfolioLevelTabs();renderPortfolioUnit();};
+    el.appendChild(btn);
+  });
+  updatePortProgress();
+}
+
+function renderPortfolioUnit(){
+  const lv=LEVELS[portCurrentLevel-1];
+  // Unit tabs
+  const utabs=document.getElementById('port-unit-tabs');
+  utabs.innerHTML='';
+  lv.units.forEach((u,ui)=>{
+    const done=u.classes.filter(c=>isClassDone(lv.id,c.n)).length;
+    const btn=document.createElement('button');
+    btn.className='port-unit-btn'+(ui===portCurrentUnit?' active':'');
+    btn.textContent=`U${ui+1} (${done}/${u.classes.length})`;
+    btn.onclick=()=>{portCurrentUnit=ui;renderPortfolioUnit();};
+    utabs.appendChild(btn);
+  });
+  // Class cards
+  const list=document.getElementById('port-class-list');
+  list.innerHTML='';
+  const unit=lv.units[portCurrentUnit];
+  unit.classes.forEach(cls=>{
+    const done=isClassDone(lv.id,cls.n);
+    const entry=getPortEntry(lv.id,cls.n)||{};
+    const card=document.createElement('div');
+    card.className='port-class-card'+(done?' completed':'');
+    const retoTypeMeta={
+      replit:{icon:'fa-code',color:'#F26207',label:'💻 Link de Replit',placeholder:'Pega el link de tu proyecto en Replit (replit.com/...)'},
+      photo:{icon:'fa-camera',color:'#7C3AED',bg:'#F5F3FF',label:'📷 Sube tu foto',placeholder:'Pega el link de tu foto (Google Drive, Google Photos...)'},
+      scratch:{icon:'fa-gamepad',color:'#F59E0B',bg:'#FFFBEB',label:'🎮 Link de Scratch Jr',placeholder:'Pega el link de tu proyecto en Scratch Jr (scratch.mit.edu)'},
+      tinkercad:{icon:'fa-cube',color:'#0EA5E9',bg:'#F0F9FF',label:'🖥️ Link de Tinkercad',placeholder:'Pega el link de tu diseño en Tinkercad (tinkercad.com)'},
+      free:{icon:'fa-link',color:'#10B981',bg:'#ECFDF5',label:'🔗 Comparte tu proyecto',placeholder:'Pega el link de tu proyecto (Drive, Tinkercad, Scratch...)'},
+    };
+    const rt=retoTypeMeta[cls.retoType]||{icon:'fa-link',color:'var(--blue)',bg:'#fff',label:'🔗 Mis proyectos',placeholder:'https://... (Drive, Tinkercad, YouTube...)'};
+    const q1label=cls.q1||'Mi respuesta';
+    const q2label=cls.q2||'Lo más difícil fue...';
+    card.innerHTML=`<div class="pcc-header" onclick="togglePCC(this)">
+      <div class="pcc-num${done?' done':''}">${done?'<i class="fas fa-check" style="font-size:.65rem"></i>':cls.n}</div>
+      <div class="pcc-topic">${cls.topic}</div>
+      <div class="pcc-status">${done?'Completada':'Pendiente'}</div>
+      <i class="fas fa-chevron-right" style="color:var(--gray);font-size:.75rem;margin-left:.5rem"></i>
+    </div>
+    <div class="pcc-body">
+      <div class="reto-box">
+        <div class="reto-label"><i class="fas fa-bolt"></i> Reto del día</div>
+        <div class="reto-q">${cls.reto}</div>
+      </div>
+      <div class="field-group">
+        <div class="field-label"><i class="fas fa-comment-dots"></i> ${q1label}</div>
+        <textarea class="port-input" id="reto-${lv.id}-${cls.n}" placeholder="Escribe aquí tu respuesta...">${entry.reto||''}</textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label"><i class="fas fa-mountain"></i> ${q2label}</div>
+        <textarea class="port-input" rows="2" id="diff-${lv.id}-${cls.n}" placeholder="Escribe aquí tu respuesta...">${entry.difficulty||''}</textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label"><i class="fas fa-lightbulb"></i> Hoy aprendí que...</div>
+        <textarea class="port-input" rows="2" id="learn-${lv.id}-${cls.n}" placeholder="Una frase que resuma tu aprendizaje...">${entry.learning||''}</textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label" style="color:${rt.color}"><i class="fas ${rt.icon}"></i> ${rt.label}</div>
+        <div class="links-list" id="links-${lv.id}-${cls.n}"></div>
+        <div class="link-add-row">
+          <input class="port-input link-url-in" id="link-url-${lv.id}-${cls.n}" placeholder="${rt.placeholder}">
+          <input class="port-input link-label-in" id="link-label-${lv.id}-${cls.n}" placeholder="Descripción (ej: Mi robot, Clase 3)">
+          <button class="link-add-btn" onclick="addLink(${lv.id},${cls.n})"><i class="fas fa-plus"></i> Agregar</button>
+        </div>
+      </div>
+      <div class="save-row">
+        <span class="xp-note"><i class="fas fa-star"></i> +100 XP al completar</span>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span class="saved-chip" id="chip-${lv.id}-${cls.n}" ${done?'style="display:inline-block"':''}>Guardado</span>
+          <button class="save-btn" onclick="savePort(${lv.id},${cls.n})"><i class="fas fa-floppy-disk"></i> Guardar</button>
+        </div>
+      </div>
+    </div>`;
+    list.appendChild(card);
+    renderLinks(lv.id, cls.n, entry.links||[]);
+  });
+  updatePortProgress();
+  checkQR(lv);
+}
+
+function togglePCC(header){
+  const body=header.nextElementSibling;
+  body.classList.toggle('open');
+  const chev=header.querySelector('.fa-chevron-right');
+  if(chev) chev.style.transform=body.classList.contains('open')?'rotate(90deg)':'rotate(0)';
+}
+
+function savePort(lvl,cls){
+  const reto=document.getElementById(`reto-${lvl}-${cls}`)?.value||'';
+  if(!reto.trim()){alert('Por favor escribe tu respuesta al reto antes de guardar.');return;}
+  const difficulty=document.getElementById(`diff-${lvl}-${cls}`)?.value||'';
+  const learning=document.getElementById(`learn-${lvl}-${cls}`)?.value||'';
+  const existing=portCache[`${lvl}_${cls}`]||{};
+  savePortEntry(lvl,cls,{...existing,reto,difficulty,learning});
+  const chip=document.getElementById(`chip-${lvl}-${cls}`);
+  if(chip){chip.style.display='inline-block';}
+  // Update XP
+  const newXP=(student.xp||0)+100;
+  student.xp=newXP;
+  localStorage.setItem('currentStudent',JSON.stringify(student));
+  document.getElementById('topbar-xp').textContent=newXP+' XP';
+  document.getElementById('stat-xp').textContent=newXP;
+  // Re-render to mark as done
+  renderPortfolioLevelTabs();
+  renderPortfolioUnit();
+}
+
+function updatePortProgress(){
+  const lv=LEVELS[portCurrentLevel-1];
+  const done=lv.units.reduce((a,u)=>a+u.classes.filter(c=>isClassDone(lv.id,c.n)).length,0);
+  const total=26;
+  const pct=Math.round(done/total*100);
+  document.getElementById('port-progress-chip').textContent=`${done} / ${total}`;
+  // Update level card progress
+  document.getElementById('cl-progress-text').textContent=`${done} / 26 clases`;
+  document.getElementById('cl-pct').textContent=pct+'%';
+  document.getElementById('cl-bar').style.width=pct+'%';
+  document.getElementById('stat-level-num').textContent=portCurrentLevel;
+}
+
+function checkQR(lv){
+  const done=lv.units.reduce((a,u)=>a+u.classes.filter(c=>isClassDone(lv.id,c.n)).length,0);
+  const qrSection=document.getElementById('qr-section');
+  if(done>=26){
+    qrSection.style.display='block';
+    document.getElementById('qrcode').innerHTML='';
+    const url=`https://roboworks.site/portfolio?s=${encodeURIComponent(student.id)}&l=${lv.name}&xp=${student.xp||0}&d=${done}`;
+    try{new QRCode(document.getElementById('qrcode'),{text:url,width:160,height:160,colorDark:'#1E3A8A',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+    catch(e){document.getElementById('qrcode').innerHTML='<div style="padding:1rem;background:var(--blue-xlight);border-radius:8px;font-size:.8rem;color:var(--blue)">QR listo para el certificado</div>';}
+  } else {
+    qrSection.style.display='none';
+  }
+}
+
+// ─── SHARE PORTFOLIO ─────────────────────────────────────────
+function sharePortfolio(){
+  const url=`${location.origin}/plataforma/portfolio.html?s=${student.id}`;
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn=document.getElementById('share-port-btn');
+    btn.innerHTML='<i class="fas fa-check"></i> ¡Copiado!';
+    setTimeout(()=>{btn.innerHTML='<i class="fas fa-link"></i> Copiar link';},2200);
+  }).catch(()=>{prompt('Copia este link:',url);});
+}
+
+// ─── PORTFOLIO LINKS ─────────────────────────────────────────
+function getLinkIcon(url){
+  if(!url) return 'fa-link';
+  const u=url.toLowerCase();
+  if(u.includes('drive.google')||u.includes('docs.google')) return 'fa-brands fa-google-drive';
+  if(u.includes('youtube')||u.includes('youtu.be')) return 'fa-brands fa-youtube';
+  if(u.includes('tinkercad')) return 'fa-cube';
+  if(u.includes('scratch.mit')) return 'fa-cat';
+  if(u.includes('github')) return 'fa-brands fa-github';
+  return 'fa-link';
+}
+
+function renderLinks(lvlId,clsN,links){
+  const el=document.getElementById(`links-${lvlId}-${clsN}`);
+  if(!el) return;
+  if(!links||links.length===0){
+    el.innerHTML='<span style="font-size:.75rem;color:var(--gray)">Agrega el link de tu proyecto aquí ↓</span>';
+    return;
+  }
+  el.innerHTML=links.map((l,i)=>`
+    <div class="link-chip">
+      <i class="fas ${getLinkIcon(l.url)}" style="color:var(--blue);font-size:.8rem"></i>
+      <a href="${l.url}" target="_blank" rel="noopener" title="${l.url}">${l.label||'Ver proyecto'}</a>
+      <button class="link-chip-del" onclick="removeLink(${lvlId},${clsN},${i})"><i class="fas fa-xmark"></i></button>
+    </div>
+  `).join('');
+}
+
+function addLink(lvl,cls){
+  const urlEl=document.getElementById(`link-url-${lvl}-${cls}`);
+  const labelEl=document.getElementById(`link-label-${lvl}-${cls}`);
+  const url=(urlEl?.value||'').trim();
+  const label=(labelEl?.value||'').trim();
+  if(!url){alert('Pega primero el link de tu proyecto.');return;}
+  if(!url.startsWith('http')){alert('El link debe comenzar con https://');return;}
+  const cKey=`${lvl}_${cls}`;
+  const entry=portCache[cKey]||{};
+  const links=entry.links?[...entry.links]:[];
+  links.push({url,label:label||'Proyecto '+(links.length+1)});
+  entry.links=links;
+  portCache[cKey]=entry;
+  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
+  fdb.collection('portfolio').doc(fbKey).set({
+    student_id:student.id,level_id:lvl,
+    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
+    class_num:cls,...entry,
+    savedAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(()=>{});
+  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(entry));
+  if(urlEl) urlEl.value='';
+  if(labelEl) labelEl.value='';
+  renderLinks(lvl,cls,links);
+}
+
+function removeLink(lvl,cls,idx){
+  const cKey=`${lvl}_${cls}`;
+  const entry=portCache[cKey]||{};
+  const links=entry.links?[...entry.links]:[];
+  links.splice(idx,1);
+  entry.links=links;
+  portCache[cKey]=entry;
+  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
+  fdb.collection('portfolio').doc(fbKey).set({
+    student_id:student.id,level_id:lvl,
+    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
+    class_num:cls,...entry,
+    savedAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(()=>{});
+  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(entry));
+  renderLinks(lvl,cls,links);
+}
+
+// ─── TAB NAVIGATION ──────────────────────────────────────────
+const tabTitles={inicio:'Inicio',camino:'Mi Camino',portfolio:'Portafolio',materiales:'Materiales',tareas:'Tareas'};
+function showTab(id,btn,isMobile=false){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.getElementById('topbar-title').textContent=tabTitles[id]||'';
+  // Sidebar
+  document.querySelectorAll('.sidebar .nav-item').forEach(b=>b.classList.remove('active'));
+  // Mobile
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
+  if(isMobile&&btn) btn.classList.add('active');
+  else if(!isMobile&&btn) btn.classList.add('active');
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────
+function fmtDate(d){if(!d) return '';const dt=d instanceof Date?d:new Date(d);return dt.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});}
+function logout(){localStorage.removeItem('currentStudent');window.location.href='login.html';}
+</script>
+</body>
+</html>

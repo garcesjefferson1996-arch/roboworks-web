@@ -521,4 +521,17 @@ function toggleCard(header){
 }
 
 function escHtml(str){
-  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function copyLink(){
+  navigator.clipboard.writeText(location.href).then(()=>{
+    const btn=document.querySelector('.btn-ghost:last-child');
+    const orig=btn.innerHTML;
+    btn.innerHTML='<i class="fas fa-check"></i> ¡Copiado!';
+    setTimeout(()=>{btn.innerHTML=orig;},2000);
+  });
+}
+</script>
+</body>
+</html>

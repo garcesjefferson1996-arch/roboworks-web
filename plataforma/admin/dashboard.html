@@ -2281,4 +2281,24 @@ async function saveAdmin(){
     document.getElementById('adm-user').value='';
     document.getElementById('adm-pass').value='';
     loadAdmins();
-  }c
+  }catch(e){toast('Error: '+e.message,'error');}
+}
+
+async function toggleAdmin(id,newActive){
+  await db.collection('admins').doc(id).update({active:newActive});
+  toast(newActive?'Administrador activado':'Administrador desactivado');
+  loadAdmins();
+}
+
+async function deleteAdmin(id){
+  if(!confirm('¿Eliminar este administrador? Esta acción no se puede deshacer.')) return;
+  await db.collection('admins').doc(id).delete();
+  toast('Administrador eliminado');
+  loadAdmins();
+}
+
+
+function logout(){localStorage.removeItem('isAdmin');window.location.href='../login.html';}
+</script>
+</body>
+</html>
