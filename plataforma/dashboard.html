@@ -1010,10 +1010,11 @@ document.addEventListener('DOMContentLoaded',async()=>{
   if(location.protocol!=='file:'){
     try{await firebase.auth().signInAnonymously();}catch(_){}
   }
-  // Load program to determine curriculum type
+  // Load program curriculum type (timeout 3s so it never blocks the UI)
   if(student.program_id){
     try{
-      const pSnap=await fdb.collection('programs').doc(student.program_id).get();
+      const _timeout=new Promise((_,rej)=>setTimeout(()=>rej('t'),3000));
+      const pSnap=await Promise.race([fdb.collection('programs').doc(student.program_id).get(),_timeout]);
       if(pSnap.exists){
         currentProgram={id:pSnap.id,...pSnap.data()};
         if(currentProgram.curriculum_type==='codeworks') LEVELS=CURRICULUM_CODEWORKS;
