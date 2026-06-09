@@ -780,6 +780,14 @@ const db=firebase.firestore();
         <div class="form-hint">Ejemplos: robot · code · brain · star · microchip · graduation-cap</div>
       </div>
       <div class="form-group">
+        <label>Tipo de currículo</label>
+        <select class="form-control" id="p-curriculum">
+          <option value="roboworks">RoboWorks — Robótica, LEGO, Scratch, 3D</option>
+          <option value="codeworks">CodeWorks — Programación Python</option>
+        </select>
+        <div class="form-hint">Determina qué portafolio y preguntas verán los estudiantes de este programa</div>
+      </div>
+      <div class="form-group">
         <label>Mensualidad base (USD)</label>
         <input type="number" class="form-control" id="p-fee" min="0" max="999" step="0.50" placeholder="Ej: 45.00">
         <div class="form-hint">Tarifa mensual por defecto — puedes ajustarla por estudiante en Pagos</div>
@@ -1421,7 +1429,7 @@ function renderPrograms(){
 async function saveProgram(e){
   e.preventDefault();
   const editId=document.getElementById('edit-program-id').value;
-  const feeVal=parseFloat(document.getElementById('p-fee').value);const data={name:document.getElementById('p-name').value,description:document.getElementById('p-desc').value,age_range:document.getElementById('p-age').value,color:document.getElementById('p-color').value,icon:document.getElementById('p-icon').value||'robot',monthly_fee:isNaN(feeVal)?0:feeVal};
+  const feeVal=parseFloat(document.getElementById('p-fee').value);const data={name:document.getElementById('p-name').value,description:document.getElementById('p-desc').value,age_range:document.getElementById('p-age').value,color:document.getElementById('p-color').value,icon:document.getElementById('p-icon').value||'robot',curriculum_type:document.getElementById('p-curriculum').value||'roboworks',monthly_fee:isNaN(feeVal)?0:feeVal};
   try{
     if(editId) await db.collection('programs').doc(editId).update(data);
     else{data.created_at=TS(); await db.collection('programs').add(data);}
@@ -1443,6 +1451,7 @@ function editProgram(id){
   document.getElementById('p-age').value=p.age_range||p.age||'';
   document.getElementById('p-color').value=p.color||'#2563EB';
   document.getElementById('p-icon').value=p.icon||'robot';
+  document.getElementById('p-curriculum').value=p.curriculum_type||'roboworks';
   document.getElementById('p-fee').value=p.monthly_fee||'';
   openModal('modal-program');
 }
@@ -2272,24 +2281,4 @@ async function saveAdmin(){
     document.getElementById('adm-user').value='';
     document.getElementById('adm-pass').value='';
     loadAdmins();
-  }catch(e){toast('Error: '+e.message,'error');}
-}
-
-async function toggleAdmin(id,newActive){
-  await db.collection('admins').doc(id).update({active:newActive});
-  toast(newActive?'Administrador activado':'Administrador desactivado');
-  loadAdmins();
-}
-
-async function deleteAdmin(id){
-  if(!confirm('¿Eliminar este administrador? Esta acción no se puede deshacer.')) return;
-  await db.collection('admins').doc(id).delete();
-  toast('Administrador eliminado');
-  loadAdmins();
-}
-
-
-function logout(){localStorage.removeItem('isAdmin');window.location.href='../login.html';}
-</script>
-</body>
-</html>
+  }c

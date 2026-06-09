@@ -244,7 +244,52 @@ firebase.initializeApp({
 const db=firebase.firestore();
 
 // ── LEVEL DATA ────────────────────────────────────
-const LEVELS=[
+const CURRICULUM_CODEWORKS=[
+  {id:1,name:'SPARK',color:'#06B6D4',units:[
+    {name:'M1 — Variables, Tipos y Operaciones',classes:[
+      {n:1,topic:'Variables y print() 🚀',reto:'Tarjeta de identidad espacial en Python.',q1:'¿Qué es una variable y para qué sirve?',q2:'¿Qué fue lo más difícil de formatear el texto?'},
+      {n:2,topic:'Tipos de datos — int, float, str 🪐',reto:'Conversor de peso en los planetas.',q1:'¿Cuál es la diferencia entre int, float y str?',q2:'¿En qué planeta pesarías más? ¿Qué error encontraste?'},
+      {n:3,topic:'Operaciones y f-strings 🛸',reto:'Calculadora de viaje al espacio.',q1:'¿Cómo usaste f-strings? Escribe un ejemplo de tu código.',q2:'¿Cuántos años de vida del astronauta tomaría ese viaje?'},
+      {n:4,topic:'Proyecto — App de Estadísticas ⚽',reto:'App de estadísticas de fútbol con rating personalizado.',q1:'¿Qué fórmula inventaste para el rating del jugador?',q2:'Si pudieras agregar una estadística más, ¿cuál sería?'},
+    ]},
+    {name:'M2 — Condicionales: Python Decide',classes:[
+      {n:5,topic:'if / else — La primera decisión 🔭',reto:'Detector de planetas habitables.',q1:'¿Cómo funciona un if/else? Describe el flujo de tu programa.',q2:'¿Qué pasa si el planeta cumple solo una condición de las dos?'},
+      {n:6,topic:'elif y condiciones combinadas 🛰️',reto:'Sistema de alerta de la nave espacial.',q1:'¿Cuándo usarías "and" vs "or"? Da un ejemplo de tu proyecto.',q2:'¿Qué diferencia hace "elif" en lugar de un segundo "if"?'},
+      {n:7,topic:'Flujos de decisión complejos ⚽',reto:'Clasificador de partidos de fútbol (zona de título/descenso).',q1:'¿Cómo diseñaste la lógica antes de escribir el código?',q2:'¿Hubo un caso borde inesperado? ¿Cómo lo resolviste?'},
+      {n:8,topic:'Proyecto — Asistente Inteligente 🏠',reto:'Asistente inteligente de hogar con recomendaciones.',q1:'¿Qué condiciones del hogar programaste y por qué esas?',q2:'¿Cuál recomendación de tu asistente fue la más útil o creativa?'},
+    ]},
+    {name:'M3 — Bucles: Python Trabaja por Ti',classes:[
+      {n:9,topic:'for y range() — Animación en consola 🚀',reto:'Lanzamiento animado del cohete Falcon 9.',q1:'¿Qué diferencia hay entre range(10), range(1,10) y range(0,10,2)?',q2:'¿Cómo usaste time.sleep() para crear el efecto?'},
+      {n:10,topic:'while — El bucle que no para 🔴',reto:'Simulador de supervivencia en Marte.',q1:'¿Cuándo es mejor usar "while" en vez de "for"?',q2:'¿Cuál fue la estrategia ganadora para mantener vivo al astronauta?'},
+      {n:11,topic:'Acumuladores y contadores ⚽',reto:'Analizador de temporada de fútbol.',q1:'¿Cómo calculaste el máximo y el mínimo usando un bucle?',q2:'¿Qué estadística de la temporada te pareció más interesante?'},
+      {n:12,topic:'Proyecto — Arte ASCII del Universo 🌌',reto:'Generador de arte ASCII con bucles anidados.',q1:'¿Cómo usaste bucles anidados para crear el diseño?',q2:'¿Qué fue lo más sorprendente de crear arte solo con texto?'},
+    ]},
+    {name:'M4 — Funciones: Código Inteligente',classes:[
+      {n:13,topic:'def — Crea tus propias funciones 🛸',reto:'Funciones de la computadora de la nave espacial.',q1:'¿Qué hace el "return"? ¿Por qué es importante?',q2:'¿Por qué es mejor tener funciones separadas?'},
+      {n:14,topic:'Funciones avanzadas — Parámetros ⚽',reto:'Motor de estadísticas de jugador con funciones compuestas.',q1:'¿Cómo funciona una función que llama a otra internamente?',q2:'¿Qué valor por defecto pusiste en algún parámetro?'},
+      {n:15,topic:'Librerías — No reinventes la rueda 🪐',reto:'Simulador climático de exoplanetas con math, random, datetime.',q1:'¿Qué librería importaste y qué función usaste? ¿Para qué sirvió?',q2:'¿Qué planeta generó tu programa que te pareció más interesante?'},
+      {n:16,topic:'Proyecto — Mi Librería Personal 🛠️',reto:'Archivo utils.py con mínimo 6 funciones útiles propias.',q1:'¿Qué 3 funciones de tu librería son las más útiles?',q2:'¿En qué situación real de tu vida usarías tu librería?'},
+    ]},
+    {name:'M5 — Estructuras de Datos',classes:[
+      {n:17,topic:'Listas — Colecciones ordenadas 🛸',reto:'Sistema de tripulación de la ISS con menú interactivo.',q1:'¿Qué métodos de lista usaste (append, remove, sort, etc.)?',q2:'¿Cómo se diferencia una lista de una variable normal?'},
+      {n:18,topic:'Diccionarios — Datos con nombre 🌍',reto:'Base de datos de exoplanetas NASA.',q1:'¿Cuál es la diferencia entre una lista y un diccionario?',q2:'¿Qué exoplaneta tiene más probabilidad de albergar vida?'},
+      {n:19,topic:'Archivos y persistencia 📁',reto:'Diario de entrenamiento deportivo que guarda en .txt.',q1:'¿Qué significa que el programa "persista" datos?',q2:'¿Qué estadística de tu historial encontraste más motivadora?'},
+      {n:20,topic:'Proyecto — App de Misiones Espaciales 🚀',reto:'App completa con listas + diccionarios + archivos JSON.',q1:'¿Cómo combinaste listas, diccionarios y archivos en tu app?',q2:'Si fuera una app real de la NASA, ¿qué función agregarías primero?'},
+    ]},
+    {name:'M6 — Proyecto Final + Intro Arduino',classes:[
+      {n:21,topic:'Introducción a POO 🐍',reto:'Clase NaveEspacial con atributos y métodos.',q1:'¿Qué diferencia hay entre un atributo y un método de una clase?',q2:'¿Cómo interactuaron tus 3 naves? ¿Qué métodos usaste más?'},
+      {n:22,topic:'Intro Arduino — ¡El código mueve el mundo! 💡',reto:'Semáforo de lanzamiento espacial con 3 LEDs.',q1:'¿Qué diferencia hay entre salida digital y analógica en Arduino?',q2:'¿Cómo se sintió ver que tu código encendió algo físico?'},
+      {n:23,topic:'Construyo mi proyecto final 🏗️',reto:'Proyecto final con mínimo 3 conceptos del nivel.',q1:'¿Qué 3 conceptos del nivel SPARK usas en tu proyecto final?',q2:'¿Qué fue lo más difícil del proceso de construcción?'},
+      {n:24,topic:'DEMO DAY — ¡Mi gran presentación! 🎓',reto:'Presentación del proyecto final. Link definitivo en Replit.',q1:'¿Qué hace tu proyecto final? ¿Cuál es tu parte favorita del código?',q2:'¿Qué te llevas del nivel SPARK para el siguiente nivel?'},
+    ]},
+  ]},
+  {id:2,name:'RISE',color:'#3B82F6',units:[{name:'RISE',classes:[{n:1,topic:'Coming soon',q1:'',q2:''}]}]},
+  {id:3,name:'CORE',color:'#2563EB',units:[{name:'CORE',classes:[{n:1,topic:'Coming soon',q1:'',q2:''}]}]},
+  {id:4,name:'SURGE',color:'#1D4ED8',units:[{name:'SURGE',classes:[{n:1,topic:'Coming soon',q1:'',q2:''}]}]},
+  {id:5,name:'PINNACLE',color:'#1E3A8A',units:[{name:'PINNACLE',classes:[{n:1,topic:'Coming soon',q1:'',q2:''}]}]},
+  {id:6,name:'LEGEND',color:'#7C3AED',units:[{name:'LEGEND',classes:[{n:1,topic:'Coming soon',q1:'',q2:''}]}]},
+];
+const CURRICULUM_ROBOWORKS=[
   {id:1,name:'SPARK',color:'#06B6D4',units:[
     {name:'U1 — Hello, Robot World!',classes:[
       {n:1,topic:'Hola, Mundo Robot! 🤖',reto:'Construye tu torre de colores con LEGO. Toma una foto de tu creación.',q1:'¿Qué colores usaste en tu torre? ¿Cómo se llama el robot que conociste hoy?',q2:'¿Qué fue lo más divertido de conocer al AlphaBot por primera vez?'},
@@ -289,7 +334,9 @@ const LEVELS=[
   {id:5,name:'PINNACLE',color:'#1E3A8A',units:[{name:'Nivel PINNACLE',classes:[{n:1,topic:'Clases PINNACLE'},{n:2,topic:''},{n:3,topic:''},{n:4,topic:''},{n:5,topic:''},{n:6,topic:''},{n:7,topic:''},{n:8,topic:''},{n:9,topic:''},{n:10,topic:''},{n:11,topic:''},{n:12,topic:''},{n:13,topic:''},{n:14,topic:''},{n:15,topic:''},{n:16,topic:''},{n:17,topic:''},{n:18,topic:''},{n:19,topic:''},{n:20,topic:''},{n:21,topic:''},{n:22,topic:''},{n:23,topic:''},{n:24,topic:''},{n:25,topic:''},{n:26,topic:''}]}]},
   {id:6,name:'LEGEND',color:'#7C3AED',units:[{name:'Nivel LEGEND',classes:[{n:1,topic:'Clases LEGEND'},{n:2,topic:''},{n:3,topic:''},{n:4,topic:''},{n:5,topic:''},{n:6,topic:''},{n:7,topic:''},{n:8,topic:''},{n:9,topic:''},{n:10,topic:''},{n:11,topic:''},{n:12,topic:''},{n:13,topic:''},{n:14,topic:''},{n:15,topic:''},{n:16,topic:''},{n:17,topic:''},{n:18,topic:''},{n:19,topic:''},{n:20,topic:''},{n:21,topic:''},{n:22,topic:''},{n:23,topic:''},{n:24,topic:''},{n:25,topic:''},{n:26,topic:''}]}]},
 ];
+let LEVELS=CURRICULUM_ROBOWORKS; // overridden by loadStudent() based on curriculum_type
 
+// ── LINK ICONS ────────────────────────────────────
 // ── LINK ICONS ────────────────────────────────────
 function getLinkIcon(url){
   if(!url) return 'fa-link';
@@ -298,6 +345,7 @@ function getLinkIcon(url){
   if(u.includes('youtube')||u.includes('youtu.be')) return 'fa-brands fa-youtube';
   if(u.includes('tinkercad')) return 'fa-cube';
   if(u.includes('scratch.mit')) return 'fa-cat';
+  if(u.includes('replit')) return 'fa-code';
   if(u.includes('github')) return 'fa-brands fa-github';
   return 'fa-link';
 }
@@ -315,6 +363,14 @@ window.addEventListener('DOMContentLoaded', async()=>{
     const sDoc=await db.collection('students').doc(sid).get();
     if(!sDoc.exists){showError();return;}
     const student={id:sDoc.id,...sDoc.data()};
+
+    // Determine curriculum based on program
+    if(student.program_id){
+      try{
+        const pDoc=await db.collection('programs').doc(student.program_id).get();
+        if(pDoc.exists&&pDoc.data().curriculum_type==='codeworks') LEVELS=CURRICULUM_CODEWORKS;
+      }catch(_){}
+    }
 
     // Load all portfolio entries
     const portSnap=await db.collection('portfolio').where('student_id','==',sid).get();
@@ -465,17 +521,4 @@ function toggleCard(header){
 }
 
 function escHtml(str){
-  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function copyLink(){
-  navigator.clipboard.writeText(location.href).then(()=>{
-    const btn=document.querySelector('.btn-ghost:last-child');
-    const orig=btn.innerHTML;
-    btn.innerHTML='<i class="fas fa-check"></i> ¡Copiado!';
-    setTimeout(()=>{btn.innerHTML=orig;},2000);
-  });
-}
-</script>
-</body>
-</html>
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(
