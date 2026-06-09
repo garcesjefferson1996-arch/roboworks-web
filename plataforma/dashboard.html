@@ -1446,7 +1446,7 @@ function renderPortfolioUnit(){
         return '';
       })()}
       <div class="save-row">
-        <span class="xp-note"><i class="fas fa-star"></i> +100 XP al completar</span>
+        <span class="xp-note"><i class="fas fa-star"></i> XP asignado por el docente al calificar</span>
         <div style="display:flex;align-items:center;gap:.5rem">
           <span class="saved-chip" id="chip-${lv.id}-${cls.n}" ${done?'style="display:inline-block"':''}>Guardado</span>
           <button class="save-btn" onclick="savePort(${lv.id},${cls.n})"><i class="fas fa-floppy-disk"></i> Guardar</button>
@@ -1476,12 +1476,7 @@ function savePort(lvl,cls){
   savePortEntry(lvl,cls,{...existing,reto,difficulty,learning});
   const chip=document.getElementById(`chip-${lvl}-${cls}`);
   if(chip){chip.style.display='inline-block';}
-  // Update XP
-  const newXP=(student.xp||0)+100;
-  student.xp=newXP;
-  localStorage.setItem('currentStudent',JSON.stringify(student));
-  document.getElementById('topbar-xp').textContent=newXP+' XP';
-  document.getElementById('stat-xp').textContent=newXP;
+  // XP is assigned by teacher grading — no auto-increment here
   // Re-render to mark as done
   renderPortfolioLevelTabs();
   renderPortfolioUnit();
