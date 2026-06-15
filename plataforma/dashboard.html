@@ -321,11 +321,6 @@ const fdb=firebase.firestore();
       <i class="fas fa-list-check"></i> Tareas
       <span id="task-badge-sidebar" style="margin-left:auto;background:var(--orange);color:#fff;padding:.15rem .45rem;border-radius:50px;font-size:.65rem;display:none"></span>
     </button>
-    <div class="nav-section-label">Juegos</div>
-    <button class="nav-item nav-item-game" onclick="showTab('robomision',this)">
-      <i class="fas fa-dice"></i> RoboMisión
-      <span class="nav-game-badge">¡Nuevo!</span>
-    </button>
   </div>
   <div class="sidebar-footer">
     <div class="student-chip">
@@ -344,10 +339,6 @@ const fdb=firebase.firestore();
   <header class="topbar">
     <div class="topbar-title" id="topbar-title">Inicio</div>
     <div class="topbar-right">
-      <button class="robomision-btn" onclick="showTab('robomision', document.querySelector('.nav-item-game'))">
-        <img src="/assets/icons/robomision-logo.png" alt="RoboMisión">
-        <span>Jugar RoboMisión</span>
-      </button>
       <span class="level-badge" id="topbar-level-badge" style="background:var(--blue)">SPARK</span>
       <span class="xp-chip" id="topbar-xp">0 XP</span>
     </div>
@@ -405,6 +396,17 @@ const fdb=firebase.firestore();
         </div>
       </div>
     </div>
+
+
+      <!-- ══ ROBOMISIÓN ═══════════════════════════════════════ -->
+      <div onclick="window.open('estudiante/robomision/index.html','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#7c3aed,#00a8e8);border-radius:20px;padding:1.5rem 1.75rem;display:flex;align-items:center;gap:1.25rem;margin-top:1.25rem;box-shadow:0 8px 28px rgba(124,58,237,.35);transition:.2s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 36px rgba(124,58,237,.45)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 28px rgba(124,58,237,.35)'">
+        <img src="/assets/icons/robomision-logo.png" alt="RoboMisión" style="width:60px;height:60px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25))">
+        <div style="flex:1">
+          <div style="font-family:'Nunito',sans-serif;font-size:1.25rem;font-weight:900;color:#fff;margin-bottom:.25rem">🚀 Jugar RoboMisión</div>
+          <div style="font-size:.85rem;color:rgba(255,255,255,.85);font-weight:600">Tu aventura espacial de programación te espera</div>
+        </div>
+        <div style="background:rgba(255,255,255,.22);border-radius:14px;padding:.65rem 1.25rem;font-family:'Nunito',sans-serif;font-weight:900;color:#fff;font-size:.9rem;white-space:nowrap;flex-shrink:0">¡Jugar! →</div>
+      </div>
 
     <!-- ═══════════════════════════════════════════════
          TAB: MI CAMINO
@@ -513,15 +515,6 @@ const fdb=firebase.firestore();
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════
-         TAB: ROBOMISIÓN
-    ═══════════════════════════════════════════════ -->
-    <div class="tab-panel" id="tab-robomision">
-      <div class="robomision-frame-wrap">
-        <iframe src="estudiante/robomision/index.html" class="robomision-frame" title="RoboMisión" allow="fullscreen"></iframe>
-      </div>
-    </div>
-
   </div><!-- /content -->
 </div><!-- /main -->
 
@@ -532,7 +525,6 @@ const fdb=firebase.firestore();
   <button class="mob-nav-btn" onclick="showTab('portfolio',this,true)"><i class="fas fa-layer-group"></i>Portfolio</button>
   <button class="mob-nav-btn" onclick="showTab('materiales',this,true)"><i class="fas fa-folder-open"></i>Materiales</button>
   <button class="mob-nav-btn" onclick="showTab('tareas',this,true)"><i class="fas fa-list-check"></i>Tareas</button>
-  <button class="mob-nav-btn mob-nav-game" onclick="showTab('robomision',this,true)"><i class="fas fa-dice"></i>Misión</button>
 </nav>
 
 <script>
