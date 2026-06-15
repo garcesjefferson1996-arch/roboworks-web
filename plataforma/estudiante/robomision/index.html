@@ -8,60 +8,77 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Nunito',sans-serif;background:#0d0b1e;color:#fff;overflow-x:hidden}
+
+/* ══ SPLASH ══ */
+#splash{position:fixed;inset:0;z-index:999;background:linear-gradient(160deg,#0d0b1e,#1a1040,#0d1b2a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity .6s ease}
+#splash.fade-out{opacity:0;pointer-events:none}
+#splash img{width:min(240px,70vw);animation:splashPop .7s cubic-bezier(.34,1.56,.64,1)}
+.splash-stars{position:absolute;inset:0;pointer-events:none}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 2s infinite ease-in-out}
+
+/* ══ SCREENS ══ */
+.screen{display:none;min-height:100vh;width:100%;flex-direction:column;align-items:center}
+.screen.active{display:flex}
 body{background:linear-gradient(160deg,#0d0b1e 0%,#1a1040 50%,#0d1b2a 100%);min-height:100vh}
 
-/* ── SCREENS ── */
-.screen{display:none;min-height:100vh;width:100%;flex-direction:column;align-items:center;padding:1rem 1rem 2rem}
-.screen.active{display:flex}
-
-/* ══════════ SETUP ══════════ */
-#screen-setup{justify-content:center;gap:1.5rem}
-.setup-logo{width:min(280px,80vw);margin-bottom:.5rem}
-.setup-tagline{color:#a78bfa;font-size:.95rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.5rem}
-.setup-card{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:24px;padding:1.75rem 1.5rem;width:100%;max-width:460px;backdrop-filter:blur(12px)}
-.setup-card h2{font-size:1.2rem;font-weight:800;text-align:center;margin-bottom:1.25rem;color:#e2e8f0}
+/* ══ SETUP ══ */
+#screen-setup{justify-content:center;padding:1.5rem 1rem 3rem;gap:1.25rem}
+.setup-logo{width:min(220px,75vw)}
+.setup-tagline{color:#a78bfa;font-size:.85rem;letter-spacing:2px;text-transform:uppercase}
+.setup-card{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:24px;padding:1.75rem 1.5rem;width:100%;max-width:440px;backdrop-filter:blur(12px)}
+.setup-card h2{font-size:1.15rem;font-weight:800;text-align:center;margin-bottom:1.25rem;color:#e2e8f0}
 .team-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.65rem}
-.team-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;box-shadow:0 0 8px currentColor}
+.team-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0}
 .team-inp{flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:12px;padding:.55rem .9rem;color:#fff;font-size:.95rem;font-family:inherit;font-weight:700;outline:none;transition:.2s}
 .team-inp:focus{border-color:#a78bfa;background:rgba(167,139,250,.1)}
 .team-inp::placeholder{color:rgba(255,255,255,.25);font-weight:400}
-.rm-btn{background:none;border:none;color:rgba(255,255,255,.25);cursor:pointer;font-size:1.1rem;padding:0 .2rem;line-height:1;transition:.2s}
+.rm-btn{background:none;border:none;color:rgba(255,255,255,.25);cursor:pointer;font-size:1.1rem;padding:0 .2rem;transition:.2s}
 .rm-btn:hover{color:#f87171}
 .add-btn{width:100%;padding:.55rem;background:rgba(167,139,250,.1);border:1.5px dashed rgba(167,139,250,.4);border-radius:12px;color:#a78bfa;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;margin-bottom:1.25rem;transition:.2s}
 .add-btn:hover{background:rgba(167,139,250,.2)}
-.go-btn{width:100%;padding:1rem;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:16px;color:#fff;font-family:inherit;font-size:1.15rem;font-weight:900;cursor:pointer;letter-spacing:.5px;box-shadow:0 6px 24px rgba(124,58,237,.4);transition:.2s}
+.go-btn{width:100%;padding:1rem;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:16px;color:#fff;font-family:inherit;font-size:1.1rem;font-weight:900;cursor:pointer;letter-spacing:.5px;box-shadow:0 6px 24px rgba(124,58,237,.4);transition:.2s}
 .go-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.5)}
 
-/* ══════════ BOARD ══════════ */
-#screen-board{padding:0;justify-content:flex-start}
-.board-wrap{display:flex;flex-direction:column;width:100%;max-width:680px;min-height:100vh}
+/* ══ BOARD ══ */
+#screen-board{justify-content:flex-start;padding:0;align-items:stretch}
+.board-wrap{display:flex;flex-direction:column;width:100%;max-width:700px;margin:0 auto;min-height:100vh}
 
-.board-topbar{background:rgba(0,0,0,.5);border-bottom:1px solid rgba(255,255,255,.08);padding:.8rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap}
-.board-logo-sm{height:32px}
-.turn-pill{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:20px;padding:.3rem .85rem;font-size:.82rem;font-weight:700;white-space:nowrap}
+.board-topbar{background:rgba(0,0,0,.5);border-bottom:1px solid rgba(255,255,255,.08);padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between}
+.board-logo-sm{height:30px}
 .reset-btn{background:none;border:1.5px solid rgba(255,255,255,.15);border-radius:10px;color:rgba(255,255,255,.5);padding:.3rem .7rem;font-size:.78rem;cursor:pointer;font-family:inherit;transition:.2s}
 .reset-btn:hover{border-color:#f87171;color:#f87171}
 
-.teams-bar{display:flex;gap:.5rem;padding:.75rem 1rem;overflow-x:auto;background:rgba(0,0,0,.25);border-bottom:1px solid rgba(255,255,255,.06)}
-.team-tile{flex-shrink:0;border-radius:16px;padding:.5rem .85rem;border:2px solid transparent;transition:.25s;min-width:90px}
-.team-tile.active{border-color:var(--c);background:rgba(var(--cr),.12);box-shadow:0 0 14px rgba(var(--cr),.3)}
-.tile-name{font-size:.8rem;font-weight:800;display:block;color:#e2e8f0}
-.tile-pos{font-size:.68rem;color:rgba(255,255,255,.45)}
-.tile-pieces{display:flex;gap:2px;margin-top:.2rem;flex-wrap:wrap}
-.tp{font-size:.7rem;filter:grayscale(1);opacity:.35;transition:.2s}
+/* TURN BANNER */
+.turn-banner{background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(37,99,235,.3));border-bottom:1px solid rgba(167,139,250,.2);padding:.7rem 1rem;text-align:center;font-size:.9rem;color:#c4b5fd;font-weight:600}
+.turn-banner strong{color:#fff;font-size:1rem}
+
+/* TEAM BUTTONS - GRANDES */
+.teams-section{padding:.85rem 1rem;background:rgba(0,0,0,.2);border-bottom:1px solid rgba(255,255,255,.06)}
+.teams-section-label{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:.6rem;font-weight:800}
+.teams-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.6rem}
+.team-btn{border-radius:18px;padding:.75rem .65rem;border:2.5px solid transparent;cursor:pointer;background:rgba(255,255,255,.05);transition:.25s;text-align:center;position:relative;overflow:hidden}
+.team-btn.active{border-color:var(--c);background:linear-gradient(135deg,rgba(var(--rgb),.18),rgba(var(--rgb),.08));box-shadow:0 0 18px rgba(var(--rgb),.3)}
+.team-btn:not(.active):hover{background:rgba(255,255,255,.09)}
+.team-btn-name{font-size:.88rem;font-weight:900;color:#e2e8f0;display:block;margin-bottom:.15rem}
+.team-btn.active .team-btn-name{color:var(--c)}
+.team-btn-pos{font-size:.7rem;color:rgba(255,255,255,.4);display:block;margin-bottom:.3rem}
+.team-btn-pieces{display:flex;gap:2px;justify-content:center;flex-wrap:wrap}
+.tp{font-size:.75rem;filter:grayscale(1);opacity:.3;transition:.2s}
 .tp.got{filter:none;opacity:1}
+.active-crown{position:absolute;top:.3rem;right:.4rem;font-size:.75rem}
 
-.board-title{text-align:center;padding:.9rem .5rem .5rem;font-size:.8rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:2px}
-
-.decks-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;padding:.5rem 1rem 1rem;flex:1}
+/* DECKS GRID */
+.deck-label{padding:.75rem 1rem .35rem;font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.3);font-weight:800}
+.decks-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;padding:0 1rem .75rem;flex:1}
 .deck-card{background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);border-radius:20px;cursor:pointer;transition:.25s;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:0;position:relative}
-.deck-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.08)}
+.deck-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}
 .deck-card:active{transform:scale(.97)}
-.deck-img{width:100%;object-fit:contain;padding:.5rem .5rem 0}
-.deck-remaining{position:absolute;top:.5rem;right:.5rem;background:rgba(0,0,0,.55);border-radius:20px;font-size:.62rem;padding:.15rem .45rem;color:rgba(255,255,255,.7);font-weight:700}
+.deck-img{width:100%;object-fit:contain;padding:.4rem .4rem 0}
+.deck-remaining{position:absolute;top:.45rem;right:.45rem;background:rgba(0,0,0,.6);border-radius:20px;font-size:.62rem;padding:.15rem .45rem;color:rgba(255,255,255,.75);font-weight:800}
 
+/* SCOREBOARD */
 .board-score{background:rgba(0,0,0,.3);border-top:1px solid rgba(255,255,255,.06);padding:.85rem 1rem}
-.score-title{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:.55rem}
+.score-title{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:.55rem;font-weight:800}
 .score-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem;font-size:.8rem}
 .s-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .s-name{flex:1;font-weight:700;color:#e2e8f0}
@@ -70,144 +87,256 @@ body{background:linear-gradient(160deg,#0d0b1e 0%,#1a1040 50%,#0d1b2a 100%);min-
 .sp{font-size:.68rem;filter:grayscale(1);opacity:.3}
 .sp.g{filter:none;opacity:1}
 
-/* ══════════ CARD ══════════ */
-#screen-card{padding:0;justify-content:flex-start;align-items:stretch}
-.card-wrap{display:flex;flex-direction:column;width:100%;max-width:680px;min-height:100vh}
+/* ══ CARD SCREEN — FULL SCREEN CENTERED ══ */
+#screen-card{position:fixed;inset:0;z-index:50;flex-direction:column;overflow-y:auto;padding:0}
+#screen-card.active{display:flex}
 
-.card-topbar{background:rgba(0,0,0,.55);border-bottom:1px solid rgba(255,255,255,.08);padding:.7rem 1rem;display:flex;align-items:center;gap:.75rem}
-.back-btn{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;color:#c4b5fd;padding:.35rem .8rem;font-size:.82rem;cursor:pointer;font-family:inherit;font-weight:700;transition:.2s}
-.back-btn:hover{border-color:#a78bfa;color:#a78bfa}
-.card-top-info{flex:1}
-.deck-name-badge{font-size:.75rem;font-weight:900;padding:.15rem .6rem;border-radius:20px;display:inline-block;letter-spacing:.5px}
-.card-team-label{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:.1rem}
+.card-shell{
+  display:flex;flex-direction:column;
+  width:100%;max-width:480px;
+  min-height:100vh;
+  margin:0 auto;
+  background:linear-gradient(180deg,var(--dk-from) 0%,var(--dk-to) 100%);
+  position:relative;
+}
 
-/* Robot + Timer header */
-.card-hero{display:flex;align-items:flex-end;justify-content:space-between;padding:.5rem 1.25rem 0;background:rgba(0,0,0,.2)}
-.robot-img{width:min(110px,28vw);object-fit:contain}
-.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:.2rem}
-.timer-svg{width:72px;height:72px}
-.timer-track{fill:none;stroke:rgba(255,255,255,.08);stroke-width:5}
-.timer-fill{fill:none;stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .5s;transform-origin:center;transform:rotate(-90deg)}
-.timer-num{font-size:1.1rem;font-weight:900}
-.timer-label{font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px}
+/* Robot header — full width, prominent */
+.card-robot-header{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;
+  padding-top:.5rem;
+  min-height:220px;
+  overflow:hidden;
+}
+.card-robot-bg{position:absolute;inset:0;opacity:.15}
+.card-robot-img{
+  width:min(200px,55vw);
+  object-fit:contain;
+  position:relative;z-index:1;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,.4));
+  animation:robotIn .5s cubic-bezier(.34,1.56,.64,1);
+}
+.card-back-btn{
+  position:absolute;top:.75rem;left:.75rem;z-index:2;
+  background:rgba(0,0,0,.35);backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,.2);border-radius:10px;
+  color:#fff;padding:.3rem .7rem;font-size:.78rem;font-weight:700;
+  cursor:pointer;font-family:inherit;
+}
+.card-back-btn:hover{border-color:#a78bfa;color:#c4b5fd}
 
-/* Subtipo */
-.subtipo-pill{display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:.2rem .7rem;font-size:.7rem;color:rgba(255,255,255,.6);margin:0 1.25rem .5rem;font-weight:700}
+/* White card body */
+.card-body-white{
+  background:#fff;
+  border-radius:28px 28px 0 0;
+  margin-top:-1rem;
+  flex:1;
+  padding:1.25rem 1.25rem 0;
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;
+  gap:.75rem;
+}
+.card-type-badge{
+  display:inline-block;
+  border-radius:20px;
+  padding:.3rem 1rem;
+  font-size:.72rem;font-weight:900;
+  letter-spacing:1px;text-transform:uppercase;
+  text-align:center;margin:0 auto;
+}
+.card-reto-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:rgba(0,0,0,.35);font-weight:800;text-align:center}
+.card-reto-text{
+  font-size:1.05rem;font-weight:800;color:#1e1b4b;
+  line-height:1.5;text-align:center;
+}
+.subtipo-badge2{
+  display:block;text-align:center;
+  font-size:.72rem;font-weight:700;
+  color:rgba(0,0,0,.4);margin-top:-.35rem;
+}
 
-/* Reto box */
-.reto-box{margin:.25rem 1.25rem .75rem;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:1.1rem}
-.reto-label{font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.35);font-weight:800;margin-bottom:.45rem}
-.reto-text{font-size:1rem;line-height:1.55;color:#e2e8f0;font-weight:600}
+/* Timer — big and centered */
+.timer-section{
+  display:flex;flex-direction:column;align-items:center;gap:.1rem;
+  padding:.25rem 0;
+}
+.timer-big{
+  font-size:3rem;font-weight:900;line-height:1;
+  color:#1e1b4b;font-variant-numeric:tabular-nums;
+  transition:color .3s;
+}
+.timer-big.warn{color:#f59e0b}
+.timer-big.danger{color:#ef4444;animation:pulse .5s infinite}
+.timer-sub{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:rgba(0,0,0,.3);font-weight:700}
+.timer-bar{
+  width:80%;height:6px;background:rgba(0,0,0,.1);border-radius:3px;overflow:hidden;margin-top:.5rem;
+}
+.timer-bar-fill{height:100%;border-radius:3px;transition:width .9s linear,background .3s}
 
 /* MC options */
-.opts{display:flex;flex-direction:column;gap:.55rem;margin:0 1.25rem .75rem}
-.opt{display:flex;align-items:flex-start;gap:.75rem;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);border-radius:14px;padding:.75rem .9rem;cursor:pointer;font-family:inherit;font-size:.92rem;font-weight:600;color:#e2e8f0;text-align:left;transition:.2s;width:100%}
-.opt:hover:not(:disabled){border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.1)}
+.opts{display:flex;flex-direction:column;gap:.55rem}
+.opt{
+  display:flex;align-items:center;gap:.75rem;
+  background:rgba(0,0,0,.05);border:2px solid rgba(0,0,0,.08);
+  border-radius:14px;padding:.75rem 1rem;
+  cursor:pointer;font-family:inherit;font-size:.92rem;font-weight:700;color:#1e1b4b;
+  text-align:left;transition:.2s;width:100%;
+}
+.opt:hover:not(:disabled){border-color:#7c3aed;background:rgba(124,58,237,.05)}
 .opt:disabled{cursor:default}
-.opt-letter{font-weight:900;font-size:.9rem;min-width:22px;color:rgba(255,255,255,.4)}
-.opt.correct{border-color:#22c55e!important;background:rgba(34,197,94,.15)!important;color:#86efac}
-.opt.correct .opt-letter{color:#22c55e}
-.opt.wrong{border-color:#ef4444!important;background:rgba(239,68,68,.15)!important;color:#fca5a5}
-.opt.wrong .opt-letter{color:#ef4444}
-.opt.show-correct{border-color:#22c55e;background:rgba(34,197,94,.08);color:#86efac}
-.opt.show-correct .opt-letter{color:#22c55e}
+.opt-letter{
+  font-weight:900;font-size:.88rem;min-width:28px;height:28px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.08);color:rgba(0,0,0,.4);flex-shrink:0;
+}
+.opt.correct{border-color:#22c55e!important;background:rgba(34,197,94,.1)!important}
+.opt.correct .opt-letter{background:#22c55e;color:#fff}
+.opt.wrong{border-color:#ef4444!important;background:rgba(239,68,68,.1)!important}
+.opt.wrong .opt-letter{background:#ef4444;color:#fff}
+.opt.show-correct{border-color:#22c55e;background:rgba(34,197,94,.06)}
+.opt.show-correct .opt-letter{background:#22c55e;color:#fff}
 
-/* Hint / Answer for open cards */
-.card-actions{display:flex;flex-direction:column;gap:.6rem;margin:0 1.25rem .75rem}
-.toggle-btn{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;padding:.65rem 1rem;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:700;color:#c4b5fd;transition:.2s;text-align:left}
-.toggle-btn:hover{background:rgba(167,139,250,.15);border-color:#a78bfa}
-.reveal-box{display:none;background:rgba(167,139,250,.07);border:1.5px solid rgba(167,139,250,.25);border-radius:12px;padding:.9rem 1rem;font-size:.88rem;line-height:1.55;color:#e2e8f0}
-.reveal-box.show{display:block}
-.reveal-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:#a78bfa;font-weight:900;margin-bottom:.35rem}
-.hint-box{display:none;background:rgba(251,191,36,.07);border:1.5px solid rgba(251,191,36,.2);border-radius:12px;padding:.9rem 1rem;font-size:.88rem;line-height:1.55;color:#fde68a}
-.hint-box.show{display:block}
-.hint-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:#fbbf24;font-weight:900;margin-bottom:.35rem}
+/* Open card actions */
+.open-actions{display:flex;flex-direction:column;gap:.55rem}
+.reveal-btn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  background:rgba(0,0,0,.06);border:1.5px solid rgba(0,0,0,.1);border-radius:14px;
+  padding:.7rem 1rem;cursor:pointer;font-family:inherit;font-size:.88rem;font-weight:700;
+  color:#374151;transition:.2s;
+}
+.reveal-btn:hover{background:rgba(0,0,0,.1)}
+.reveal-content{
+  display:none;background:rgba(124,58,237,.06);border:1.5px solid rgba(124,58,237,.2);
+  border-radius:14px;padding:.9rem 1rem;font-size:.88rem;line-height:1.55;color:#374151;
+}
+.reveal-content.show{display:block}
+.reveal-content-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:1.5px;color:#7c3aed;font-weight:900;margin-bottom:.35rem}
+.hint-content{
+  display:none;background:rgba(234,179,8,.08);border:1.5px solid rgba(234,179,8,.3);
+  border-radius:14px;padding:.9rem 1rem;font-size:.88rem;line-height:1.55;color:#374151;
+}
+.hint-content.show{display:block}
+.hint-content-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:1.5px;color:#b45309;font-weight:900;margin-bottom:.35rem}
 
 /* Card footer */
-.card-footer{padding:1rem 1.25rem 1.5rem;border-top:1px solid rgba(255,255,255,.07);margin-top:auto}
-.footer-hint{text-align:center;color:rgba(255,255,255,.3);font-size:.8rem;padding:.5rem 0}
-.judge-btns{display:flex;gap:.75rem}
-.judge-btn{flex:1;padding:.85rem;border:none;border-radius:16px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;transition:.2s;letter-spacing:.5px}
+.card-footer{
+  background:#fff;
+  padding:.75rem 1.25rem 1.5rem;
+  display:flex;flex-direction:column;gap:.5rem;
+  position:sticky;bottom:0;
+  border-top:1px solid rgba(0,0,0,.07);
+}
+.judge-hint{text-align:center;font-size:.75rem;color:rgba(0,0,0,.35);font-weight:600;margin-bottom:.1rem}
+.judge-row{display:flex;gap:.65rem}
+.judge-btn{
+  flex:1;padding:.85rem;border:none;border-radius:16px;
+  font-family:inherit;font-size:.95rem;font-weight:900;cursor:pointer;transition:.2s;letter-spacing:.3px;
+}
 .judge-btn.yes{background:linear-gradient(135deg,#15803d,#22c55e);color:#fff;box-shadow:0 4px 16px rgba(34,197,94,.3)}
 .judge-btn.no{background:linear-gradient(135deg,#991b1b,#ef4444);color:#fff;box-shadow:0 4px 16px rgba(239,68,68,.3)}
 .judge-btn:hover{transform:translateY(-2px)}
+.mc-hint{text-align:center;font-size:.78rem;color:rgba(0,0,0,.3);font-weight:600;padding:.35rem 0}
 
-/* ══════════ FEEDBACK OVERLAY ══════════ */
-#feedback-overlay{display:none;position:fixed;inset:0;z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
+/* ══ FEEDBACK OVERLAY ══ */
+#feedback-overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;
+}
 #feedback-overlay.show{display:flex}
-.fb-bg-correct{background:radial-gradient(ellipse at center,rgba(34,197,94,.35) 0%,rgba(13,11,30,.97) 70%)}
-.fb-bg-wrong{background:radial-gradient(ellipse at center,rgba(239,68,68,.3) 0%,rgba(13,11,30,.97) 70%)}
-.fb-emoji{font-size:5rem;margin-bottom:.5rem;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
-.fb-title{font-size:2.2rem;font-weight:900;margin-bottom:.5rem;animation:slideUp .35s ease}
-.fb-title.correct{color:#86efac}
-.fb-title.wrong{color:#fca5a5}
-.fb-sub{color:rgba(255,255,255,.65);font-size:.95rem;margin-bottom:1.5rem;line-height:1.5}
-.fb-piece{background:rgba(167,139,250,.15);border:2px solid rgba(167,139,250,.4);border-radius:16px;padding:.75rem 1.5rem;margin-bottom:1.25rem;font-size:1rem;font-weight:700;color:#c4b5fd;animation:pop .5s .2s both cubic-bezier(.34,1.56,.64,1)}
-.fb-penalty{background:rgba(239,68,68,.12);border:1.5px solid rgba(239,68,68,.3);border-radius:16px;padding:.65rem 1.25rem;margin-bottom:1.25rem;font-size:.9rem;color:#fca5a5}
-.fb-continue{padding:.9rem 2.5rem;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:16px;color:#fff;font-family:inherit;font-size:1.05rem;font-weight:900;cursor:pointer;letter-spacing:.5px;box-shadow:0 6px 24px rgba(124,58,237,.4);transition:.2s}
+.fb-correct{background:radial-gradient(ellipse at center,rgba(34,197,94,.4) 0%,rgba(13,11,30,.97) 70%)}
+.fb-wrong{background:radial-gradient(ellipse at center,rgba(239,68,68,.35) 0%,rgba(13,11,30,.97) 70%)}
+.fb-emoji{font-size:5.5rem;margin-bottom:.25rem;animation:splashPop .4s cubic-bezier(.34,1.56,.64,1)}
+.fb-title{font-size:2.4rem;font-weight:900;margin-bottom:.35rem;animation:slideUp .35s ease}
+.fb-title.c{color:#86efac}.fb-title.w{color:#fca5a5}
+.fb-sub{color:rgba(255,255,255,.7);font-size:.92rem;margin-bottom:1.5rem;line-height:1.6;max-width:360px}
+.fb-piece{background:rgba(167,139,250,.15);border:2px solid rgba(167,139,250,.4);border-radius:16px;padding:.75rem 1.5rem;margin-bottom:1.1rem;font-size:1rem;font-weight:800;color:#c4b5fd;animation:splashPop .5s .25s both}
+.fb-penalty{background:rgba(239,68,68,.12);border:1.5px solid rgba(239,68,68,.3);border-radius:14px;padding:.6rem 1.25rem;margin-bottom:1rem;font-size:.88rem;color:#fca5a5;font-weight:700}
+.fb-answer{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:.75rem 1.25rem;margin-bottom:1.25rem;font-size:.88rem;color:#e2e8f0;line-height:1.5;max-width:360px}
+.fb-answer-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.4);font-weight:800;margin-bottom:.3rem}
+.fb-continue{
+  padding:.9rem 2.5rem;background:linear-gradient(135deg,#7c3aed,#2563eb);
+  border:none;border-radius:16px;color:#fff;font-family:inherit;
+  font-size:1.05rem;font-weight:900;cursor:pointer;letter-spacing:.5px;
+  box-shadow:0 6px 24px rgba(124,58,237,.4);transition:.2s;
+}
 .fb-continue:hover{transform:translateY(-2px)}
 
-/* ══════════ WIN SCREEN ══════════ */
-#screen-win{justify-content:center;gap:1rem}
-.win-card{background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(37,99,235,.18));border:2px solid rgba(167,139,250,.35);border-radius:28px;padding:2.5rem 2rem;max-width:440px;width:100%;text-align:center;backdrop-filter:blur(20px)}
-.win-trophy{font-size:4rem;margin-bottom:.25rem;animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
+/* ══ WIN ══ */
+#screen-win{justify-content:center;padding:2rem 1rem}
+.win-card{background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(37,99,235,.18));border:2px solid rgba(167,139,250,.35);border-radius:28px;padding:2.5rem 2rem;max-width:420px;width:100%;text-align:center}
+.win-trophy{font-size:4rem;margin-bottom:.25rem;animation:splashPop .5s}
 .win-h1{font-size:2.2rem;font-weight:900;background:linear-gradient(90deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.25rem}
 .win-team{font-size:1.3rem;font-weight:800;color:#e2e8f0;margin-bottom:.5rem}
 .win-sub{color:#a5b4fc;font-size:.9rem;margin-bottom:1.5rem}
 .win-pieces{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:1.75rem}
 .win-piece{background:rgba(167,139,250,.15);border:1.5px solid rgba(167,139,250,.35);border-radius:20px;padding:.35rem .9rem;font-size:.85rem;font-weight:700;color:#e2e8f0}
-.again-btn{width:100%;padding:1rem;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:16px;color:#fff;font-family:inherit;font-size:1.1rem;font-weight:900;cursor:pointer;transition:.2s;box-shadow:0 6px 24px rgba(124,58,237,.4)}
+.again-btn{width:100%;padding:1rem;background:linear-gradient(135deg,#7c3aed,#2563eb);border:none;border-radius:16px;color:#fff;font-family:inherit;font-size:1.05rem;font-weight:900;cursor:pointer;transition:.2s}
 .again-btn:hover{transform:translateY(-2px)}
 
-/* ══════════ CONFETTI ══════════ */
-.confetti-piece{position:fixed;width:10px;height:10px;top:-10px;animation:confettiFall linear forwards;pointer-events:none;z-index:200;border-radius:2px}
-@keyframes confettiFall{to{top:110vh;transform:rotate(720deg)}}
-@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+/* ══ CONFETTI ══ */
+.cfp{position:fixed;width:10px;height:10px;top:-12px;pointer-events:none;z-index:200;border-radius:2px;animation:cfFall linear forwards}
+@keyframes cfFall{to{top:105vh;transform:rotate(720deg)}}
+@keyframes splashPop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-
-/* ══════════ UTILS ══════════ */
-.hidden{display:none!important}
+@keyframes robotIn{from{transform:translateY(30px) scale(.85);opacity:0}to{transform:none;opacity:1}}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.9}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 </style>
 </head>
 <body>
 
-<!-- SETUP -->
-<div id="screen-setup" class="screen active">
-  <img src="assets/src/assets/images/logo.3c780f551b8db7580a10ad560a58d64a.png" class="setup-logo" alt="RoboMisión" onerror="this.style.display='none';document.getElementById('fallback-logo').style.display='block'">
-  <div id="fallback-logo" style="display:none;font-size:2.2rem;font-weight:900;background:linear-gradient(90deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">🤖 ROBOMISIÓN</div>
+<!-- ══ SPLASH ══ -->
+<div id="splash">
+  <canvas id="splash-canvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+  <img src="assets/src/assets/images/logo.3c780f551b8db7580a10ad560a58d64a.png" style="width:min(240px,70vw);position:relative;z-index:1;animation:splashPop .8s cubic-bezier(.34,1.56,.64,1)" alt="RoboMisión"
+    onerror="this.style.display='none';document.getElementById('splash-fb').style.display='block'">
+  <div id="splash-fb" style="display:none;font-size:2.2rem;font-weight:900;background:linear-gradient(90deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1">🤖 ROBOMISIÓN</div>
+  <div style="color:#a78bfa;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;position:relative;z-index:1;margin-top:.5rem">El juego de robótica en equipo</div>
+</div>
+
+<!-- ══ SETUP ══ -->
+<div id="screen-setup" class="screen">
+  <img src="assets/src/assets/images/logo.3c780f551b8db7580a10ad560a58d64a.png" class="setup-logo" alt="RoboMisión" style="margin-top:1.5rem" onerror="this.style.display='none'">
   <div class="setup-tagline">El juego de robótica en equipo</div>
   <div class="setup-card">
-    <h2>¿Quiénes juegan?</h2>
+    <h2>¿Quiénes van a jugar?</h2>
     <div id="team-inputs"></div>
     <button class="add-btn" id="add-btn" onclick="addTeam()">+ Agregar equipo (máx. 4)</button>
     <button class="go-btn" onclick="startGame()">🚀 ¡Comenzar misión!</button>
   </div>
 </div>
 
-<!-- BOARD -->
+<!-- ══ BOARD ══ -->
 <div id="screen-board" class="screen">
   <div class="board-wrap">
     <div class="board-topbar">
-      <img src="assets/src/assets/images/logo.3c780f551b8db7580a10ad560a58d64a.png" class="board-logo-sm" alt="RoboMisión" onerror="this.style.cssText+='display:none'">
-      <div id="turn-pill" class="turn-pill"></div>
+      <img src="assets/src/assets/images/logo.3c780f551b8db7580a10ad560a58d64a.png" class="board-logo-sm" alt="RoboMisión" onerror="this.style.display='none'">
       <button class="reset-btn" onclick="restartGame()">↺ Reiniciar</button>
     </div>
-    <div class="teams-bar" id="teams-bar"></div>
-    <div class="board-title">Elige una categoría para tu turno</div>
+    <div class="turn-banner" id="turn-banner"></div>
+
+    <!-- TEAM BUTTONS GRANDES -->
+    <div class="teams-section">
+      <div class="teams-section-label">Equipos</div>
+      <div class="teams-grid" id="teams-grid"></div>
+    </div>
+
+    <div class="deck-label">Elige una categoría</div>
     <div class="decks-grid">
-      <button class="deck-card" onclick="drawCard('mentaloide')" id="deck-mentaloide">
+      <button class="deck-card" onclick="drawCard('mentaloide')">
         <img src="assets/src/assets/images/boton-mentaloide.5680df75e4c2a73e81bcd18e3b0f56bd.png" class="deck-img" alt="Mentaloide">
         <span class="deck-remaining" id="rem-mentaloide"></span>
       </button>
-      <button class="deck-card" onclick="drawCard('logibot')" id="deck-logibot">
+      <button class="deck-card" onclick="drawCard('logibot')">
         <img src="assets/src/assets/images/boton-logibot.bb73e0056bd824f4cc8e369ff7ffc9d2.png" class="deck-img" alt="Logibot">
         <span class="deck-remaining" id="rem-logibot"></span>
       </button>
-      <button class="deck-card" onclick="drawCard('creatius')" id="deck-creatius">
+      <button class="deck-card" onclick="drawCard('creatius')">
         <img src="assets/src/assets/images/boton-creatius.6829d43f0635994f52ade7b8f493f4ed.png" class="deck-img" alt="Creatius">
         <span class="deck-remaining" id="rem-creatius"></span>
       </button>
-      <button class="deck-card" onclick="drawCard('mimix')" id="deck-mimix">
+      <button class="deck-card" onclick="drawCard('mimix')">
         <img src="assets/src/assets/images/boton-mimix.e997b1fdaf4a10d38dbd792b9c29be0d.png" class="deck-img" alt="Mimix">
         <span class="deck-remaining" id="rem-mimix"></span>
       </button>
@@ -219,34 +348,41 @@ body{background:linear-gradient(160deg,#0d0b1e 0%,#1a1040 50%,#0d1b2a 100%);min-
   </div>
 </div>
 
-<!-- CARD -->
+<!-- ══ CARD (full screen, centered) ══ -->
 <div id="screen-card" class="screen">
-  <div class="card-wrap">
-    <div class="card-topbar">
-      <button class="back-btn" onclick="goBoard()">← Menú</button>
-      <div class="card-top-info">
-        <div id="card-badge" class="deck-name-badge"></div>
-        <div id="card-team" class="card-team-label"></div>
-      </div>
+  <div class="card-shell" id="card-shell">
+    <!-- Robot header -->
+    <div class="card-robot-header" id="card-robot-header">
+      <div class="card-robot-bg" id="card-robot-bg"></div>
+      <button class="card-back-btn" onclick="goBoard()">← Menú</button>
+      <img id="robot-img" class="card-robot-img" src="" alt="">
     </div>
-    <div class="card-hero">
-      <img id="robot-img" class="robot-img" src="" alt="">
-      <div class="timer-wrap">
-        <svg class="timer-svg" viewBox="0 0 72 72">
-          <circle class="timer-track" cx="36" cy="36" r="30"/>
-          <circle class="timer-fill" id="timer-fill" cx="36" cy="36" r="30"
-            stroke-dasharray="188.5" stroke-dashoffset="0" stroke="#a78bfa"/>
-        </svg>
-        <div class="timer-num" id="timer-num">60</div>
-        <div class="timer-label">seg.</div>
+
+    <!-- White body -->
+    <div class="card-body-white">
+      <div id="card-type-badge" class="card-type-badge"></div>
+      <div class="card-reto-lbl">Tu reto</div>
+      <div class="card-reto-text" id="card-reto-text"></div>
+      <div id="card-subtipo" class="subtipo-badge2"></div>
+
+      <!-- Timer -->
+      <div class="timer-section">
+        <div class="timer-big" id="timer-num">1:00</div>
+        <div class="timer-sub">segundos</div>
+        <div class="timer-bar"><div class="timer-bar-fill" id="timer-bar-fill"></div></div>
       </div>
+
+      <!-- Content (MC options OR open reveals) -->
+      <div id="card-mc" style="display:none"></div>
+      <div id="card-open" style="display:none"></div>
     </div>
-    <div id="card-content"></div>
+
+    <!-- Footer sticky -->
     <div class="card-footer" id="card-footer"></div>
   </div>
 </div>
 
-<!-- FEEDBACK OVERLAY -->
+<!-- ══ FEEDBACK ══ -->
 <div id="feedback-overlay">
   <div class="fb-emoji" id="fb-emoji"></div>
   <div class="fb-title" id="fb-title"></div>
@@ -255,7 +391,7 @@ body{background:linear-gradient(160deg,#0d0b1e 0%,#1a1040 50%,#0d1b2a 100%);min-
   <button class="fb-continue" onclick="nextTurn()">Siguiente turno →</button>
 </div>
 
-<!-- WIN -->
+<!-- ══ WIN ══ -->
 <div id="screen-win" class="screen">
   <div class="win-card">
     <div class="win-trophy">🏆</div>
@@ -269,11 +405,17 @@ body{background:linear-gradient(160deg,#0d0b1e 0%,#1a1040 50%,#0d1b2a 100%);min-
 
 <script>
 const CARDS = {"mentaloide": {"color": "rojo", "tipo": "CONOCIMIENTO", "nivel": "7-12", "cartas": [{"reto": "¿Qué es un circuito?", "opciones": {"a": "Una luz mágica", "b": "Un camino cerrado por donde pasa la electricidad", "c": "Un robot con ruedas"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "En Arduino, ¿qué hace el comando pinMode(9, OUTPUT)?", "opciones": {"a": "Lee un valor del pin 9", "b": "Configura el pin 9 para enviar señales (encender algo)", "c": "Apaga el Arduino"}, "respuesta": "b", "pieza": "Procesador", "penalizacion": false}, {"reto": "El 'void loop' en bloques se representa con el bloque que dice...", "opciones": {"a": "al iniciar", "b": "por siempre", "c": "esperar 1 segundo"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "En Arduino, ¿qué diferencia hay entre void setup() y void loop()?", "opciones": {"a": "setup() se repite siempre, loop() se ejecuta una vez", "b": "setup() se ejecuta una vez al inicio, loop() se repite siempre", "c": "Son exactamente lo mismo"}, "respuesta": "b", "pieza": null, "penalizacion": true}, {"reto": "Si un robot tiene dos motores (uno por rueda) y solo enciendes el motor izquierdo, ¿hacia dónde girará el robot?", "opciones": {"a": "Hacia la derecha", "b": "Hacia la izquierda", "c": "Avanza recto"}, "respuesta": "a", "pieza": "Motor", "penalizacion": false}, {"reto": "¿Qué hace delay(500) en un código de Arduino?", "opciones": {"a": "Pausa el programa por 500 milisegundos (medio segundo)", "b": "Repite el programa 500 veces", "c": "Mueve el robot 500 pasos"}, "respuesta": "a", "pieza": null, "penalizacion": true}, {"reto": "En Scratch o mBlock, ¿qué necesitas para que un robot avance solo cuando detecte un obstáculo?", "opciones": {"a": "Un bloque repetir solo", "b": "Un bloque si...entonces combinado con un sensor", "c": "Un bloque esperar solo"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "Un sensor ultrasónico mide distancia usando...", "opciones": {"a": "Luz infrarroja", "b": "Ondas de sonido que rebotan en los objetos", "c": "Cambios de temperatura"}, "respuesta": "b", "pieza": "Batería", "penalizacion": false}, {"reto": "En programación, una variable es...", "opciones": {"a": "Un bloque que mueve al robot", "b": "Un espacio para guardar y recordar un valor que puede cambiar", "c": "Un tipo de motor"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "¿Qué pasa si en Arduino conectas un LED directamente a una batería de 9V sin una resistencia?", "opciones": {"a": "Nada, funciona perfecto", "b": "El LED brilla más fuerte para siempre", "c": "El LED puede quemarse por exceso de corriente"}, "respuesta": "c", "pieza": null, "penalizacion": true}, {"reto": "¿Qué tipo de sensor usarías para que un robot evite chocar con la pared?", "opciones": {"a": "Sensor de temperatura", "b": "Sensor de distancia (ultrasónico o infrarrojo)", "c": "Sensor de sonido"}, "respuesta": "b", "pieza": "Sensor", "penalizacion": false}, {"reto": "En Tinkercad, si dos formas se superponen y una está marcada como agujero, ¿qué pasa al agruparlas?", "opciones": {"a": "Se borra todo el diseño", "b": "La forma agujero perfora a la otra forma", "c": "Cambian de color automáticamente"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "Tienes este código: por siempre, si (sensor menor que 10) entonces girar. ¿Qué hace el robot cuando el sensor detecta una distancia menor a 10?", "opciones": {"a": "Avanza más rápido", "b": "Gira", "c": "Se apaga"}, "respuesta": "b", "pieza": null, "penalizacion": true}, {"reto": "¿Por qué los robots suelen tener el centro de gravedad bajo (peso cerca del suelo)?", "opciones": {"a": "Para que se vean más bonitos", "b": "Para que sean más estables y no se vuelquen fácilmente", "c": "Para que pesen menos"}, "respuesta": "b", "pieza": "Estructura", "penalizacion": false}, {"reto": "En Arduino, ¿qué tipo de valor devuelve la función digitalRead()?", "opciones": {"a": "Un número del 0 al 255", "b": "Solo HIGH (1) o LOW (0)", "c": "Un texto"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "¿Cuál es la diferencia entre un pin digital y un pin analógico en Arduino?", "opciones": {"a": "El digital solo entiende encendido o apagado; el analógico lee un rango de valores", "b": "El digital es más rápido pero hace lo mismo que el analógico", "c": "No hay ninguna diferencia"}, "respuesta": "a", "pieza": null, "penalizacion": false}, {"reto": "Si quieres que un LED parpadee (encender, esperar, apagar, esperar) para siempre, ¿qué bloques necesitas en orden dentro de un por siempre?", "opciones": {"a": "Encender, Apagar, Encender, Apagar (sin esperas)", "b": "Encender, Esperar, Apagar, Esperar", "c": "Esperar, Esperar, Encender"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "¿Qué función cumple el microcontrolador (como el de un Arduino) en un robot?", "opciones": {"a": "Solo le da forma física", "b": "Procesa el programa y controla todos los componentes", "c": "Solo almacena música"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "En Tinkercad, ¿qué significa que un objeto tenga soportes generados antes de imprimirlo en 3D?", "opciones": {"a": "Decoraciones extra para que se vea mejor", "b": "Estructuras temporales que sostienen partes que quedarían flotando en el aire al imprimir", "c": "Una copia de seguridad del diseño"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "Tienes este código: repetir 4 veces (mover 1 paso, girar 90 grados). ¿Qué figura dibuja el robot?", "opciones": {"a": "Un círculo", "b": "Un cuadrado", "c": "Una línea recta"}, "respuesta": "b", "pieza": null, "penalizacion": true}, {"reto": "Si quieres que un robot se mueva más rápido, ¿qué podrías ajustar en el código?", "opciones": {"a": "El color del robot", "b": "La velocidad o potencia enviada al motor", "c": "El tamaño de la pantalla"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "¿Qué significa que un programa tenga un bug?", "opciones": {"a": "Que tiene un insecto adentro", "b": "Que tiene un error que hace que no funcione como se espera", "c": "Que está terminado y perfecto"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "¿Por qué es importante revisar la polaridad (positivo y negativo) al conectar una batería a un circuito?", "opciones": {"a": "No importa, siempre funciona igual", "b": "Conectarla al revés puede dañar el componente o que no funcione", "c": "Solo afecta el color de la luz"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "En programación, ¿qué hace un bucle while (mientras)?", "opciones": {"a": "Se ejecuta una sola vez", "b": "Repite un bloque de código mientras una condición sea verdadera", "c": "Borra el programa anterior"}, "respuesta": "b", "pieza": null, "penalizacion": false}, {"reto": "Si conectas un servomotor a Arduino y le indicas en el código que vaya a 90 grados, ¿qué hace el servo?", "opciones": {"a": "Gira para siempre sin detenerse", "b": "Gira hasta posicionarse en el ángulo de 90 grados y se queda ahí", "c": "Se apaga completamente"}, "respuesta": "b", "pieza": null, "penalizacion": false}]}, "logibot": {"color": "amarillo", "tipo": "CÓDIGO", "nivel": "7-12", "cartas": [{"reto": "Arma el código para que el robot avance 3 veces usando el bloque repetir.", "subtipo": "ARMAR", "solucion": "repetir 3 [ mover 1 paso ]", "pista": "El número dentro de repetir te ahorra escribir el mismo bloque varias veces.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: repetir 4 [ mover 1 paso, girar 90 grados ]. ¿Qué figura dibuja el robot?", "subtipo": "LEER", "solucion": "Un cuadrado", "pista": "4 lados iguales con 4 giros de 90 grados.", "pieza": "Procesador", "penalizacion": false}, {"reto": "Crea una variable llamada puntos que empiece en 0, y arma el código para que sume 1 cada vez que el robot avance.", "subtipo": "ARMAR", "solucion": "crear variable puntos = 0; mover 1 paso; cambiar puntos por 1", "pista": "Primero se crea la variable, luego se usa dentro del bloque de movimiento.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: repetir 3 [ repetir 2 [ mover 1 paso ], girar 90 grados ]. ¿Cuántas veces avanza el robot en total?", "subtipo": "LEER", "solucion": "6 veces (2 veces por cada una de las 3 repeticiones)", "pista": "Multiplica las repeticiones de adentro por las de afuera.", "pieza": null, "penalizacion": true}, {"reto": "Arma el código para que el robot avance solo si el sensor de distancia detecta más de 10 cm libres.", "subtipo": "ARMAR", "solucion": "si (sensor distancia mayor que 10) entonces mover 1 paso", "pista": "Necesitas un bloque si...entonces combinado con un sensor.", "pieza": "Motor", "penalizacion": false}, {"reto": "El robot tiene este código: si (sensor luz menor que 30) entonces encender luz, si no apagar luz. ¿Cuándo se enciende la luz del robot?", "subtipo": "LEER", "solucion": "Cuando el sensor de luz detecta un valor menor a 30 (poca luz, está oscuro)", "pista": "El símbolo de menor que compara el valor del sensor con el número.", "pieza": null, "penalizacion": true}, {"reto": "Arma el código para que el robot repita avanzar y girar hasta que el sensor detecte un obstáculo.", "subtipo": "ARMAR", "solucion": "repetir hasta que (sensor = obstáculo) [ mover 1 paso, girar 90 grados ]", "pista": "Repetir hasta que es diferente de repetir 3 veces, no tiene número fijo.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: variable vidas = 3; si (vidas = 0) entonces decir Game Over. ¿Qué pasa si vidas todavía es 2?", "subtipo": "LEER", "solucion": "No pasa nada, el robot no dice Game Over porque la condición (vidas = 0) es falsa", "pista": "El bloque si solo se activa cuando la condición es exactamente verdadera.", "pieza": "Batería", "penalizacion": false}, {"reto": "Arma el código para que el robot avance una distancia igual a (5 + 3) pasos usando un operador matemático.", "subtipo": "ARMAR", "solucion": "mover (5 + 3) pasos -> el robot avanza 8 pasos", "pista": "Puedes poner una operación matemática directamente dentro del bloque de movimiento.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: variable contador = 0; repetir 5 [ cambiar contador por 2 ]. ¿Cuál es el valor final de contador?", "subtipo": "LEER", "solucion": "10 (0 + 2 + 2 + 2 + 2 + 2)", "pista": "Suma 2 por cada una de las 5 repeticiones.", "pieza": null, "penalizacion": false}, {"reto": "Arma el código para que el robot diga Obstáculo cuando el sensor de distancia mida menos de 5 cm.", "subtipo": "ARMAR", "solucion": "si (sensor distancia menor que 5) entonces decir Obstáculo", "pista": "Usa el símbolo de menor que.", "pieza": "Sensor", "penalizacion": false}, {"reto": "El robot tiene este código: repetir 10 [ si (sensor obstáculo) entonces girar, si no mover 1 paso ]. ¿Qué hace el robot si no hay obstáculo?", "subtipo": "LEER", "solucion": "Avanza 1 paso (porque entra en la parte si no)", "pista": "El si no es lo que pasa cuando la condición no se cumple.", "pieza": null, "penalizacion": true}, {"reto": "Arma el código para que el robot espere 2 segundos, luego repita avanzar y sonar 3 veces.", "subtipo": "ARMAR", "solucion": "esperar 2 segundos; repetir 3 [ mover 1 paso, tocar sonido ]", "pista": "Primero la espera, luego el bloque repetir con las dos acciones adentro.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: variable velocidad = 10; si (velocidad mayor que 5) entonces cambiar velocidad por -3. Después de ejecutarse, ¿cuál es el valor de velocidad?", "subtipo": "LEER", "solucion": "7 (10 - 3, porque 10 era mayor que 5, así que se restó 3)", "pista": "Cambiar por -3 significa restar 3 al valor actual.", "pieza": "Estructura", "penalizacion": false}, {"reto": "Arma el código para que el robot gire a la izquierda si el sensor detecta una pared a la derecha.", "subtipo": "ARMAR", "solucion": "si (sensor derecha = pared) entonces girar izquierda", "pista": "El sensor que detecta algo y la acción que responde van juntos en el si...entonces.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: variable intentos = 0; repetir hasta que (intentos = 3) [ mover 1 paso, cambiar intentos por 1 ]. ¿Cuántas veces avanza el robot?", "subtipo": "LEER", "solucion": "3 veces (hasta que intentos llegue a 3)", "pista": "El robot se detiene cuando la variable alcanza el valor de la condición.", "pieza": null, "penalizacion": true}, {"reto": "Arma el código para que cuando se presione la bandera verde, el robot diga su nombre y luego espere 1 segundo antes de moverse.", "subtipo": "ARMAR", "solucion": "al presionar bandera verde; decir Soy LOGIBOT; esperar 1 segundo; mover 1 paso", "pista": "4 bloques en orden: evento, hablar, esperar, mover.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: variable total = 0; repetir 4 [ variable paso = (total + 1); cambiar total por paso ]. ¿Cuál es el valor final de total si empieza en 0?", "subtipo": "LEER", "solucion": "4 (cada repetición suma 1: 0,1,2,3,4)", "pista": "En cada repetición, paso vale total + 1, y luego total se actualiza a ese valor.", "pieza": null, "penalizacion": false}, {"reto": "Arma el código para que el robot avance más rápido si la batería tiene más de 50%, y más lento si tiene 50% o menos.", "subtipo": "ARMAR", "solucion": "si (batería mayor que 50) entonces velocidad alta, mover 1 paso; si no velocidad baja, mover 1 paso", "pista": "Necesitas un si...si no que decida la velocidad antes de moverse.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: repetir 3 [ mover (2 * 2) pasos ]. ¿Cuántos pasos avanza el robot en total?", "subtipo": "LEER", "solucion": "12 pasos (2 x 2 = 4 pasos por repetición, x 3 repeticiones = 12)", "pista": "Primero resuelve la multiplicación, luego multiplica por las repeticiones.", "pieza": null, "penalizacion": false}, {"reto": "Arma el código para que el robot encienda su luz solo si detecta que está oscuro (sensor de luz menor a 20).", "subtipo": "ARMAR", "solucion": "si (sensor luz menor que 20) entonces encender luz", "pista": "Solo necesitas la parte si...entonces, sin si no.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: variable x = 5; variable y = 3; si (x mayor que y) entonces decir x es mayor. ¿Qué dice el robot?", "subtipo": "LEER", "solucion": "x es mayor (porque 5 es mayor que 3)", "pista": "Compara los dos valores de las variables antes de decidir.", "pieza": null, "penalizacion": true}, {"reto": "Arma el código para que el robot avance, y si choca con algo, retroceda y gire 180 grados.", "subtipo": "ARMAR", "solucion": "mover 1 paso; si (sensor choque) entonces mover -1 paso, girar 180 grados", "pista": "El si...entonces va después del movimiento inicial.", "pieza": null, "penalizacion": false}, {"reto": "El robot tiene este código: variable nivel = 1; repetir 3 [ cambiar nivel por nivel ]. Si nivel empieza en 1, ¿cuál es su valor final?", "subtipo": "LEER", "solucion": "8 (1, 2, 4, 8 porque cada vez se duplica al sumarse a sí mismo)", "pista": "Cambiar nivel por nivel significa sumarle su propio valor actual, eso lo duplica cada vez.", "pieza": null, "penalizacion": false}, {"reto": "Arma el código para un robot que cuente del 1 al 5 en voz alta, esperando 1 segundo entre cada número, usando una variable.", "subtipo": "ARMAR", "solucion": "variable numero = 1; repetir hasta que (numero = 6) [ decir numero, esperar 1 segundo, cambiar numero por 1 ]", "pista": "La variable empieza en 1 y se repite hasta que llegue a 6 (uno más que el último número que quieres decir).", "pieza": null, "penalizacion": true}]}, "creatius": {"color": "azul", "tipo": "CREATIVIDAD", "nivel": "7-12", "cartas": [{"reto": "Cierra los ojos y dibuja a Iron Man con su reactor arc brillando en el pecho.", "subtipo": "DIBUJAR OJOS CERRADOS", "solucion": "El equipo dice Iron Man", "pista": "No nació con superpoderes, los construyó él mismo con tecnología y su propio cerebro.", "pieza": null, "penalizacion": false}, {"reto": "Construye con LEGO una placa Arduino con sus pines a los lados.", "subtipo": "LEGO", "solucion": "El equipo dice un Arduino", "pista": "Es una tarjeta verde llena de conexiones que los makers usan para dar vida a sus proyectos.", "pieza": "Procesador", "penalizacion": false}, {"reto": "Actúa solo con gestos, sin hablar, el proceso de imprimir algo en una impresora 3D, capa por capa.", "subtipo": "CHARADA", "solucion": "El equipo dice una impresora 3D", "pista": "Esta máquina no usa tinta como las normales, construye objetos desde abajo hacia arriba.", "pieza": null, "penalizacion": false}, {"reto": "Moldea con plastilina un transistor, la piecita que actúa como un interruptor diminuto.", "subtipo": "PLASTILINA", "solucion": "El equipo dice un transistor", "pista": "Es uno de los componentes más pequeños pero más importantes dentro de cualquier dispositivo electrónico.", "pieza": null, "penalizacion": false}, {"reto": "Dibuja a Spider-Man lanzando su telaraña entre dos edificios.", "subtipo": "DIBUJAR OJOS ABIERTOS", "solucion": "El equipo dice Spider-Man", "pista": "Es un superhéroe que no necesita tecnología costosa, su poder viene de una araña y su ingenio.", "pieza": "Motor", "penalizacion": false}, {"reto": "Actúa solo con gestos lo que pasa cuando un código tiene un bug (error) y el programa se traba o falla.", "subtipo": "CHARADA", "solucion": "El equipo dice un bug, un error de programación", "pista": "Es cuando algo en el programa no funciona como debería, y hay que encontrar qué está mal.", "pieza": null, "penalizacion": true}, {"reto": "Construye con LEGO un servomotor con su eje giratorio.", "subtipo": "LEGO", "solucion": "El equipo dice un servomotor", "pista": "Es un motor pequeño que no gira sin parar, se mueve a un ángulo exacto y se queda ahí.", "pieza": null, "penalizacion": false}, {"reto": "Cierra los ojos y dibuja a Thor con su martillo Mjolnir lanzando un rayo.", "subtipo": "DIBUJAR OJOS CERRADOS", "solucion": "El equipo dice Thor", "pista": "Es el único Vengador cuya arma también es su fuente de poder, como una batería gigante con forma de martillo.", "pieza": null, "penalizacion": false}, {"reto": "Moldea con plastilina una resistencia eléctrica con sus bandas de colores.", "subtipo": "PLASTILINA", "solucion": "El equipo dice una resistencia", "pista": "Es un componente pequeño y rayado que controla cuánta electricidad pasa por un circuito, sin él un LED podría quemarse.", "pieza": null, "penalizacion": false}, {"reto": "Dibuja a Among Us, el personaje del videojuego con forma de frijol y mochila.", "subtipo": "DIBUJAR OJOS ABIERTOS", "solucion": "El equipo dice Among Us", "pista": "En este videojuego, uno de los jugadores es un impostor que se esconde entre el resto de la tripulación.", "pieza": null, "penalizacion": true}, {"reto": "Construye con LEGO a Baby Yoda (Grogu) de The Mandalorian.", "subtipo": "LEGO", "solucion": "El equipo dice Grogu, Baby Yoda", "pista": "Es una criatura pequeña y verde con orejas largas que usa la Fuerza, viaja con un cazarrecompensas en una nave.", "pieza": null, "penalizacion": false}, {"reto": "Actúa solo con gestos lo que hace un sensor de movimiento (PIR) cuando alguien entra a una habitación.", "subtipo": "CHARADA", "solucion": "El equipo dice un sensor de movimiento", "pista": "Es lo que hace que algunas luces se enciendan solas cuando caminas cerca, sin que nadie toque un interruptor.", "pieza": "Batería", "penalizacion": false}, {"reto": "Cierra los ojos y dibuja el símbolo de Wi-Fi con sus 3 arcos y el punto abajo.", "subtipo": "DIBUJAR OJOS CERRADOS", "solucion": "El equipo dice el símbolo de Wi-Fi", "pista": "Sin esta señal invisible, ningún dispositivo en tu casa podría conectarse a internet sin cables.", "pieza": null, "penalizacion": false}, {"reto": "Moldea con plastilina a Sonic corriendo a toda velocidad.", "subtipo": "PLASTILINA", "solucion": "El equipo dice Sonic", "pista": "Es un erizo azul que corre tan rápido que a veces deja una estela detrás de él.", "pieza": null, "penalizacion": false}, {"reto": "Construye con LEGO un brazo robótico con varias articulaciones que se doblan.", "subtipo": "LEGO", "solucion": "El equipo dice un brazo robótico", "pista": "Este tipo de robot no camina ni habla, solo mueve su brazo con mucha precisión para tareas como ensamblar piezas.", "pieza": null, "penalizacion": false}, {"reto": "Dibuja el ícono de play junto al ícono de pausa como los de un reproductor de video.", "subtipo": "DIBUJAR OJOS ABIERTOS", "solucion": "El equipo dice play y pausa", "pista": "Son dos de los botones más usados en cualquier video o canción, uno empieza, el otro detiene momentáneamente.", "pieza": null, "penalizacion": true}, {"reto": "Actúa solo con gestos el funcionamiento de un código que está dentro de un bucle infinito, que se repite para siempre sin parar.", "subtipo": "CHARADA", "solucion": "El equipo dice un bucle infinito, un loop infinito", "pista": "Es cuando una parte del programa se repite una y otra vez, sin ninguna condición que lo detenga.", "pieza": null, "penalizacion": false}, {"reto": "Cierra los ojos y dibuja a Pikachu lanzando un rayo eléctrico.", "subtipo": "DIBUJAR OJOS CERRADOS", "solucion": "El equipo dice Pikachu", "pista": "Es una criatura amarilla muy famosa que genera electricidad con su cuerpo y tiene mejillas rojas.", "pieza": null, "penalizacion": false}, {"reto": "Moldea con plastilina un código QR con sus cuadritos.", "subtipo": "PLASTILINA", "solucion": "El equipo dice un código QR", "pista": "Es un cuadrado lleno de patrones que tu celular puede leer con la cámara para abrir un link o información.", "pieza": "Sensor", "penalizacion": false}, {"reto": "Construye con LEGO a Among Us en su nave espacial.", "subtipo": "LEGO", "solucion": "El equipo dice Among Us", "pista": "En este videojuego espacial, los jugadores deben encontrar al impostor antes de que sea muy tarde.", "pieza": null, "penalizacion": false}, {"reto": "Dibuja el logo de Python, la serpiente de dos colores enroscada.", "subtipo": "DIBUJAR OJOS ABIERTOS", "solucion": "El equipo dice Python", "pista": "Es uno de los lenguajes de programación más usados del mundo, y su nombre viene de un tipo de serpiente.", "pieza": null, "penalizacion": false}, {"reto": "Actúa solo con gestos cómo se conectan dos dispositivos por Bluetooth, acercándose, sincronizándose, quedando conectados.", "subtipo": "CHARADA", "solucion": "El equipo dice Bluetooth, conexión inalámbrica", "pista": "Es la tecnología que usan los audífonos sin cable o los controles de videojuegos para conectarse a otro dispositivo.", "pieza": "Estructura", "penalizacion": false}, {"reto": "Moldea con plastilina a Among Us, Sonic o Pikachu, el equipo elige cuál intentar adivinar primero, el jugador decide cuál hacer.", "subtipo": "PLASTILINA", "solucion": "El equipo adivina cuál de los tres personajes está moldeando.", "pista": "Son tres personajes muy populares, uno corre rápido, otro genera electricidad, y otro vive en el espacio.", "pieza": null, "penalizacion": false}, {"reto": "Cierra los ojos y dibuja una placa de circuito (PCB) con líneas conectando varios componentes.", "subtipo": "DIBUJAR OJOS CERRADOS", "solucion": "El equipo dice una placa de circuito, PCB", "pista": "Es la base verde llena de líneas plateadas que conecta todos los componentes dentro de un dispositivo electrónico.", "pieza": null, "penalizacion": false}, {"reto": "Con lo que quieras, dibuja, construye o moldea, o actúa solo con gestos, crea o representa el invento tecnológico que te gustaría inventar para ayudar a Technópolis contra el virus Error-X.", "subtipo": "LIBRE", "solucion": "El equipo adivina o acepta la idea y le pone nombre al invento.", "pista": "Piensa en un problema real que resolverías, ¿qué sensor, robot o programa lo solucionaría?", "pieza": null, "penalizacion": false}]}, "mimix": {"color": "morado", "tipo": "MÍMICA", "nivel": "7-12", "cartas": [{"reto": "Actúa a Albert Einstein despeinado, pensando profundamente y escribiendo una fórmula en el aire.", "solucion": "El equipo dice Einstein", "pista": "Es el científico más famoso de la historia, su pelo blanco despeinado es su marca registrada, y es famoso por la fórmula E=mc2.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Tony Stark (Iron Man) diseñando su armadura en el aire con hologramas, como si tocara pantallas invisibles.", "solucion": "El equipo dice Tony Stark, Iron Man", "pista": "Es un genio multimillonario que construye su propia tecnología, sin superpoderes, solo con inteligencia y recursos.", "pieza": "Procesador", "penalizacion": false}, {"reto": "Actúa a Nikola Tesla sosteniendo algo que da pequeñas descargas eléctricas, sorprendido pero emocionado.", "solucion": "El equipo dice Nikola Tesla", "pista": "Fue un inventor que trabajó con electricidad y corriente alterna, su nombre lo lleva una marca famosa de carros eléctricos.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Steve Jobs presentando un nuevo producto en un escenario, sosteniendo algo pequeño con mucho orgullo.", "solucion": "El equipo dice Steve Jobs", "pista": "Fundó una de las empresas de tecnología más famosas del mundo, conocida por sus teléfonos y computadoras con una manzana mordida como logo.", "pieza": null, "penalizacion": true}, {"reto": "Actúa a WALL-E limpiando basura solo, encontrando algo curioso y guardándolo con cariño.", "solucion": "El equipo dice WALL-E", "pista": "Es un pequeño robot que trabaja solo en un planeta abandonado, compactando lo que los humanos dejaron atrás.", "pieza": "Motor", "penalizacion": false}, {"reto": "Actúa a Marie Curie en un laboratorio, mezclando líquidos con mucho cuidado y mirando algo que brilla.", "solucion": "El equipo dice Marie Curie", "pista": "Fue una científica que descubrió elementos que brillan en la oscuridad, la primera persona en ganar dos premios Nobel en ciencias diferentes.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Elon Musk mirando hacia el cielo, señalando algo que despega como un cohete.", "solucion": "El equipo dice Elon Musk", "pista": "Es el fundador de una empresa que construye cohetes y carros eléctricos, sueña con llevar personas a Marte.", "pieza": null, "penalizacion": true}, {"reto": "Actúa a Baymax (de Big Hero 6) revisando a alguien con cuidado, como un robot médico que se preocupa mucho.", "solucion": "El equipo dice Baymax", "pista": "Es un robot inflable y blanco diseñado para cuidarte cuando te enfermas o te lastimas.", "pieza": "Batería", "penalizacion": false}, {"reto": "Actúa a Alan Turing resolviendo un código secreto, escribiendo en una máquina imaginaria con muchas piezas.", "solucion": "El equipo dice Alan Turing", "pista": "Fue un matemático que ayudó a descifrar códigos secretos durante una guerra, usando una de las primeras máquinas parecidas a una computadora.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a R2-D2 moviéndose con ruedas pequeñas y comunicándote solo con pitidos y sonidos, sin palabras.", "solucion": "El equipo dice R2-D2", "pista": "No habla con palabras, solo hace sonidos, pero todos en la galaxia lo entienden perfectamente.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Hedy Lamarr, actriz e inventora, sosteniendo un control remoto y mostrando cómo controla algo a distancia sin cables.", "solucion": "El equipo dice Hedy Lamarr", "pista": "Fue una actriz famosa que también era inventora, su idea ayudó a crear la tecnología que hoy usan el Wi-Fi y el Bluetooth.", "pieza": "Sensor", "penalizacion": false}, {"reto": "Actúa a Doraemon sacando algo de un bolsillo mágico en tu panza y entregándoselo a alguien con emoción.", "solucion": "El equipo dice Doraemon", "pista": "Es un gato robot azul que vino del futuro para ayudar a un niño, siempre tiene el gadget perfecto para cada problema.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Ada Lovelace escribiendo instrucciones largas y detalladas en un cuaderno, muy concentrada.", "solucion": "El equipo dice Ada Lovelace", "pista": "Es considerada la primera programadora de la historia, escribió instrucciones para una máquina más de 100 años antes de que existieran las computadoras modernas.", "pieza": null, "penalizacion": true}, {"reto": "Actúa a Iron Man volando con los propulsores de las manos y los pies, aterrizando con fuerza.", "solucion": "El equipo dice Iron Man", "pista": "Su traje rojo y dorado le permite volar gracias a propulsores en las manos y los pies.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a un ingeniero de SpaceX viendo un cohete aterrizar verticalmente, con mucha tensión y luego festejando.", "solucion": "El equipo dice un ingeniero de SpaceX, aterrizaje de cohete", "pista": "Esta empresa logró algo que parecía imposible: que un cohete regrese a la Tierra y aterrice parado, como en las películas, para poder reutilizarlo.", "pieza": "Estructura", "penalizacion": false}, {"reto": "Actúa a WALL-E y EVE saludándose tímidamente, mostrando algo pequeño que brilla entre las manos.", "solucion": "El equipo dice WALL-E y EVE", "pista": "Son dos robots de una misma película, uno limpia solo en la Tierra, y la otra llega desde el espacio para explorar.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Grace Hopper, pionera de la programación, encontrando un insecto literal atrapado dentro de una máquina enorme.", "solucion": "El equipo dice Grace Hopper", "pista": "Fue una de las primeras programadoras de la historia, se dice que ella popularizó el término bug (insecto) para nombrar los errores de programación, después de encontrar uno real dentro de una computadora.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Mark Zuckerberg escribiendo código muy rápido en una laptop, sin levantar la vista.", "solucion": "El equipo dice Mark Zuckerberg", "pista": "Fundó una de las redes sociales más usadas del mundo cuando todavía era estudiante universitario.", "pieza": null, "penalizacion": true}, {"reto": "Actúa a Optimus Prime transformándose lentamente de un vehículo a un robot gigante.", "solucion": "El equipo dice Optimus Prime", "pista": "De día parece un camión normal en la carretera, pero en realidad es un robot enorme disfrazado, líder de su grupo.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Stephen Hawking explicando algo del universo con mucha pasión, señalando estrellas imaginarias.", "solucion": "El equipo dice Stephen Hawking", "pista": "Fue uno de los científicos más importantes al estudiar el universo y los agujeros negros, a pesar de tener una enfermedad que limitaba su movimiento.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Big Hero 6, varios robots distintos peleando juntos en equipo, cada uno con un movimiento diferente.", "solucion": "El equipo dice Big Hero 6", "pista": "Es una película donde un grupo de estudiantes convierte sus inventos en trajes de superhéroes para proteger su ciudad.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a un dron despegando, sobrevolando algo con cuidado, tomando una foto y regresando a aterrizar.", "solucion": "El equipo dice un dron", "pista": "Es un vehículo que vuela sin piloto adentro, alguien lo controla desde el suelo, y muchos se usan para tomar fotos o videos desde el aire.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Bill Gates escribiendo en una computadora antigua enorme, y luego mostrando con orgullo una pantalla pequeña.", "solucion": "El equipo dice Bill Gates", "pista": "Cofundó una empresa que creó el sistema operativo más usado del mundo en las computadoras durante muchos años.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a Astro Boy despegando con los cohetes de sus pies, mirando hacia el cielo con determinación.", "solucion": "El equipo dice Astro Boy", "pista": "Parece un niño normal, pero tiene reactores escondidos en los pies que lo hacen volar a gran velocidad, es uno de los robots más antiguos de la animación japonesa.", "pieza": null, "penalizacion": false}, {"reto": "Actúa a tu científico, inventor o personaje tecnológico favorito, sin decir el nombre. Si el equipo no lo conoce, puedes dar 1 pista verbal después de actuar 30 segundos.", "subtipo": "LIBRE", "solucion": "El equipo adivina quién es, o el jugador revela quién era y explica brevemente por qué lo eligió.", "pista": "Piensa en alguien que haya inventado, descubierto o creado algo importante para la ciencia o la tecnología.", "pieza": null, "penalizacion": false}]}};
-
 const PIECES   = ['Procesador','Motor','Batería','Sensor','Estructura'];
 const PIE_EMO  = {Procesador:'⚙️',Motor:'🔧',Batería:'🔋',Sensor:'📡',Estructura:'🦿'};
 const TC = ['#f97316','#22c55e','#3b82f6','#e879f9'];
+const TC_RGB = ['249,115,22','34,197,94','59,130,246','232,121,249'];
 const DECK_COL = {mentaloide:'#ef4444',logibot:'#eab308',creatius:'#3b82f6',mimix:'#a855f7'};
+const DECK_GRAD = {
+  mentaloide:['#4a0000','#1a0000'],
+  logibot:['#2d2000','#0d0a00'],
+  creatius:['#001a4a','#00061a'],
+  mimix:['#2d004a','#0d001a']
+};
 const ROBOT_IMG = {
   mentaloide:'assets/src/assets/images/robot-mentaloide-recortado.199ebe6b3fb3eebf64ae9e9fbc3a0d9d.png',
   logibot:'assets/src/assets/images/robot-logibot-recortado.5add81c0e42fcb983e58de1536ee40e0.png',
@@ -281,27 +423,57 @@ const ROBOT_IMG = {
   mimix:'assets/src/assets/images/robot-mimix-recortado.d39b3b64851488fd2e7ec99c044222ca.png'
 };
 const DEFAULTS = ['Equipo Rojo','Equipo Verde','Equipo Azul','Equipo Morado'];
-const MAX_POS = 20;
-const TIMER_MAX = 60;
-const CIRC = 2 * Math.PI * 30; // 188.5
+const MAX_POS = 20, TIMER_MAX = 60;
+const CF_COLS = ['#a78bfa','#60a5fa','#22c55e','#f97316','#e879f9','#fbbf24'];
 
 let G = {teams:[],cur:0,used:{mentaloide:[],logibot:[],creatius:[],mimix:[]},card:null,deck:null};
-let timerInterval = null;
-let timerSec = TIMER_MAX;
+let timerInterval=null, timerSec=TIMER_MAX;
+
+/* ── SPLASH ── */
+window.addEventListener('load',()=>{
+  // Particle canvas
+  const canvas = document.getElementById('splash-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = innerWidth, H = canvas.height = innerHeight;
+  const particles = Array.from({length:60},()=>{
+    return {x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.5,speed:Math.random()*.4+.1,op:Math.random()};
+  });
+  let animId;
+  function drawParticles(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(167,139,250,${p.op})`;
+      ctx.fill();
+      p.y -= p.speed;
+      p.op = .2+.7*Math.abs(Math.sin(Date.now()/1000+p.x));
+      if(p.y<0){p.y=H;p.x=Math.random()*W;}
+    });
+    animId = requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+  setTimeout(()=>{
+    cancelAnimationFrame(animId);
+    const s = document.getElementById('splash');
+    s.classList.add('fade-out');
+    setTimeout(()=>{s.style.display='none';show('setup');initSetup();},600);
+  },2000);
+});
 
 /* ── SETUP ── */
 function initSetup(){
-  G.teams = [];
+  G.teams=[];
   document.getElementById('add-btn').style.display='block';
   for(let i=0;i<2;i++) addTeam(false);
   renderInputs();
 }
 function addTeam(render=true){
   if(G.teams.length>=4)return;
-  const i = G.teams.length;
+  const i=G.teams.length;
   G.teams.push({name:DEFAULTS[i],pos:0,pieces:[]});
   if(render) renderInputs();
-  document.getElementById('add-btn').style.display = G.teams.length>=4?'none':'block';
+  document.getElementById('add-btn').style.display=G.teams.length>=4?'none':'block';
 }
 function removeTeam(i){
   if(G.teams.length<=2)return;
@@ -310,9 +482,9 @@ function removeTeam(i){
   document.getElementById('add-btn').style.display='block';
 }
 function renderInputs(){
-  document.getElementById('team-inputs').innerHTML = G.teams.map((t,i)=>`
+  document.getElementById('team-inputs').innerHTML=G.teams.map((t,i)=>`
     <div class="team-row">
-      <div class="team-dot" style="background:${TC[i]};color:${TC[i]}"></div>
+      <div class="team-dot" style="background:${TC[i]}"></div>
       <input class="team-inp" type="text" value="${h(t.name)}" placeholder="${DEFAULTS[i]}"
         oninput="G.teams[${i}].name=this.value" maxlength="20">
       ${G.teams.length>2?`<button class="rm-btn" onclick="removeTeam(${i})">✕</button>`:''}
@@ -320,280 +492,251 @@ function renderInputs(){
   `).join('');
 }
 function startGame(){
-  G.teams = G.teams.map((t,i)=>({name:t.name.trim()||DEFAULTS[i],pos:0,pieces:[]}));
-  G.cur = 0;
-  G.used = {mentaloide:[],logibot:[],creatius:[],mimix:[]};
-  show('board'); renderBoard();
+  G.teams=G.teams.map((t,i)=>({name:t.name.trim()||DEFAULTS[i],pos:0,pieces:[]}));
+  G.cur=0;G.used={mentaloide:[],logibot:[],creatius:[],mimix:[]};
+  show('board');renderBoard();
 }
 
 /* ── BOARD ── */
 function renderBoard(){
-  // turn pill
-  const t = G.teams[G.cur];
-  document.getElementById('turn-pill').innerHTML =
-    `Turno: <span style="color:${TC[G.cur]};font-weight:900">${h(t.name)}</span>`;
+  const t=G.teams[G.cur];
+  document.getElementById('turn-banner').innerHTML=
+    `Turno de <strong style="color:${TC[G.cur]}">${h(t.name)}</strong> — elige una categoría`;
 
-  // teams bar
-  document.getElementById('teams-bar').innerHTML = G.teams.map((tm,i)=>{
-    const act = i===G.cur;
-    const r=parseInt(TC[i].slice(1,3),16),g=parseInt(TC[i].slice(3,5),16),b=parseInt(TC[i].slice(5,7),16);
-    const pHtml = PIECES.map(p=>`<span class="tp${tm.pieces.includes(p)?' got':''}">${PIE_EMO[p]}</span>`).join('');
-    return `<div class="team-tile${act?' active':''}" style="--c:${TC[i]};--cr:${r},${g},${b}">
-      <span class="tile-name" style="${act?'color:'+TC[i]:''}">${h(tm.name)}</span>
-      <span class="tile-pos">Casilla ${tm.pos}/${MAX_POS}</span>
-      <div class="tile-pieces">${pHtml}</div>
+  // Team buttons grandes
+  document.getElementById('teams-grid').innerHTML=G.teams.map((tm,i)=>{
+    const act=i===G.cur;
+    const rgb=TC_RGB[i];
+    const pHtml=PIECES.map(p=>`<span class="tp${tm.pieces.includes(p)?' got':''}">${PIE_EMO[p]}</span>`).join('');
+    return `<div class="team-btn${act?' active':''}" style="--c:${TC[i]};--rgb:${rgb}">
+      ${act?'<span class="active-crown">👑</span>':''}
+      <span class="team-btn-name">${h(tm.name)}</span>
+      <span class="team-btn-pos">Casilla ${tm.pos}/${MAX_POS}</span>
+      <div class="team-btn-pieces">${pHtml}</div>
     </div>`;
   }).join('');
 
-  // remaining badges
+  // Remaining
   ['mentaloide','logibot','creatius','mimix'].forEach(d=>{
-    document.getElementById('rem-'+d).textContent = (25-G.used[d].length)+' cartas';
+    document.getElementById('rem-'+d).textContent=(25-G.used[d].length)+' cartas';
   });
 
-  // scoreboard
-  document.getElementById('score-rows').innerHTML = G.teams.map((tm,i)=>{
-    const ph = PIECES.map(p=>`<span class="sp${tm.pieces.includes(p)?' g':''}">${PIE_EMO[p]}</span>`).join('');
-    return `<div class="score-row">
-      <div class="s-dot" style="background:${TC[i]}"></div>
+  // Scoreboard
+  document.getElementById('score-rows').innerHTML=G.teams.map((tm,i)=>{
+    const ph=PIECES.map(p=>`<span class="sp${tm.pieces.includes(p)?' g':''}">${PIE_EMO[p]}</span>`).join('');
+    return `<div class="score-row"><div class="s-dot" style="background:${TC[i]}"></div>
       <span class="s-name">${h(tm.name)}</span>
-      <span class="s-pos">Cas. ${tm.pos}</span>
-      <div class="s-pieces">${ph}</div>
-    </div>`;
+      <span class="s-pos">Cas.${tm.pos}</span>
+      <div class="s-pieces">${ph}</div></div>`;
   }).join('');
 }
 
 /* ── DRAW CARD ── */
 function drawCard(deck){
-  const pool = CARDS[deck].cartas;
-  const avail = pool.map((_,i)=>i).filter(i=>!G.used[deck].includes(i));
-  if(!avail.length){ alert('¡Todas las cartas de este mazo se usaron!'); return; }
-  const idx = avail[Math.floor(Math.random()*avail.length)];
+  const pool=CARDS[deck].cartas;
+  const avail=pool.map((_,i)=>i).filter(i=>!G.used[deck].includes(i));
+  if(!avail.length){alert('¡Todas las cartas de este mazo se usaron!');return;}
+  const idx=avail[Math.floor(Math.random()*avail.length)];
   G.used[deck].push(idx);
-  G.card = pool[idx];
-  G.deck = deck;
-  show('card'); renderCard(); startTimer();
+  G.card=pool[idx];G.deck=deck;
+  show('card');renderCard();startTimer();
 }
 
 /* ── CARD ── */
 function renderCard(){
-  const c = G.card, d = G.deck;
-  const col = DECK_COL[d];
-  const t = G.teams[G.cur];
+  const c=G.card,d=G.deck;
+  const col=DECK_COL[d];
+  const grad=DECK_GRAD[d];
 
-  // badge
-  const badge = document.getElementById('card-badge');
-  badge.textContent = d.toUpperCase();
-  badge.style.cssText = `background:${col}22;color:${col};border:1.5px solid ${col}44`;
+  // Gradient background based on deck
+  const shell=document.getElementById('card-shell');
+  shell.style.setProperty('--dk-from',grad[0]);
+  shell.style.setProperty('--dk-to',grad[1]);
+  document.getElementById('card-robot-bg').style.background=
+    `radial-gradient(ellipse at top,${col}30 0%,transparent 70%)`;
 
-  document.getElementById('card-team').textContent = 'Turno: ' + t.name;
-  document.getElementById('robot-img').src = ROBOT_IMG[d];
+  // Robot
+  document.getElementById('robot-img').src=ROBOT_IMG[d];
 
-  // timer reset
-  const fill = document.getElementById('timer-fill');
-  fill.style.stroke = col;
-  fill.style.strokeDashoffset = '0';
-  document.getElementById('timer-num').textContent = TIMER_MAX;
+  // Badge
+  const badge=document.getElementById('card-type-badge');
+  const deckType=CARDS[d].tipo + (c.subtipo?' · '+c.subtipo:'');
+  badge.textContent=deckType;
+  badge.style.cssText=`background:${col}22;color:${col};border:1.5px solid ${col}55`;
 
-  const isMC = 'opciones' in c;
-  let html = '';
+  // Reto
+  document.getElementById('card-reto-text').textContent=c.reto;
+  document.getElementById('card-subtipo').textContent='';
 
-  // subtipo
-  if(c.subtipo) html += `<div class="subtipo-pill">🎯 ${h(c.subtipo)}</div>`;
+  // Timer reset
+  resetTimerUI();
 
-  // reto
-  html += `<div class="reto-box"><div class="reto-label">🎯 Reto del turno</div><div class="reto-text">${h(c.reto)}</div></div>`;
+  const isMC='opciones' in c;
+  const mc=document.getElementById('card-mc');
+  const open=document.getElementById('card-open');
 
   if(isMC){
-    html += `<div class="opts">${['a','b','c'].map(l=>
+    mc.style.display='block';open.style.display='none';
+    mc.innerHTML=`<div class="opts">${['a','b','c'].map(l=>
       `<button class="opt" id="opt-${l}" onclick="pickOpt('${l}')" type="button">
-        <span class="opt-letter">${l.toUpperCase()})</span>
+        <span class="opt-letter">${l.toUpperCase()}</span>
         <span>${h(c.opciones[l])}</span>
       </button>`
     ).join('')}</div>`;
   } else {
-    html += `<div class="card-actions">`;
-    if(c.pista) html += `
-      <button class="toggle-btn" onclick="toggleBox(this,'hint-box')">💡 Ver pista</button>
-      <div class="hint-box" id="hint-box"><div class="hint-lbl">Pista para el equipo</div>${h(c.pista)}</div>`;
-    html += `
-      <button class="toggle-btn" onclick="toggleBox(this,'ans-box')">🔍 Revelar respuesta</button>
-      <div class="reveal-box" id="ans-box"><div class="reveal-lbl">Respuesta correcta</div>${h(c.solucion||c.respuesta||'')}</div>
+    mc.style.display='none';open.style.display='block';
+    open.innerHTML=`<div class="open-actions">
+      ${c.pista?`
+        <button class="reveal-btn" onclick="toggleReveal(this,'hint-box')">💡 Ver pista</button>
+        <div class="hint-content" id="hint-box"><div class="hint-content-lbl">Pista para el equipo</div>${h(c.pista)}</div>
+      `:''}
+      <button class="reveal-btn" onclick="toggleReveal(this,'ans-box')">🔍 Ver respuesta / pista</button>
+      <div class="reveal-content" id="ans-box"><div class="reveal-content-lbl">Respuesta correcta</div>${h(c.solucion||c.respuesta||'')}</div>
     </div>`;
   }
 
-  document.getElementById('card-content').innerHTML = html;
-
-  // footer
-  const footer = document.getElementById('card-footer');
+  // Footer
+  const footer=document.getElementById('card-footer');
   if(isMC){
-    footer.innerHTML = `<p class="footer-hint">Elige una opción de arriba</p>`;
+    footer.innerHTML=`<p class="mc-hint">Elige la opción correcta 👆</p>`;
   } else {
-    footer.innerHTML = `
-      <div style="text-align:center;font-size:.8rem;color:rgba(255,255,255,.35);margin-bottom:.75rem">
-        ¿El equipo respondió bien?
-      </div>
-      <div class="judge-btns">
-        <button class="judge-btn no" onclick="resolve(false)">✗ Incorrecto</button>
-        <button class="judge-btn yes" onclick="resolve(true)">✓ ¡Correcto!</button>
+    footer.innerHTML=`
+      <div class="judge-hint">¿El equipo respondió bien?</div>
+      <div class="judge-row">
+        <button class="judge-btn no" onclick="resolve(false)">✗ Fallamos</button>
+        <button class="judge-btn yes" onclick="resolve(true)">✓ ¡Lo logramos!</button>
       </div>`;
   }
 }
 
-function toggleBox(btn, id){
-  const box = document.getElementById(id);
-  const shown = box.classList.toggle('show');
-  if(id==='hint-box') btn.textContent = shown ? '💡 Ocultar pista' : '💡 Ver pista';
-  else btn.textContent = shown ? '🔍 Ocultar respuesta' : '🔍 Revelar respuesta';
+function toggleReveal(btn,id){
+  const box=document.getElementById(id);
+  const shown=box.classList.toggle('show');
+  if(id==='hint-box') btn.textContent=shown?'💡 Ocultar pista':'💡 Ver pista';
+  else btn.textContent=shown?'🔍 Ocultar respuesta':'🔍 Ver respuesta / pista';
 }
 
 /* ── TIMER ── */
+function resetTimerUI(){
+  timerSec=TIMER_MAX;
+  const num=document.getElementById('timer-num');
+  const fill=document.getElementById('timer-bar-fill');
+  num.textContent='1:00';
+  num.className='timer-big';
+  fill.style.width='100%';
+  fill.style.background=DECK_COL[G.deck]||'#a78bfa';
+}
 function startTimer(){
   stopTimer();
-  timerSec = TIMER_MAX;
-  const fill = document.getElementById('timer-fill');
-  const num  = document.getElementById('timer-num');
-  timerInterval = setInterval(()=>{
+  timerSec=TIMER_MAX;
+  const num=document.getElementById('timer-num');
+  const fill=document.getElementById('timer-bar-fill');
+  timerInterval=setInterval(()=>{
     timerSec--;
-    num.textContent = timerSec;
-    const pct = timerSec / TIMER_MAX;
-    fill.style.strokeDashoffset = CIRC * (1 - pct);
-    if(timerSec <= 10){ fill.style.stroke = '#ef4444'; num.style.color='#fca5a5'; }
-    else if(timerSec <= 25){ fill.style.stroke = '#eab308'; num.style.color='#fde047'; }
-    if(timerSec <= 0){ stopTimer(); resolve(false); }
+    const m=Math.floor(timerSec/60);
+    const s=(timerSec%60).toString().padStart(2,'0');
+    num.textContent=m+':'+s;
+    const pct=timerSec/TIMER_MAX;
+    fill.style.width=(pct*100)+'%';
+    if(timerSec<=10){num.className='timer-big danger';fill.style.background='#ef4444';}
+    else if(timerSec<=25){num.className='timer-big warn';fill.style.background='#eab308';}
+    if(timerSec<=0){stopTimer();resolve(false);}
   },1000);
 }
 function stopTimer(){
   if(timerInterval) clearInterval(timerInterval);
-  timerInterval = null;
-  // reset color
-  const num = document.getElementById('timer-num');
-  if(num) num.style.color = '';
+  timerInterval=null;
 }
 
-/* ── MULTIPLE CHOICE ── */
+/* ── MC ── */
 function pickOpt(letter){
   stopTimer();
-  const correct = G.card.respuesta;
-  const isRight = letter === correct;
+  const correct=G.card.respuesta;
+  const isRight=letter===correct;
   ['a','b','c'].forEach(l=>{
-    const btn = document.getElementById('opt-'+l);
+    const btn=document.getElementById('opt-'+l);
     if(!btn)return;
-    btn.disabled = true;
-    btn.onclick = null;
+    btn.disabled=true;btn.onclick=null;
     if(l===correct) btn.classList.add('show-correct');
-    if(l===letter){
-      btn.classList.remove('show-correct');
-      btn.classList.add(isRight?'correct':'wrong');
-    }
+    if(l===letter){btn.classList.remove('show-correct');btn.classList.add(isRight?'correct':'wrong');}
   });
-  setTimeout(()=>resolve(isRight), 900);
+  setTimeout(()=>resolve(isRight),900);
 }
 
 /* ── RESOLVE ── */
 function resolve(correct){
   stopTimer();
-  const c = G.card;
-  const team = G.teams[G.cur];
-  let pieceEarned = null;
-  let adv=0, ret=0;
+  const c=G.card,team=G.teams[G.cur];
+  let piece=null,adv=0,ret=0;
   if(correct){
     adv=2;
-    if(c.pieza && !team.pieces.includes(c.pieza)){
-      pieceEarned = c.pieza;
-      team.pieces.push(c.pieza);
-    }
+    if(c.pieza&&!team.pieces.includes(c.pieza)){piece=c.pieza;team.pieces.push(c.pieza);}
   } else {
     if(c.penalizacion) ret=2;
   }
-  team.pos = Math.min(MAX_POS, Math.max(0, team.pos + adv - ret));
-  showFeedback(correct, pieceEarned, adv, ret, team);
+  team.pos=Math.min(MAX_POS,Math.max(0,team.pos+adv-ret));
+  showFeedback(correct,piece,adv,ret,team);
 }
 
 /* ── FEEDBACK ── */
-function showFeedback(correct, piece, adv, ret, team){
-  const ov = document.getElementById('feedback-overlay');
-  ov.className = 'show ' + (correct?'fb-bg-correct':'fb-bg-wrong');
-
-  document.getElementById('fb-emoji').textContent = correct ? '🎉' : '💥';
-  const title = document.getElementById('fb-title');
-  title.textContent = correct ? '¡Correcto!' : '¡Incorrecto!';
-  title.className = 'fb-title ' + (correct?'correct':'wrong');
-
-  let sub = correct
-    ? `<strong style="color:${TC[G.cur]}">${h(team.name)}</strong> avanza ${adv} casillas → Casilla ${team.pos}`
-    : `No fue correcto.${ret>0?` <strong style="color:${TC[G.cur]}">${h(team.name)}</strong> retrocede ${ret} casillas → Casilla ${team.pos}`:''}<br><br>La respuesta: <em>${h(G.card.solucion||G.card.respuesta||'')}</em>`;
-  document.getElementById('fb-sub').innerHTML = sub;
-
-  let extras = '';
-  if(piece) extras += `<div class="fb-piece">🏅 ¡Pieza obtenida! ${PIE_EMO[piece]} ${piece}</div>`;
-  if(!correct && G.card.penalizacion && ret>0) extras += `<div class="fb-penalty">⚡ Penalización: retrocede ${ret} casillas</div>`;
-  document.getElementById('fb-extras').innerHTML = extras;
-
-  if(correct) spawnConfetti();
-  if(team.pieces.length>=5 || team.pos>=MAX_POS){
-    setTimeout(()=>showWin(team), 1600);
+function showFeedback(correct,piece,adv,ret,team){
+  const ov=document.getElementById('feedback-overlay');
+  ov.className='show '+(correct?'fb-correct':'fb-wrong');
+  document.getElementById('fb-emoji').textContent=correct?'🎉':'💥';
+  const title=document.getElementById('fb-title');
+  title.textContent=correct?'¡Correcto!':'¡Incorrecto!';
+  title.className='fb-title '+(correct?'c':'w');
+  let sub=correct
+    ?`<strong style="color:${TC[G.cur]}">${h(team.name)}</strong> avanza ${adv} casillas → Casilla ${team.pos}`
+    :`No fue correcto.${ret>0?` <strong style="color:${TC[G.cur]}">${h(team.name)}</strong> retrocede ${ret} casillas → Casilla ${team.pos}`:''}`; 
+  document.getElementById('fb-sub').innerHTML=sub;
+  let extras='';
+  if(piece) extras+=`<div class="fb-piece">🏅 ¡Pieza ganada! ${PIE_EMO[piece]} ${piece}</div>`;
+  if(!correct&&G.card.penalizacion&&ret>0) extras+=`<div class="fb-penalty">⚡ Penalización: retrocede ${ret} casillas</div>`;
+  if(!correct){
+    const ans=G.card.solucion||G.card.respuesta||'';
+    if(ans) extras+=`<div class="fb-answer"><div class="fb-answer-lbl">Respuesta correcta</div>${h(ans)}</div>`;
   }
+  document.getElementById('fb-extras').innerHTML=extras;
+  if(correct) for(let i=0;i<50;i++) setTimeout(spawnCF,i*60);
+  if(team.pieces.length>=5||team.pos>=MAX_POS) setTimeout(()=>showWin(team),1800);
 }
 
 function nextTurn(){
-  document.getElementById('feedback-overlay').className = '';
-  G.cur = (G.cur+1) % G.teams.length;
-  show('board'); renderBoard();
+  document.getElementById('feedback-overlay').className='';
+  G.cur=(G.cur+1)%G.teams.length;
+  show('board');renderBoard();
 }
-
 function goBoard(){
   stopTimer();
-  document.getElementById('feedback-overlay').className = '';
-  show('board'); renderBoard();
+  document.getElementById('feedback-overlay').className='';
+  show('board');renderBoard();
 }
-
-/* ── WIN ── */
 function showWin(team){
   document.getElementById('feedback-overlay').className='';
   show('win');
-  document.getElementById('win-team').textContent = team.name;
-  document.getElementById('win-pieces').innerHTML = PIECES.map(p=>
-    `<div class="win-piece">${PIE_EMO[p]} ${p}</div>`
-  ).join('');
-  for(let i=0;i<80;i++) setTimeout(()=>spawnConfetti(),i*80);
+  document.getElementById('win-team').textContent=team.name;
+  document.getElementById('win-pieces').innerHTML=PIECES.map(p=>`<div class="win-piece">${PIE_EMO[p]} ${p}</div>`).join('');
+  for(let i=0;i<100;i++) setTimeout(spawnCF,i*80);
 }
-
-/* ── CONFETTI ── */
-const CONF_COLORS = ['#a78bfa','#60a5fa','#22c55e','#f97316','#e879f9','#fbbf24'];
-function spawnConfetti(){
-  const el = document.createElement('div');
-  el.className = 'confetti-piece';
-  el.style.cssText = `
-    left:${Math.random()*100}vw;
-    background:${CONF_COLORS[Math.floor(Math.random()*CONF_COLORS.length)]};
-    width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;
-    border-radius:${Math.random()>.5?'50%':'2px'};
-    animation-duration:${1.5+Math.random()*2}s;
-    animation-delay:${Math.random()*.5}s;
-    opacity:${.7+Math.random()*.3}
-  `;
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(), 3000);
-}
-
-/* ── RESTART ── */
 function restartGame(){
   stopTimer();
   document.getElementById('feedback-overlay').className='';
-  show('setup'); initSetup();
+  show('setup');initSetup();
 }
-
-/* ── UTILS ── */
+function spawnCF(){
+  const el=document.createElement('div');
+  el.className='cfp';
+  el.style.cssText=`left:${Math.random()*100}vw;background:${CF_COLS[Math.floor(Math.random()*CF_COLS.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s;opacity:${.7+Math.random()*.3}`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
+  const el=document.getElementById('screen-'+id);
+  if(el) el.classList.add('active');
 }
-function h(s){
-  if(!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-initSetup();
+function h(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
 </html>
