@@ -2014,7 +2014,21 @@ async function saveAttendance(){
     closeModal('modal-attendance');
     Object.keys(attSelections).forEach(k=>delete attSelections[k]);
     if(document.getElementById('att-class-sel').value===classId) loadLeccionario();
-  }catch(e){toast('Error al guardar: '+e.message+'. Verifica las reglas de Firestore.','error');}
+    // Actualizar classes_attended en el documento de cada estudiante
+    for(const studentId of keys){
+      try{
+        const countSnap=await db.collection('attendance').where('student_id','==',studentId).get();
+        const seen=new Set();
+        let count=0;
+        countSnap.docs.forEach(d=>{
+          const dat=d.data();
+          const key=(dat.class_id||'')+'_'+(dat.date||'');
+          if(['P','T'].includes(dat.status)&&!seen.has(key)){seen.add(key);count++;}
+        });
+        await db.collection('students').doc(studentId).update({classes_attended:count});
+      }catch(_){}
+    }
+  }catch(e){toast('Error al guardar: '+e.message,'error');}
 }
 
 function printAttendance(){
