@@ -1378,18 +1378,11 @@ function renderTasks(){
       ? `<div class="task-submitted-box">
            <div class="task-submitted-label"><i class="fas fa-check-circle"></i> Entregada</div>
            ${sub.response?`<div class="task-submitted-text">${sub.response}</div>`:''}
+           ${sub.image_url?`<div style="margin:.5rem 0"><img src="${sub.image_url}" style="max-width:100%;max-height:200px;border-radius:10px;border:1px solid var(--border)" alt="Tu captura enviada"></div>`:''}
            ${sub.link_url?`<a href="${sub.link_url}" target="_blank" class="task-file" style="margin-top:.5rem;display:inline-flex"><i class="fas fa-arrow-up-right-from-square"></i> Ver proyecto</a>`:''}
          </div>
          <p style="font-size:.76rem;color:var(--muted);font-style:italic">Entregado el ${sub.submitted_at?(sub.submitted_at.toDate?fmtDate(sub.submitted_at.toDate()):fmtDate(new Date(sub.submitted_at))):''}</p>`
-      : `<div class="field-group" style="margin-bottom:.75rem">
-           <div class="task-field-label"><i class="fas fa-pencil"></i> Tu respuesta / entrega</div>
-           <textarea id="task-resp-${t.id}" class="port-input" rows="3" placeholder="Describe qué hiciste, pega tu código, responde las preguntas..."></textarea>
-         </div>
-         <div class="field-group" style="margin-bottom:1rem">
-           <div class="task-field-label"><i class="fas fa-link"></i> Link de tu proyecto (opcional)</div>
-           <input type="url" id="task-link-${t.id}" class="port-input" style="padding:.6rem .75rem;width:100%" placeholder="https://replit.com/..., https://drive.google.com/...">
-         </div>
-         <button class="task-submit-btn" onclick="submitTask('${t.id}')"><i class="fas fa-paper-plane"></i> Entregar tarea</button>`;
+      : buildSubmitForm(t.id, t.submission_type);
     return `<div class="task-card${t._done?' done':''}" id="task-card-${t.id}">
       <div class="task-card-top" onclick="toggleTaskExpand('${t.id}')">
         <div class="task-check${t._done?' checked':''}"><i class="fas fa-check"></i></div>
@@ -1419,16 +1412,107 @@ function toggleTaskExpand(taskId){
   if(chev) chev.classList.toggle('open');
 }
 
-async function submitTask(taskId){
+// ─── IMGBB IMAGE UPLOAD ───────────────────────────────────────
+// Obtén tu clave gratis en https://imgbb.com (sin cuenta de estudiante requerida)
+const IMGBB_API_KEY='YOUR_IMGBB_KEY_HERE';
+
+async function uploadToImgbb(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=async e=>{
+      const base64=e.target.result.split(',')[1];
+      const form=new FormData();
+      form.append('image',base64);
+      try{
+        const res=await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,{method:'POST',body:form});
+        const json=await res.json();
+        if(json.success) resolve(json.data.url);
+        else reject(new Error(json.error?.message||'Error al subir la imagen'));
+      }catch(err){reject(err);}
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function previewTaskImage(taskId){
+  const input=document.getElementById('task-img-'+taskId);
+  const preview=document.getElementById('task-img-preview-'+taskId);
+  const thumb=document.getElementById('task-img-thumb-'+taskId);
+  const nameEl=document.getElementById('task-img-name-'+taskId);
+  const label=document.getElementById('task-img-label-'+taskId);
+  if(input.files&&input.files[0]){
+    const file=input.files[0];
+    const reader=new FileReader();
+    reader.onload=e=>{
+      thumb.src=e.target.result;
+      nameEl.textContent=file.name;
+      preview.style.display='block';
+      if(label) label.style.display='none';
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function buildSubmitForm(taskId,subType){
+  const st=subType||'any';
+  let fields='';
+  if(st==='text'||st==='any'){
+    fields+=`<div class="field-group" style="margin-bottom:.75rem">
+      <div class="task-field-label"><i class="fas fa-pencil"></i> Tu respuesta${st==='any'?' (opcional)':''}</div>
+      <textarea id="task-resp-${taskId}" class="port-input" rows="3" placeholder="Describe qué hiciste, responde las preguntas..."></textarea>
+    </div>`;
+  }
+  if(st==='link'||st==='any'){
+    fields+=`<div class="field-group" style="margin-bottom:.75rem">
+      <div class="task-field-label"><i class="fas fa-link"></i> Link de tu proyecto${st==='any'?' (opcional)':''}</div>
+      <input type="url" id="task-link-${taskId}" class="port-input" style="padding:.6rem .75rem;width:100%" placeholder="https://replit.com/..., https://drive.google.com/...">
+    </div>`;
+  }
+  if(st==='image'||st==='any'){
+    fields+=`<div class="field-group" style="margin-bottom:.75rem">
+      <div class="task-field-label"><i class="fas fa-camera"></i> Captura de pantalla${st==='any'?' (opcional)':''}</div>
+      <label id="task-img-label-${taskId}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1.5rem 1rem;border:2px dashed var(--border);border-radius:12px;cursor:pointer;transition:all .2s;background:var(--bg-card)" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+        <i class="fas fa-cloud-upload-alt" style="font-size:1.75rem;color:var(--muted)"></i>
+        <span style="font-size:.82rem;color:var(--muted);text-align:center">Toca aquí para elegir una imagen<br><span style="font-size:.75rem">JPG, PNG o screenshot — máx 32 MB</span></span>
+        <input type="file" id="task-img-${taskId}" accept="image/*" style="display:none" onchange="previewTaskImage('${taskId}')">
+      </label>
+      <div id="task-img-preview-${taskId}" style="display:none;margin-top:.5rem">
+        <img id="task-img-thumb-${taskId}" src="" style="max-width:100%;max-height:200px;border-radius:10px;border:1px solid var(--border)" alt="Vista previa">
+        <div style="font-size:.75rem;color:var(--muted);margin-top:.3rem;display:flex;align-items:center;gap:.4rem">
+          <i class="fas fa-check-circle" style="color:var(--green)"></i>
+          <span id="task-img-name-${taskId}"></span>
+          <button onclick="document.getElementById('task-img-${taskId}').value='';document.getElementById('task-img-preview-${taskId}').style.display='none';document.getElementById('task-img-label-${taskId}').style.display='flex'" style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.72rem">Cambiar</button>
+        </div>
+      </div>
+    </div>`;
+  }
+  return fields+`<button class="task-submit-btn" onclick="submitTask('${taskId}','${st}')"><i class="fas fa-paper-plane"></i> Entregar tarea</button>`;
+}
+
+async function submitTask(taskId,subType){
+  subType=subType||'any';
   const respEl=document.getElementById('task-resp-'+taskId);
   const linkEl=document.getElementById('task-link-'+taskId);
+  const imgEl=document.getElementById('task-img-'+taskId);
   const response=(respEl?.value||'').trim();
   const link_url=(linkEl?.value||'').trim();
-  if(!response&&!link_url){alert('Por favor escribe tu respuesta o pega el link de tu proyecto antes de entregar.');return;}
+  const imageFile=imgEl?.files?.[0]||null;
+  if(!response&&!link_url&&!imageFile){
+    alert('Por favor completa tu entrega antes de enviar.');return;
+  }
   const btn=document.querySelector(`#task-body-${taskId} .task-submit-btn`);
   if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Enviando...';}
   try{
-    const sub={student_id:student.id,task_id:taskId,response,link_url,submitted_at:firebase.firestore.FieldValue.serverTimestamp()};
+    let image_url='';
+    if(imageFile){
+      if(btn) btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Subiendo imagen...';
+      if(IMGBB_API_KEY==='YOUR_IMGBB_KEY_HERE'){
+        throw new Error('Configura tu clave de imgbb en el código (IMGBB_API_KEY)');
+      }
+      image_url=await uploadToImgbb(imageFile);
+    }
+    const sub={student_id:student.id,task_id:taskId,response,link_url,image_url,submitted_at:firebase.firestore.FieldValue.serverTimestamp()};
     const docId='tsub_'+student.id+'_'+taskId;
     await fdb.collection('task_submissions').doc(docId).set(sub);
     taskSubmissions[taskId]={...sub,doc_id:docId,submitted_at:new Date()};
@@ -1437,7 +1521,6 @@ async function submitTask(taskId){
     renderTasks();
     renderTasksPreview();
     updateTaskBadge();
-    // Re-open the expanded area to show the submitted box
     setTimeout(()=>{
       const b=document.getElementById('task-body-'+taskId);
       const c=document.getElementById('task-chev-'+taskId);
@@ -1445,7 +1528,7 @@ async function submitTask(taskId){
       if(c){c.classList.add('open');}
     },50);
   }catch(e){
-    alert('Error al guardar la entrega. Revisa tu conexión e intenta de nuevo.');
+    alert('Error al guardar la entrega: '+e.message);
     if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane"></i> Entregar tarea';}
   }
 }

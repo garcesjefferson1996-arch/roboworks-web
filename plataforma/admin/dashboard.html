@@ -995,6 +995,30 @@ const db=firebase.firestore();
           </div>
         </div>
       </div>
+
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1rem;margin-top:.75rem">
+        <div style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem">
+          <i class="fa-solid fa-inbox" style="color:#f59e0b"></i> ¿Cómo deben entregar?
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.45rem">
+          <label style="display:flex;align-items:flex-start;gap:.7rem;font-size:.82rem;cursor:pointer;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:8px;transition:border-color .15s">
+            <input type="radio" name="t-sub-type" value="text" checked style="margin-top:2px;flex-shrink:0">
+            <span><i class="fa-solid fa-pencil" style="color:var(--blue);margin-right:.3rem"></i><strong>Respuesta escrita</strong> — cuadro de texto para contestar preguntas</span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:.7rem;font-size:.82rem;cursor:pointer;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:8px;transition:border-color .15s">
+            <input type="radio" name="t-sub-type" value="link" style="margin-top:2px;flex-shrink:0">
+            <span><i class="fa-solid fa-link" style="color:var(--green);margin-right:.3rem"></i><strong>Link de proyecto</strong> — pegan URL de Replit, GitHub, Drive, etc.</span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:.7rem;font-size:.82rem;cursor:pointer;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:8px;transition:border-color .15s">
+            <input type="radio" name="t-sub-type" value="image" style="margin-top:2px;flex-shrink:0">
+            <span><i class="fa-solid fa-camera" style="color:#f59e0b;margin-right:.3rem"></i><strong>Captura de pantalla</strong> — suben una imagen de su trabajo</span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:.7rem;font-size:.82rem;cursor:pointer;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:8px;transition:border-color .15s">
+            <input type="radio" name="t-sub-type" value="any" style="margin-top:2px;flex-shrink:0">
+            <span><i class="fa-solid fa-layer-group" style="color:var(--text-light);margin-right:.3rem"></i><strong>Libre</strong> — pueden usar cualquier combinación (texto + link + imagen)</span>
+          </label>
+        </div>
+      </div>
     </form>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('modal-task')">Cancelar</button>
@@ -1733,22 +1757,41 @@ async function viewSubmissions(taskId){
   modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
   const studentMap={};
   allStudents.forEach(s=>{studentMap[s.id]=s.full_name||s.name||s.id;});
+
+  const subTypeLabel={text:'Respuesta escrita',link:'Link de proyecto',image:'Captura de pantalla',any:'Libre'};
+  const subTypeIcon={text:'fa-pencil',link:'fa-link',image:'fa-camera',any:'fa-layer-group'};
+  const st=task?.submission_type||'any';
+
   const rows=subs.length===0
-    ? '<div style="text-align:center;padding:2rem;color:#64748b">No hay entregas aún</div>'
+    ? '<div style="text-align:center;padding:2rem;color:#64748b"><i class="fa-regular fa-inbox" style="font-size:2rem;display:block;margin-bottom:.5rem"></i>No hay entregas aún</div>'
     : subs.map(s=>`
-      <div style="border:1px solid #e2e8f0;border-radius:10px;padding:.875rem 1rem;margin-bottom:.75rem">
-        <div style="font-weight:700;font-size:.85rem;margin-bottom:.3rem">${studentMap[s.student_id]||s.student_id}</div>
-        ${s.response?`<div style="font-size:.82rem;color:#334155;background:#f8fafc;border-radius:8px;padding:.6rem .75rem;margin-bottom:.4rem;white-space:pre-wrap">${s.response}</div>`:''}
-        ${s.link_url?`<a href="${s.link_url}" target="_blank" style="font-size:.78rem;color:#2563eb;font-weight:600;display:inline-flex;align-items:center;gap:.3rem"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver proyecto</a>`:''}
-        <div style="font-size:.72rem;color:#94a3b8;margin-top:.4rem">${s.submitted_at?(s.submitted_at.toDate?fmtDate(s.submitted_at.toDate()):fmtDate(new Date(s.submitted_at))):'Sin fecha'}</div>
+      <div style="border:1px solid #e2e8f0;border-radius:12px;padding:1rem;margin-bottom:.75rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem">
+          <div style="font-weight:700;font-size:.9rem;color:#0f172a">${studentMap[s.student_id]||s.student_id}</div>
+          <div style="font-size:.72rem;color:#94a3b8">${s.submitted_at?(s.submitted_at.toDate?fmtDate(s.submitted_at.toDate()):fmtDate(new Date(s.submitted_at))):'Sin fecha'}</div>
+        </div>
+        ${s.response?`<div style="font-size:.83rem;color:#334155;background:#f8fafc;border-radius:8px;padding:.65rem .8rem;margin-bottom:.6rem;white-space:pre-wrap;border:1px solid #e2e8f0">${s.response}</div>`:''}
+        ${s.image_url?`<div style="margin-bottom:.6rem">
+          <a href="${s.image_url}" target="_blank" title="Abrir imagen completa">
+            <img src="${s.image_url}" style="max-width:100%;max-height:260px;border-radius:10px;border:1px solid #e2e8f0;display:block;cursor:zoom-in" alt="Captura enviada">
+          </a>
+          <div style="font-size:.72rem;color:#64748b;margin-top:.3rem"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic en la imagen para ampliar</div>
+        </div>`:''}
+        ${s.link_url?`<a href="${s.link_url}" target="_blank" style="font-size:.8rem;color:#2563eb;font-weight:600;display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .7rem;background:#eff6ff;border-radius:6px;text-decoration:none"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver proyecto</a>`:''}
+        ${!s.response&&!s.image_url&&!s.link_url?`<div style="font-size:.8rem;color:#94a3b8;font-style:italic">Entrega sin contenido</div>`:''}
       </div>`).join('');
-  modal.innerHTML=`<div style="background:#fff;border-radius:16px;width:100%;max-width:560px;max-height:85vh;display:flex;flex-direction:column;overflow:hidden">
-    <div style="padding:1rem 1.25rem;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">
-      <div style="font-weight:700;font-size:.95rem">Entregas — ${task?task.title:'Tarea'}</div>
-      <button onclick="this.closest('[style]').remove()" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:#64748b">✕</button>
+
+  modal.innerHTML=`<div style="background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.25)">
+    <div style="padding:1rem 1.25rem;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div>
+        <div style="font-weight:700;font-size:.95rem;color:#0f172a">${task?task.title:'Tarea'}</div>
+        <div style="font-size:.75rem;color:#64748b;margin-top:.15rem"><i class="fa-solid ${subTypeIcon[st]||'fa-inbox'}" style="margin-right:.3rem"></i>${subTypeLabel[st]||'Entrega'} · ${subs.length} entrega${subs.length!==1?'s':''}</div>
+      </div>
+      <button onclick="this.closest('.sub-modal-root').remove()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:#64748b;line-height:1;padding:.25rem">✕</button>
     </div>
-    <div style="padding:1rem 1.25rem;overflow-y:auto">${rows}</div>
+    <div style="padding:1rem 1.25rem;overflow-y:auto;flex:1">${rows}</div>
   </div>`;
+  modal.classList.add('sub-modal-root');
   document.body.appendChild(modal);
   modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
 }
@@ -1759,6 +1802,8 @@ function openNewTaskModal(){
   document.getElementById('form-task').reset();
   document.querySelector('input[name="t-stu-mode"][value="all"]').checked=true;
   document.getElementById('t-student-checks').style.display='none';
+  const defSubType=document.querySelector('input[name="t-sub-type"][value="text"]');
+  if(defSubType) defSubType.checked=true;
   fillTaskProgramSelect();
   populateTaskClassChecks([]);
   openModal('modal-task');
@@ -1792,12 +1837,13 @@ async function saveTask(e){
   const class_ids=[...document.querySelectorAll('#t-class-checks input:checked')].map(cb=>cb.value);
   const stuMode=document.querySelector('input[name="t-stu-mode"]:checked').value;
   const student_ids=stuMode==='specific'?[...document.querySelectorAll('#t-student-checks input:checked')].map(cb=>cb.value):[];
+  const submission_type=document.querySelector('input[name="t-sub-type"]:checked')?.value||'text';
   const data={
     title:document.getElementById('t-title').value,
     description:document.getElementById('t-desc').value,
     file_url:document.getElementById('t-file').value,
     due_date:dueStr?firebase.firestore.Timestamp.fromDate(new Date(dueStr)):null,
-    program_id,class_ids,student_ids
+    program_id,class_ids,student_ids,submission_type
   };
   if(!class_ids.length&&!student_ids.length){
     if(!confirm('No seleccionaste ninguna clase ni estudiante. ¿Publicar la tarea para TODOS los estudiantes?')) return;
@@ -1831,6 +1877,8 @@ function editTask(id){
   const wrap=document.getElementById('t-student-checks');
   wrap.style.display=hasSpecific?'flex':'none';
   if(hasSpecific) updateTaskStudentChecks();
+  const subTypeRadio=document.querySelector(`input[name="t-sub-type"][value="${t.submission_type||'text'}"]`);
+  if(subTypeRadio) subTypeRadio.checked=true;
   openModal('modal-task');
 }
 
