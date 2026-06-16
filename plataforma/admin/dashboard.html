@@ -479,7 +479,7 @@ const db=firebase.firestore();
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Tarea</th><th>Nivel</th><th>Clases</th><th>Fecha de entrega</th><th>Recurso</th><th>Entregas</th><th>Acciones</th></tr></thead>
+            <thead><tr><th>Tarea</th><th>Asignada a</th><th>Fecha de entrega</th><th>Recurso</th><th>Entregas</th><th>Acciones</th></tr></thead>
             <tbody id="tasks-tbody"><tr><td colspan="6"><div class="loader"><div class="spin"></div>Cargando tareas...</div></td></tr></tbody>
           </table>
         </div>
@@ -948,34 +948,52 @@ const db=firebase.firestore();
       </div>
       <div class="form-group">
         <label>Instrucciones / Descripción</label>
-        <textarea class="form-control" id="t-desc" rows="3" placeholder="Describe qué deben hacer los estudiantes..."></textarea>
+        <textarea class="form-control" id="t-desc" rows="2" placeholder="Describe qué deben hacer los estudiantes..."></textarea>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Nivel asignado</label>
-          <select class="form-control" id="t-level">
-            <option value="">Todos los niveles</option>
-            <option value="SPARK">SPARK</option>
-            <option value="RISE">RISE</option>
-            <option value="CORE">CORE</option>
-            <option value="SURGE">SURGE</option>
-            <option value="PINNACLE">PINNACLE</option>
-            <option value="LEGEND">LEGEND</option>
-          </select>
-        </div>
         <div class="form-group">
           <label>Fecha de entrega</label>
           <input type="date" class="form-control" id="t-due">
         </div>
+        <div class="form-group">
+          <label>Recurso adjunto (opcional)</label>
+          <input type="url" class="form-control" id="t-file" placeholder="https://drive.google.com/...">
+        </div>
       </div>
-      <div class="form-group">
-        <label>Enlace de recurso adjunto (opcional)</label>
-        <input type="url" class="form-control" id="t-file" placeholder="https://drive.google.com/...">
-      </div>
-      <div class="form-group">
-        <label>Asignar a clases específicas</label>
-        <div id="t-class-checks" style="display:flex;flex-wrap:wrap;gap:.5rem;padding:.75rem;border:1px solid var(--border);border-radius:8px;max-height:140px;overflow-y:auto;background:var(--bg)"></div>
-        <div class="form-hint">Si no seleccionas ninguna, la tarea aparece para <strong>todos los estudiantes</strong>.</div>
+
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1rem;margin-top:.5rem">
+        <div style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem">
+          <i class="fa-solid fa-bullseye" style="color:var(--blue)"></i> ¿A quién va esta tarea?
+        </div>
+
+        <div class="form-group" style="margin-bottom:.6rem">
+          <label style="font-size:.78rem">1. Programa</label>
+          <select class="form-control" id="t-program" onchange="onTaskProgramChange()" style="font-size:.82rem">
+            <option value="">— Todos los programas —</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom:.6rem">
+          <label style="font-size:.78rem">2. Clases <span style="color:var(--text-light);font-weight:400">(selecciona una o más)</span></label>
+          <div id="t-class-checks" style="display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem;border:1px solid var(--border);border-radius:8px;max-height:120px;overflow-y:auto;background:var(--white)">
+            <span style="font-size:.78rem;color:var(--text-light)">Elige un programa para filtrar las clases</span>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0">
+          <label style="font-size:.78rem">3. Estudiantes</label>
+          <div style="display:flex;gap:.5rem;margin-bottom:.5rem">
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.8rem;cursor:pointer">
+              <input type="radio" name="t-stu-mode" value="all" checked onchange="onTaskStudentModeChange()"> Todos en esas clases
+            </label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.8rem;cursor:pointer">
+              <input type="radio" name="t-stu-mode" value="specific" onchange="onTaskStudentModeChange()"> Estudiantes específicos
+            </label>
+          </div>
+          <div id="t-student-checks" style="display:none;flex-wrap:wrap;gap:.4rem;padding:.6rem;border:1px solid var(--border);border-radius:8px;max-height:120px;overflow-y:auto;background:var(--white)">
+            <span style="font-size:.78rem;color:var(--text-light)">Selecciona clases primero</span>
+          </div>
+        </div>
       </div>
     </form>
     <div class="modal-foot">
@@ -1676,16 +1694,24 @@ async function loadTasks(){
   if(allTasks.length===0){tbody.innerHTML='<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-list-check"></i><p>No hay tareas publicadas</p></div></td></tr>';return;}
   tbody.innerHTML=allTasks.map(t=>{
     const subCount=allTaskSubmissions.filter(s=>s.task_id===t.id).length;
-    // Clases asignadas
-    let clasesTxt='<span style="color:var(--text-light);font-size:.75rem">Todos</span>';
-    if(t.class_ids&&t.class_ids.length>0){
-      const names=t.class_ids.map(cid=>{const c=allClasses.find(x=>x.id===cid);return c?c.name:cid;});
-      clasesTxt=`<div style="display:flex;flex-wrap:wrap;gap:.25rem">${names.map(n=>`<span class="badge badge-blue" style="font-size:.65rem">${n}</span>`).join('')}</div>`;
+    // Destino de la tarea
+    let destinoTxt='';
+    if(t.student_ids&&t.student_ids.length>0){
+      const names=t.student_ids.map(sid=>{const s=allStudents.find(x=>x.id===sid);return s?s.full_name:sid;});
+      destinoTxt=`<div style="display:flex;flex-wrap:wrap;gap:.2rem">${names.map(n=>`<span class="badge badge-green" style="font-size:.63rem"><i class="fa-solid fa-user" style="font-size:.55rem"></i> ${n}</span>`).join('')}</div>`;
+    }else if(t.class_ids&&t.class_ids.length>0){
+      const prog=t.program_id?allPrograms.find(p=>p.id===t.program_id):null;
+      const clsNames=t.class_ids.map(cid=>{const c=allClasses.find(x=>x.id===cid);return c?c.name:cid;});
+      destinoTxt=`<div style="font-size:.7rem;color:var(--text-light);margin-bottom:.2rem">${prog?prog.name:''}</div><div style="display:flex;flex-wrap:wrap;gap:.2rem">${clsNames.map(n=>`<span class="badge badge-blue" style="font-size:.63rem">${n}</span>`).join('')}</div>`;
+    }else{
+      const prog=t.program_id?allPrograms.find(p=>p.id===t.program_id):null;
+      destinoTxt=prog
+        ?`<span class="badge badge-orange" style="font-size:.65rem">${prog.name} — todos</span>`
+        :'<span style="color:var(--text-light);font-size:.75rem">Todos los estudiantes</span>';
     }
     return `<tr>
     <td><div style="font-weight:600;margin-bottom:.2rem">${t.title}</div><div style="font-size:.75rem;color:var(--text-light)">${t.description||''}</div></td>
-    <td>${t.level?`<span class="badge ${LV_CLASS[t.level]||'badge-gray'}">${t.level}</span>`:'<span class="badge badge-gray">Todos</span>'}</td>
-    <td>${clasesTxt}</td>
+    <td>${destinoTxt}</td>
     <td>${fmtDue(t.due_date)}</td>
     <td>${t.file_url?`<a href="${t.file_url}" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-solid fa-link"></i>Ver</a>`:'—'}</td>
     <td>
@@ -1731,22 +1757,56 @@ function openNewTaskModal(){
   document.getElementById('modal-task-title').textContent='Nueva Tarea';
   document.getElementById('edit-task-id').value='';
   document.getElementById('form-task').reset();
+  document.querySelector('input[name="t-stu-mode"][value="all"]').checked=true;
+  document.getElementById('t-student-checks').style.display='none';
+  fillTaskProgramSelect();
   populateTaskClassChecks([]);
   openModal('modal-task');
+}
+
+function fillTaskProgramSelect(selectedId=''){
+  const sel=document.getElementById('t-program');
+  while(sel.options.length>1)sel.remove(1);
+  allPrograms.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.name;sel.appendChild(o);});
+  if(selectedId)sel.value=selectedId;
+}
+
+function onTaskProgramChange(){
+  const programId=document.getElementById('t-program').value;
+  populateTaskClassChecks([],programId);
+  updateTaskStudentChecks();
+}
+
+function onTaskStudentModeChange(){
+  const specific=document.querySelector('input[name="t-stu-mode"]:checked').value==='specific';
+  const wrap=document.getElementById('t-student-checks');
+  wrap.style.display=specific?'flex':'none';
+  if(specific) updateTaskStudentChecks();
 }
 
 async function saveTask(e){
   e.preventDefault();
   const editId=document.getElementById('edit-task-id').value;
   const dueStr=document.getElementById('t-due').value;
-  // Recoger clases seleccionadas
-  const checks=[...document.querySelectorAll('#t-class-checks input[type=checkbox]:checked')];
-  const class_ids=checks.map(cb=>cb.value);
-  const data={title:document.getElementById('t-title').value,description:document.getElementById('t-desc').value,level:document.getElementById('t-level').value,file_url:document.getElementById('t-file').value,due_date:dueStr?firebase.firestore.Timestamp.fromDate(new Date(dueStr)):null,class_ids};
+  const program_id=document.getElementById('t-program').value||null;
+  const class_ids=[...document.querySelectorAll('#t-class-checks input:checked')].map(cb=>cb.value);
+  const stuMode=document.querySelector('input[name="t-stu-mode"]:checked').value;
+  const student_ids=stuMode==='specific'?[...document.querySelectorAll('#t-student-checks input:checked')].map(cb=>cb.value):[];
+  const data={
+    title:document.getElementById('t-title').value,
+    description:document.getElementById('t-desc').value,
+    file_url:document.getElementById('t-file').value,
+    due_date:dueStr?firebase.firestore.Timestamp.fromDate(new Date(dueStr)):null,
+    program_id,class_ids,student_ids
+  };
+  if(!class_ids.length&&!student_ids.length){
+    if(!confirm('No seleccionaste ninguna clase ni estudiante. ¿Publicar la tarea para TODOS los estudiantes?')) return;
+  }
   try{
     if(editId) await db.collection('tasks').doc(editId).update(data);
     else{data.created_at=TS(); await db.collection('tasks').add(data);}
-    toast(editId?'Tarea actualizada':'Tarea publicada.');
+    const dest=class_ids.length?(student_ids.length?student_ids.length+' estudiante(s)':class_ids.length+' clase(s)'):'todos';
+    toast(editId?'Tarea actualizada':'Tarea publicada para '+dest+'.');
     closeModal('modal-task');
     document.getElementById('form-task').reset();
     document.getElementById('edit-task-id').value='';
@@ -1761,10 +1821,16 @@ function editTask(id){
   document.getElementById('edit-task-id').value=id;
   document.getElementById('t-title').value=t.title||'';
   document.getElementById('t-desc').value=t.description||'';
-  document.getElementById('t-level').value=t.level||'';
   document.getElementById('t-file').value=t.file_url||'';
   if(t.due_date){const d=t.due_date.toDate?t.due_date.toDate():new Date(t.due_date);document.getElementById('t-due').value=d.toISOString().split('T')[0];}
-  populateTaskClassChecks(t.class_ids||[]);
+  else document.getElementById('t-due').value='';
+  fillTaskProgramSelect(t.program_id||'');
+  populateTaskClassChecks(t.class_ids||[],t.program_id||'');
+  const hasSpecific=t.student_ids&&t.student_ids.length>0;
+  document.querySelector(`input[name="t-stu-mode"][value="${hasSpecific?'specific':'all'}"]`).checked=true;
+  const wrap=document.getElementById('t-student-checks');
+  wrap.style.display=hasSpecific?'flex':'none';
+  if(hasSpecific) updateTaskStudentChecks();
   openModal('modal-task');
 }
 
@@ -1933,13 +1999,35 @@ function onModalProgramChange(){
   renderAttStudentList();
 }
 
-function populateTaskClassChecks(selectedIds=[]){
+function populateTaskClassChecks(selectedIds=[],programId=''){
   const wrap=document.getElementById('t-class-checks');if(!wrap)return;
-  if(allClasses.length===0){wrap.innerHTML='<span style="font-size:.78rem;color:var(--text-light)">No hay clases creadas aún</span>';return;}
-  wrap.innerHTML=allClasses.map(c=>`
-    <label style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;cursor:pointer;white-space:nowrap;padding:.3rem .6rem;border-radius:6px;border:1px solid var(--border);background:var(--white);user-select:none">
+  const list=programId?allClasses.filter(c=>c.program_id===programId):allClasses;
+  if(list.length===0){
+    wrap.innerHTML='<span style="font-size:.78rem;color:var(--text-light)">'+(programId?'No hay clases en este programa':'Elige un programa para filtrar las clases')+'</span>';
+    return;
+  }
+  wrap.innerHTML=list.map(c=>`
+    <label style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;cursor:pointer;white-space:nowrap;padding:.3rem .6rem;border-radius:6px;border:1px solid var(--border);background:var(--white);user-select:none" onclick="updateTaskStudentChecks()">
       <input type="checkbox" value="${c.id}" ${selectedIds.includes(c.id)?'checked':''} style="accent-color:var(--blue)">
       ${c.name}${c.schedule_day?' <span style="color:var(--text-light)">('+DAYS[c.schedule_day]+' '+c.schedule_time+')</span>':''}
+    </label>`).join('');
+}
+
+function updateTaskStudentChecks(){
+  const specific=document.querySelector('input[name="t-stu-mode"]:checked').value==='specific';
+  const wrap=document.getElementById('t-student-checks');
+  if(!specific){wrap.style.display='none';return;}
+  wrap.style.display='flex';
+  // Reunir estudiantes de las clases seleccionadas
+  const checkedClasses=[...document.querySelectorAll('#t-class-checks input:checked')].map(cb=>cb.value);
+  if(checkedClasses.length===0){wrap.innerHTML='<span style="font-size:.78rem;color:var(--text-light)">Selecciona al menos una clase primero</span>';return;}
+  const currentSelected=[...document.querySelectorAll('#t-student-checks input:checked')].map(cb=>cb.value);
+  const students=allStudents.filter(s=>s.class_ids&&s.class_ids.some(cid=>checkedClasses.includes(cid)));
+  if(students.length===0){wrap.innerHTML='<span style="font-size:.78rem;color:var(--text-light)">No hay estudiantes en estas clases</span>';return;}
+  wrap.innerHTML=students.map(s=>`
+    <label style="display:flex;align-items:center;gap:.4rem;font-size:.8rem;cursor:pointer;white-space:nowrap;padding:.3rem .6rem;border-radius:6px;border:1px solid var(--border);background:var(--white);user-select:none">
+      <input type="checkbox" value="${s.id}" ${currentSelected.includes(s.id)?'checked':''} style="accent-color:var(--blue)">
+      ${s.full_name}
     </label>`).join('');
 }
 

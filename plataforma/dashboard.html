@@ -1180,38 +1180,38 @@ async function loadClasses(){
     const myCls=classes.filter(c=>studentClassIds.includes(c.id));
     const dayOrder={monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6};
     myCls.sort((a,b)=>(dayOrder[a.schedule_day]||7)-(dayOrder[b.schedule_day]||7));
-    // Clases completadas — contar directamente desde attendance (fuente de verdad)
+    // Clases completadas — dos métodos en paralelo, tomar el mayor
     let clasesCompletadas=student.classes_attended||0;
-    try{
-      // Método principal: contar directamente los registros de attendance
-      const attSnap=await fdb.collection('attendance').where('student_id','==',student.id).get();
-      const seen=new Set();
-      let count=0;
-      attSnap.docs.forEach(d=>{
-        const dat=d.data();
-        const key=(dat.class_id||'')+'_'+(dat.date||'');
-        if(['P','T'].includes(dat.status)&&!seen.has(key)){seen.add(key);count++;}
-      });
-      clasesCompletadas=count;
-      console.log('[ATT] attendance docs=',attSnap.docs.length,'clases P/T=',count);
-    }catch(e){
-      console.warn('[ATT] No se pudo leer attendance:',e.message,
-        '— usando campo classes_attended del documento');
-      // Fallback: leer campo classes_attended del documento del estudiante
-      try{
+    const [attResult,docResult]=await Promise.allSettled([
+      // Método 1: contar directamente desde attendance
+      (async()=>{
+        const attSnap=await fdb.collection('attendance').where('student_id','==',student.id).get();
+        const seen=new Set();let count=0;
+        attSnap.docs.forEach(d=>{
+          const dat=d.data();
+          const key=(dat.class_id||'')+'_'+(dat.date||'');
+          if(['P','T'].includes(dat.status)&&!seen.has(key)){seen.add(key);count++;}
+        });
+        console.log('[ATT] attendance docs='+attSnap.docs.length+' clases='+count);
+        return count;
+      })(),
+      // Método 2: leer classes_attended del documento del estudiante (sin caché)
+      (async()=>{
         const stuDoc=await fdb.collection('students').doc(student.id).get({source:'server'});
-        if(stuDoc.exists){
-          const data=stuDoc.data();
-          clasesCompletadas=data.classes_attended||0;
-          const updated={...student,...data,id:student.id};
-          localStorage.setItem('currentStudent',JSON.stringify(updated));
-          student=updated;
-          console.log('[ATT] Fallback classes_attended=',clasesCompletadas);
-        }
-      }catch(e2){
-        console.warn('[ATT] Ambos métodos fallaron:',e2.message);
-      }
-    }
+        if(!stuDoc.exists) return 0;
+        const data=stuDoc.data();
+        const updated={...student,...data,id:student.id};
+        localStorage.setItem('currentStudent',JSON.stringify(updated));
+        student=updated;
+        const n=data.classes_attended||0;
+        console.log('[ATT] classes_attended en doc='+n);
+        return n;
+      })()
+    ]);
+    const attCount=attResult.status==='fulfilled'?attResult.value:0;
+    const docCount=docResult.status==='fulfilled'?docResult.value:0;
+    clasesCompletadas=Math.max(attCount,docCount);
+    console.log('[ATT] final: att='+attCount+' doc='+docCount+' → '+clasesCompletadas);
     const nc=document.getElementById('next-class-content');
     const stat=document.getElementById('hs-classes');
     stat.textContent=clasesCompletadas+' clase'+(clasesCompletadas!==1?'s':'');
@@ -1250,12 +1250,15 @@ async function loadTasks(){
     allTasks=[];
     taskSubmissions={};
     taskSnap.forEach(d=>allTasks.push({id:d.id,...d.data()}));
-    // Filtrar: mostrar solo tareas asignadas a las clases del estudiante
-    // Si la tarea no tiene class_ids (o está vacío) → es global → se muestra a todos
+    // Filtrar: mostrar solo tareas asignadas al estudiante (por clase o explícitamente)
     const studentClassIds=student.class_ids||[];
     allTasks=allTasks.filter(t=>{
-      if(!t.class_ids||t.class_ids.length===0) return true;
-      return t.class_ids.some(cid=>studentClassIds.includes(cid));
+      // Si hay student_ids específicos → solo esos estudiantes
+      if(t.student_ids&&t.student_ids.length>0) return t.student_ids.includes(student.id);
+      // Si hay class_ids → solo estudiantes en esas clases
+      if(t.class_ids&&t.class_ids.length>0) return t.class_ids.some(cid=>studentClassIds.includes(cid));
+      // Sin restricción → tarea global (todos la ven)
+      return true;
     });
     subSnap.docs.forEach(d=>{const dat=d.data();taskSubmissions[dat.task_id]={...dat,doc_id:d.id};});
     allTasks.forEach(t=>{t._done=!!(taskSubmissions[t.id]);});
