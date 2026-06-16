@@ -1180,19 +1180,37 @@ async function loadClasses(){
     const myCls=classes.filter(c=>studentClassIds.includes(c.id));
     const dayOrder={monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6};
     myCls.sort((a,b)=>(dayOrder[a.schedule_day]||7)-(dayOrder[b.schedule_day]||7));
-    // Clases completadas — leer desde el documento del estudiante (actualizado por el admin)
+    // Clases completadas — contar directamente desde attendance (fuente de verdad)
     let clasesCompletadas=student.classes_attended||0;
     try{
-      const stuDoc=await fdb.collection('students').doc(student.id).get();
-      if(stuDoc.exists){
-        clasesCompletadas=stuDoc.data().classes_attended||0;
-        // Actualizar localStorage con el dato más reciente
-        const updated={...student,...stuDoc.data(),id:student.id};
-        localStorage.setItem('currentStudent',JSON.stringify(updated));
-        student=updated;
+      // Método principal: contar directamente los registros de attendance
+      const attSnap=await fdb.collection('attendance').where('student_id','==',student.id).get();
+      const seen=new Set();
+      let count=0;
+      attSnap.docs.forEach(d=>{
+        const dat=d.data();
+        const key=(dat.class_id||'')+'_'+(dat.date||'');
+        if(['P','T'].includes(dat.status)&&!seen.has(key)){seen.add(key);count++;}
+      });
+      clasesCompletadas=count;
+      console.log('[ATT] attendance docs=',attSnap.docs.length,'clases P/T=',count);
+    }catch(e){
+      console.warn('[ATT] No se pudo leer attendance:',e.message,
+        '— usando campo classes_attended del documento');
+      // Fallback: leer campo classes_attended del documento del estudiante
+      try{
+        const stuDoc=await fdb.collection('students').doc(student.id).get({source:'server'});
+        if(stuDoc.exists){
+          const data=stuDoc.data();
+          clasesCompletadas=data.classes_attended||0;
+          const updated={...student,...data,id:student.id};
+          localStorage.setItem('currentStudent',JSON.stringify(updated));
+          student=updated;
+          console.log('[ATT] Fallback classes_attended=',clasesCompletadas);
+        }
+      }catch(e2){
+        console.warn('[ATT] Ambos métodos fallaron:',e2.message);
       }
-    }catch(_){
-      // Si falla la lectura, usamos el valor en localStorage
     }
     const nc=document.getElementById('next-class-content');
     const stat=document.getElementById('hs-classes');
@@ -1226,12 +1244,19 @@ let taskSubmissions={}; // keyed by task_id
 async function loadTasks(){
   try{
     const [taskSnap,subSnap]=await Promise.all([
-      fdb.collection('tasks').orderBy('created_at','desc').limit(50).get(),
+      fdb.collection('tasks').orderBy('created_at','desc').limit(100).get(),
       fdb.collection('task_submissions').where('student_id','==',student.id).get().catch(()=>({docs:[]}))
     ]);
     allTasks=[];
     taskSubmissions={};
     taskSnap.forEach(d=>allTasks.push({id:d.id,...d.data()}));
+    // Filtrar: mostrar solo tareas asignadas a las clases del estudiante
+    // Si la tarea no tiene class_ids (o está vacío) → es global → se muestra a todos
+    const studentClassIds=student.class_ids||[];
+    allTasks=allTasks.filter(t=>{
+      if(!t.class_ids||t.class_ids.length===0) return true;
+      return t.class_ids.some(cid=>studentClassIds.includes(cid));
+    });
     subSnap.docs.forEach(d=>{const dat=d.data();taskSubmissions[dat.task_id]={...dat,doc_id:d.id};});
     allTasks.forEach(t=>{t._done=!!(taskSubmissions[t.id]);});
     renderTasks();
