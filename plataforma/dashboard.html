@@ -1183,17 +1183,22 @@ async function loadClasses(){
     // Clases completadas = registros de asistencia P o T marcados por el docente
     let clasesCompletadas=0;
     try{
+      console.log('[RW-ATT] Buscando asistencia para student.id =', student.id);
       const attSnap=await fdb.collection('attendance').where('student_id','==',student.id).get();
-      // Deduplicar: un registro por (class_id + date) — toma el más reciente si hay duplicados
+      console.log('[RW-ATT] Registros encontrados:', attSnap.size);
+      if(attSnap.size>0) console.log('[RW-ATT] Primer registro:', attSnap.docs[0].data());
+      // Deduplicar: un registro por (class_id + date)
       const seen=new Set();
       attSnap.docs.forEach(d=>{
         const dat=d.data();
         const key=(dat.class_id||'')+'_'+(dat.date||'');
         if(['P','T'].includes(dat.status)&&!seen.has(key)){seen.add(key);clasesCompletadas++;}
       });
+      // Si hay registros pero todos son A/J, igual los reportamos
+      if(attSnap.size>0&&clasesCompletadas===0)
+        console.log('[RW-ATT] Hay registros pero ninguno con estado P o T. Estados encontrados:',attSnap.docs.map(d=>d.data().status));
     }catch(attErr){
-      console.warn('No se pudo leer asistencia:',attErr.code||attErr.message);
-      // Si falla por permisos, intenta con las clases del portafolio como respaldo
+      console.warn('[RW-ATT] Error al leer asistencia:',attErr.code||attErr.message);
       const portDone=Object.values(portCache||{}).filter(e=>e&&e.reto&&e.reto.trim().length>3).length;
       clasesCompletadas=portDone;
     }

@@ -2001,11 +2001,12 @@ async function saveAttendance(){
   if(keys.length===0){toast('Marca la asistencia de al menos un estudiante','error');return;}
   const adminName=localStorage.getItem('adminName')||'Admin';
   const batch=db.batch();
+  console.log('[RW-ATT] Guardando asistencia para student_ids:', keys, '| fecha:', date, '| clase:', classId);
   keys.forEach(studentId=>{
     // ID determinístico = sin duplicados si se guarda dos veces la misma fecha
     const docId='att_'+classId+'_'+date.replace(/-/g,'')+'_'+studentId;
     const ref=db.collection('attendance').doc(docId);
-    batch.set(ref,{class_id:classId,student_id:studentId,date,status:attSelections[studentId],note:obs||null,recorded_by:adminName,created_at:TS()},{merge:false});
+    batch.set(ref,{class_id:classId,student_id:studentId,date,status:attSelections[studentId],note:obs||null,recorded_by:adminName,created_at:TS()});
   });
   try{
     await batch.commit();
