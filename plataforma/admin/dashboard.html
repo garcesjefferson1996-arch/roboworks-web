@@ -2062,18 +2062,32 @@ async function loadLeccionario(){
   if(!classId){wrap.innerHTML='<div class="empty"><i class="fa-solid fa-clipboard"></i><p>Selecciona una clase</p></div>';return;}
   wrap.innerHTML='<div class="loader"><div class="spin"></div>Cargando leccionario...</div>';
   try{
-    const snap=await db.collection('attendance').where('class_id','==',classId).orderBy('date','asc').get().catch(()=>({docs:[]}));
-    const records=snap.docs.map(d=>({id:d.id,...d.data()}));
-    // Agrupar por fecha
-    const dateSet=new Set(records.map(r=>r.date));
+    // Recargar estudiantes de esta clase para tener datos de attendance_map actualizados
+    const stuSnap=await db.collection('students').get().catch(()=>({docs:[]}));
+    stuSnap.docs.forEach(d=>{
+      const idx=allStudents.findIndex(s=>s.id===d.id);
+      const fresh={id:d.id,...d.data()};
+      if(idx>=0)allStudents[idx]=fresh; else allStudents.push(fresh);
+    });
+    const enrolled=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(classId));
+    // Construir fechas y lookup desde attendance_map de cada estudiante
+    const dateSet=new Set();
+    const lookup={};  // {dateYYYY-MM-DD: {studentId: status}}
+    enrolled.forEach(s=>{
+      Object.entries(s.attendance_map||{}).forEach(([key,status])=>{
+        const parts=key.split('__');
+        if(parts.length<2||parts[0]!==classId) return;
+        const raw=parts[1]; // YYYYMMDD
+        const date=raw.slice(0,4)+'-'+raw.slice(4,6)+'-'+raw.slice(6,8);
+        dateSet.add(date);
+        if(!lookup[date])lookup[date]={};
+        lookup[date][s.id]=status;
+      });
+    });
     const dates=[...dateSet].sort();
     const cls=allClasses.find(c=>c.id===classId);
-    const enrolled=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(classId));
-    // Build lookup: date->studentId->status
-    const lookup={};
-    records.forEach(r=>{if(!lookup[r.date])lookup[r.date]={};lookup[r.date][r.student_id]=r.status;});
     renderLeccionario(enrolled,dates,lookup,cls);
-  }catch(e){wrap.innerHTML='<div class="empty"><p>Error al cargar. '+e.message+'</p></div>';}
+  }catch(e){wrap.innerHTML='<div class="empty"><p>Error al cargar: '+e.message+'</p></div>';}
 }
 
 function renderLeccionario(students,dates,lookup,cls){
@@ -2154,44 +2168,45 @@ function setAtt(studentId,status,btn){
 async function saveAttendance(){
   const classId=document.getElementById('att-m-class').value;
   const date=document.getElementById('att-m-date').value;
-  const obs=document.getElementById('att-m-obs').value;
+  const obs=document.getElementById('att-m-obs').value.trim();
   if(!classId||!date){toast('Selecciona clase y fecha','error');return;}
   const keys=Object.keys(attSelections);
   if(keys.length===0){toast('Marca la asistencia de al menos un estudiante','error');return;}
-  const adminName=localStorage.getItem('adminName')||'Admin';
-  const batch=db.batch();
-  console.log('[RW-ATT] Guardando asistencia para student_ids:', keys, '| fecha:', date, '| clase:', classId);
-  keys.forEach(studentId=>{
-    // ID determinístico = sin duplicados si se guarda dos veces la misma fecha
-    const docId='att_'+classId+'_'+date.replace(/-/g,'')+'_'+studentId;
-    const ref=db.collection('attendance').doc(docId);
-    batch.set(ref,{class_id:classId,student_id:studentId,date,status:attSelections[studentId],note:obs||null,recorded_by:adminName,created_at:TS()});
-  });
-  try{
-    await batch.commit();
-    toast(`Asistencia guardada para ${keys.length} estudiante(s)`);
+  // Clave determinística dentro del documento del estudiante
+  // Formato: classId__YYYYMMDD  →  re-guardar la misma fecha sobrescribe
+  const attKey=classId+'__'+date.replace(/-/g,'');
+  const saveBtn=document.querySelector('#modal-attendance .modal-foot .btn-primary');
+  if(saveBtn){saveBtn.disabled=true;saveBtn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';}
+  let saved=0,failed=[];
+  for(const studentId of keys){
+    try{
+      // Guardamos en el documento del estudiante (no en colección attendance)
+      // Esto funciona porque el admin ya puede escribir en 'students' (crea estudiantes)
+      const fields={};
+      fields[`attendance_map.${attKey}`]=attSelections[studentId];
+      if(obs) fields[`attendance_notes.${attKey}`]=obs;
+      await db.collection('students').doc(studentId).update(fields);
+      // Actualizar copia en memoria para que el leccionario se refresque sin recargar
+      const s=allStudents.find(x=>x.id===studentId);
+      if(s){
+        if(!s.attendance_map)s.attendance_map={};
+        s.attendance_map[attKey]=attSelections[studentId];
+      }
+      saved++;
+    }catch(err){
+      console.error('[ATT] FALLÓ para',studentId,err.code,err.message);
+      failed.push(studentId);
+    }
+  }
+  if(saveBtn){saveBtn.disabled=false;saveBtn.innerHTML='<i class="fa-solid fa-floppy-disk"></i>Guardar asistencia';}
+  if(saved>0){
+    toast('Asistencia guardada para '+saved+' estudiante'+(saved!==1?'s':'')+(failed.length?' ('+failed.length+' error/es — ver consola)':''));
     closeModal('modal-attendance');
     Object.keys(attSelections).forEach(k=>delete attSelections[k]);
-    if(document.getElementById('att-class-sel').value===classId) loadLeccionario();
-    // Actualizar classes_attended en el documento de cada estudiante
-    for(const studentId of keys){
-      try{
-        const countSnap=await db.collection('attendance').where('student_id','==',studentId).get();
-        const seen=new Set();
-        let count=0;
-        countSnap.docs.forEach(d=>{
-          const dat=d.data();
-          const key=(dat.class_id||'')+'_'+(dat.date||'');
-          if(['P','T'].includes(dat.status)&&!seen.has(key)){seen.add(key);count++;}
-        });
-        console.log('[ATT] Actualizando classes_attended para',studentId,'→',count);
-        await db.collection('students').doc(studentId).set({classes_attended:count},{merge:true});
-        console.log('[ATT] ✅ OK');
-      }catch(err){
-        console.error('[ATT] ❌ Error actualizando classes_attended para',studentId,':',err.message);
-      }
-    }
-  }catch(e){toast('Error al guardar: '+e.message,'error');}
+    loadLeccionario();
+  }else{
+    toast('No se guardó ninguna asistencia. Abre la consola (F12) para ver el error.','error');
+  }
 }
 
 function printAttendance(){

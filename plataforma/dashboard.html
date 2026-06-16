@@ -328,6 +328,9 @@ const fdb=firebase.firestore();
     <button class="nav-item" onclick="showTab('materiales',this)">
       <i class="fas fa-folder-open"></i> Materiales
     </button>
+    <button class="nav-item" onclick="showTab('asistencias',this)">
+      <i class="fas fa-clipboard-check"></i> Asistencias
+    </button>
     <button class="nav-item" onclick="showTab('tareas',this)">
       <i class="fas fa-list-check"></i> Tareas
       <span id="task-badge-sidebar" style="margin-left:auto;background:var(--orange);color:#fff;padding:.15rem .45rem;border-radius:50px;font-size:.65rem;display:none"></span>
@@ -512,6 +515,34 @@ const fdb=firebase.firestore();
     <!-- ═══════════════════════════════════════════════
          TAB: TAREAS
     ═══════════════════════════════════════════════ -->
+    <!-- ══ ASISTENCIAS ══════════════════════════════════════ -->
+    <div class="tab-panel" id="tab-asistencias">
+      <!-- Stats rápidos -->
+      <div class="grid-3" style="margin-bottom:1.25rem">
+        <div class="card stat-card">
+          <div class="stat-value" id="att-stat-total">—</div>
+          <div class="stat-label">Sesiones totales</div>
+        </div>
+        <div class="card stat-card" style="--stat-color:var(--green)">
+          <div class="stat-value" style="color:var(--green)" id="att-stat-present">—</div>
+          <div class="stat-label">Asistencias (P + T)</div>
+        </div>
+        <div class="card stat-card" style="--stat-color:var(--orange)">
+          <div class="stat-value" style="color:var(--orange)" id="att-stat-pct">—</div>
+          <div class="stat-label">Porcentaje de asistencia</div>
+        </div>
+      </div>
+      <!-- Historial -->
+      <div class="card">
+        <div class="section-title" style="margin-bottom:1rem">
+          <i class="fas fa-calendar-days" style="color:var(--cyan)"></i> Historial de sesiones
+        </div>
+        <div id="att-history-list">
+          <div class="loader"><div class="spin"></div> Cargando asistencias...</div>
+        </div>
+      </div>
+    </div>
+
     <div class="tab-panel" id="tab-tareas">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
         <h2 style="font-size:1.1rem;font-weight:700">Mis Tareas</h2>
@@ -535,6 +566,7 @@ const fdb=firebase.firestore();
   <button class="mob-nav-btn" onclick="showTab('camino',this,true)"><i class="fas fa-route"></i>Camino</button>
   <button class="mob-nav-btn" onclick="showTab('portfolio',this,true)"><i class="fas fa-layer-group"></i>Portfolio</button>
   <button class="mob-nav-btn" onclick="showTab('materiales',this,true)"><i class="fas fa-folder-open"></i>Materiales</button>
+  <button class="mob-nav-btn" onclick="showTab('asistencias',this,true)"><i class="fas fa-clipboard-check"></i>Asist.</button>
   <button class="mob-nav-btn" onclick="showTab('tareas',this,true)"><i class="fas fa-list-check"></i>Tareas</button>
 </nav>
 
@@ -1044,6 +1076,7 @@ let LEVELS=CURRICULUM_ROBOWORKS; // will be overridden based on program curricul
 
 // ─── STATE ───────────────────────────────────────────────────
 let student=null;
+let myClasses=[];
 let currentProgram=null;
 let allTasks=[];
 let allMaterials=[];
@@ -1178,40 +1211,26 @@ async function loadClasses(){
     clSnap.forEach(d=>classes.push({id:d.id,...d.data()}));
     const studentClassIds=student.class_ids||[];
     const myCls=classes.filter(c=>studentClassIds.includes(c.id));
+    myClasses=classes; // guardar para loadAttendance
     const dayOrder={monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6};
     myCls.sort((a,b)=>(dayOrder[a.schedule_day]||7)-(dayOrder[b.schedule_day]||7));
-    // Clases completadas — dos métodos en paralelo, tomar el mayor
-    let clasesCompletadas=student.classes_attended||0;
-    const [attResult,docResult]=await Promise.allSettled([
-      // Método 1: contar directamente desde attendance
-      (async()=>{
-        const attSnap=await fdb.collection('attendance').where('student_id','==',student.id).get();
-        const seen=new Set();let count=0;
-        attSnap.docs.forEach(d=>{
-          const dat=d.data();
-          const key=(dat.class_id||'')+'_'+(dat.date||'');
-          if(['P','T'].includes(dat.status)&&!seen.has(key)){seen.add(key);count++;}
-        });
-        console.log('[ATT] attendance docs='+attSnap.docs.length+' clases='+count);
-        return count;
-      })(),
-      // Método 2: leer classes_attended del documento del estudiante (sin caché)
-      (async()=>{
-        const stuDoc=await fdb.collection('students').doc(student.id).get({source:'server'});
-        if(!stuDoc.exists) return 0;
+    // Leer documento del estudiante (sin caché) para obtener attendance_map actualizado
+    let clasesCompletadas=0;
+    try{
+      const stuDoc=await fdb.collection('students').doc(student.id).get({source:'server'});
+      if(stuDoc.exists){
         const data=stuDoc.data();
         const updated={...student,...data,id:student.id};
         localStorage.setItem('currentStudent',JSON.stringify(updated));
         student=updated;
-        const n=data.classes_attended||0;
-        console.log('[ATT] classes_attended en doc='+n);
-        return n;
-      })()
-    ]);
-    const attCount=attResult.status==='fulfilled'?attResult.value:0;
-    const docCount=docResult.status==='fulfilled'?docResult.value:0;
-    clasesCompletadas=Math.max(attCount,docCount);
-    console.log('[ATT] final: att='+attCount+' doc='+docCount+' → '+clasesCompletadas);
+      }
+    }catch(_){}
+    // Contar sesiones P+T desde attendance_map del documento
+    const attMap=student.attendance_map||{};
+    Object.entries(attMap).forEach(([key,status])=>{
+      const classId=key.split('__')[0];
+      if(studentClassIds.includes(classId)&&['P','T'].includes(status)) clasesCompletadas++;
+    });
     const nc=document.getElementById('next-class-content');
     const stat=document.getElementById('hs-classes');
     stat.textContent=clasesCompletadas+' clase'+(clasesCompletadas!==1?'s':'');
@@ -1236,6 +1255,63 @@ async function loadClasses(){
   }catch(e){
     document.getElementById('next-class-content').innerHTML='<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>Error al cargar</p></div>';
   }
+}
+
+// ─── ASISTENCIAS ─────────────────────────────────────────────
+function loadAttendance(){
+  const attMap=student.attendance_map||{};
+  const studentClassIds=student.class_ids||[];
+  // Construir registros solo para las clases del estudiante
+  const records=[];
+  Object.entries(attMap).forEach(([key,status])=>{
+    const parts=key.split('__');
+    if(parts.length<2) return;
+    const classId=parts[0];
+    const raw=parts[1]; // YYYYMMDD
+    if(!studentClassIds.includes(classId)) return;
+    const dateStr=raw.slice(0,4)+'-'+raw.slice(4,6)+'-'+raw.slice(6,8);
+    const cls=myClasses.find(c=>c.id===classId);
+    records.push({classId,date:dateStr,status,className:cls?cls.name:'Clase'});
+  });
+  records.sort((a,b)=>b.date.localeCompare(a.date)); // más reciente primero
+  // Stats
+  const total=records.length;
+  const present=records.filter(r=>['P','T'].includes(r.status)).length;
+  const pct=total>0?Math.round(present/total*100):0;
+  document.getElementById('att-stat-total').textContent=total;
+  document.getElementById('att-stat-present').textContent=present;
+  document.getElementById('att-stat-pct').textContent=total>0?pct+'%':'—';
+  // Actualizar también el contador en la pantalla de inicio
+  document.getElementById('stat-classes').textContent=present;
+  document.getElementById('hs-classes').textContent=present+' clase'+(present!==1?'s':'');
+  // Historial
+  const wrap=document.getElementById('att-history-list');
+  const STATUS_LABEL={P:'Presente',A:'Ausente',T:'Tarde',J:'Justificado'};
+  const STATUS_COLOR={P:'var(--green)',A:'var(--red)',T:'var(--gold)',J:'var(--cyan)'};
+  const STATUS_ICON={P:'fa-circle-check',A:'fa-circle-xmark',T:'fa-clock',J:'fa-file-circle-check'};
+  if(records.length===0){
+    wrap.innerHTML='<div class="empty-state"><i class="fas fa-calendar-xmark" style="font-size:2rem;color:var(--muted);opacity:.4;margin-bottom:.75rem"></i><p style="color:var(--muted)">Aún no hay asistencias registradas</p></div>';
+    return;
+  }
+  wrap.innerHTML=records.map(r=>{
+    const d=new Date(r.date+'T12:00');
+    const fechaStr=d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    const color=STATUS_COLOR[r.status]||'var(--muted)';
+    const icon=STATUS_ICON[r.status]||'fa-circle';
+    const label=STATUS_LABEL[r.status]||r.status;
+    return `<div style="display:flex;align-items:center;gap:1rem;padding:.875rem 0;border-bottom:1px solid var(--border)">
+      <div style="width:40px;height:40px;border-radius:12px;background:${color}1a;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i class="fas ${icon}" style="color:${color};font-size:1.1rem"></i>
+      </div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:.88rem;color:var(--text);text-transform:capitalize">${fechaStr}</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:.1rem">${r.className}</div>
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:50px;background:${color}1a;color:${color};font-size:.78rem;font-weight:700">
+        ${r.status} — ${label}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ─── TASKS ───────────────────────────────────────────────────
@@ -1736,17 +1812,16 @@ function removeLink(lvl,cls,idx){
 }
 
 // ─── TAB NAVIGATION ──────────────────────────────────────────
-const tabTitles={inicio:'Inicio',camino:'Mi Camino',portfolio:'Portafolio',materiales:'Materiales',tareas:'Tareas',robomision:'RoboMisión'};
+const tabTitles={inicio:'Inicio',camino:'Mi Camino',portfolio:'Portafolio',materiales:'Materiales',asistencias:'Asistencias',tareas:'Tareas',robomision:'RoboMisión'};
 function showTab(id,btn,isMobile=false){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   document.getElementById('topbar-title').textContent=tabTitles[id]||'';
-  // Sidebar
   document.querySelectorAll('.sidebar .nav-item').forEach(b=>b.classList.remove('active'));
-  // Mobile
   document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
   if(isMobile&&btn) btn.classList.add('active');
   else if(!isMobile&&btn) btn.classList.add('active');
+  if(id==='asistencias') loadAttendance();
 }
 
 // ─── HELPERS ─────────────────────────────────────────────────
