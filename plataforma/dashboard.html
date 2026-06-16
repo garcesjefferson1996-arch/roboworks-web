@@ -228,12 +228,12 @@ textarea.port-input:focus{border-color:var(--cyan);background:var(--cyan-light)}
 .empty-state p{font-size:.875rem}
 
 /* ── TASKS ── */
-.task-card{border:1.5px solid var(--border);border-radius:18px;padding:1.25rem;margin-bottom:.875rem;display:flex;gap:1rem;align-items:flex-start;transition:.2s;background:#fff}
+.task-card{border:1.5px solid var(--border);border-radius:18px;margin-bottom:.875rem;transition:.2s;background:#fff;overflow:hidden}
 .task-card:hover{border-color:rgba(0,168,232,.25);box-shadow:0 4px 14px var(--cyan-glow)}
-.task-card.done{background:var(--bg);opacity:.7}
+.task-card.done{background:var(--bg)}
 .task-card.done .task-title{text-decoration:line-through;color:var(--muted)}
-.task-check{width:26px;height:26px;border-radius:8px;border:2.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;margin-top:.1rem;transition:.15s}
-.task-check:hover{border-color:var(--cyan);background:var(--cyan-light)}
+.task-card-top{display:flex;gap:1rem;align-items:flex-start;padding:1.25rem;cursor:pointer}
+.task-check{width:26px;height:26px;border-radius:8px;border:2.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:default;margin-top:.1rem;transition:.15s}
 .task-check.checked{background:var(--green);border-color:var(--green);color:#fff}
 .task-check i{font-size:.7rem;display:none}
 .task-check.checked i{display:block}
@@ -248,6 +248,17 @@ textarea.port-input:focus{border-color:var(--cyan);background:var(--cyan-light)}
 .task-badge{font-size:.72rem;font-weight:800;padding:.25rem .625rem;border-radius:50px;font-family:'Nunito',sans-serif}
 .badge-pending{background:var(--gold-light);color:#92400e}
 .badge-done{background:var(--green-light);color:var(--green)}
+.task-chevron{color:var(--muted);font-size:.75rem;flex-shrink:0;transition:transform .2s;margin-top:.3rem}
+.task-chevron.open{transform:rotate(180deg)}
+/* ── TASK SUBMISSION AREA ── */
+.task-submit-area{display:none;border-top:1px solid var(--border);padding:1rem 1.25rem 1.25rem}
+.task-submit-area.open{display:block}
+.task-submitted-box{background:var(--green-light);border:1.5px solid var(--green);border-radius:14px;padding:.875rem 1rem;margin-bottom:.75rem}
+.task-submitted-label{font-size:.7rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:.7px;margin-bottom:.4rem;display:flex;align-items:center;gap:.35rem;font-family:'Nunito',sans-serif}
+.task-submitted-text{font-size:.85rem;color:var(--text);line-height:1.6}
+.task-submit-btn{background:linear-gradient(135deg,var(--cyan),var(--cyan-dark));color:#fff;border:none;padding:.6rem 1.5rem;border-radius:50px;font-size:.84rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;display:inline-flex;align-items:center;gap:.4rem;transition:.15s;box-shadow:0 4px 14px var(--cyan-glow)}
+.task-submit-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--cyan-glow)}
+.task-field-label{font-size:.75rem;font-weight:700;color:var(--cyan-dark);margin-bottom:.4rem;display:flex;align-items:center;gap:.4rem;font-family:'Nunito',sans-serif}
 
 /* ── MOBILE NAV ── */
 .mobile-nav{display:none}
@@ -1170,8 +1181,22 @@ async function loadClasses(){
     const dayOrder={monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6};
     myCls.sort((a,b)=>(dayOrder[a.schedule_day]||7)-(dayOrder[b.schedule_day]||7));
     // Clases completadas = registros de asistencia P o T marcados por el docente
-    const attSnap=await fdb.collection('attendance').where('student_id','==',student.id).get().catch(()=>({docs:[]}));
-    const clasesCompletadas=attSnap.docs.filter(d=>['P','T'].includes(d.data().status)).length;
+    let clasesCompletadas=0;
+    try{
+      const attSnap=await fdb.collection('attendance').where('student_id','==',student.id).get();
+      // Deduplicar: un registro por (class_id + date) — toma el más reciente si hay duplicados
+      const seen=new Set();
+      attSnap.docs.forEach(d=>{
+        const dat=d.data();
+        const key=(dat.class_id||'')+'_'+(dat.date||'');
+        if(['P','T'].includes(dat.status)&&!seen.has(key)){seen.add(key);clasesCompletadas++;}
+      });
+    }catch(attErr){
+      console.warn('No se pudo leer asistencia:',attErr.code||attErr.message);
+      // Si falla por permisos, intenta con las clases del portafolio como respaldo
+      const portDone=Object.values(portCache||{}).filter(e=>e&&e.reto&&e.reto.trim().length>3).length;
+      clasesCompletadas=portDone;
+    }
     const nc=document.getElementById('next-class-content');
     const stat=document.getElementById('hs-classes');
     stat.textContent=clasesCompletadas+' clase'+(clasesCompletadas!==1?'s':'');
@@ -1199,13 +1224,19 @@ async function loadClasses(){
 }
 
 // ─── TASKS ───────────────────────────────────────────────────
+let taskSubmissions={}; // keyed by task_id
+
 async function loadTasks(){
   try{
-    const snap=await fdb.collection('tasks').orderBy('created_at','desc').limit(50).get();
+    const [taskSnap,subSnap]=await Promise.all([
+      fdb.collection('tasks').orderBy('created_at','desc').limit(50).get(),
+      fdb.collection('task_submissions').where('student_id','==',student.id).get().catch(()=>({docs:[]}))
+    ]);
     allTasks=[];
-    snap.forEach(d=>allTasks.push({id:d.id,...d.data()}));
-    const done=JSON.parse(localStorage.getItem('rw_tasks_done_'+student.id)||'{}');
-    allTasks.forEach(t=>t._done=!!done[t.id]);
+    taskSubmissions={};
+    taskSnap.forEach(d=>allTasks.push({id:d.id,...d.data()}));
+    subSnap.docs.forEach(d=>{const dat=d.data();taskSubmissions[dat.task_id]={...dat,doc_id:d.id};});
+    allTasks.forEach(t=>{t._done=!!(taskSubmissions[t.id]);});
     renderTasks();
     renderTasksPreview();
     updateTaskBadge();
@@ -1241,30 +1272,81 @@ function renderTasks(){
   el.innerHTML=list.map(t=>{
     const due=t.due_date?(t.due_date.toDate?t.due_date.toDate():new Date(t.due_date)):null;
     const overdue=due&&!t._done&&due<new Date();
+    const sub=taskSubmissions[t.id];
+    const submitBody=sub
+      ? `<div class="task-submitted-box">
+           <div class="task-submitted-label"><i class="fas fa-check-circle"></i> Entregada</div>
+           ${sub.response?`<div class="task-submitted-text">${sub.response}</div>`:''}
+           ${sub.link_url?`<a href="${sub.link_url}" target="_blank" class="task-file" style="margin-top:.5rem;display:inline-flex"><i class="fas fa-arrow-up-right-from-square"></i> Ver proyecto</a>`:''}
+         </div>
+         <p style="font-size:.76rem;color:var(--muted);font-style:italic">Entregado el ${sub.submitted_at?(sub.submitted_at.toDate?fmtDate(sub.submitted_at.toDate()):fmtDate(new Date(sub.submitted_at))):''}</p>`
+      : `<div class="field-group" style="margin-bottom:.75rem">
+           <div class="task-field-label"><i class="fas fa-pencil"></i> Tu respuesta / entrega</div>
+           <textarea id="task-resp-${t.id}" class="port-input" rows="3" placeholder="Describe qué hiciste, pega tu código, responde las preguntas..."></textarea>
+         </div>
+         <div class="field-group" style="margin-bottom:1rem">
+           <div class="task-field-label"><i class="fas fa-link"></i> Link de tu proyecto (opcional)</div>
+           <input type="url" id="task-link-${t.id}" class="port-input" style="padding:.6rem .75rem;width:100%" placeholder="https://replit.com/..., https://drive.google.com/...">
+         </div>
+         <button class="task-submit-btn" onclick="submitTask('${t.id}')"><i class="fas fa-paper-plane"></i> Entregar tarea</button>`;
     return `<div class="task-card${t._done?' done':''}" id="task-card-${t.id}">
-      <div class="task-check${t._done?' checked':''}" onclick="toggleTask('${t.id}')"><i class="fas fa-check"></i></div>
-      <div class="task-body">
-        <div class="task-title">${t.title}</div>
-        ${t.description?`<div class="task-desc">${t.description}</div>`:''}
-        <div class="task-footer">
-          ${due?`<span class="task-due${overdue?' overdue':''}"><i class="fas fa-calendar"></i> ${fmtDate(due)}</span>`:''}
-          ${t.file_url?`<a href="${t.file_url}" target="_blank" class="task-file"><i class="fas fa-paperclip"></i> Ver archivo</a>`:''}
-          <span class="task-badge ${t._done?'badge-done':'badge-pending'}">${t._done?'Completada':'Pendiente'}</span>
+      <div class="task-card-top" onclick="toggleTaskExpand('${t.id}')">
+        <div class="task-check${t._done?' checked':''}"><i class="fas fa-check"></i></div>
+        <div class="task-body">
+          <div class="task-title">${t.title}</div>
+          ${t.description?`<div class="task-desc">${t.description}</div>`:''}
+          <div class="task-footer">
+            ${due?`<span class="task-due${overdue?' overdue':''}"><i class="fas fa-calendar"></i> ${fmtDate(due)}</span>`:''}
+            ${t.file_url?`<a href="${t.file_url}" target="_blank" class="task-file" onclick="event.stopPropagation()"><i class="fas fa-paperclip"></i> Ver archivo</a>`:''}
+            <span class="task-badge ${t._done?'badge-done':'badge-pending'}">${t._done?'Entregada':'Pendiente'}</span>
+          </div>
         </div>
+        <i class="fas fa-chevron-down task-chevron" id="task-chev-${t.id}"></i>
+      </div>
+      <div class="task-submit-area" id="task-body-${t.id}">
+        ${submitBody}
       </div>
     </div>`;
   }).join('');
 }
 
-function toggleTask(taskId){
-  const task=allTasks.find(t=>t.id===taskId);
-  if(!task) return;
-  task._done=!task._done;
-  const done=JSON.parse(localStorage.getItem('rw_tasks_done_'+student.id)||'{}');
-  if(task._done) done[taskId]=true; else delete done[taskId];
-  localStorage.setItem('rw_tasks_done_'+student.id,JSON.stringify(done));
-  renderTasks();
-  updateTaskBadge();
+function toggleTaskExpand(taskId){
+  const body=document.getElementById('task-body-'+taskId);
+  const chev=document.getElementById('task-chev-'+taskId);
+  if(!body) return;
+  body.classList.toggle('open');
+  if(chev) chev.classList.toggle('open');
+}
+
+async function submitTask(taskId){
+  const respEl=document.getElementById('task-resp-'+taskId);
+  const linkEl=document.getElementById('task-link-'+taskId);
+  const response=(respEl?.value||'').trim();
+  const link_url=(linkEl?.value||'').trim();
+  if(!response&&!link_url){alert('Por favor escribe tu respuesta o pega el link de tu proyecto antes de entregar.');return;}
+  const btn=document.querySelector(`#task-body-${taskId} .task-submit-btn`);
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Enviando...';}
+  try{
+    const sub={student_id:student.id,task_id:taskId,response,link_url,submitted_at:firebase.firestore.FieldValue.serverTimestamp()};
+    const docId='tsub_'+student.id+'_'+taskId;
+    await fdb.collection('task_submissions').doc(docId).set(sub);
+    taskSubmissions[taskId]={...sub,doc_id:docId,submitted_at:new Date()};
+    const task=allTasks.find(t=>t.id===taskId);
+    if(task) task._done=true;
+    renderTasks();
+    renderTasksPreview();
+    updateTaskBadge();
+    // Re-open the expanded area to show the submitted box
+    setTimeout(()=>{
+      const b=document.getElementById('task-body-'+taskId);
+      const c=document.getElementById('task-chev-'+taskId);
+      if(b){b.classList.add('open');}
+      if(c){c.classList.add('open');}
+    },50);
+  }catch(e){
+    alert('Error al guardar la entrega. Revisa tu conexión e intenta de nuevo.');
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane"></i> Entregar tarea';}
+  }
 }
 
 function updateTaskBadge(){
@@ -1272,6 +1354,12 @@ function updateTaskBadge(){
   const b=document.getElementById('task-badge-sidebar');
   if(pending>0){b.textContent=pending;b.style.display='inline';}
   else b.style.display='none';
+  // Hero stat
+  const hsStat=document.getElementById('hs-classes');
+  if(hsStat){
+    const done=allTasks.filter(t=>t._done).length;
+    // keep existing content (clases completadas), don't overwrite
+  }
 }
 
 function filterTasks(f,btn){

@@ -479,7 +479,7 @@ const db=firebase.firestore();
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Tarea</th><th>Nivel</th><th>Fecha de entrega</th><th>Recurso</th><th>Creada</th><th>Acciones</th></tr></thead>
+            <thead><tr><th>Tarea</th><th>Nivel</th><th>Fecha de entrega</th><th>Recurso</th><th>Entregas</th><th>Creada</th><th>Acciones</th></tr></thead>
             <tbody id="tasks-tbody"><tr><td colspan="6"><div class="loader"><div class="spin"></div>Cargando tareas...</div></td></tr></tbody>
           </table>
         </div>
@@ -1229,7 +1229,12 @@ async function goTab(id,btn){
   if(id==='tareas') loadTasks();
   if(id==='recursos') loadResources();
   if(id==='niveles') loadLevels();
-  if(id==='asistencia'){fillClassSelects();initAttDate();}
+  if(id==='asistencia'){
+    // Asegura que allStudents y allClasses estén cargados antes de llenar los selects
+    if(allStudents.length===0||allClasses.length===0) await loadOverview();
+    fillClassSelects();
+    initAttDate();
+  }
   if(id==='pagos') loadPayments();
   if(id==='calificaciones'){if(allStudents.length===0){await loadStudents();}loadCalificacionesIfNeeded();}
 
@@ -1646,22 +1651,61 @@ async function deleteClass(id){
 }
 
 // ─── TASKS ───────────────────────────────────────────────────
+let allTaskSubmissions=[];
 async function loadTasks(){
-  const snap=await db.collection('tasks').orderBy('created_at','desc').get().catch(()=>({docs:[]}));
-  allTasks=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const [taskSnap,subSnap]=await Promise.all([
+    db.collection('tasks').orderBy('created_at','desc').get().catch(()=>({docs:[]})),
+    db.collection('task_submissions').get().catch(()=>({docs:[]}))
+  ]);
+  allTasks=taskSnap.docs.map(d=>({id:d.id,...d.data()}));
+  allTaskSubmissions=subSnap.docs.map(d=>({id:d.id,...d.data()}));
   const tbody=document.getElementById('tasks-tbody');
-  if(allTasks.length===0){tbody.innerHTML='<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-list-check"></i><p>No hay tareas publicadas</p></div></td></tr>';return;}
-  tbody.innerHTML=allTasks.map(t=>`<tr>
+  if(allTasks.length===0){tbody.innerHTML='<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-list-check"></i><p>No hay tareas publicadas</p></div></td></tr>';return;}
+  tbody.innerHTML=allTasks.map(t=>{
+    const subCount=allTaskSubmissions.filter(s=>s.task_id===t.id).length;
+    return `<tr>
     <td><div style="font-weight:600;margin-bottom:.2rem">${t.title}</div><div style="font-size:.75rem;color:var(--text-light)">${t.description||''}</div></td>
     <td>${t.level?`<span class="badge ${LV_CLASS[t.level]||'badge-gray'}">${t.level}</span>`:'<span class="badge badge-gray">Todos</span>'}</td>
     <td>${fmtDue(t.due_date)}</td>
     <td>${t.file_url?`<a href="${t.file_url}" target="_blank" class="btn btn-ghost btn-sm"><i class="fa-solid fa-link"></i>Ver</a>`:'—'}</td>
+    <td>
+      <button class="btn btn-${subCount>0?'green':'ghost'} btn-sm" onclick="viewSubmissions('${t.id}')">
+        <i class="fa-solid fa-inbox"></i> ${subCount} entrega${subCount!==1?'s':''}
+      </button>
+    </td>
     <td style="font-size:.75rem;color:var(--text-light)">${fmtDate(t.created_at)}</td>
     <td><div class="td-actions">
       <button class="btn btn-ghost btn-sm btn-icon" onclick="editTask('${t.id}')"><i class="fa-solid fa-pen"></i></button>
       <button class="btn btn-danger btn-sm btn-icon" onclick="deleteTask('${t.id}')"><i class="fa-solid fa-trash"></i></button>
     </div></td>
-  </tr>`).join('');
+  </tr>`;}).join('');
+}
+
+async function viewSubmissions(taskId){
+  const task=allTasks.find(t=>t.id===taskId);
+  const subs=allTaskSubmissions.filter(s=>s.task_id===taskId);
+  const modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
+  const studentMap={};
+  allStudents.forEach(s=>{studentMap[s.id]=s.full_name||s.name||s.id;});
+  const rows=subs.length===0
+    ? '<div style="text-align:center;padding:2rem;color:#64748b">No hay entregas aún</div>'
+    : subs.map(s=>`
+      <div style="border:1px solid #e2e8f0;border-radius:10px;padding:.875rem 1rem;margin-bottom:.75rem">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:.3rem">${studentMap[s.student_id]||s.student_id}</div>
+        ${s.response?`<div style="font-size:.82rem;color:#334155;background:#f8fafc;border-radius:8px;padding:.6rem .75rem;margin-bottom:.4rem;white-space:pre-wrap">${s.response}</div>`:''}
+        ${s.link_url?`<a href="${s.link_url}" target="_blank" style="font-size:.78rem;color:#2563eb;font-weight:600;display:inline-flex;align-items:center;gap:.3rem"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver proyecto</a>`:''}
+        <div style="font-size:.72rem;color:#94a3b8;margin-top:.4rem">${s.submitted_at?(s.submitted_at.toDate?fmtDate(s.submitted_at.toDate()):fmtDate(new Date(s.submitted_at))):'Sin fecha'}</div>
+      </div>`).join('');
+  modal.innerHTML=`<div style="background:#fff;border-radius:16px;width:100%;max-width:560px;max-height:85vh;display:flex;flex-direction:column;overflow:hidden">
+    <div style="padding:1rem 1.25rem;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-weight:700;font-size:.95rem">Entregas — ${task?task.title:'Tarea'}</div>
+      <button onclick="this.closest('[style]').remove()" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:#64748b">✕</button>
+    </div>
+    <div style="padding:1rem 1.25rem;overflow-y:auto">${rows}</div>
+  </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
 }
 
 async function saveTask(e){
@@ -1902,7 +1946,8 @@ function renderLeccionario(students,dates,lookup,cls){
   wrap.innerHTML=html;
 }
 
-function openAttModal(){
+async function openAttModal(){
+  if(allStudents.length===0||allClasses.length===0) await loadOverview();
   fillClassSelects();
   // Pre-select if class already chosen
   const sel=document.getElementById('att-class-sel').value;
@@ -1919,7 +1964,10 @@ function renderAttStudentList(){
   const list=document.getElementById('att-student-list');
   if(!classId){list.innerHTML='<div class="empty"><i class="fa-solid fa-users"></i><p>Selecciona una clase</p></div>';return;}
   const enrolled=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(classId));
-  if(enrolled.length===0){list.innerHTML='<div class="empty"><p>No hay estudiantes inscritos</p></div>';return;}
+  if(enrolled.length===0){
+    list.innerHTML='<div class="empty"><i class="fa-solid fa-circle-info" style="color:var(--gold)"></i><p>No hay estudiantes asignados a esta clase.</p><p style="font-size:.75rem;color:var(--text-light);margin-top:.35rem">Ve a <strong>Estudiantes → Editar</strong> y asigna la clase a cada estudiante.</p></div>';
+    return;
+  }
   list.innerHTML=enrolled.map(s=>`
     <div class="att-row">
       <div class="avatar">${initials(s.full_name)}</div>
@@ -1954,17 +2002,18 @@ async function saveAttendance(){
   const adminName=localStorage.getItem('adminName')||'Admin';
   const batch=db.batch();
   keys.forEach(studentId=>{
-    const ref=db.collection('attendance').doc();
-    batch.set(ref,{class_id:classId,student_id:studentId,date,status:attSelections[studentId],note:obs||null,recorded_by:adminName,created_at:TS()});
+    // ID determinístico = sin duplicados si se guarda dos veces la misma fecha
+    const docId='att_'+classId+'_'+date.replace(/-/g,'')+'_'+studentId;
+    const ref=db.collection('attendance').doc(docId);
+    batch.set(ref,{class_id:classId,student_id:studentId,date,status:attSelections[studentId],note:obs||null,recorded_by:adminName,created_at:TS()},{merge:false});
   });
   try{
     await batch.commit();
     toast(`Asistencia guardada para ${keys.length} estudiante(s)`);
     closeModal('modal-attendance');
     Object.keys(attSelections).forEach(k=>delete attSelections[k]);
-    // If leccionario is showing same class, reload
     if(document.getElementById('att-class-sel').value===classId) loadLeccionario();
-  }catch(e){toast('Error: '+e.message,'error');}
+  }catch(e){toast('Error al guardar: '+e.message+'. Verifica las reglas de Firestore.','error');}
 }
 
 function printAttendance(){
