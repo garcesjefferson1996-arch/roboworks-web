@@ -114,29 +114,40 @@ body{background:#08051a;min-height:100vh;color:#e2e8f0}
   border-radius:22px;padding:0;cursor:pointer;
   transition:.32s cubic-bezier(.34,1.2,.64,1);
   overflow:hidden;position:relative;
-  border:2.5px solid rgba(var(--dr),.35);
-  background:radial-gradient(ellipse at 50% 85%,rgba(var(--dr),.35) 0%,rgba(var(--dr),.08) 70%,rgba(8,5,26,.9) 100%);
+  border:2.5px solid rgba(var(--dr),.5);
+  /* fondo sólido del color del deck */
+  background:rgba(var(--dr),1);
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
-.deck-btn::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(var(--dr),.2),transparent 70%);opacity:0;transition:.3s}
-.deck-btn::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(var(--dr),.95),transparent);opacity:.6;transition:.3s}
-.deck-btn:hover{transform:translateY(-8px) scale(1.04);border-color:rgba(var(--dr),.7);box-shadow:0 20px 50px rgba(var(--dr),.35),0 0 0 1px rgba(var(--dr),.2)}
-.deck-btn:hover::before{opacity:1}
-.deck-btn:hover::after{opacity:1}
+/* brillo superior para dar profundidad */
+.deck-btn::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(255,255,255,.22) 0%,transparent 55%);
+  z-index:1;pointer-events:none}
+.deck-btn::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  opacity:.7;z-index:3}
+.deck-btn:hover{transform:translateY(-8px) scale(1.04);
+  box-shadow:0 20px 50px rgba(var(--dr),.55),0 0 0 3px rgba(var(--dr),.4)}
 .deck-btn:active{transform:scale(.95)}
+/* Robot llena TODO el cuadrado — posición absoluta inset */
 .deck-robot{
-  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
-  width:78%;object-fit:contain;
-  filter:drop-shadow(0 8px 20px rgba(0,0,0,.55));
-  transition:.32s}
-.deck-btn:hover .deck-robot{transform:translateX(-50%) translateY(-6px) scale(1.06)}
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;
+  object-fit:contain;
+  object-position:center 15%;
+  padding:8% 6% 22% 6%;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.4));
+  transition:.32s;z-index:2}
+.deck-btn:hover .deck-robot{transform:scale(1.07) translateY(-4px)}
+/* Nombre en barra inferior */
 .deck-name{
-  position:relative;z-index:2;width:100%;
-  padding:.42rem .5rem;
-  font-size:.7rem;font-weight:900;letter-spacing:1.5px;
+  position:relative;z-index:4;width:100%;
+  padding:.38rem .4rem .42rem;
+  font-size:clamp(.62rem,.55rem+.5vw,.75rem);font-weight:900;letter-spacing:1.5px;
   text-transform:uppercase;text-align:center;
-  color:rgba(255,255,255,.9);
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(6px)}
+  color:#fff;
+  background:rgba(0,0,0,.38);
+  backdrop-filter:blur(8px)}
 .deck-rem{
   position:absolute;top:.45rem;right:.45rem;z-index:3;
   background:rgba(0,0,0,.72);backdrop-filter:blur(8px);
