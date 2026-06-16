@@ -157,8 +157,9 @@ body{background:#08051a;min-height:100vh;color:#e2e8f0}
 /* ── CARD SCREEN — layout fijo, TODO cabe en pantalla sin scroll ── */
 #screen-card{
   position:fixed;inset:0;z-index:50;
-  display:flex!important;flex-direction:column;
+  flex-direction:column;
   overflow:hidden;transition:background .35s ease}
+#screen-card.active{display:flex!important}
 .card-page{display:flex;flex-direction:column;height:100%;width:100%;overflow:hidden}
 
 /* HERO: zona de color con nombre + robot. Altura fija ~44% */
