@@ -570,6 +570,154 @@
 }
 </style>
 
+<!-- ══════════════════════════════════════
+     SECCIÓN JUEGOS EDUCATIVOS
+══════════════════════════════════════ -->
+<section class="edu-games-section" id="juegos-educativos">
+  <div class="section-shell">
+    <div class="section-heading" style="text-align:center;margin-bottom:48px">
+      <span class="eyebrow"><i class="fas fa-puzzle-piece"></i> Aprender jugando</span>
+      <h2>Juegos educativos <span>RoboWorks</span></h2>
+      <p style="max-width:580px;margin:0 auto;color:#64748b;font-size:1.05rem;line-height:1.7">
+        Creamos experiencias digitales donde los niños desarrollan lógica, concentración y pensamiento espacial sin darse cuenta — porque están jugando.
+      </p>
+    </div>
+
+    <div class="edu-game-card">
+      <div class="edu-game-img">
+        <img src="images/robotangram.png" alt="RoboTangram — juego educativo de tangram">
+      </div>
+      <div class="edu-game-info">
+        <span class="edu-game-tag"><i class="fas fa-shapes"></i> Pensamiento espacial · Concentración</span>
+        <h3>RoboTangram</h3>
+        <p>Arma figuras de animales con las 7 piezas de tangram impresas en 3D de Worky. Cada nivel desafía la mente de los niños a rotar, encajar y visualizar formas — habilidades clave para matemáticas y robótica.</p>
+        <ul class="edu-benefits">
+          <li><i class="fas fa-brain"></i> Desarrolla razonamiento espacial</li>
+          <li><i class="fas fa-eye"></i> Mejora la concentración y atención</li>
+          <li><i class="fas fa-hand-paper"></i> Complementa el aprendizaje con piezas físicas 3D</li>
+          <li><i class="fas fa-star"></i> Sistema de estrellas que motiva el progreso</li>
+        </ul>
+        <a href="tangram.html" class="edu-game-btn">
+          <i class="fas fa-play-circle"></i> Jugar RoboTangram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ── EDU GAMES SECTION ── */
+.edu-games-section {
+  padding: 80px 0;
+  background: #f8faff;
+}
+.edu-game-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 52px;
+  background: #fff;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,100,180,0.09);
+  border: 1.5px solid #e2eaf6;
+}
+.edu-game-img {
+  height: 100%;
+  min-height: 320px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e8f4fd 0%, #dbeeff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edu-game-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.edu-game-info {
+  padding: 40px 44px 40px 0;
+}
+.edu-game-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #e8f4fd;
+  color: #0077b6;
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.edu-game-info h3 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 900;
+  color: #0f1c2e;
+  margin: 0 0 14px;
+}
+.edu-game-info p {
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.edu-benefits {
+  list-style: none;
+  padding: 0; margin: 0 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.edu-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.93rem;
+  font-weight: 700;
+  color: #334155;
+}
+.edu-benefits li i {
+  color: #00a8e8;
+  width: 18px;
+  text-align: center;
+}
+.edu-game-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #00a8e8 0%, #0077b6 100%);
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  padding: 14px 32px;
+  border-radius: 9999px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0,168,232,0.28);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.edu-game-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,168,232,0.38);
+}
+@media(max-width:860px) {
+  .edu-game-card {
+    grid-template-columns: 1fr;
+  }
+  .edu-game-img {
+    min-height: 220px;
+  }
+  .edu-game-info {
+    padding: 32px 28px;
+  }
+}
+</style>
+
 <section id="programas" class="programs-section">
   <div class="section-shell">
     <div class="section-heading">
