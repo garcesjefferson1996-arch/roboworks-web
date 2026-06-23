@@ -51,11 +51,7 @@ a{text-decoration:none;color:inherit}
   display:flex;align-items:center;justify-content:space-between;
   padding:28px 44px;
 }
-.logo{
-  font-family:'Chakra Petch',sans-serif;
-  font-size:15px;font-weight:600;letter-spacing:1px;
-  color:var(--dark);
-}
+.brand-link{display:inline-flex;align-items:center;gap:12px;flex-shrink:0;text-decoration:none}
 .nav-right{
   display:flex;flex-direction:column;align-items:flex-end;gap:6px;
 }
@@ -515,8 +511,12 @@ footer .f-contact{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:1px}
 
   <!-- Top bar -->
   <div class="top-bar">
-    <a href="index.html" class="logo">
-      <img src="assets/icons/logo.png" alt="RoboWorks" style="height:32px;width:auto;display:block;">
+    <a href="index.html" class="brand-link">
+      <img src="assets/icons/logo.png" alt="RoboWorks Logo" class="brand-logo" style="width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,168,232,0.25))">
+      <span class="brand-copy" style="display:grid;line-height:1;font-weight:900;font-size:1.35rem">
+        <span><span style="color:#00a8e8">Robo</span><span style="color:#ff7b42">Works</span></span>
+        <small style="margin-top:4px;font-size:0.62rem;font-weight:600;color:#64748b;letter-spacing:.04em;text-transform:uppercase">Ambato, Ecuador</small>
+      </span>
     </a>
     <nav class="nav-right">
       <a href="#programa">El Programa</a>
