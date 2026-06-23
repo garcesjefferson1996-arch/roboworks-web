@@ -13,12 +13,13 @@
 /* ── RESET ─────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:     #f4f4f2;
+  --bg:     #f0f9ff;   /* bg-soft de RoboWorks */
   --white:  #ffffff;
-  --dark:   #0a0a0a;
-  --gray:   #6b6b6b;
-  --lgray:  #d4d4d0;
-  --gold:   #f5a623;
+  --dark:   #0f1c2e;   /* dark de RoboWorks */
+  --gray:   #64748b;   /* muted de RoboWorks */
+  --lgray:  #bfdbf7;
+  --gold:   #00a8e8;   /* cyan primario RoboWorks */
+  --accent: #ff7b42;   /* naranja acento RoboWorks */
   --cyan:   #00a8e8;
   --r:      4px;
 }
@@ -165,11 +166,11 @@ a{text-decoration:none;color:inherit}
 }
 .play-circle{
   width:42px;height:42px;border-radius:50%;
-  background:var(--gold);
+  background:var(--accent);
   display:flex;align-items:center;justify-content:center;
   transition:transform .2s,box-shadow .2s;
 }
-.play-btn:hover .play-circle{transform:scale(1.08);box-shadow:0 4px 20px rgba(245,166,35,.4)}
+.play-btn:hover .play-circle{transform:scale(1.08);box-shadow:0 4px 20px rgba(255,123,66,.4)}
 .play-circle svg{width:14px;height:14px;fill:#000;margin-left:2px}
 .play-label{
   font-family:'Chakra Petch',sans-serif;
@@ -209,7 +210,7 @@ a{text-decoration:none;color:inherit}
   line-height:1;letter-spacing:-1px;
   margin-bottom:48px;
 }
-.s-title em{font-style:normal;color:var(--gold)}
+.s-title em{font-style:normal;color:var(--cyan)}
 
 /* STAGES GRID ─────────────────────────────────────────────── */
 .stages-grid{
@@ -245,7 +246,7 @@ a{text-decoration:none;color:inherit}
 
 .stage-grade{
   font-size:10px;font-weight:500;letter-spacing:3px;
-  text-transform:uppercase;color:var(--gold);
+  text-transform:uppercase;color:var(--cyan);
   margin-bottom:12px;transition:color .25s;
 }
 .stage:hover .stage-grade{color:var(--gold) !important}
@@ -343,7 +344,7 @@ a{text-decoration:none;color:inherit}
   margin-bottom:12px;line-height:1.2;
 }
 .inc p{font-size:12px;color:var(--gray);line-height:1.7}
-.inc-gold{color:var(--gold) !important}
+.inc-gold{color:var(--cyan) !important}
 
 /* ROADMAP ──────────────────────────────────────────────────── */
 .roadmap-layout{
@@ -371,7 +372,7 @@ a{text-decoration:none;color:inherit}
 
 .year-label{
   font-size:10px;letter-spacing:4px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:8px;
+  color:var(--cyan);margin-bottom:8px;
 }
 .year:hover .year-label{color:var(--gold) !important}
 .year-title{
@@ -411,18 +412,18 @@ a{text-decoration:none;color:inherit}
   color:var(--white);line-height:1;letter-spacing:-1px;
   margin-bottom:12px;
 }
-.cta-left h2 em{font-style:normal;color:var(--gold)}
+.cta-left h2 em{font-style:normal;color:var(--cyan)}
 .cta-left p{font-size:13px;color:var(--gray);letter-spacing:1px;max-width:420px;line-height:1.8}
 .cta-right{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
 .btn-wa{
   display:inline-flex;align-items:center;gap:12px;
-  background:var(--gold);color:#000;
+  background:var(--accent);color:#fff;
   font-family:'Chakra Petch',sans-serif;
   font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
   padding:16px 36px;
   transition:background .2s,transform .2s;
 }
-.btn-wa:hover{background:#e09010;transform:translateY(-2px)}
+.btn-wa:hover{background:#e5622e;transform:translateY(-2px)}
 .btn-wa svg{width:18px;height:18px;fill:#000}
 .btn-back{
   display:inline-flex;align-items:center;gap:10px;
