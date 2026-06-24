@@ -616,58 +616,95 @@
 
 
 <!-- ── VIRTUS STEAM BANNER ─────────────────────────────────────────────────── -->
-<section style="background:#fff;position:relative;overflow:hidden;border-top:1px solid #e0f5fd;border-bottom:1px solid #e0f5fd;">
-  <!-- Grid decoración sutil -->
-  <div style="position:absolute;inset:0;pointer-events:none;
-    background-image:linear-gradient(rgba(0,168,232,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,168,232,0.05) 1px,transparent 1px);
-    background-size:40px 40px;"></div>
-  <!-- Línea de acento superior -->
-  <div style="height:3px;background:linear-gradient(90deg,#00a8e8 0%,#ff7b42 50%,#00a8e8 100%);width:100%;position:relative;z-index:2"></div>
+<section style="
+  position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 80% 100% at 65% 50%,#333 0%,#1e1e1e 45%,#111 100%);
+  min-height:420px;
+  display:flex;align-items:stretch;
+">
+  <!-- Smoke wisps -->
+  <div style="position:absolute;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(ellipse 40% 60% at 20% 50%,rgba(255,255,255,.03) 0%,transparent 70%),
+      radial-gradient(ellipse 30% 40% at 75% 60%,rgba(255,123,66,.06) 0%,transparent 65%);
+  "></div>
 
-  <div style="max-width:1100px;margin:0 auto;padding:72px 24px;display:flex;align-items:center;gap:56px;flex-wrap:wrap;position:relative;z-index:1;">
+  <!-- Robot image — fondo derecho -->
+  <div style="
+    position:absolute;right:0;bottom:0;top:0;
+    width:45%;z-index:1;
+    display:flex;align-items:flex-end;justify-content:center;
+    overflow:hidden;
+  ">
+    <img src="images/virtus/robot-hero.png" alt="Robot VIRTUS STEAM"
+         style="
+           height:105%;width:auto;
+           object-fit:contain;object-position:center bottom;
+           filter:drop-shadow(0 20px 50px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(255,123,66,.08));
+           opacity:.85;
+         "
+         onerror="this.style.display='none'">
+    <!-- Gradiente fade izquierda sobre robot -->
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,#1a1a1a 0%,rgba(26,26,26,.4) 40%,transparent 100%)"></div>
+  </div>
 
-    <!-- Left: logo + tagline -->
-    <div style="flex:1;min-width:260px;">
-      <div style="display:inline-flex;align-items:center;gap:8px;font-family:'Chakra Petch',sans-serif;font-size:10px;color:#00a8e8;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(0,168,232,0.3);padding:5px 14px;margin-bottom:24px;">
-        ⚡ PROGRAMA INSTITUCIONAL
+  <!-- Contenido -->
+  <div style="position:relative;z-index:2;padding:64px 48px;display:flex;flex-direction:column;justify-content:center;max-width:600px;">
+
+    <!-- Tag -->
+    <div style="
+      display:inline-flex;align-items:center;gap:8px;
+      font-family:'Chakra Petch',sans-serif;font-size:9px;
+      color:#ff7b42;letter-spacing:3px;text-transform:uppercase;
+      border:1px solid rgba(255,123,66,.35);padding:5px 14px;
+      margin-bottom:28px;width:fit-content;
+    ">⚡ PROGRAMA INSTITUCIONAL</div>
+
+    <!-- Logo VIRTUS STEAM -->
+    <div style="margin-bottom:20px">
+      <img src="images/virtus/virtus-logo.png" alt="VIRTUS STEAM"
+           style="height:80px;width:auto;filter:brightness(0) invert(1);opacity:.95;display:block"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div style="display:none">
+        <div style="font-family:'Chakra Petch',sans-serif;font-size:clamp(42px,6vw,72px);font-weight:700;line-height:.9;color:#fff;letter-spacing:-2px">VIRTUS</div>
+        <div style="font-family:'Chakra Petch',sans-serif;font-size:clamp(16px,2vw,26px);font-weight:300;letter-spacing:8px;color:rgba(255,255,255,.5);margin-top:6px">STEAM</div>
       </div>
-      <!-- Logo imagen VIRTUS STEAM -->
-      <div style="margin-bottom:20px">
-        <img src="images/virtus/virtus-logo.png" alt="VIRTUS STEAM"
-             style="height:72px;width:auto;filter:brightness(0);display:block"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-        <div style="display:none">
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:clamp(38px,6vw,68px);font-weight:700;line-height:.9;letter-spacing:-2px;color:#0f1c2e">VIRTUS</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:clamp(16px,2.5vw,26px);font-weight:400;letter-spacing:8px;color:#64748b;margin-top:6px">STEAM</div>
-        </div>
-      </div>
-      <p style="font-size:15px;color:#ff7b42;font-style:italic;font-weight:600;margin-bottom:10px">"Robots por fuera. Virtud por dentro."</p>
-      <p style="font-size:13px;color:#64748b;line-height:1.75;max-width:400px">Programa institucional de robótica educativa. Inicial a 10mo de Básica · Contrato 3 años · Kits personales · Plataforma digital.</p>
     </div>
 
-    <!-- Divider vertical -->
-    <div style="width:1px;height:180px;background:#e0f5fd;flex-shrink:0;display:block"></div>
+    <!-- Tagline -->
+    <p style="font-family:'Chakra Petch',sans-serif;font-size:14px;font-style:italic;color:#ff7b42;margin-bottom:16px;letter-spacing:.5px">
+      "Robots por fuera. Virtud por dentro."
+    </p>
 
-    <!-- Right: bullets + CTA -->
-    <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:14px;">
-      <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#0f1c2e"><span style="width:6px;height:6px;border-radius:50%;background:#00a8e8;flex-shrink:0"></span>Kits personales ZM Robo por estudiante</div>
-      <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#0f1c2e"><span style="width:6px;height:6px;border-radius:50%;background:#00a8e8;flex-shrink:0"></span>Laboratorio con impresoras 3D</div>
-      <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#0f1c2e"><span style="width:6px;height:6px;border-radius:50%;background:#00a8e8;flex-shrink:0"></span>Planificaciones alineadas al MINEDUC</div>
-      <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#0f1c2e"><span style="width:6px;height:6px;border-radius:50%;background:#ff7b42;flex-shrink:0"></span>Torneo anual de robótica en Ambato</div>
-      <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:#0f1c2e"><span style="width:6px;height:6px;border-radius:50%;background:#ff7b42;flex-shrink:0"></span>Soporte presencial · Seguimiento digital</div>
+    <!-- Descripción -->
+    <p style="font-size:13px;color:rgba(255,255,255,.5);line-height:1.85;max-width:420px;margin-bottom:32px">
+      Programa institucional de robótica educativa para colegios. Inicial a 10mo de Básica · 3 años de transformación · Club de Robótica · Torneos nacionales e internacionales.
+    </p>
+
+    <!-- Botón GO estilo virtus -->
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
       <a href="virtus-steam.html" style="
-        display:inline-flex;align-items:center;gap:10px;margin-top:10px;
-        background:linear-gradient(135deg,#00a8e8,#0086bb);
-        color:#fff;font-family:'Chakra Petch',sans-serif;font-weight:700;
-        font-size:12px;letter-spacing:2px;text-transform:uppercase;
-        padding:13px 28px;
-        transition:transform .2s,box-shadow .2s;
-        width:fit-content;
-      " onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(0,168,232,0.35)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-        Ver el programa →
+        display:inline-flex;align-items:center;justify-content:center;
+        background:#ff7b42;color:#fff;
+        font-family:'Chakra Petch',sans-serif;font-weight:700;
+        font-size:13px;letter-spacing:3px;text-transform:uppercase;
+        padding:0 32px;height:52px;
+        transition:background .2s;
+        text-decoration:none;
+      " onmouseover="this.style.background='#e5622e'" onmouseout="this.style.background='#ff7b42'">
+        VER EL PROGRAMA
+      </a>
+      <a href="virtus-steam.html" style="
+        font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:2px;
+        text-transform:uppercase;color:rgba(255,255,255,.35);
+        text-decoration:none;transition:color .2s;
+      " onmouseover="this.style.color='rgba(255,255,255,.8)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">
+        ← Conocer VIRTUS STEAM
       </a>
     </div>
+
   </div>
+</section>
 
   <!-- Línea de acento inferior -->
   <div style="height:3px;background:linear-gradient(90deg,#ff7b42 0%,#00a8e8 50%,#ff7b42 100%);width:100%;position:relative;z-index:2"></div>
