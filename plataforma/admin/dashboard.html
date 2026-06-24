@@ -333,6 +333,7 @@ const db=firebase.firestore();
     <button class="sb-item" onclick="goTab('tareas',this)"><i class="fa-solid fa-list-check"></i>Tareas <span class="sb-badge" id="badge-task" style="display:none">!</span></button>
     <button class="sb-item" onclick="goTab('recursos',this)"><i class="fa-solid fa-folder-open"></i>Recursos</button>
     <button class="sb-item" onclick="goTab('niveles',this)"><i class="fa-solid fa-trophy"></i>Progreso Niveles</button>
+    <a href="../../tangram.html" target="_blank" class="sb-item" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px"><i class="fa-solid fa-puzzle-piece" style="color:#ff7b42"></i>RoboTangram <span style="font-size:.65rem;background:#ff7b42;color:#fff;border-radius:4px;padding:1px 6px;font-weight:700">PROFE</span></a>
   </div>
   
     <div class="sb-section">Operaciones</div>
@@ -1779,6 +1780,11 @@ async function viewSubmissions(taskId){
         </div>`:''}
         ${s.link_url?`<a href="${s.link_url}" target="_blank" style="font-size:.8rem;color:#2563eb;font-weight:600;display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .7rem;background:#eff6ff;border-radius:6px;text-decoration:none"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver proyecto</a>`:''}
         ${!s.response&&!s.image_url&&!s.link_url?`<div style="font-size:.8rem;color:#94a3b8;font-style:italic">Entrega sin contenido</div>`:''}
+        <div style="margin-top:.75rem;border-top:1px solid #f1f5f9;padding-top:.75rem">
+          ${s.teacher_comment?`<div style="font-size:.75rem;color:#16a34a;font-weight:600;margin-bottom:.3rem"><i class="fa-solid fa-circle-check" style="margin-right:.3rem"></i>Comentario enviado:</div><div style="font-size:.82rem;color:#334155;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:.55rem .75rem;margin-bottom:.5rem">${s.teacher_comment}</div>`:''}
+          <textarea id="tc-${s.id}" placeholder="✏️ Escribe un comentario para ${studentMap[s.student_id]||'el estudiante'}..." style="width:100%;padding:.55rem .75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;resize:vertical;min-height:58px;outline:none;color:#334155;box-sizing:border-box;transition:border-color .2s" onfocus="this.style.borderColor='#00a8e8'" onblur="this.style.borderColor='#e2e8f0'">${s.teacher_comment||''}</textarea>
+          <button onclick="saveTeacherComment('${s.id}','${s.student_id}')" style="margin-top:.35rem;padding:.38rem .9rem;background:#00a8e8;color:#fff;border:none;border-radius:7px;font-size:.8rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem" onmouseover="this.style.background='#0086bb'" onmouseout="this.style.background='#00a8e8'"><i class="fa-solid fa-paper-plane"></i> Enviar comentario</button>
+        </div>
       </div>`).join('');
 
   modal.innerHTML=`<div style="background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.25)">
@@ -1794,6 +1800,30 @@ async function viewSubmissions(taskId){
   modal.classList.add('sub-modal-root');
   document.body.appendChild(modal);
   modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+}
+
+async function saveTeacherComment(submissionId, studentId){
+  const ta=document.getElementById('tc-'+submissionId);
+  const comment=(ta?.value||'').trim();
+  if(!comment){toast('Escribe un comentario primero','warning');return;}
+  const btn=ta?.nextElementSibling;
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';}
+  try{
+    await db.collection('task_submissions').doc(submissionId).update({
+      teacher_comment: comment,
+      teacher_comment_at: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    // actualiza cache local
+    const idx=allTaskSubmissions.findIndex(s=>s.id===submissionId);
+    if(idx>-1) allTaskSubmissions[idx].teacher_comment=comment;
+    // feedback visual en el botón
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-circle-check"></i> ¡Enviado!';}
+    setTimeout(()=>{if(btn)btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Enviar comentario';},2500);
+    toast('Comentario enviado a '+studentId,'success');
+  }catch(e){
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Enviar comentario';}
+    toast('Error al guardar: '+e.message,'error');
+  }
 }
 
 function openNewTaskModal(){
