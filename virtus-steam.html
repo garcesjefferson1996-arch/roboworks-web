@@ -272,33 +272,130 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;padding:0}
 }
 .s-title em{font-style:normal;color:var(--or)}
 
-/* Kit section */
-.kit-layout{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-.kit-steps{display:flex;flex-direction:column}
-.kit-step{
-  display:grid;grid-template-columns:48px 1fr;gap:18px;align-items:center;
-  padding:20px 0;border-bottom:1px solid var(--lgr);
+/* Alma / filosofía */
+.alma-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.alma-quote{
+  font-family:'Chakra Petch',sans-serif;
+  font-size:clamp(22px,3vw,38px);font-weight:700;line-height:1.15;
+  color:var(--wh);letter-spacing:-.5px;margin-bottom:28px;
 }
-.kit-step:first-child{border-top:1px solid var(--lgr)}
-.kit-step-num{
-  font-family:'Chakra Petch',sans-serif;font-size:32px;font-weight:700;
-  color:var(--lgr);line-height:1;
+.alma-quote em{font-style:normal;color:var(--or)}
+.alma-body{font-size:13px;color:var(--gr);line-height:1.95;margin-bottom:14px}
+.alma-virtues{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--lgr);margin-top:32px}
+.virtue-row{
+  display:flex;align-items:center;gap:18px;
+  padding:16px 0;border-bottom:1px solid var(--lgr);
 }
-.kit-step-text strong{
-  font-family:'Chakra Petch',sans-serif;font-size:14px;font-weight:700;
-  display:block;margin-bottom:3px;color:var(--wh);
+.virtue-icon{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  border:1.5px solid var(--or);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
 }
-.kit-step-text span{font-size:11px;color:var(--gr)}
-.kit-info p{font-size:12px;color:var(--gr);line-height:1.85;margin-bottom:12px}
-.kit-price{
-  display:flex;align-items:baseline;gap:12px;
-  margin-top:24px;padding-top:24px;border-top:1px solid var(--lgr);
+.virtue-name{
+  font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;color:var(--wh);
+  display:block;margin-bottom:2px;
 }
-.kit-price .num{
-  font-family:'Chakra Petch',sans-serif;font-size:52px;font-weight:700;
-  line-height:1;color:var(--or);
+.virtue-desc{font-size:11px;color:var(--gr)}
+
+/* Impacto / skills grid */
+.skills-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--lgr);border:1px solid var(--lgr);
 }
-.kit-price .label{font-size:11px;color:var(--gr);letter-spacing:1px;line-height:1.6}
+.skill-card{
+  background:var(--bg2);padding:32px 26px;
+  transition:background .2s;
+}
+.skill-card:hover{background:var(--surf)}
+.skill-num{
+  font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:3px;
+  color:var(--or);margin-bottom:16px;display:block;
+}
+.skill-name{
+  font-family:'Chakra Petch',sans-serif;font-size:17px;font-weight:700;
+  color:var(--wh);margin-bottom:10px;line-height:1.15;
+}
+.skill-desc{font-size:11px;color:var(--gr);line-height:1.8}
+
+/* Programas */
+.programs-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.program-card{
+  background:var(--bg2);
+  border:1px solid var(--lgr);
+  padding:36px 28px;
+  position:relative;overflow:hidden;
+  transition:border-color .25s,background .25s;
+}
+.program-card:hover{background:var(--surf);border-color:var(--or)}
+.program-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--or);transform:scaleX(0);transform-origin:left;
+  transition:transform .3s;
+}
+.program-card:hover::before{transform:scaleX(1)}
+.program-tag{
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--or);
+  margin-bottom:14px;display:block;
+}
+.program-name{
+  font-family:'Chakra Petch',sans-serif;font-size:22px;font-weight:700;
+  color:var(--wh);margin-bottom:14px;line-height:1.1;
+}
+.program-desc{font-size:12px;color:var(--gr);line-height:1.85;margin-bottom:20px}
+.program-tags{display:flex;flex-wrap:wrap;gap:7px}
+.ptag{
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gr);border:1px solid var(--lgr);padding:4px 10px;
+  font-family:'Chakra Petch',sans-serif;
+}
+
+/* Herramientas */
+.tools-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.tools-col-title{
+  font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--or);margin-bottom:24px;
+  display:flex;align-items:center;gap:12px;
+}
+.tools-col-title::after{content:'';flex:1;height:1px;background:var(--lgr)}
+.tool-item{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 0;border-bottom:1px solid var(--lgr);
+}
+.tool-item:first-of-type{border-top:1px solid var(--lgr)}
+.tool-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--or);flex-shrink:0;
+}
+.tool-name{
+  font-family:'Chakra Petch',sans-serif;font-size:14px;font-weight:600;
+  color:var(--wh);flex:1;
+}
+.tool-desc{font-size:10px;color:var(--gr);text-align:right}
+
+/* Torneos */
+.torneos-layout{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.torneos-text p{font-size:13px;color:var(--gr);line-height:1.9;margin-bottom:14px}
+.torneos-stats{display:flex;flex-direction:column;gap:0;border:1px solid var(--lgr)}
+.stat-row{
+  display:grid;grid-template-columns:100px 1fr;gap:0;
+  border-bottom:1px solid var(--lgr);
+}
+.stat-row:last-child{border-bottom:none}
+.stat-num{
+  font-family:'Chakra Petch',sans-serif;font-size:36px;font-weight:700;
+  color:var(--or);padding:24px 20px;
+  border-right:1px solid var(--lgr);line-height:1;
+}
+.stat-info{padding:20px 24px}
+.stat-title{
+  font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:700;
+  color:var(--wh);display:block;margin-bottom:4px;
+}
+.stat-sub{font-size:11px;color:var(--gr);line-height:1.5}
 
 /* Includes */
 .includes-grid{
@@ -416,7 +513,11 @@ footer{
   footer{padding:20px 48px}
   .includes-grid{grid-template-columns:repeat(2,1fr)}
   .roadmap-layout{grid-template-columns:1fr}
-  .kit-layout{grid-template-columns:1fr;gap:48px}
+  .alma-layout{grid-template-columns:1fr;gap:48px}
+  .programs-grid{grid-template-columns:1fr}
+  .tools-layout{grid-template-columns:1fr;gap:48px}
+  .torneos-layout{grid-template-columns:1fr;gap:48px}
+  .skills-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
   .hero{
@@ -445,6 +546,11 @@ footer{
   footer{padding:18px 24px;flex-direction:column;align-items:flex-start;gap:10px}
   .f-links{flex-wrap:wrap;gap:14px}
   .includes-grid{grid-template-columns:1fr}
+  .programs-grid{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:1fr}
+  .tools-layout{grid-template-columns:1fr}
+  .torneos-layout{grid-template-columns:1fr}
+  .alma-layout{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -544,7 +650,7 @@ footer{
       <div class="prop-bullet"></div>
       <div>
         <span class="prop-val" id="hp-kit">Robot Soccer</span>
-        <span class="prop-label">KIT PERSONAL</span>
+        <span class="prop-label">HERRAMIENTAS</span>
       </div>
     </div>
   </div>
@@ -570,50 +676,276 @@ footer{
 </section>
 
 <!-- ════════════════════════════════════════════════════════
-     KIT PERSONAL
+     ALMA — FILOSOFÍA DEL PROGRAMA
 ════════════════════════════════════════════════════════ -->
-<section class="section section--dark" id="kits">
-  <div class="kit-layout">
+<section class="section section--dark" id="alma">
+  <div class="alma-layout">
 
-    <div class="kit-steps">
-      <div class="kit-step reveal d1">
-        <div class="kit-step-num">01</div>
-        <div class="kit-step-text">
-          <strong>Robot Insecto</strong>
-          <span>Inicial · mecánica pura · 1 motor</span>
-        </div>
+    <div>
+      <div class="s-eyebrow">Nuestra filosofía</div>
+      <div class="alma-quote reveal">
+        Tecnología que<br>construye <em>personas,</em><br>no solo técnicos.
       </div>
-      <div class="kit-step reveal d2">
-        <div class="kit-step-num">02</div>
-        <div class="kit-step-text">
-          <strong>Seguidor de Luz</strong>
-          <span>Básica Elemental · sensor LDR + motor DC</span>
+      <p class="alma-body reveal">Vivimos en una época en que los jóvenes tienen más acceso a información que nunca — y más crisis de identidad, ansiedad y falta de propósito que nunca. La estadística es clara: 1 de cada 5 adolescentes enfrenta síntomas de depresión antes de terminar el colegio.</p>
+      <p class="alma-body reveal">VIRTUS STEAM nació de una convicción profunda: <strong style="color:var(--wh)">la tecnología debe ser una herramienta al servicio del desarrollo humano, no al revés.</strong> Por eso integramos las virtudes al corazón del programa — no como un discurso, sino como una práctica diaria.</p>
+      <p class="alma-body reveal">Cada proyecto que construyen es también una oportunidad para trabajar el carácter. Cada fallo que resuelven es un acto de perseverancia. Cada robot que presentan es un acto de fe en su propia capacidad.</p>
+    </div>
+
+    <div>
+      <p style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:6px">Las virtudes que cultivamos</p>
+      <div class="alma-virtues">
+        <div class="virtue-row reveal d1">
+          <div class="virtue-icon">💡</div>
+          <div>
+            <span class="virtue-name">Ingenio</span>
+            <span class="virtue-desc">Encontrar caminos donde otros ven obstáculos. La creatividad como competencia del siglo XXI.</span>
+          </div>
         </div>
-      </div>
-      <div class="kit-step reveal d3">
-        <div class="kit-step-num">03</div>
-        <div class="kit-step-text">
-          <strong>Robot Soccer</strong>
-          <span>Básica Media · mecanismos + control</span>
+        <div class="virtue-row reveal d2">
+          <div class="virtue-icon">🏔️</div>
+          <div>
+            <span class="virtue-name">Perseverancia</span>
+            <span class="virtue-desc">Probar, fallar, ajustar y volver. El error es parte del proceso, no el final de él.</span>
+          </div>
         </div>
-      </div>
-      <div class="kit-step reveal d4">
-        <div class="kit-step-num">04</div>
-        <div class="kit-step-text">
-          <strong>Brazo Robótico / Bailarín</strong>
-          <span>Básica Superior · Arduino + servos</span>
+        <div class="virtue-row reveal d3">
+          <div class="virtue-icon">🤝</div>
+          <div>
+            <span class="virtue-name">Colaboración</span>
+            <span class="virtue-desc">Escuchar es también una habilidad técnica. Construir en equipo es la base de todo gran proyecto.</span>
+          </div>
+        </div>
+        <div class="virtue-row reveal d4">
+          <div class="virtue-icon">❤️</div>
+          <div>
+            <span class="virtue-name">Empatía</span>
+            <span class="virtue-desc">Diseñar pensando en los demás. La tecnología más poderosa es la que sirve a alguien.</span>
+          </div>
+        </div>
+        <div class="virtue-row reveal d1">
+          <div class="virtue-icon">🕊️</div>
+          <div>
+            <span class="virtue-name">Fe</span>
+            <span class="virtue-desc">Creer en lo que aún no se ve y dar el primer paso de todas formas. El mayor motor de innovación.</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="kit-info reveal">
-      <div class="s-eyebrow">Kit personal</div>
-      <h2 class="s-title">Un robot que<br>se <em>llevan a casa.</em></h2>
-      <p>Cada estudiante construye su robot poco a poco durante el año. Clase a clase va ensamblando piezas. Los padres ven el progreso. Al final del ciclo, el robot está completo y funciona.</p>
-      <p>Ese robot es la prueba tangible de lo que aprendió — y la mejor publicidad del programa en cada hogar.</p>
-      <div class="kit-price">
-        <span class="num">$45</span>
-        <span class="label">por estudiante<br>fabricado por RoboWorks</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     IMPACTO — HABILIDADES QUE DESARROLLAMOS
+════════════════════════════════════════════════════════ -->
+<section class="section section--surf" id="impacto">
+  <div class="s-eyebrow">Lo que generamos</div>
+  <h2 class="s-title reveal">Habilidades que ningún<br>libro de texto <em>enseña solo.</em></h2>
+
+  <div class="skills-grid">
+    <div class="skill-card reveal d1">
+      <span class="skill-num">01 · HABILIDAD</span>
+      <div class="skill-name">Pensamiento<br>Computacional</div>
+      <p class="skill-desc">Descomponer problemas complejos en pasos simples. Una forma de pensar que trasciende la tecnología y se aplica en cualquier área de la vida.</p>
+    </div>
+    <div class="skill-card reveal d2">
+      <span class="skill-num">02 · HABILIDAD</span>
+      <div class="skill-name">Creatividad<br>Aplicada</div>
+      <p class="skill-desc">No basta imaginar — hay que construirlo. En VIRTUS STEAM las ideas se prueban, se modifican y se presentan. La creatividad se vuelve disciplina.</p>
+    </div>
+    <div class="skill-card reveal d3">
+      <span class="skill-num">03 · HABILIDAD</span>
+      <div class="skill-name">Resolución de<br>Problemas</div>
+      <p class="skill-desc">Cada robot que no funciona es una pregunta abierta. Aprender a diagnosticar, ajustar y probar de nuevo es la habilidad más demandada en el mundo laboral actual.</p>
+    </div>
+    <div class="skill-card reveal d1">
+      <span class="skill-num">04 · HABILIDAD</span>
+      <div class="skill-name">Inteligencia<br>Emocional</div>
+      <p class="skill-desc">Trabajar en equipo bajo presión. Comunicar una idea. Recibir crítica constructiva. El laboratorio de robótica es también un laboratorio de habilidades sociales.</p>
+    </div>
+    <div class="skill-card reveal d2">
+      <span class="skill-num">05 · HABILIDAD</span>
+      <div class="skill-name">Autoconfianza<br>y Propósito</div>
+      <p class="skill-desc">Ver funcionar algo que tú mismo construiste cambia cómo un joven se percibe a sí mismo. Ese momento vale más que cualquier calificación.</p>
+    </div>
+    <div class="skill-card reveal d3">
+      <span class="skill-num">06 · HABILIDAD</span>
+      <div class="skill-name">Diseño e<br>Ingeniería</div>
+      <p class="skill-desc">Desde estructuras LEGO hasta piezas en SolidWorks. Los estudiantes aprenden a diseñar con propósito, construir con precisión y presentar con orgullo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     PROGRAMAS
+════════════════════════════════════════════════════════ -->
+<section class="section section--dark" id="programas">
+  <div class="s-eyebrow">Nuestros programas</div>
+  <h2 class="s-title reveal">Un ecosistema educativo<br>completo para <em>su institución.</em></h2>
+
+  <div class="programs-grid">
+
+    <div class="program-card reveal d1">
+      <span class="program-tag">Programa principal · Inicial a 10mo</span>
+      <div class="program-name">VIRTUS STEAM</div>
+      <p class="program-desc">El corazón de nuestra propuesta. Un programa estructurado grado a grado, desde los 3 hasta los 15 años, que integra robótica educativa, programación, diseño 3D y virtudes en un solo currículo. Cada nivel tiene su propio enfoque pedagógico, sus herramientas y sus objetivos de desarrollo — siempre alineados al currículo nacional del MINEDUC.</p>
+      <div class="program-tags">
+        <span class="ptag">Robótica</span>
+        <span class="ptag">Programación</span>
+        <span class="ptag">Diseño 3D</span>
+        <span class="ptag">Virtudes</span>
+        <span class="ptag">MINEDUC</span>
+      </div>
+    </div>
+
+    <div class="program-card reveal d2">
+      <span class="program-tag">Programa bilingüe · English + Robotics</span>
+      <div class="program-name">Robo English</div>
+      <p class="program-desc">La robótica se convierte en el vehículo para aprender y practicar el inglés. Los estudiantes dan instrucciones, describen procesos y presentan proyectos en inglés desde el primer día. Una propuesta única en Ecuador que combina el idioma más demandado del mundo con la tecnología más emocionante del siglo.</p>
+      <div class="program-tags">
+        <span class="ptag">Inglés</span>
+        <span class="ptag">Robótica</span>
+        <span class="ptag">Bilingüismo</span>
+        <span class="ptag">Presentación</span>
+      </div>
+    </div>
+
+    <div class="program-card reveal d3">
+      <span class="program-tag">Extracurricular · Torneos y competencias</span>
+      <div class="program-name">Club de Robótica</div>
+      <p class="program-desc">Para los estudiantes que quieren ir más lejos. El Club de Robótica es el espacio donde los talentos florecen fuera del aula: proyectos avanzados, preparación táctica y emocional para competencias nacionales e internacionales, liderazgo técnico y representación institucional con orgullo.</p>
+      <div class="program-tags">
+        <span class="ptag">Club</span>
+        <span class="ptag">Torneos</span>
+        <span class="ptag">Liderazgo</span>
+        <span class="ptag">Proyectos</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     HERRAMIENTAS — ECOSISTEMA TECNOLÓGICO
+════════════════════════════════════════════════════════ -->
+<section class="section section--surf" id="herramientas">
+  <div class="s-eyebrow">Ecosistema tecnológico</div>
+  <h2 class="s-title reveal">Las mejores herramientas<br>del mundo, <em>al servicio del aprendizaje.</em></h2>
+
+  <div class="tools-layout">
+
+    <div>
+      <div class="tools-col-title">Software & Plataformas</div>
+      <div class="tool-item reveal d1">
+        <div class="tool-dot"></div>
+        <span class="tool-name">Scratch / Scratch Jr.</span>
+        <span class="tool-desc">MIT · Programación visual</span>
+      </div>
+      <div class="tool-item reveal d2">
+        <div class="tool-dot"></div>
+        <span class="tool-name">mBlock</span>
+        <span class="tool-desc">Robótica programable</span>
+      </div>
+      <div class="tool-item reveal d3">
+        <div class="tool-dot"></div>
+        <span class="tool-name">MakeCode</span>
+        <span class="tool-desc">Microsoft · micro:bit</span>
+      </div>
+      <div class="tool-item reveal d4">
+        <div class="tool-dot"></div>
+        <span class="tool-name">TinkerCAD</span>
+        <span class="tool-desc">Autodesk · Diseño 3D inicial</span>
+      </div>
+      <div class="tool-item reveal d1">
+        <div class="tool-dot"></div>
+        <span class="tool-name">Autodesk Inventor</span>
+        <span class="tool-desc">CAD profesional</span>
+      </div>
+      <div class="tool-item reveal d2">
+        <div class="tool-dot"></div>
+        <span class="tool-name">SolidWorks</span>
+        <span class="tool-desc">Ingeniería avanzada</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="tools-col-title">Hardware & Kits</div>
+      <div class="tool-item reveal d1">
+        <div class="tool-dot"></div>
+        <span class="tool-name">LEGO Education</span>
+        <span class="tool-desc">Construcción y mecánica</span>
+      </div>
+      <div class="tool-item reveal d2">
+        <div class="tool-dot"></div>
+        <span class="tool-name">micro:bit</span>
+        <span class="tool-desc">Programación física</span>
+      </div>
+      <div class="tool-item reveal d3">
+        <div class="tool-dot"></div>
+        <span class="tool-name">Arduino</span>
+        <span class="tool-desc">Electrónica avanzada</span>
+      </div>
+      <div class="tool-item reveal d4">
+        <div class="tool-dot"></div>
+        <span class="tool-name">Kits propios RoboWorks</span>
+        <span class="tool-desc">Diseñados en Ecuador</span>
+      </div>
+      <div class="tool-item reveal d1">
+        <div class="tool-dot"></div>
+        <span class="tool-name">Impresoras 3D</span>
+        <span class="tool-desc">Fabricación digital</span>
+      </div>
+      <div class="tool-item reveal d2">
+        <div class="tool-dot"></div>
+        <span class="tool-name">Kits ZM Robo</span>
+        <span class="tool-desc">Robótica educativa certificada</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     TORNEOS
+════════════════════════════════════════════════════════ -->
+<section class="section section--dark" id="torneos">
+  <div class="torneos-layout">
+
+    <div class="torneos-text">
+      <div class="s-eyebrow">Competencias</div>
+      <h2 class="s-title reveal">Representar a su<br>institución en el <em>escenario nacional.</em></h2>
+      <p class="reveal">El Club de Robótica de VIRTUS STEAM prepara a los estudiantes no solo técnicamente, sino también táctica y emocionalmente para competir. Porque ganar un torneo de robótica requiere lo mismo que ganar en la vida: preparación, equipo y carácter.</p>
+      <p class="reveal">Acompañamos a cada equipo desde la primera práctica hasta la entrega final — con mentoría técnica, estrategia de presentación y apoyo logístico. Su institución compite. Nosotros la respaldamos.</p>
+    </div>
+
+    <div class="torneos-stats reveal">
+      <div class="stat-row">
+        <div class="stat-num">NAC</div>
+        <div class="stat-info">
+          <span class="stat-title">Torneos Nacionales</span>
+          <span class="stat-sub">Participación en competencias oficiales de robótica educativa en Ecuador. Preparación técnica y presentación de proyectos.</span>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">INT</div>
+        <div class="stat-info">
+          <span class="stat-title">Competencias Internacionales</span>
+          <span class="stat-sub">Acceso a competencias de alcance internacional para los equipos más avanzados del Club de Robótica.</span>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">360°</div>
+        <div class="stat-info">
+          <span class="stat-title">Acompañamiento Completo</span>
+          <span class="stat-sub">Mentoría técnica, preparación emocional, estrategia de presentación y logística. Desde el primer día hasta el escenario.</span>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">ORG</div>
+        <div class="stat-info">
+          <span class="stat-title">Torneo Institucional Propio</span>
+          <span class="stat-sub">Cada año organizamos un torneo interno entre grados y paralelos. Una celebración del aprendizaje visible para toda la comunidad.</span>
+        </div>
       </div>
     </div>
 
@@ -624,59 +956,59 @@ footer{
      QUÉ INCLUYE
 ════════════════════════════════════════════════════════ -->
 <section class="section section--surf" id="incluye">
-  <div class="s-eyebrow">El paquete completo</div>
-  <h2 class="s-title">Todo lo que recibe<br>la institución.</h2>
+  <div class="s-eyebrow">El paquete institucional</div>
+  <h2 class="s-title reveal">Todo lo que necesita<br>su institución para <em>empezar.</em></h2>
 
   <div class="includes-grid">
     <div class="inc reveal d1">
       <div class="inc-num">01</div>
-      <h4>8 Kits <span>ZM Robo</span></h4>
-      <p>Provistos sin costo adicional. Listos desde el primer día de clases.</p>
+      <h4>Laboratorio <span>Equipado</span></h4>
+      <p>Kits de robótica, impresoras 3D y todo el equipamiento necesario para operar desde el primer día del año lectivo.</p>
     </div>
     <div class="inc reveal d2">
       <div class="inc-num">02</div>
-      <h4>Laboratorio <span>3D</span></h4>
-      <p>2 impresoras 3D instaladas y configuradas con filamento inicial.</p>
+      <h4>Plataforma <span>Digital</span></h4>
+      <p>Sistema propio con portafolios estudiantiles, tareas interactivas, seguimiento docente y certificados verificables con QR.</p>
     </div>
     <div class="inc reveal d3">
       <div class="inc-num">03</div>
-      <h4>Plataforma <span>Digital</span></h4>
-      <p>Portafolio estudiantil, tareas y certificados verificables con QR.</p>
+      <h4>Planificaciones <span>MINEDUC</span></h4>
+      <p>Currículo completo por grado, alineado al marco nacional, listo para aplicar. Sin carga adicional para los docentes.</p>
     </div>
     <div class="inc reveal d4">
       <div class="inc-num">04</div>
-      <h4>Planificaciones <span>MINEDUC</span></h4>
-      <p>Por grado, alineadas al currículo nacional, listas para aplicar.</p>
+      <h4>Capacitación <span>Docente</span></h4>
+      <p>Formación continua para los profesores a lo largo de los 3 años. Talleres prácticos, recursos digitales y acompañamiento permanente.</p>
     </div>
     <div class="inc reveal d1">
       <div class="inc-num">05</div>
-      <h4>Capacitación <span>Docente</span></h4>
-      <p>Talleres continuos de formación durante los 3 años de contrato.</p>
+      <h4>Club de <span>Robótica</span></h4>
+      <p>Espacio extracurricular incluido para los estudiantes que quieren ir más lejos. Preparación para torneos y proyectos avanzados.</p>
     </div>
     <div class="inc reveal d2">
       <div class="inc-num">06</div>
-      <h4>Torneo <span>Institucional</span></h4>
-      <p>Evento anual de robótica que fortalece la comunidad escolar.</p>
+      <h4>Robo <span>English</span></h4>
+      <p>El programa bilingüe integrado. Inglés a través de la robótica para fortalecer el perfil internacional de su institución.</p>
     </div>
     <div class="inc reveal d3">
       <div class="inc-num">07</div>
-      <h4>RoboMisión <span>Gamificada</span></h4>
-      <p>Plataforma de juegos educativos para evaluación interactiva.</p>
+      <h4>Torneos y <span>Competencias</span></h4>
+      <p>Acompañamiento en torneos nacionales e internacionales. Su institución representada con preparación técnica y emocional completa.</p>
     </div>
     <div class="inc reveal d4">
       <div class="inc-num">08</div>
       <h4>Soporte <span>Local</span></h4>
-      <p>Sede en Ambato. Asistencia técnica presencial cuando se necesite.</p>
+      <p>Presencia física en Ambato, Tungurahua. Respuesta técnica presencial cuando la institución lo necesite, sin demoras.</p>
     </div>
   </div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════
-     ROADMAP
+     ROADMAP — 3 AÑOS
 ════════════════════════════════════════════════════════ -->
 <section class="section section--dark" id="roadmap">
-  <div class="s-eyebrow">El plan</div>
-  <h2 class="s-title">3 años.<br>Transformación <em>real.</em></h2>
+  <div class="s-eyebrow">El compromiso</div>
+  <h2 class="s-title reveal">3 años juntos.<br>Una transformación <em>que se ve.</em></h2>
 
   <div class="roadmap-layout">
     <div class="year reveal d1">
@@ -686,12 +1018,12 @@ footer{
       <div class="year-sub">y Fundación</div>
       <div class="year-line"></div>
       <div class="year-items">
-        <div class="year-dot">Laboratorio equipado con impresoras 3D</div>
-        <div class="year-dot">8 kits ZM Robo entregados</div>
-        <div class="year-dot">Docentes capacitados y listos</div>
-        <div class="year-dot">Primer torneo interno de robótica</div>
-        <div class="year-dot">Plataforma activa para todos</div>
-        <div class="year-dot">Primera entrega de kits personales</div>
+        <div class="year-dot">Laboratorio equipado y operativo</div>
+        <div class="year-dot">Docentes capacitados desde el inicio</div>
+        <div class="year-dot">Plataforma digital activa para todos</div>
+        <div class="year-dot">Club de Robótica en marcha</div>
+        <div class="year-dot">Primer torneo institucional</div>
+        <div class="year-dot">Kits entregados a los estudiantes</div>
       </div>
     </div>
     <div class="year reveal d2">
@@ -701,27 +1033,27 @@ footer{
       <div class="year-sub">y Comunidad</div>
       <div class="year-line"></div>
       <div class="year-items">
-        <div class="year-dot">Kits de mayor complejidad por nivel</div>
-        <div class="year-dot">Capacitación docente avanzada</div>
-        <div class="year-dot">Torneo ampliado, más participantes</div>
-        <div class="year-dot">Primeros certificados RoboWorks</div>
+        <div class="year-dot">Herramientas de mayor complejidad</div>
+        <div class="year-dot">Formación docente avanzada</div>
+        <div class="year-dot">Primera participación en torneos nacionales</div>
+        <div class="year-dot">Certificados RoboWorks para estudiantes</div>
+        <div class="year-dot">Robo English consolidado</div>
         <div class="year-dot">Métricas de impacto documentadas</div>
-        <div class="year-dot">Expansión posible a otras sedes</div>
       </div>
     </div>
     <div class="year reveal d3">
       <div class="year-bg-num">03</div>
       <div class="year-label">Año 03</div>
       <div class="year-title">Expansión</div>
-      <div class="year-sub">y Proyectos</div>
+      <div class="year-sub">y Excelencia</div>
       <div class="year-line"></div>
       <div class="year-items">
-        <div class="year-dot">Proyectos avanzados en 8vo–10mo</div>
-        <div class="year-dot">Competencias externas de robótica</div>
-        <div class="year-dot">Laboratorio referente de la zona</div>
-        <div class="year-dot">Renovación del contrato institucional</div>
-        <div class="year-dot">Integración STEAM con currículo</div>
-        <div class="year-dot">Portafolio de impacto documentado</div>
+        <div class="year-dot">Proyectos con impacto social real</div>
+        <div class="year-dot">Competencias internacionales</div>
+        <div class="year-dot">Institución referente en la zona</div>
+        <div class="year-dot">SolidWorks e Inventor en aulas</div>
+        <div class="year-dot">Portafolio de impacto institucional</div>
+        <div class="year-dot">Renovación natural del programa</div>
       </div>
     </div>
   </div>
@@ -732,8 +1064,8 @@ footer{
 ════════════════════════════════════════════════════════ -->
 <section class="cta-section" id="contacto">
   <div class="cta-left">
-    <h2>El futuro de sus<br>estudiantes<br>empieza aquí.</h2>
-    <p>El año lectivo Sierra inicia el 1 de septiembre de 2026. VIRTUS STEAM puede estar listo para esa fecha. Ya llevamos 3 años construyendo esto.</p>
+    <h2>Su institución<br>merece este<br>programa.</h2>
+    <p>El año lectivo Sierra 2026 inicia en septiembre. VIRTUS STEAM puede estar listo para esa fecha — con laboratorio, docentes capacitados y estudiantes motivados desde el primer día. Conversemos ahora.</p>
   </div>
   <div class="cta-right">
     <a href="https://wa.me/593993340103?text=Quiero%20conocer%20VIRTUS%20STEAM%20para%20mi%20institucion"
@@ -742,12 +1074,12 @@ footer{
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
         <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.858L0 24l6.335-1.502A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.502-5.2-1.378l-.372-.221-3.863.916.977-3.768-.242-.386A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
       </svg>
-      Conversemos ahora
+      Agendar una reunión
     </a>
     <a href="index.html" class="btn-back">Volver a RoboWorks</a>
   </div>
   <div class="cta-quote">
-    <em>"No llegamos a vender un programa.</em> Llegamos a construir el futuro de sus estudiantes — porque ya llevamos 3 años haciéndolo."
+    <em>"No llegamos a vender un programa.</em> Llegamos a construir el futuro de sus estudiantes — porque creemos que la educación más poderosa es la que trabaja el alma y la mente al mismo tiempo."
   </div>
 </section>
 
@@ -777,7 +1109,7 @@ const stages = [
     etapa: 'Pre-Robótica',
     nivel: 'Nivel Inicial',
     edad:  '3 – 5 años',
-    kit:   'Robot Insecto',
+    kit:   'LEGO · RoboTangram',
     art:   '🪲',
     glow:  'rgba(124,58,237,0.18)'
   },
@@ -785,7 +1117,7 @@ const stages = [
     etapa: 'Robótica Inicial',
     nivel: 'Básica Elemental',
     edad:  '6 – 9 años',
-    kit:   'Seguidor de Luz',
+    kit:   'Scratch · LEGO WeDo',
     art:   '🤖',
     glow:  'rgba(8,145,178,0.18)'
   },
@@ -793,7 +1125,7 @@ const stages = [
     etapa: 'Robótica Aplicada',
     nivel: 'Básica Media',
     edad:  '10 – 12 años',
-    kit:   'Robot Soccer',
+    kit:   'mBlock · micro:bit',
     art:   '⚙️',
     glow:  'rgba(255,123,66,0.20)'
   },
@@ -801,7 +1133,7 @@ const stages = [
     etapa: 'Robótica Avanzada',
     nivel: 'Básica Superior',
     edad:  '13 – 15 años',
-    kit:   'Brazo Robótico',
+    kit:   'Arduino · SolidWorks',
     art:   '🦾',
     glow:  'rgba(29,78,216,0.22)'
   }
