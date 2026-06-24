@@ -1380,6 +1380,10 @@ function renderTasks(){
            ${sub.response?`<div class="task-submitted-text">${sub.response}</div>`:''}
            ${sub.image_url?`<div style="margin:.5rem 0"><img src="${sub.image_url}" style="max-width:100%;max-height:200px;border-radius:10px;border:1px solid var(--border)" alt="Tu captura enviada"></div>`:''}
            ${sub.link_url?`<a href="${sub.link_url}" target="_blank" class="task-file" style="margin-top:.5rem;display:inline-flex"><i class="fas fa-arrow-up-right-from-square"></i> Ver proyecto</a>`:''}
+           ${sub.teacher_comment?`<div style="margin-top:.75rem;background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1.5px solid #bfdbfe;border-radius:12px;padding:.7rem .9rem">
+             <div style="font-size:.72rem;font-weight:800;color:#2563eb;letter-spacing:.5px;margin-bottom:.3rem;display:flex;align-items:center;gap:.35rem"><i class="fas fa-comment-dots"></i> COMENTARIO DE TU PROFE</div>
+             <div style="font-size:.85rem;color:#1e3a5f;line-height:1.5">${sub.teacher_comment}</div>
+           </div>`:''}
          </div>
          <p style="font-size:.76rem;color:var(--muted);font-style:italic">Entregado el ${sub.submitted_at?(sub.submitted_at.toDate?fmtDate(sub.submitted_at.toDate()):fmtDate(new Date(sub.submitted_at))):''}</p>`
       : buildSubmitForm(t.id, t.submission_type);
