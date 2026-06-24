@@ -477,6 +477,134 @@ footer .f-contact{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:1px}
 .reveal.in{opacity:1;transform:translateY(0)}
 .d1{transition-delay:.05s}.d2{transition-delay:.12s}.d3{transition-delay:.19s}.d4{transition-delay:.26s}
 
+/* ── VIRTUS STAGE CAROUSEL ─────────────────────────────────── */
+.vs-tabs{display:flex;gap:4px;margin-bottom:36px}
+.vs-tab{
+  font-family:'Chakra Petch',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:8px 22px;border:none;background:transparent;cursor:pointer;
+  color:var(--gray);border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+}
+.vs-tab.vs-active{color:var(--dark);border-color:var(--cyan)}
+.vs-tab:focus{outline:none}
+
+.vs-carousel-wrap{
+  margin:0 -110px;
+  overflow:hidden;
+  position:relative;
+}
+.vs-carousel{
+  display:flex;gap:14px;align-items:center;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  padding:24px 110px 52px;
+  scroll-behavior:smooth;
+}
+.vs-carousel::-webkit-scrollbar{display:none}
+
+.vs-card{
+  flex:0 0 210px;height:290px;
+  border-radius:22px;overflow:hidden;
+  scroll-snap-align:center;
+  position:relative;cursor:pointer;
+  transition:flex-basis .38s cubic-bezier(.34,1.2,.64,1),
+             height .38s cubic-bezier(.34,1.2,.64,1),
+             box-shadow .38s,opacity .38s;
+  opacity:.65;
+  user-select:none;
+}
+.vs-card.vs-active{
+  flex:0 0 290px;height:345px;
+  box-shadow:0 28px 70px rgba(0,0,0,.22);
+  opacity:1;
+}
+.vs-card-bg{position:absolute;inset:0}
+.vs-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(170deg,rgba(0,0,0,.04) 30%,rgba(0,0,0,.68) 100%);
+}
+.vs-card-art{
+  position:absolute;top:28px;left:50%;transform:translateX(-50%);
+  font-size:58px;line-height:1;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,.25));
+  transition:font-size .38s,top .38s;
+}
+.vs-card.vs-active .vs-card-art{font-size:80px;top:34px}
+.vs-card-body{position:absolute;bottom:0;left:0;right:0;padding:18px 20px;color:#fff}
+.vs-card-grade{
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  opacity:.65;margin-bottom:5px;font-family:'Chakra Petch',sans-serif;
+}
+.vs-card-name{
+  font-family:'Chakra Petch',sans-serif;
+  font-size:16px;font-weight:700;line-height:1.15;
+}
+.vs-card.vs-active .vs-card-name{font-size:20px}
+.vs-card-extra{
+  display:flex;align-items:center;gap:8px;margin-top:8px;
+  font-size:10px;color:rgba(255,255,255,.85);
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .3s,opacity .25s;
+}
+.vs-card.vs-active .vs-card-extra{max-height:40px;opacity:1}
+.vs-card-stars{color:#fbbf24;letter-spacing:.5px}
+.vs-card-age{
+  margin-left:auto;
+  background:rgba(255,255,255,.18);backdrop-filter:blur(4px);
+  border-radius:6px;padding:3px 10px;
+  font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;
+}
+
+/* Detail panel */
+.vs-detail{
+  background:var(--white);
+  border-radius:18px;
+  border:1px solid rgba(0,168,232,.13);
+  padding:28px 32px;
+  display:flex;gap:28px;align-items:flex-start;
+  flex-wrap:wrap;
+  transition:opacity .25s;
+}
+.vs-detail-left{display:flex;gap:18px;align-items:flex-start;flex:1;min-width:260px}
+.vs-detail-badge{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;transition:background .3s;
+}
+.vs-detail-info{flex:1}
+.vs-detail-title{
+  font-family:'Chakra Petch',sans-serif;
+  font-size:20px;font-weight:700;color:var(--dark);margin-bottom:2px;
+}
+.vs-detail-grade{font-size:9px;color:var(--cyan);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px}
+.vs-detail-desc{font-size:12px;color:var(--gray);line-height:1.85;max-width:520px}
+.vs-detail-tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.vs-detail-tool{
+  font-family:'Chakra Petch',sans-serif;font-size:10px;
+  color:var(--dark);background:var(--bg-soft);
+  border:1px solid rgba(0,168,232,.15);
+  padding:4px 12px;border-radius:99px;letter-spacing:.5px;
+}
+.vs-detail-right{
+  flex-shrink:0;min-width:155px;
+  padding-left:28px;border-left:1px solid rgba(0,168,232,.12);
+  display:flex;flex-direction:column;gap:6px;
+}
+.vs-detail-kit-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gray)}
+.vs-detail-kit-name{
+  font-family:'Chakra Petch',sans-serif;font-size:14px;font-weight:700;
+  color:var(--dark);margin-bottom:6px;line-height:1.3;
+}
+.vs-detail-stars{font-size:15px;color:#fbbf24}
+.vs-detail-reviews{font-size:10px;color:var(--gray)}
+.vs-detail-price{
+  margin-top:10px;
+  font-family:'Chakra Petch',sans-serif;
+  font-size:26px;font-weight:700;color:var(--cyan);
+}
+/* ── FIN CARRUSEL ── */
+
 /* RESPONSIVE ───────────────────────────────────────────────── */
 @media(max-width:1024px){
   .section{padding:80px 48px}
@@ -490,6 +618,9 @@ footer .f-contact{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:1px}
   .includes-grid{grid-template-columns:repeat(2,1fr)}
   .roadmap-layout{grid-template-columns:1fr}
   .kit-layout{grid-template-columns:1fr;gap:48px}
+  /* Carousel */
+  .vs-carousel-wrap{margin:0 -48px}
+  .vs-carousel{padding:24px 48px 52px}
 }
 @media(max-width:768px){
   /* Hero — stack layout */
@@ -549,6 +680,18 @@ footer .f-contact{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:1px}
   .kit-layout{grid-template-columns:1fr;gap:40px}
   footer{padding:24px;flex-direction:column;align-items:flex-start;gap:12px}
   .f-links{flex-direction:column;gap:10px}
+  /* Carousel mobile */
+  .vs-carousel-wrap{margin:0 -24px}
+  .vs-carousel{padding:20px 24px 44px;gap:10px}
+  .vs-card{flex:0 0 175px;height:255px}
+  .vs-card.vs-active{flex:0 0 235px;height:300px}
+  .vs-detail{flex-direction:column}
+  .vs-detail-right{
+    border-left:none;padding-left:0;
+    border-top:1px solid rgba(0,168,232,.12);padding-top:16px;
+    flex-direction:row;gap:24px;flex-wrap:wrap;align-items:center;
+  }
+  .vs-detail-price{margin-top:0}
 }
 </style>
 </head>
@@ -622,83 +765,115 @@ footer .f-contact{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:1px}
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════
-     PROGRAMA — 4 ETAPAS
+     PROGRAMA — CARRUSEL DE ETAPAS
 ════════════════════════════════════════════════════════════ -->
 <section class="section section--gray" id="programa">
   <div class="s-eyebrow">El programa</div>
-  <h2 class="s-title">Un recorrido completo,<br>grado a grado.</h2>
+  <h2 class="s-title reveal">Un recorrido completo,<br>grado a grado.</h2>
 
-  <div class="stages-grid">
-
-    <div class="stage reveal d1">
-      <div class="stage-num">01</div>
-      <div class="stage-grade">Inicial · 3–5 años</div>
-      <div class="stage-name">Pre-Robótica</div>
-      <div class="stage-sub">Nivel Inicial</div>
-      <div class="stage-tools">
-        <span>RoboTangram 3D</span>
-        <span>Juego estructurado</span>
-        <span>Motricidad y lógica</span>
-        <span>Pre-algoritmos físicos</span>
-      </div>
-      <div class="stage-kit">
-        <label>Kit personal</label>
-        <strong>Robot Insecto · 1 motor</strong>
-      </div>
-    </div>
-
-    <div class="stage reveal d2">
-      <div class="stage-num">02</div>
-      <div class="stage-grade">Básica Elemental · 1ro–4to</div>
-      <div class="stage-name">Robótica Inicial</div>
-      <div class="stage-sub">6 – 9 años</div>
-      <div class="stage-tools">
-        <span>Zmrobo Alpha</span>
-        <span>Scratch Jr.</span>
-        <span>LEGO WeDo</span>
-        <span>Pensamiento computacional</span>
-      </div>
-      <div class="stage-kit">
-        <label>Kit personal</label>
-        <strong>Seguidor de Luz · Caminante</strong>
-      </div>
-    </div>
-
-    <div class="stage reveal d3">
-      <div class="stage-num">03</div>
-      <div class="stage-grade">Básica Media · 5to–7mo</div>
-      <div class="stage-name">Robótica Aplicada</div>
-      <div class="stage-sub">10 – 12 años</div>
-      <div class="stage-tools">
-        <span>LEGO WeDo 2.0</span>
-        <span>Scratch avanzado</span>
-        <span>Mecánica + control</span>
-        <span>Algoritmos y lógica</span>
-      </div>
-      <div class="stage-kit">
-        <label>Kit personal</label>
-        <strong>Robot Soccer · Multi-eje</strong>
-      </div>
-    </div>
-
-    <div class="stage reveal d4">
-      <div class="stage-num">04</div>
-      <div class="stage-grade">Básica Superior · 8vo–10mo</div>
-      <div class="stage-name">Robótica Avanzada</div>
-      <div class="stage-sub">13 – 15 años</div>
-      <div class="stage-tools">
-        <span>Arduino + sensores</span>
-        <span>Python (introducción)</span>
-        <span>TinkerCAD · Fusion 360</span>
-        <span>Proyectos con propósito</span>
-      </div>
-      <div class="stage-kit">
-        <label>Kit personal</label>
-        <strong>Brazo Robótico · Bailarín</strong>
-      </div>
-    </div>
-
+  <!-- Tabs -->
+  <div class="vs-tabs">
+    <button class="vs-tab vs-active" onclick="vsTab(this)">Etapas</button>
+    <button class="vs-tab" onclick="vsTab(this)">Por Kit</button>
+    <button class="vs-tab" onclick="vsTab(this)">Por Edad</button>
   </div>
+
+  <!-- Carrusel de tarjetas -->
+  <div class="vs-carousel-wrap">
+    <div class="vs-carousel" id="vsCarousel">
+
+      <!-- CARD 01 -->
+      <div class="vs-card" data-idx="0" onclick="vsSelect(0)">
+        <div class="vs-card-bg" style="background:linear-gradient(145deg,#7c3aed 0%,#db2777 100%)"></div>
+        <div class="vs-card-overlay"></div>
+        <div class="vs-card-art">🪲</div>
+        <div class="vs-card-body">
+          <div class="vs-card-grade">Nivel Inicial · 3–5 años</div>
+          <div class="vs-card-name">Pre-Robótica</div>
+          <div class="vs-card-extra">
+            <span class="vs-card-stars">★★★★☆</span>
+            <span>86 niveles</span>
+            <span class="vs-card-age">3–5 a</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 02 -->
+      <div class="vs-card" data-idx="1" onclick="vsSelect(1)">
+        <div class="vs-card-bg" style="background:linear-gradient(145deg,#0e7490 0%,#2563eb 100%)"></div>
+        <div class="vs-card-overlay"></div>
+        <div class="vs-card-art">🤖</div>
+        <div class="vs-card-body">
+          <div class="vs-card-grade">Básica Elemental · 1ro–4to</div>
+          <div class="vs-card-name">Robótica Inicial</div>
+          <div class="vs-card-extra">
+            <span class="vs-card-stars">★★★★☆</span>
+            <span>124 niveles</span>
+            <span class="vs-card-age">6–9 a</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 03 — DESTACADA -->
+      <div class="vs-card vs-active" data-idx="2" onclick="vsSelect(2)">
+        <div class="vs-card-bg" style="background:linear-gradient(145deg,#c2410c 0%,#dc2626 100%)"></div>
+        <div class="vs-card-overlay"></div>
+        <div class="vs-card-art">⚙️</div>
+        <div class="vs-card-body">
+          <div class="vs-card-grade">Básica Media · 5to–7mo</div>
+          <div class="vs-card-name">Robótica Aplicada</div>
+          <div class="vs-card-extra">
+            <span class="vs-card-stars">★★★★★</span>
+            <span>198 niveles</span>
+            <span class="vs-card-age">10–12 a</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 04 -->
+      <div class="vs-card" data-idx="3" onclick="vsSelect(3)">
+        <div class="vs-card-bg" style="background:linear-gradient(145deg,#0f1c2e 0%,#1d4ed8 100%)"></div>
+        <div class="vs-card-overlay"></div>
+        <div class="vs-card-art">🦾</div>
+        <div class="vs-card-body">
+          <div class="vs-card-grade">Básica Superior · 8vo–10mo</div>
+          <div class="vs-card-name">Robótica Avanzada</div>
+          <div class="vs-card-extra">
+            <span class="vs-card-stars">★★★★★</span>
+            <span>244 niveles</span>
+            <span class="vs-card-age">13–15 a</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Panel de detalle -->
+  <div class="vs-detail" id="vsDetail">
+    <div class="vs-detail-left">
+      <div class="vs-detail-badge" id="vsBadge" style="background:linear-gradient(145deg,#c2410c,#dc2626)">⚙️</div>
+      <div class="vs-detail-info">
+        <div class="vs-detail-title" id="vsTitle">Robótica Aplicada</div>
+        <div class="vs-detail-grade" id="vsGrade">Básica Media · 5to–7mo · 10–12 años</div>
+        <div class="vs-detail-desc" id="vsDesc">Aquí la robótica se vuelve seria. Los estudiantes programan con micro:bit, diseñan estructuras mecánicas y participan en competencias internas. El pensamiento lógico y la colaboración son las herramientas clave.</div>
+        <div class="vs-detail-tools" id="vsTools">
+          <span class="vs-detail-tool">micro:bit + MakeCode</span>
+          <span class="vs-detail-tool">Scratch avanzado</span>
+          <span class="vs-detail-tool">Mecánica + control</span>
+          <span class="vs-detail-tool">Algoritmos y lógica</span>
+        </div>
+      </div>
+    </div>
+    <div class="vs-detail-right">
+      <div class="vs-detail-kit-label">Kit personal</div>
+      <div class="vs-detail-kit-name" id="vsKit">Robot Soccer · Multi-eje</div>
+      <div class="vs-detail-stars" id="vsStars">★★★★★</div>
+      <div class="vs-detail-reviews" id="vsReviews">198 niveles</div>
+      <div class="vs-detail-price">$45</div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -898,10 +1073,106 @@ footer .f-contact{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:1px}
 </footer>
 
 <script>
+// ── Reveal on scroll ──────────────────────────────────────────
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── VIRTUS Stage Carousel ────────────────────────────────────
+const vsData = [
+  {
+    name: 'Pre-Robótica',
+    grade: 'Nivel Inicial · 3–5 años',
+    art: '🪲',
+    gradient: 'linear-gradient(145deg,#7c3aed,#db2777)',
+    desc: 'En esta etapa los niños exploran la robótica con el cuerpo y los sentidos. Construyen formas, siguen secuencias y dan sus primeros pasos en la lógica a través del juego libre y estructurado.',
+    tools: ['RoboTangram 3D','Juego estructurado','Motricidad y lógica','Pre-algoritmos físicos'],
+    kit: 'Robot Insecto · 1 motor',
+    stars: '★★★★☆',
+    reviews: '86 niveles'
+  },
+  {
+    name: 'Robótica Inicial',
+    grade: 'Básica Elemental · 1ro–4to · 6–9 años',
+    art: '🤖',
+    gradient: 'linear-gradient(145deg,#0e7490,#2563eb)',
+    desc: 'Los estudiantes dan sus primeros pasos en programación visual con Scratch y ensamblan sus propios robots. Aprenden que las máquinas obedecen instrucciones y que ellos pueden darlas.',
+    tools: ['Zmrobo Alpha','Scratch Jr.','LEGO WeDo','Pensamiento computacional'],
+    kit: 'Seguidor de Luz · Caminante',
+    stars: '★★★★☆',
+    reviews: '124 niveles'
+  },
+  {
+    name: 'Robótica Aplicada',
+    grade: 'Básica Media · 5to–7mo · 10–12 años',
+    art: '⚙️',
+    gradient: 'linear-gradient(145deg,#c2410c,#dc2626)',
+    desc: 'Aquí la robótica se vuelve seria. Los estudiantes programan con micro:bit, diseñan estructuras mecánicas y participan en competencias internas. El pensamiento lógico y la colaboración son las herramientas clave.',
+    tools: ['micro:bit + MakeCode','Scratch avanzado','Mecánica + control','Algoritmos y lógica'],
+    kit: 'Robot Soccer · Multi-eje',
+    stars: '★★★★★',
+    reviews: '198 niveles'
+  },
+  {
+    name: 'Robótica Avanzada',
+    grade: 'Básica Superior · 8vo–10mo · 13–15 años',
+    art: '🦾',
+    gradient: 'linear-gradient(145deg,#0f1c2e,#1d4ed8)',
+    desc: 'La etapa más exigente. Los estudiantes programan en texto (Python/C++), diseñan piezas en 3D e implementan proyectos reales. Aquí nacen los futuros ingenieros e innovadores de Ecuador.',
+    tools: ['Arduino Nano + sensores','Python (introducción)','TinkerCAD · Fusion 360','Proyectos con propósito'],
+    kit: 'Brazo Robótico · Bailarín',
+    stars: '★★★★★',
+    reviews: '244 niveles'
+  }
+];
+
+let vsActive = 2;
+
+function vsSelect(idx) {
+  if (idx === vsActive) return;
+  vsActive = idx;
+  const cards = document.querySelectorAll('.vs-card');
+  cards.forEach((c, i) => c.classList.toggle('vs-active', i === idx));
+
+  const d = vsData[idx];
+  const detail = document.getElementById('vsDetail');
+  detail.style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('vsBadge').textContent = d.art;
+    document.getElementById('vsBadge').style.background = d.gradient;
+    document.getElementById('vsTitle').textContent = d.name;
+    document.getElementById('vsGrade').textContent = d.grade;
+    document.getElementById('vsDesc').textContent = d.desc;
+    document.getElementById('vsKit').textContent = d.kit;
+    document.getElementById('vsStars').textContent = d.stars;
+    document.getElementById('vsReviews').textContent = d.reviews;
+    document.getElementById('vsTools').innerHTML =
+      d.tools.map(t => `<span class="vs-detail-tool">${t}</span>`).join('');
+    detail.style.opacity = '1';
+  }, 160);
+
+  // Centrar la card activa en el carrusel
+  const carousel = document.getElementById('vsCarousel');
+  const card = cards[idx];
+  const offset = card.offsetLeft - carousel.clientWidth / 2 + card.offsetWidth / 2;
+  carousel.scrollTo({ left: offset, behavior: 'smooth' });
+}
+
+function vsTab(btn) {
+  document.querySelectorAll('.vs-tab').forEach(b => b.classList.remove('vs-active'));
+  btn.classList.add('vs-active');
+}
+
+// Auto-centrar la card activa al cargar
+window.addEventListener('load', () => {
+  const carousel = document.getElementById('vsCarousel');
+  const card = document.querySelectorAll('.vs-card')[vsActive];
+  if (card && carousel) {
+    const offset = card.offsetLeft - carousel.clientWidth / 2 + card.offsetWidth / 2;
+    carousel.scrollLeft = offset;
+  }
+});
 </script>
 </body>
 </html>
