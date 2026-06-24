@@ -482,242 +482,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════
-     SECCIÓN JUEGO INTERACTIVO
-══════════════════════════════════════ -->
-<section class="game-section" id="juego" aria-label="Juego interactivo de robótica">
-  <div class="section-shell">
-    <div class="game-layout">
-      <div class="game-copy">
-        <span class="eyebrow"><i class="fas fa-gamepad"></i> Prueba antes de inscribirte</span>
-        <h2>¡Juega con nuestros robots!</h2>
-        <p>Este juego lo hicimos nosotros en RoboWorks. Así se ve aprender a programar — creando cosas reales que otros pueden jugar.</p>
-        <div class="game-hints">
-          <span><i class="fas fa-mouse-pointer"></i> Haz clic en el juego para empezar</span>
-          <span><i class="fas fa-mobile-alt"></i> Compatible con móvil</span>
-        </div>
-        <a href="https://wa.me/593993340103?text=Hola,%20quiero%20inscribir%20a%20mi%20hijo%20en%20RoboWorks" target="_blank" class="primary-cta" style="margin-top:24px;display:inline-flex">
-          <i class="fab fa-whatsapp"></i> ¡Quiero inscribir a mi hijo!
-        </a>
-      </div>
 
-      <div class="game-container">
-        <iframe
-          src="https://scratch.mit.edu/projects/1329707697/embed"
-          allowtransparency="true"
-          width="485"
-          height="402"
-          frameborder="0"
-          scrolling="no"
-          allowfullscreen
-          title="Juego RoboWorks en Scratch"
-          style="display:block;width:100%;max-width:485px;border-radius:14px;aspect-ratio:485/402"
-        ></iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-/* ── GAME SECTION ── */
-.game-section{
-  padding:80px 0;
-  background:
-    radial-gradient(circle, rgba(0,168,232,.09) 1px, transparent 1px),
-    linear-gradient(140deg, #0a1622 0%, #0f1c2e 50%, #0d1f35 100%);
-  background-size:26px 26px,100% 100%;
-  color:#fff;
-  position:relative;
-  overflow:hidden;
-}
-.game-section::before{
-  content:'';position:absolute;top:-80px;right:-80px;
-  width:320px;height:320px;border-radius:50%;
-  background:radial-gradient(circle,rgba(0,168,232,.12),transparent 70%);
-  pointer-events:none;
-}
-.game-layout{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:center;
-  gap:52px;
-}
-.game-copy h2{color:#fff;font-size:clamp(1.8rem,3.5vw,2.8rem);margin:14px 0}
-.game-copy p{color:rgba(255,255,255,.72);font-size:1.05rem;line-height:1.75;margin-bottom:0}
-.game-copy .eyebrow{background:rgba(0,168,232,.18);color:#33c6f4;border:1px solid rgba(0,168,232,.3)}
-.game-hints{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.game-hints span{
-  display:flex;align-items:center;gap:7px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
-  border-radius:50px;padding:8px 14px;
-  font-size:.82rem;font-weight:600;color:rgba(255,255,255,.75);
-}
-.game-hints span i{color:#00a8e8}
-.game-container{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(0,168,232,.2);
-  border-radius:22px;
-  padding:16px;
-  box-shadow:0 20px 60px rgba(0,168,232,.15);
-}
-@media(max-width:860px){
-  .game-layout{grid-template-columns:1fr;gap:32px}
-  .game-copy{text-align:center}
-  .game-hints{justify-content:center}
-}
-@media(max-width:480px){
-  .game-section{padding:56px 0}
-  .game-container{padding:10px}
-}
-</style>
-
-<!-- ══════════════════════════════════════
-     SECCIÓN JUEGOS EDUCATIVOS
-══════════════════════════════════════ -->
-<section class="edu-games-section" id="juegos-educativos">
-  <div class="section-shell">
-    <div class="section-heading" style="text-align:center;margin-bottom:48px">
-      <span class="eyebrow"><i class="fas fa-puzzle-piece"></i> Aprender jugando</span>
-      <h2>Juegos educativos <span>RoboWorks</span></h2>
-      <p style="max-width:580px;margin:0 auto;color:#64748b;font-size:1.05rem;line-height:1.7">
-        Creamos experiencias digitales donde los niños desarrollan lógica, concentración y pensamiento espacial sin darse cuenta — porque están jugando.
-      </p>
-    </div>
-
-    <div class="edu-game-card">
-      <div class="edu-game-img">
-        <img src="images/robotangram.png" alt="RoboTangram — juego educativo de tangram">
-      </div>
-      <div class="edu-game-info">
-        <span class="edu-game-tag"><i class="fas fa-shapes"></i> Pensamiento espacial · Concentración</span>
-        <h3>RoboTangram</h3>
-        <p>Arma figuras de animales con las 7 piezas de tangram impresas en 3D de Worky. Cada nivel desafía la mente de los niños a rotar, encajar y visualizar formas — habilidades clave para matemáticas y robótica.</p>
-        <ul class="edu-benefits">
-          <li><i class="fas fa-brain"></i> Desarrolla razonamiento espacial</li>
-          <li><i class="fas fa-eye"></i> Mejora la concentración y atención</li>
-          <li><i class="fas fa-hand-paper"></i> Complementa el aprendizaje con piezas físicas 3D</li>
-          <li><i class="fas fa-star"></i> Sistema de estrellas que motiva el progreso</li>
-        </ul>
-        <a href="tangram.html" class="edu-game-btn">
-          <i class="fas fa-play-circle"></i> Jugar RoboTangram
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-/* ── EDU GAMES SECTION ── */
-.edu-games-section {
-  padding: 80px 0;
-  background: #f8faff;
-}
-.edu-game-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 52px;
-  background: #fff;
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,100,180,0.09);
-  border: 1.5px solid #e2eaf6;
-}
-.edu-game-img {
-  height: 100%;
-  min-height: 320px;
-  overflow: hidden;
-  background: linear-gradient(135deg, #e8f4fd 0%, #dbeeff 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.edu-game-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.edu-game-info {
-  padding: 40px 44px 40px 0;
-}
-.edu-game-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: #e8f4fd;
-  color: #0077b6;
-  border-radius: 50px;
-  padding: 6px 14px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-.edu-game-info h3 {
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
-  font-weight: 900;
-  color: #0f1c2e;
-  margin: 0 0 14px;
-}
-.edu-game-info p {
-  color: #64748b;
-  font-size: 1rem;
-  line-height: 1.75;
-  margin-bottom: 20px;
-}
-.edu-benefits {
-  list-style: none;
-  padding: 0; margin: 0 0 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.edu-benefits li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.93rem;
-  font-weight: 700;
-  color: #334155;
-}
-.edu-benefits li i {
-  color: #00a8e8;
-  width: 18px;
-  text-align: center;
-}
-.edu-game-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: linear-gradient(135deg, #00a8e8 0%, #0077b6 100%);
-  color: #fff;
-  font-family: 'Nunito', sans-serif;
-  font-size: 1rem;
-  font-weight: 900;
-  padding: 14px 32px;
-  border-radius: 9999px;
-  text-decoration: none;
-  box-shadow: 0 8px 24px rgba(0,168,232,0.28);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.edu-game-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0,168,232,0.38);
-}
-@media(max-width:860px) {
-  .edu-game-card {
-    grid-template-columns: 1fr;
-  }
-  .edu-game-img {
-    min-height: 220px;
-  }
-  .edu-game-info {
-    padding: 32px 28px;
-  }
-}
-</style>
 
 <section id="programas" class="programs-section">
   <div class="section-shell">
@@ -795,41 +560,41 @@
 </section>
 
 <section id="virtudes" class="virtues-section">
-  <div class="section-shell virtues-layout">
-    <div class="virtues-copy">
+  <div class="section-shell">
+
+    <!-- Título central -->
+    <div class="section-heading" style="text-align:center;margin-bottom:56px">
       <span class="eyebrow">Más que una academia</span>
-      <h2>Un lugar donde los niños siguen siendo niños.</h2>
-      <p>
-        La tecnología no debería apagar la infancia. En RoboWorks se juega, se pregunta, se intenta de nuevo y se celebra el esfuerzo.
-        Queremos que cada estudiante aprenda a enfrentar la vida con criterio, bondad y valentía.
-      </p>
-      <a href="https://wa.me/593993340103" target="_blank" class="primary-cta">Hablar con RoboWorks</a>
+      <h2>Tecnología con alma.<br>Un lugar donde los niños siguen siendo niños.</h2>
+      <p style="max-width:600px;margin:0 auto">La tecnología no debería apagar la infancia. En RoboWorks se juega, se pregunta, se intenta de nuevo y se celebra el esfuerzo.</p>
     </div>
 
-    <div class="virtue-grid">
+    <!-- Fila: 4 virtudes + 3 diferenciadores (7 tarjetas) -->
+    <div class="virtue-grid-full">
       <div class="virtue-card"><i class="fas fa-lightbulb"></i><h3>Ingenio</h3><p>Mirar un problema y encontrar caminos posibles.</p></div>
       <div class="virtue-card"><i class="fas fa-heart"></i><h3>Empatía</h3><p>Crear pensando en otros, no solo en la máquina.</p></div>
       <div class="virtue-card"><i class="fas fa-mountain"></i><h3>Perseverancia</h3><p>Probar, fallar, ajustar y volver a intentar.</p></div>
       <div class="virtue-card"><i class="fas fa-people-group"></i><h3>Colaboración</h3><p>Escuchar, explicar y construir en equipo.</p></div>
+      <div class="virtue-card trust-card"><i class="fas fa-robot"></i><h3>Robótica real</h3><p>Construyen, programan y presentan proyectos con sentido.</p></div>
+      <div class="virtue-card trust-card"><i class="fas fa-users"></i><h3>Grupos pequeños</h3><p>Acompañamos el ritmo y la personalidad de cada estudiante.</p></div>
+      <div class="virtue-card trust-card"><i class="fas fa-trophy"></i><h3>Competencias</h3><p>Participamos en torneos nacionales con equipos formados aquí.</p></div>
     </div>
+
+    <!-- Panel de ubicación + CTA -->
+    <div class="location-panel" style="margin-top:48px">
+      <h3>Estamos en Ambato, Tungurahua</h3>
+      <p>Un centro de robótica educativa para familias que quieren futuro sin perder humanidad.</p>
+      <div>
+        <span><i class="fas fa-shield-halved"></i> Ambiente seguro</span>
+        <span><i class="fas fa-certificate"></i> Certificados verificables QR</span>
+        <span><i class="fas fa-heart"></i> Comunidad familiar</span>
+      </div>
+      <a href="https://wa.me/593993340103" target="_blank" class="primary-cta">Hablar con RoboWorks</a>
+    </div>
+
   </div>
 </section>
 
-<section class="levels-section">
-  <div class="section-shell centered">
-    <span class="eyebrow light">Sistema de Certificación RoboWorks</span>
-    <h2>6 niveles. 3 años de formación real.</h2>
-    <p>Cada 6 meses tu hijo sube de nivel y recibe un certificado verificable con código QR. El certificado vale porque el aprendizaje detrás es real.</p>
-    <div class="levels-grid">
-      <div><small>Nivel 1</small><strong>SPARK</strong><span>5-7 años</span></div>
-      <div><small>Nivel 2</small><strong>RISE</strong><span>7-10 años</span></div>
-      <div><small>Nivel 3</small><strong>CORE</strong><span>9-12 años</span></div>
-      <div><small>Nivel 4</small><strong>SURGE</strong><span>11-14 años</span></div>
-      <div><small>Nivel 5</small><strong>PINNACLE</strong><span>13-16 años</span></div>
-      <div class="featured"><small>Nivel 6</small><strong>LEGEND</strong><span>15-17 años</span></div>
-    </div>
-  </div>
-</section>
 
 <section class="platform-section">
   <div class="section-shell platform-layout">
@@ -850,32 +615,6 @@
   </div>
 </section>
 
-<section id="confianza" class="trust-section">
-  <div class="section-shell">
-    <div class="section-heading">
-      <span class="eyebrow">Por qué elegir RoboWorks</span>
-      <h2>Tecnología con alma, estructura y acompañamiento.</h2>
-      <p>Acercamos la robótica a niños y jóvenes con grupos pequeños, retos reales y una cultura donde el error es parte del aprendizaje.</p>
-    </div>
-
-    <div class="trust-grid">
-      <div class="trust-item"><i class="fas fa-heart"></i><h3>Enfoque humano</h3><p>Formamos habilidades emocionales, sociales y creativas junto con la tecnología.</p></div>
-      <div class="trust-item"><i class="fas fa-robot"></i><h3>Robótica real</h3><p>Construyen, programan, miden, prueban y presentan proyectos con sentido.</p></div>
-      <div class="trust-item"><i class="fas fa-users"></i><h3>Atención personal</h3><p>Grupos pequeños para acompañar el ritmo y la personalidad de cada estudiante.</p></div>
-    </div>
-
-    <div class="location-panel">
-      <h3>Estamos en Ambato, Tungurahua</h3>
-      <p>Un centro de robótica educativa para familias que quieren futuro sin perder humanidad.</p>
-      <div>
-        <span><i class="fas fa-trophy"></i> Competencias nacionales</span>
-        <span><i class="fas fa-shield-halved"></i> Ambiente seguro</span>
-        <span><i class="fas fa-heart"></i> Comunidad familiar</span>
-      </div>
-      <a href="https://wa.me/593993340103" target="_blank" class="primary-cta">Consultar horarios</a>
-    </div>
-  </div>
-</section>
 
 <!-- ── VIRTUS STEAM BANNER ─────────────────────────────────────────────────── -->
 <section style="

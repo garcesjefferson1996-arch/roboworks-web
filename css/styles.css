@@ -624,6 +624,33 @@ p { color: var(--text); }
   gap: 16px;
 }
 
+/* Grid fusionada virtudes + diferenciadores (7 cards en fila) */
+.virtue-grid-full {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.virtue-grid-full .virtue-card:nth-child(5),
+.virtue-grid-full .virtue-card:nth-child(6),
+.virtue-grid-full .virtue-card:nth-child(7) {
+  grid-column: auto;
+}
+/* Fila 1: 4 cards · Fila 2: 3 cards centradas */
+@media(min-width:900px){
+  .virtue-grid-full {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .virtue-grid-full .trust-card:first-of-type {
+    grid-column: 1 / span 1;
+  }
+  /* Las 3 trust cards arrancan en col 1, 2, 3 — se auto-centran */
+}
+.trust-card {
+  background: linear-gradient(135deg, var(--bg-soft) 0%, #fff 100%);
+  border-color: rgba(0,168,232,.18);
+}
+.trust-card i { color: var(--primary); }
+
 .virtue-card {
   padding: 26px;
   background: var(--bg);
@@ -1049,7 +1076,8 @@ p { color: var(--text); }
   /* Grids */
   .program-grid,
   .virtue-grid,
-  .trust-grid    { grid-template-columns: 1fr; }
+  .virtue-grid-full,
+  .trust-grid    { grid-template-columns: 1fr 1fr; }
   .levels-grid   { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .virtues-layout,
   .platform-layout { grid-template-columns: 1fr; }
