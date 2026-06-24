@@ -461,10 +461,9 @@ footer{
   <!-- ── NAV ── -->
   <nav class="hero-nav">
     <a href="index.html" class="brand">
-      <img src="images/virtus/virtus-logo.png" alt="VIRTUS STEAM"
-           style="height:68px;width:auto;filter:brightness(0) invert(1);opacity:.9"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
-      <span style="display:none"><span class="b-r">VIRTUS</span> <span class="b-w">STEAM</span></span>
+      <img src="assets/icons/logo.png" alt="RoboWorks Logo"
+           onerror="this.style.display='none'">
+      <span><span class="b-r">ROBO</span><span class="b-w">WORKS</span></span>
     </a>
 
     <div class="nav-links">
@@ -488,6 +487,23 @@ footer{
     <button class="snum" onclick="vsSelect(1)">002</button>
     <button class="snum active" onclick="vsSelect(2)">003</button>
     <button class="snum" onclick="vsSelect(3)">004</button>
+  </div>
+
+  <!-- ── VIRTUS STEAM logo sobre el visual ── -->
+  <div style="
+    position:absolute;
+    left:calc(86px + 32px);
+    bottom:100px;
+    z-index:8;
+    pointer-events:none;
+  ">
+    <img src="images/virtus/virtus-logo.png" alt="VIRTUS STEAM"
+         style="width:clamp(180px,22vw,300px);height:auto;filter:brightness(0) invert(1);opacity:.85;display:block"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <div style="display:none;font-family:'Chakra Petch',sans-serif;font-weight:700;line-height:.9;letter-spacing:-1px;color:#fff;opacity:.85">
+      <div style="font-size:clamp(38px,5vw,72px)">VIRTUS</div>
+      <div style="font-size:clamp(16px,2vw,28px);letter-spacing:8px;font-weight:300;opacity:.7;margin-top:4px">STEAM</div>
+    </div>
   </div>
 
   <!-- ── CENTER — robot visual ── -->
