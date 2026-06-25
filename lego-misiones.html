@@ -734,16 +734,27 @@ const MISSIONS = [
   },
   {
     id: 2,
-    title: 'El Puente del Río',
+    title: 'El Gran Triángulo',
     level: '02',
     diff: 'Explorador',
     age: '6 – 9 años',
     time: '35 min',
-    videoId: null,
-    objective: 'Construye un puente resistente que una dos orillas y soporte el peso de un libro.',
-    pieces: [],
-    steps: [],
-    toast: '',
+    videoId: 'vapHXE7GrfI',
+    objective: 'Construye un triángulo usando bloques de diferentes tamaños. Aprenderás a combinar piezas de distintas longitudes para formar figuras geométricas con ángulos y lados definidos.',
+    pieces: [
+      { color: '#e3000b', name: 'Bloque 1×1', sub: 'Cualquier color · LEGO Classic', qty: '×14' },
+      { color: '#006db7', name: 'Bloque 1×2', sub: 'Cualquier color · LEGO Classic', qty: '×2' },
+      { color: '#ffd700', name: 'Bloque 1×3', sub: 'Cualquier color · LEGO Classic', qty: '×2' },
+      { color: '#00a650', name: 'Bloque 1×4', sub: 'Cualquier color · LEGO Classic', qty: '×3' }
+    ],
+    steps: [
+      'Observa el video completo antes de empezar.',
+      'Construye la base del triángulo con los bloques 1×4.',
+      'Sube los lados usando bloques 1×3 y 1×2.',
+      'Cierra la punta del triángulo con los bloques 1×1.',
+      'Verifica que la figura tenga forma de triángulo y muéstrasela al profe.'
+    ],
+    toast: '¡Construiste tu primer triángulo! Ya dominas las figuras geométricas con LEGO.',
     locked: true
   },
   {
@@ -874,7 +885,7 @@ function buildMap() {
       };
     }
 
-    const icons = ['fa-cubes','fa-bridge-water','fa-tree','fa-house','fa-rocket'];
+    const icons = ['fa-cubes','fa-play','fa-tree','fa-house','fa-rocket'];
 
     node.innerHTML = `
       <div class="node-bubble">
