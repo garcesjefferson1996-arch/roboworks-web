@@ -1372,8 +1372,10 @@ function computeAndShowGrades(){
   // 1. Clases: presente = 10, ausente = 0
   const att=student.attendance_map||{};
   const total=Object.keys(att).length;
-  const pres=Object.values(att).filter(Boolean).length;
-  const avgClases=total>0?Math.round(pres/total*1000)/100:null; // /10
+  // P/true=10, T=7, J=10, A/false=0
+  const attScore=v=>v==='P'||v===true?10:v==='T'?7:v==='J'?10:0;
+  const sumScores=Object.values(att).reduce((s,v)=>s+attScore(v),0);
+  const avgClases=total>0?Math.round(sumScores/total*10)/10:null;
 
   // 2. Tareas: promedio de entregas calificadas
   const graded=Object.values(taskSubmissions).filter(s=>s.grade!=null);

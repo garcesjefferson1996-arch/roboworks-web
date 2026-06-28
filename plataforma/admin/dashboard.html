@@ -223,14 +223,32 @@ textarea.form-control{resize:vertical;min-height:80px}
 .activity-text{flex:1;font-size:.8rem;color:var(--text)}
 .activity-time{font-size:.7rem;color:var(--text-light)}
 
+/* ── Hamburger button (solo mobile) ── */
+.mob-hamburger{display:none;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;padding:.45rem;color:var(--text);font-size:1.25rem;border-radius:10px;transition:.15s;flex-shrink:0}
+.mob-hamburger:hover{background:var(--bg)}
+/* ── Overlay para cerrar sidebar en mobile ── */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:149;-webkit-tap-highlight-color:transparent}
+.sb-overlay.visible{display:block}
+/* ── Botón cerrar dentro del sidebar (mobile) ── */
+.sb-close-btn{display:none;position:absolute;top:.75rem;right:.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.4rem .55rem;cursor:pointer;font-size:.9rem;color:var(--text-light);line-height:1}
 @media(max-width:900px){
-  .sb{display:none}
+  .mob-hamburger{display:flex}
+  .sb{transform:translateX(-110%);position:fixed;inset:0 auto 0 0;z-index:150;transition:transform .25s cubic-bezier(.4,0,.2,1);width:260px!important;display:flex!important}
+  .sb.open{transform:translateX(0);box-shadow:4px 0 32px rgba(0,0,0,.18)}
+  .sb-close-btn{display:block}
   .main{margin-left:0}
   .stats-grid{grid-template-columns:1fr 1fr}
   .form-row{grid-template-columns:1fr}
   .overview-grid{grid-template-columns:1fr}
+  .topbar{padding:.75rem 1rem}
+  .content{padding:1rem}
+  table{font-size:.78rem}
+  .modal-box{max-width:100%!important;border-radius:16px!important}
 }
-@media(max-width:500px){.stats-grid{grid-template-columns:1fr}}
+@media(max-width:500px){
+  .stats-grid{grid-template-columns:1fr}
+  .topbar-sub{display:none}
+}
 
 /* ─── ASISTENCIA / LECCIONARIO ───────────────────────── */
 .att-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -314,10 +332,32 @@ textarea.form-control{resize:vertical;min-height:80px}
 <script>
 firebase.initializeApp({apiKey:"AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",authDomain:"roboworks-app.firebaseapp.com",projectId:"roboworks-app",storageBucket:"roboworks-app.firebasestorage.app",messagingSenderId:"824986583831",appId:"1:824986583831:web:7477911bd5cb95a18a6d52"});
 const db=firebase.firestore();
+
+/* ── MOBILE SIDEBAR ─────────────────────────────── */
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sb-overlay').classList.add('visible');
+  document.body.style.overflow='hidden';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').classList.remove('visible');
+  document.body.style.overflow='';
+}
+// Cerrar sidebar al navegar en mobile
+const _origGoTab=goTab;
+async function goTab(id,btn){
+  if(window.innerWidth<=900) closeSidebar();
+  return _origGoTab(id,btn);
+}
 </script>
 
+<!-- OVERLAY MOBILE -->
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+
 <!-- SIDEBAR -->
-<nav class="sb">
+<nav class="sb" id="sidebar">
+  <button class="sb-close-btn" onclick="closeSidebar()" title="Cerrar menú">✕</button>
   <div class="sb-brand">
     <img src="/assets/icons/logo.png" alt="RoboWorks">
     <span>Robo<em>Works</em></span>
@@ -359,6 +399,9 @@ const db=firebase.firestore();
 <div class="main">
   <header class="topbar">
     <div class="topbar-left">
+      <button class="mob-hamburger" onclick="openSidebar()" title="Menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
       <div>
         <div class="topbar-title" id="topbar-title">Resumen</div>
         <div class="topbar-sub" id="topbar-sub">Panel de administración RoboWorks</div>
@@ -2320,10 +2363,21 @@ function renderAttStudentList(){
   const classId=document.getElementById('att-m-class').value;
   const list=document.getElementById('att-student-list');
   if(!classId){list.innerHTML='<div class="empty"><i class="fa-solid fa-users"></i><p>Selecciona una clase</p></div>';return;}
-  const enrolled=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(classId));
+  let enrolled=allStudents.filter(s=>s.class_ids&&s.class_ids.includes(classId));
+  // Fallback: si no hay estudiantes con esa clase, buscar por programa
   if(enrolled.length===0){
-    list.innerHTML='<div class="empty"><i class="fa-solid fa-circle-info" style="color:var(--gold)"></i><p>No hay estudiantes asignados a esta clase.</p><p style="font-size:.75rem;color:var(--text-light);margin-top:.35rem">Ve a <strong>Estudiantes → Editar</strong> y asigna la clase a cada estudiante.</p></div>';
-    return;
+    const cls=allClasses.find(c=>c.id===classId);
+    const progId=cls?.program_id;
+    const byProg=progId?allStudents.filter(s=>s.program_id===progId):[];
+    if(byProg.length>0){
+      enrolled=byProg;
+      list.insertAdjacentHTML('beforebegin',
+        '<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.55rem .85rem;margin-bottom:.5rem;font-size:.75rem;color:#92400e"><i class="fa-solid fa-triangle-exclamation" style="margin-right:.3rem"></i>Mostrando todos los estudiantes del programa (ninguno tiene esta clase asignada todavía). Puedes marcar igual.</div>'
+      );
+    } else {
+      list.innerHTML='<div class="empty"><i class="fa-solid fa-circle-info" style="color:var(--gold)"></i><p>No hay estudiantes en este programa.</p><p style="font-size:.75rem;color:var(--text-light);margin-top:.35rem">Ve a <strong>Estudiantes → Editar</strong> y asigna programa y clase a cada estudiante.</p></div>';
+      return;
+    }
   }
   list.innerHTML=enrolled.map(s=>`
     <div class="att-row">
@@ -2909,120 +2963,4 @@ async function printStudentReport(){
   const months=[getMonthKey(-2),getMonthKey(-1),getMonthKey(0)];
   const payRows=months.map(m=>{
     const p=allPayments.find(x=>x.student_id===studentId&&x.month===m);
-    return`<div class="receipt-row"><span>${fmtMonth(m)}:</span><span style="color:${(p&&p.status)==='paid'?'#065f46':'#991b1b'};font-weight:700">${(p&&p.status)==='paid'?'✓ Pagado ($'+Number(p.amount||0).toFixed(2)+')':'Pendiente'}</span></div>`;
-  }).join('');
-  const html=`<div class="receipt-box" style="max-width:480px">
-    <div style="text-align:center;margin-bottom:12px">
-      <div style="font-size:13pt;font-weight:700">RoboWorks Ambato</div>
-      <div style="font-size:11pt;font-weight:700;border:2px solid #000;padding:4px;margin-top:6px">REPORTE DEL ESTUDIANTE</div>
-      <div style="font-size:9pt;color:#666;margin-top:4px">Generado: ${today}</div>
-    </div>
-    <div class="receipt-row" style="font-size:12pt"><span><strong>Estudiante:</strong></span><span>${(s&&s.full_name)||'—'}</span></div>
-    <div class="receipt-row"><span>Programa:</span><span>${(prog&&prog.name)||'—'}</span></div>
-    <div class="receipt-row"><span>Nivel actual:</span><span><strong>${(s&&s.level)||'—'}</strong></span></div>
-    <div class="receipt-row"><span>Teléfono representante:</span><span>${(s&&s.parent_phone)||'—'}</span></div>
-    <hr style="margin:12px 0;border-color:#eee">
-    <div style="font-weight:700;margin-bottom:8px">ASISTENCIA</div>
-    <div class="receipt-row"><span>Clases registradas:</span><span>${total}</span></div>
-    <div class="receipt-row"><span>Presentes:</span><span style="color:#065f46;font-weight:700">${pCount} (${pct}%)</span></div>
-    <div class="receipt-row"><span>Ausencias:</span><span style="color:#991b1b">${aCount}</span></div>
-    <div class="receipt-row"><span>Tardanzas:</span><span style="color:#92400e">${tCount}</span></div>
-    <div class="receipt-row"><span>Justificadas:</span><span style="color:#1e40af">${jCount}</span></div>
-    <hr style="margin:12px 0;border-color:#eee">
-    <div style="font-weight:700;margin-bottom:8px">ESTADO DE PAGOS</div>
-    ${payRows}
-    <hr style="margin:12px 0;border-color:#eee">
-    <div style="font-size:9pt;color:#555;text-align:center;margin-top:12px">
-      RoboWorks Ambato · info@roboworks.com · +593 99 334 0103
-    </div>
-  </div>`;
-  document.getElementById('print-area').innerHTML=html;
-  window.print();
-}
-
-function printDirectory(){
-  const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
-  let html=`<div class="print-header">
-    <div class="print-title">DIRECTORIO DE ESTUDIANTES</div>
-    <div class="print-sub">RoboWorks Ambato &nbsp;|&nbsp; ${today} &nbsp;|&nbsp; Total: ${allStudents.length} estudiantes</div>
-  </div>
-  <table class="print-table"><thead><tr><th>N°</th><th>Nombre completo</th><th>Nivel</th><th>Programa</th><th>Teléfono representante</th><th>Usuario plataforma</th></tr></thead><tbody>`;
-  allStudents.forEach((s,i)=>{
-    const prog=allPrograms.find(p=>p.id===s.program_id);
-    html+=`<tr><td class="center">${i+1}</td><td>${s.full_name}</td><td class="center">${s.level||'—'}</td><td>${(prog&&prog.name)||'—'}</td><td>${s.parent_phone||'—'}</td><td style="font-family:monospace">${s.username||'—'}</td></tr>`;
-  });
-  html+=`</tbody></table><div class="print-footer"><span>Documento interno — RoboWorks</span><span>Firma: _______________________</span></div>`;
-  document.getElementById('print-area').innerHTML=html;
-  window.print();
-}
-
-// ═════════════════════════════════════════════════════════════
-// EQUIPO ADMIN
-// ═════════════════════════════════════════════════════════════
-let allAdmins=[];
-
-async function loadAdmins(){
-  document.getElementById('admins-tbody').innerHTML='<tr><td colspan="6"><div class="loader"><div class="spin"></div>Cargando...</div></td></tr>';
-  const snap=await db.collection('admins').get().catch(()=>({docs:[]}));
-  allAdmins=snap.docs.map(d=>({id:d.id,...d.data()}));
-  renderAdmins();
-}
-
-function renderAdmins(){
-  const tbody=document.getElementById('admins-tbody');
-  // Include hardcoded admins as reference
-  const hardcoded=[
-    {id:'_jeff',name:'Jeff Garces',username:'JeffGarces',role:'superadmin',active:true,createdBy:'Sistema'},
-    {id:'_estelita',name:'Esthelita Torres',username:'EsthelitaTorres',role:'superadmin',active:true,createdBy:'Sistema'},
-  ];
-  const all=[...hardcoded,...allAdmins];
-  tbody.innerHTML=all.map(a=>`<tr>
-    <td style="font-weight:600">${a.name}</td>
-    <td><code style="background:var(--bg);padding:.2rem .5rem;border-radius:4px;font-size:.78rem">${a.username}</code></td>
-    <td>${a.role==='superadmin'?'<span class="role-super"><i class="fa-solid fa-crown"></i> Super Admin</span>':'<span class="role-admin"><i class="fa-solid fa-user-shield"></i> Admin</span>'}</td>
-    <td><span class="active-dot ${a.active?'dot-on':'dot-off'}"></span>${a.active?'Activo':'Inactivo'}</td>
-    <td style="font-size:.78rem;color:var(--text-light)">${(a.createdBy)||a.created_by||'—'}</td>
-    <td>${a.id.startsWith('_')?'<span style="font-size:.72rem;color:var(--text-light)">Fijo</span>':`<div class="td-actions">
-      <button class="btn btn-ghost btn-sm btn-icon" onclick="toggleAdmin('${a.id}',${!a.active})" title="${a.active?'Desactivar':'Activar'}"><i class="fa-solid fa-${a.active?'ban':'check'}"></i></button>
-      <button class="btn btn-danger btn-sm btn-icon" onclick="deleteAdmin('${a.id}')" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
-    </div>`}</td>
-  </tr>`).join('');
-}
-
-async function saveAdmin(){
-  const name=document.getElementById('adm-name').value.trim();
-  const username=document.getElementById('adm-user').value.trim();
-  const pass=document.getElementById('adm-pass').value;
-  const role=document.getElementById('adm-role').value;
-  if(!name||!username||!pass){toast('Completa todos los campos','error');return;}
-  if(pass.length<6){toast('La contraseña debe tener al menos 6 caracteres','error');return;}
-  const adminName=localStorage.getItem('adminName')||'Admin';
-  try{
-    await db.collection('admins').add({name,username,password:pass,role,active:true,created_by:adminName,created_at:TS()});
-    toast('Administrador añadido correctamente');
-    closeModal('modal-admin');
-    document.getElementById('adm-name').value='';
-    document.getElementById('adm-user').value='';
-    document.getElementById('adm-pass').value='';
-    loadAdmins();
-  }catch(e){toast('Error: '+e.message,'error');}
-}
-
-async function toggleAdmin(id,newActive){
-  await db.collection('admins').doc(id).update({active:newActive});
-  toast(newActive?'Administrador activado':'Administrador desactivado');
-  loadAdmins();
-}
-
-async function deleteAdmin(id){
-  if(!confirm('¿Eliminar este administrador? Esta acción no se puede deshacer.')) return;
-  await db.collection('admins').doc(id).delete();
-  toast('Administrador eliminado');
-  loadAdmins();
-}
-
-
-function logout(){localStorage.removeItem('isAdmin');window.location.href='../login.html';}
-</script>
-</body>
-</html>
+    return`<div class="receipt-row"><span>${fmtMonth(m)}:</span><span style="color:${(p&&p.status)==='paid'?'#065f46':'#991b1b'};
