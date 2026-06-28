@@ -344,12 +344,6 @@ function closeSidebar(){
   document.getElementById('sb-overlay').classList.remove('visible');
   document.body.style.overflow='';
 }
-// Cerrar sidebar al navegar en mobile
-const _origGoTab=goTab;
-async function goTab(id,btn){
-  if(window.innerWidth<=900) closeSidebar();
-  return _origGoTab(id,btn);
-}
 </script>
 
 <!-- OVERLAY MOBILE -->
@@ -1316,6 +1310,7 @@ document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('clic
 const TABS={resumen:'Resumen',estudiantes:'Estudiantes',programas:'Programas',clases:'Clases',tareas:'Tareas',recursos:'Recursos y Materiales',niveles:'Progreso de Niveles',calificaciones:'Calificaciones',asistencia:'Asistencia',pagos:'Pagos',documentos:'Documentos',equipo:'Equipo Admin'};
 const TAB_SUBS={resumen:'Visión general de la academia',estudiantes:'Gestiona los estudiantes inscritos',programas:'Programas de enseñanza STEAM',clases:'Horarios y grupos de clase',tareas:'Asignaciones para los estudiantes',recursos:'Materiales y documentos de clase',niveles:'Seguimiento del camino SPARK → LEGEND',calificaciones:'Evalúa el portafolio y tareas de cada estudiante',asistencia:'Leccionario y registro de asistencia',pagos:'Seguimiento de pagos mensuales',documentos:'Genera e imprime documentos oficiales',equipo:'Gestión del equipo administrativo'};
 async function goTab(id,btn){
+  if(window.innerWidth<=900) closeSidebar();
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active'));
