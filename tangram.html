@@ -175,6 +175,49 @@
     #screen-map.active { display: block; }
 
     .map-header { text-align: center; margin-bottom: 44px; }
+    .world-section {
+      margin-bottom: 36px;
+    }
+    .world-section-header {
+      margin-bottom: 16px;
+    }
+    .world-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .world-pill-map {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(135deg,#0f1c2e,#1a3050);
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 900;
+      padding: 7px 16px;
+      border-radius: 9999px;
+      letter-spacing: .03em;
+      font-family: 'Nunito',sans-serif;
+    }
+    .world-count-chip {
+      font-size: .8rem;
+      font-weight: 800;
+      color: #64748b;
+      font-family: 'Nunito',sans-serif;
+    }
+    .world-progress-bar-wrap {
+      height: 5px;
+      background: #e2eaf6;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .world-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg,#00a8e8,#10b981);
+      border-radius: 9999px;
+      transition: width .5s ease;
+    }
     .map-world-pill {
       display: inline-flex; align-items: center; gap: 8px;
       background: #fff3ee;
@@ -642,19 +685,18 @@
   <div id="screen-map" class="tg-screen">
     <div class="section-shell">
       <div class="map-header">
-        <div class="map-world-pill"><i class="fas fa-map-marked-alt"></i> Mundo 1 — Selva</div>
-        <h2 class="map-title">Diario del <span>Explorador</span></h2>
-        <p class="map-subtitle">Cada animal que construyas quedará registrado para siempre en el diario de Worky.</p>
+        <div class="map-world-pill"><i class="fas fa-book-open"></i> Diario del Explorador</div>
+        <h2 class="map-title">Las aventuras <span>de Worky</span></h2>
+        <p class="map-subtitle">Cada figura que construyas queda registrada para siempre en el diario de Worky.</p>
         <div class="map-progress">
           <div class="progress-track">
             <div class="progress-fill" id="progress-fill" style="width:0%"></div>
           </div>
-          <p class="progress-text" id="progress-text">0 de 5 animales descubiertos</p>
+          <p class="progress-text" id="progress-text">¡Comienza tu expedición!</p>
         </div>
       </div>
 
-      <div class="puzzle-grid" id="puzzle-grid"></div>
-      <div class="dots-row" id="dots-row"></div>
+      <div id="worlds-container"></div>
     </div>
   </div>
 
@@ -667,7 +709,7 @@
       </button>
       <div class="pv-meta">
         <div class="pv-name" id="pv-name">Gato 🐱</div>
-        <div class="pv-world">Animal <span id="pv-num">1</span> de <span id="pv-total">5</span></div>
+        <div class="pv-world" id="pv-world-text">Figura 1 de 5</div>
       </div>
       <div class="pv-stars-display" id="pv-stars-display">⭐⭐⭐</div>
     </div>
@@ -769,26 +811,64 @@ const PC = {
    Todos los SVGs en viewBox="0 0 200 200"
 ============================================= */
 const PUZZLES = [
-  { id:1, name:'Gato',    emoji:'🐱', level:'easy',   levelLabel:'Fácil',
+  /* ══ MUNDO 1 — SELVA ══ */
+  { id:1, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Gato',    emoji:'🐱', level:'easy',   levelLabel:'Fácil',
     silImg:'gato_silueta.svg',    colorImg:'gato.svg',
     hint:'Las orejas son los triángulos pequeños. El cuerpo, los dos triángulos grandes.',
-    msg:'¡Miau! Worky encontró un gato curioso acechando entre la maleza.' },
-  { id:2, name:'Cisne',   emoji:'🦢', level:'easy',   levelLabel:'Fácil',
+    msg:'¡Miau! Worky encontró un gato curioso acechando entre la maleza de la selva.' },
+  { id:2, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Cisne',   emoji:'🦢', level:'easy',   levelLabel:'Fácil',
     silImg:'cisne_silueta.svg',   colorImg:'Cisne.svg',
     hint:'El cuello largo usa el paralelogramo naranja. Los triángulos grandes forman el cuerpo.',
     msg:'¡Un cisne elegante! Worky lo encontró flotando en el río de la selva.' },
-  { id:3, name:'Pájaro',  emoji:'🐦', level:'easy',   levelLabel:'Fácil',
+  { id:3, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Pájaro',  emoji:'🐦', level:'easy',   levelLabel:'Fácil',
     silImg:'pajaro_silueta.svg',  colorImg:'pajaro.svg',
     hint:'Las alas son los dos triángulos grandes. ¡Ábrelos hacia los lados!',
     msg:'¡Worky vio este pájaro volar sobre la copa de los árboles!' },
-  { id:4, name:'Conejo',  emoji:'🐰', level:'medium', levelLabel:'Medio',
+  { id:4, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Conejo',  emoji:'🐰', level:'medium', levelLabel:'Medio',
     silImg:'conejo_silueta.svg',  colorImg:'conejo.svg',
     hint:'Las orejas largas son los triángulos pequeños en vertical.',
     msg:'¡Un conejo saltó justo frente a Worky en la maleza!' },
-  { id:5, name:'Camello', emoji:'🐪', level:'medium', levelLabel:'Medio',
+  { id:5, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Camello', emoji:'🐪', level:'medium', levelLabel:'Medio',
     silImg:'camello_silueta.svg', colorImg:'camello.svg',
     hint:'La joroba del camello usa el triángulo mediano verde.',
-    msg:'¡Un camello del desierto en la selva! Worky no podía creerlo.' }
+    msg:'¡Un camello en la selva! Worky no podía creerlo. Lo registró en el diario.' },
+
+  /* ══ MUNDO 2 — PUEBLO MÁGICO ══ */
+  { id:6, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Casa',     emoji:'🏠', level:'easy',   levelLabel:'Fácil',
+    silImg:'casa_silueta.svg',    colorImg:'casa.svg',
+    hint:'El techo es un triángulo grande. Las paredes usan el cuadrado y el paralelogramo.',
+    msg:'¡Worky construyó la primera casa del Pueblo Mágico! Ya tienen donde vivir.' },
+  { id:7, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Cabaña',   emoji:'🏡', level:'easy',   levelLabel:'Fácil',
+    silImg:'casa2_silueta.svg',   colorImg:'casa2.svg',
+    hint:'El techo puntiagudo usa dos triángulos pequeños. El cuerpo, el triángulo grande.',
+    msg:'¡Esta cabaña con techo puntiagudo es perfecta para el carpintero del pueblo!' },
+  { id:8, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Casona',   emoji:'🏛️', level:'medium', levelLabel:'Medio',
+    silImg:'casa3_silueta.svg',   colorImg:'casa3.svg',
+    hint:'La casona grande usa los dos triángulos grandes como base. Úsalos bien.',
+    msg:'¡La casona será el ayuntamiento del pueblo! Worky está muy orgulloso de su obra.' },
+  { id:9, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Molino',   emoji:'⚙️', level:'medium', levelLabel:'Medio',
+    silImg:'Molino_silueta.svg',  colorImg:'Molino.svg',
+    hint:'Las aspas del molino son los triángulos pequeños en diagonal. El cuerpo es ancho.',
+    msg:'¡El molino de viento vuelve a girar! Los panaderos del Pueblo Mágico están felices.' },
+  { id:10, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Iglesia',  emoji:'⛪', level:'medium', levelLabel:'Medio',
+    silImg:'Iglesia_silueta.svg', colorImg:'Iglesia.svg',
+    hint:'La torre de la iglesia usa el triángulo pequeño arriba. La nave es el paralelogramo.',
+    msg:'¡La iglesia del Pueblo Mágico está lista! Las campanas vuelven a sonar para Worky.' },
+  { id:11, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Catedral', emoji:'🕍', level:'hard',   levelLabel:'Difícil',
+    silImg:'Iglesia2_silueta.svg',colorImg:'Iglesia2.svg',
+    hint:'La catedral es la más difícil. Dos torres usan los triángulos pequeños. ¡Paciencia!',
+    msg:'¡La catedral es la obra más grande! Todo el pueblo aplaudió a Worky al verla terminada.' }
 ];
 
 /* =============================================
@@ -823,8 +903,10 @@ function showPuzzle(id) {
   hintUsed = false;
 
   document.getElementById('pv-name').textContent = p.name + ' ' + p.emoji;
-  document.getElementById('pv-num').textContent = p.id;
-  document.getElementById('pv-total').textContent = PUZZLES.length;
+  const _wp = PUZZLES.filter(x => x.world === p.world);
+  const _wi = _wp.findIndex(x => x.id === p.id) + 1;
+  document.getElementById('pv-world-text').textContent =
+    p.worldIcon + ' Mundo ' + p.world + ' · ' + p.worldName + ' — ' + _wi + ' de ' + _wp.length;
 
   // Imágenes SVG de Illustrator
   const base = 'images/tangram/';
@@ -870,7 +952,10 @@ function puzzleDone() {
 }
 
 function nextPuzzle() {
-  const next = PUZZLES.find(p => p.id === currentId + 1);
+  const cur = PUZZLES.find(p => p.id === currentId);
+  const wPuzzles = PUZZLES.filter(p => p.world === cur.world);
+  const curIdx = wPuzzles.findIndex(p => p.id === currentId);
+  const next = wPuzzles[curIdx + 1] || PUZZLES.find(p => p.world === cur.world + 1);
   if (next) showPuzzle(next.id);
   else showMap();
 }
@@ -885,7 +970,7 @@ function showCelebration(stars) {
 
   document.getElementById('cel-subtitle').textContent = msgs[stars - 1];
   document.getElementById('cel-animal-name').textContent = p.name + ' ' + p.emoji;
-  document.getElementById('cel-animal-msg').textContent = `Animal #${p.id} registrado en el diario`;
+  document.getElementById('cel-animal-msg').textContent = `${p.worldIcon} ${p.worldName} · Figura #${p.id} registrada en el diario`;
   document.getElementById('cel-animal-svg').innerHTML =
     `<img src="images/tangram/${p.colorImg}" width="80" height="80" style="object-fit:contain;display:block">`;
 
@@ -918,51 +1003,88 @@ function showCelebration(stars) {
    RENDER MAPA
 ============================================= */
 function renderMap() {
-  const done = countDone();
+  const totalDone = countDone();
   const total = PUZZLES.length;
-  const pct = Math.round(done/total*100);
+  const pct = Math.round(totalDone/total*100);
 
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('progress-text').textContent =
-    done === 0 ? '¡Comienza tu expedición con el Gato!' :
-    done === total ? '🎉 ¡Diario completo! Eres un explorador legendario.' :
-    `${done} de ${total} animales descubiertos · ${pct}%`;
+    totalDone === 0 ? '¡Comienza tu expedición con el Gato!' :
+    totalDone === total ? '🎉 ¡Diario completo! Eres un explorador legendario.' :
+    `${totalDone} de ${total} figuras completadas · ${pct}%`;
 
-  // Dots
-  const dr = document.getElementById('dots-row');
-  dr.innerHTML = '';
-  PUZZLES.forEach((p, i) => {
-    const d = document.createElement('div');
-    const s = getStars(p.id);
-    d.className = 'dot' + (s > 0 ? ' done' : (i===0 && done===0 ? ' current' : ''));
-    dr.appendChild(d);
-  });
+  const container = document.getElementById('worlds-container');
+  container.innerHTML = '';
 
-  // Cards
-  const grid = document.getElementById('puzzle-grid');
-  grid.innerHTML = '';
-  PUZZLES.forEach((p, i) => {
-    const stars = getStars(p.id);
-    const locked = i > 0 && getStars(PUZZLES[i-1].id) === 0;
-    const done = stars > 0;
+  const worlds = [...new Set(PUZZLES.map(p => p.world))];
 
-    const card = document.createElement('div');
-    card.className = `pz-card${locked?' locked':''}${done?' done':''}`;
-    card.innerHTML = `
-      <span class="pz-num">#${p.id}</span>
-      ${locked ? '<span class="pz-lock"><i class="fas fa-lock"></i></span>' : ''}
-      ${done  ? '<span class="pz-check"><i class="fas fa-check-circle"></i></span>' : ''}
-      <div class="pz-thumb">
-        <img src="images/tangram/${p.silImg}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain">
+  worlds.forEach(worldNum => {
+    const wPuzzles = PUZZLES.filter(p => p.world === worldNum);
+    const wDone = wPuzzles.filter(p => getStars(p.id) > 0).length;
+    const wPct = Math.round(wDone / wPuzzles.length * 100);
+    const w = wPuzzles[0];
+
+    // ── Sección del mundo
+    const section = document.createElement('div');
+    section.className = 'world-section';
+
+    // Header del mundo
+    const header = document.createElement('div');
+    header.className = 'world-section-header';
+    header.innerHTML = `
+      <div class="world-header-top">
+        <div class="world-pill-map">
+          <i class="fas fa-${worldNum===1?'tree':'city'}"></i>
+          ${w.worldIcon} Mundo ${worldNum} — ${w.worldName}
+        </div>
+        <span class="world-count-chip">${wDone}/${wPuzzles.length}</span>
       </div>
-      <div class="pz-name">${p.name} ${p.emoji}</div>
-      <div class="pz-stars">
-        ${[1,2,3].map(s=>`<span class="${s<=stars?'s-on':'s-off'}">${s<=stars?'★':'☆'}</span>`).join('')}
-      </div>
-      <span class="pz-level lv-${p.level}">${p.levelLabel}</span>`;
+      <div class="world-progress-bar-wrap">
+        <div class="world-progress-bar-fill" style="width:${wPct}%"></div>
+      </div>`;
+    section.appendChild(header);
 
-    if (!locked) card.addEventListener('click', () => showPuzzle(p.id));
-    grid.appendChild(card);
+    // Grid de cards
+    const grid = document.createElement('div');
+    grid.className = 'puzzle-grid';
+
+    wPuzzles.forEach((p, i) => {
+      const stars = getStars(p.id);
+      const locked = i > 0 && getStars(wPuzzles[i-1].id) === 0;
+      const done = stars > 0;
+
+      const card = document.createElement('div');
+      card.className = `pz-card${locked?' locked':''}${done?' done':''}`;
+      card.innerHTML = `
+        <span class="pz-num">#${p.id}</span>
+        ${locked ? '<span class="pz-lock"><i class="fas fa-lock"></i></span>' : ''}
+        ${done  ? '<span class="pz-check"><i class="fas fa-check-circle"></i></span>' : ''}
+        <div class="pz-thumb">
+          <img src="images/tangram/${p.silImg}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain">
+        </div>
+        <div class="pz-name">${p.name} ${p.emoji}</div>
+        <div class="pz-stars">
+          ${[1,2,3].map(s=>`<span class="${s<=stars?'s-on':'s-off'}">${s<=stars?'★':'☆'}</span>`).join('')}
+        </div>
+        <span class="pz-level lv-${p.level}">${p.levelLabel}</span>`;
+
+      if (!locked) card.addEventListener('click', () => showPuzzle(p.id));
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+
+    // Dots del mundo
+    const dotsRow = document.createElement('div');
+    dotsRow.className = 'dots-row';
+    wPuzzles.forEach((p, i) => {
+      const d = document.createElement('div');
+      const s = getStars(p.id);
+      d.className = 'dot' + (s > 0 ? ' done' : (i===0 && wDone===0 ? ' current' : ''));
+      dotsRow.appendChild(d);
+    });
+    section.appendChild(dotsRow);
+
+    container.appendChild(section);
   });
 }
 
