@@ -412,6 +412,46 @@ const fdb=firebase.firestore();
     </div>
 
 
+      <!-- ══ CALIFICACIONES ════════════════════════════════════ -->
+      <div class="card" id="grades-card" style="margin-top:1.25rem">
+        <div class="section-title" style="margin-bottom:1rem">
+          <i class="fas fa-chart-bar" style="color:#f59e0b"></i> Mis Calificaciones
+          <span id="grades-final-chip" style="margin-left:auto;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:#0f1c2e">—/100</span>
+        </div>
+
+        <!-- Barra de progreso hacia 80 -->
+        <div style="margin-bottom:1.1rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
+            <span style="font-size:.75rem;font-weight:700;color:#64748b">Progreso hacia la certificación</span>
+            <span style="font-size:.75rem;font-weight:800;color:#f59e0b">Mínimo: 80/100</span>
+          </div>
+          <div style="height:10px;background:#f1f5f9;border-radius:9999px;overflow:hidden">
+            <div id="grades-bar" style="height:100%;border-radius:9999px;background:linear-gradient(90deg,#f59e0b,#10b981);width:0%;transition:width .6s ease"></div>
+          </div>
+        </div>
+
+        <!-- Desglose por componente -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem">
+          <div style="background:#f8faff;border:1.5px solid #e2eaf6;border-radius:14px;padding:.875rem;text-align:center">
+            <div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.3rem">Clases · 30%</div>
+            <div id="g-clases" style="font-size:1.4rem;font-weight:900;font-family:'Nunito',sans-serif;color:#0f1c2e">—</div>
+            <div style="font-size:.7rem;color:#94a3b8">/10</div>
+          </div>
+          <div style="background:#f8faff;border:1.5px solid #e2eaf6;border-radius:14px;padding:.875rem;text-align:center">
+            <div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.3rem">Tareas · 30%</div>
+            <div id="g-tareas" style="font-size:1.4rem;font-weight:900;font-family:'Nunito',sans-serif;color:#0f1c2e">—</div>
+            <div style="font-size:.7rem;color:#94a3b8">/10</div>
+          </div>
+          <div style="background:#f8faff;border:1.5px solid #e2eaf6;border-radius:14px;padding:.875rem;text-align:center">
+            <div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.3rem">Proyecto · 40%</div>
+            <div id="g-proyecto" style="font-size:1.4rem;font-weight:900;font-family:'Nunito',sans-serif;color:#0f1c2e">—</div>
+            <div style="font-size:.7rem;color:#94a3b8">/10</div>
+          </div>
+        </div>
+
+        <div id="grades-cert-msg" style="display:none;margin-top:.875rem;padding:.65rem 1rem;border-radius:10px;font-size:.83rem;font-weight:700"></div>
+      </div>
+
       <!-- ══ ROBOMISIÓN ═══════════════════════════════════════ -->
       <div onclick="window.open('estudiante/robomision/index.html','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#7c3aed,#00a8e8);border-radius:20px;padding:1.5rem 1.75rem;display:flex;align-items:center;gap:1.25rem;margin-top:1.25rem;box-shadow:0 8px 28px rgba(124,58,237,.35);transition:.2s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 36px rgba(124,58,237,.45)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 28px rgba(124,58,237,.35)'">
         <img src="/assets/icons/robomision-logo.png" alt="RoboMisión" style="width:60px;height:60px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25))">
@@ -1327,6 +1367,63 @@ function loadAttendance(){
 // ─── TASKS ───────────────────────────────────────────────────
 let taskSubmissions={}; // keyed by task_id
 
+/* ── CALIFICACIONES ─────────────────────────────── */
+function computeAndShowGrades(){
+  // 1. Clases: presente = 10, ausente = 0
+  const att=student.attendance_map||{};
+  const total=Object.keys(att).length;
+  const pres=Object.values(att).filter(Boolean).length;
+  const avgClases=total>0?Math.round(pres/total*1000)/100:null; // /10
+
+  // 2. Tareas: promedio de entregas calificadas
+  const graded=Object.values(taskSubmissions).filter(s=>s.grade!=null);
+  const avgTareas=graded.length>0
+    ?Math.round(graded.reduce((sum,s)=>sum+s.grade,0)/graded.length*10)/10
+    :null;
+
+  // 3. Proyecto final
+  const proyecto=student.proyecto_grade!=null?student.proyecto_grade:null;
+
+  // 4. Fórmula: clases×30% + tareas×30% + proyecto×40%  → /100
+  let pts=0, possible=0;
+  if(avgClases!=null){pts+=avgClases*3; possible+=30;}
+  if(avgTareas!=null){pts+=avgTareas*3; possible+=30;}
+  if(proyecto!=null){pts+=proyecto*4;   possible+=40;}
+
+  const final=possible>0?Math.round(pts/possible*100*10)/10:null;
+
+  // Mostrar
+  document.getElementById('g-clases').textContent  = avgClases!=null?avgClases:'—';
+  document.getElementById('g-tareas').textContent  = avgTareas!=null?avgTareas:'—';
+  document.getElementById('g-proyecto').textContent= proyecto!=null?proyecto:'—';
+
+  const chip=document.getElementById('grades-final-chip');
+  const bar =document.getElementById('grades-bar');
+  const msg =document.getElementById('grades-cert-msg');
+
+  if(final!=null){
+    chip.textContent=final+'/100';
+    const pct=Math.min(final,100);
+    bar.style.width=pct+'%';
+    bar.style.background=pct>=80?'linear-gradient(90deg,#10b981,#059669)':pct>=60?'linear-gradient(90deg,#f59e0b,#d97706)':'linear-gradient(90deg,#ef4444,#dc2626)';
+    chip.style.color=pct>=80?'#10b981':pct>=60?'#d97706':'#ef4444';
+
+    msg.style.display='block';
+    if(pct>=80){
+      msg.style.background='#ecfdf5';msg.style.color='#065f46';msg.style.border='1.5px solid #6ee7b7';
+      msg.innerHTML='<i class="fas fa-trophy" style="margin-right:.4rem;color:#10b981"></i>¡Vas camino a tu certificación! Sigue así.';
+    } else {
+      const need=Math.round((80-pct)*10)/10;
+      msg.style.background='#fffbeb';msg.style.color='#92400e';msg.style.border='1.5px solid #fde68a';
+      msg.innerHTML=`<i class="fas fa-star" style="margin-right:.4rem;color:#f59e0b"></i>Necesitas <strong>${need} puntos más</strong> para alcanzar el 80 de certificación.`;
+    }
+  } else {
+    chip.textContent='—/100';
+    bar.style.width='0%';
+    msg.style.display='none';
+  }
+}
+
 async function loadTasks(){
   try{
     const [taskSnap,subSnap]=await Promise.all([
@@ -1351,6 +1448,7 @@ async function loadTasks(){
     renderTasks();
     renderTasksPreview();
     updateTaskBadge();
+    computeAndShowGrades();
   }catch(e){
     document.getElementById('tasks-list').innerHTML='<div class="empty-state"><i class="fas fa-list-check"></i><p>No hay tareas aún</p></div>';
     document.getElementById('pending-tasks-preview').innerHTML='<div class="empty-state"><i class="fas fa-check-circle"></i><p>Sin tareas pendientes</p></div>';

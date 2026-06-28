@@ -427,9 +427,9 @@ const db=firebase.firestore();
         <div class="table-wrap">
           <table>
             <thead><tr>
-              <th>Estudiante</th><th>Usuario</th><th>Nivel</th><th>Programa</th><th>Clases</th><th>Miembro desde</th><th>Acciones</th>
+              <th>Estudiante</th><th>Usuario</th><th>Nivel</th><th>Programa</th><th>Clases</th><th>Miembro desde</th><th>Promedio</th><th>Acciones</th>
             </tr></thead>
-            <tbody id="students-tbody"><tr><td colspan="7"><div class="loader"><div class="spin"></div>Cargando estudiantes...</div></td></tr></tbody>
+            <tbody id="students-tbody"><tr><td colspan="8"><div class="loader"><div class="spin"></div>Cargando estudiantes...</div></td></tr></tbody>
           </table>
         </div>
       </div>
@@ -1393,7 +1393,23 @@ function renderStudents(){
       <td>${prog?`<span class="badge badge-blue">${prog.name}</span>`:'<span class="badge badge-gray">Sin asignar</span>'}</td>
       <td><span class="badge badge-gray">${(s.class_ids&&s.class_ids.length)||0} clases</span></td>
       <td style="color:var(--text-light);font-size:.78rem">${fmtDate(s.created_at)}</td>
+      <td>${(()=>{
+        const att=s.attendance_map||{};
+        const total=Object.keys(att).length;
+        const pres=Object.values(att).filter(Boolean).length;
+        const ca=total>0?Math.round(pres/total*100)/10:null;
+        const ta=s.task_avg!=null?s.task_avg:null;
+        const pr=s.proyecto_grade!=null?s.proyecto_grade:null;
+        const pts=(ca!=null?ca*3:0)+(ta!=null?ta*3:0)+(pr!=null?pr*4:0);
+        const hasAny=ca!=null||ta!=null||pr!=null;
+        const color=pts>=80?'var(--green)':pts>=60?'var(--gold)':'var(--red)';
+        return hasAny
+          ?`<div style="font-size:.8rem;font-weight:700;color:${color}">${Math.round(pts*10)/10}/100</div>
+             <div style="font-size:.67rem;color:var(--text-light)">${ca!=null?'C:'+ca:' '} ${ta!=null?'T:'+ta:' '} ${pr!=null?'P:'+pr:' '}</div>`
+          :'<span style="color:var(--text-light);font-size:.75rem">—</span>';
+      })()}</td>
       <td><div class="td-actions">
+        <button class="btn btn-ghost btn-sm btn-icon" title="Proyecto Final" onclick="openProyectoModal('${s.id}')"><i class="fa-solid fa-trophy"></i></button>
         <button class="btn btn-ghost btn-sm btn-icon" title="Ver credenciales" onclick="showCredentials('${s.id}')"><i class="fa-solid fa-key"></i></button>
         <button class="btn btn-ghost btn-sm btn-icon" title="Editar" onclick="editStudent('${s.id}')"><i class="fa-solid fa-pen"></i></button>
         <button class="btn btn-danger btn-sm btn-icon" title="Eliminar" onclick="deleteStudent('${s.id}')"><i class="fa-solid fa-trash"></i></button>
@@ -1785,6 +1801,20 @@ async function viewSubmissions(taskId){
           <textarea id="tc-${s.id}" placeholder="✏️ Escribe un comentario para ${studentMap[s.student_id]||'el estudiante'}..." style="width:100%;padding:.55rem .75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;resize:vertical;min-height:58px;outline:none;color:#334155;box-sizing:border-box;transition:border-color .2s" onfocus="this.style.borderColor='#00a8e8'" onblur="this.style.borderColor='#e2e8f0'">${s.teacher_comment||''}</textarea>
           <button onclick="saveTeacherComment('${s.id}','${s.student_id}')" style="margin-top:.35rem;padding:.38rem .9rem;background:#00a8e8;color:#fff;border:none;border-radius:7px;font-size:.8rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem" onmouseover="this.style.background='#0086bb'" onmouseout="this.style.background='#00a8e8'"><i class="fa-solid fa-paper-plane"></i> Enviar comentario</button>
         </div>
+        <!-- NOTA TAREA /10 -->
+        <div style="margin-top:.65rem;padding-top:.65rem;border-top:1px dashed #e2e8f0;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <span style="font-size:.78rem;font-weight:800;color:#334155"><i class="fa-solid fa-star" style="color:#f59e0b;margin-right:.25rem"></i>Nota tarea:</span>
+          <input type="number" id="tg-${s.id}" min="0" max="10" step="0.5"
+            value="${s.grade!=null?s.grade:''}" placeholder="0 – 10"
+            style="width:72px;padding:.3rem .5rem;border:1.5px solid #e2e8f0;border-radius:7px;font-size:.9rem;font-weight:800;text-align:center;font-family:inherit">
+          <span style="font-size:.8rem;color:#94a3b8;font-weight:600">/ 10</span>
+          <button onclick="saveTaskGrade('${s.id}','${s.student_id}')"
+            style="padding:.38rem .9rem;background:#10b981;color:#fff;border:none;border-radius:7px;font-size:.8rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem"
+            onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+            <i class="fa-solid fa-check"></i> Calificar
+          </button>
+          ${s.grade!=null?`<span style="color:#10b981;font-size:.82rem;font-weight:800;display:inline-flex;align-items:center;gap:.3rem"><i class="fa-solid fa-circle-check"></i> ${s.grade}/10 guardado</span>`:'<span style="font-size:.75rem;color:#94a3b8">Sin calificar</span>'}
+        </div>
       </div>`).join('');
 
   modal.innerHTML=`<div style="background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.25)">
@@ -1800,6 +1830,82 @@ async function viewSubmissions(taskId){
   modal.classList.add('sub-modal-root');
   document.body.appendChild(modal);
   modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+}
+
+/* ── CALIFICACIONES ──────────────────────────────── */
+async function saveTaskGrade(submissionId, studentId){
+  const input=document.getElementById('tg-'+submissionId);
+  const grade=parseFloat(input?.value);
+  if(isNaN(grade)||grade<0||grade>10){toast('Ingresa una nota entre 0 y 10','warning');return;}
+  const btn=input?.nextElementSibling?.nextElementSibling;
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';}
+  try{
+    await db.collection('task_submissions').doc(submissionId).update({
+      grade, graded_by:'admin',
+      graded_at:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    const idx=allTaskSubmissions.findIndex(s=>s.id===submissionId);
+    if(idx>-1) allTaskSubmissions[idx].grade=grade;
+    await recalcStudentTaskAvg(studentId);
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-check"></i> Calificar';}
+    toast('Nota '+grade+'/10 guardada ✓','success');
+  }catch(e){
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-check"></i> Calificar';}
+    toast('Error: '+e.message,'error');
+  }
+}
+
+async function recalcStudentTaskAvg(studentId){
+  const graded=allTaskSubmissions.filter(s=>s.student_id===studentId&&s.grade!=null);
+  if(graded.length===0) return;
+  const avg=graded.reduce((sum,s)=>sum+s.grade,0)/graded.length;
+  const rounded=Math.round(avg*10)/10;
+  await db.collection('students').doc(studentId).update({task_avg:rounded});
+  const s=allStudents.find(x=>x.id===studentId);
+  if(s) s.task_avg=rounded;
+}
+
+function openProyectoModal(studentId){
+  const s=allStudents.find(x=>x.id===studentId);
+  if(!s) return;
+  const cur=s.proyecto_grade!=null?s.proyecto_grade:'';
+  const modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
+  modal.innerHTML=`
+    <div style="background:#fff;border-radius:20px;width:100%;max-width:420px;padding:1.75rem;box-shadow:0 20px 60px rgba(0,0,0,.25)">
+      <div style="font-weight:800;font-size:1.05rem;color:#0f172a;margin-bottom:.25rem"><i class="fa-solid fa-trophy" style="color:#f59e0b;margin-right:.4rem"></i>Proyecto Final</div>
+      <div style="font-size:.82rem;color:#64748b;margin-bottom:1.25rem">${s.full_name} — nota sobre 10</div>
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem">
+        <input id="proy-grade-input" type="number" min="0" max="10" step="0.5" value="${cur}" placeholder="0 – 10"
+          style="flex:1;padding:.65rem;border:2px solid #e2e8f0;border-radius:10px;font-size:1.3rem;font-weight:900;text-align:center;font-family:'Nunito',sans-serif;outline:none"
+          onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='#e2e8f0'">
+        <span style="font-size:1.1rem;font-weight:700;color:#94a3b8">/ 10</span>
+      </div>
+      <div style="display:flex;gap:.75rem;justify-content:flex-end">
+        <button onclick="this.closest('div[style*=fixed]').remove()"
+          style="padding:.55rem 1.1rem;background:#f1f5f9;border:none;border-radius:9px;font-size:.88rem;font-weight:700;cursor:pointer;color:#334155">Cancelar</button>
+        <button onclick="saveProyectoGrade('${studentId}',this.closest('div[style*=fixed]'))"
+          style="padding:.55rem 1.25rem;background:#f59e0b;color:#fff;border:none;border-radius:9px;font-size:.88rem;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:.4rem">
+          <i class="fa-solid fa-trophy"></i> Guardar nota
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+  document.getElementById('proy-grade-input').focus();
+}
+
+async function saveProyectoGrade(studentId, modalEl){
+  const grade=parseFloat(document.getElementById('proy-grade-input')?.value);
+  if(isNaN(grade)||grade<0||grade>10){toast('Nota entre 0 y 10','warning');return;}
+  try{
+    await db.collection('students').doc(studentId).update({proyecto_grade:grade});
+    const s=allStudents.find(x=>x.id===studentId);
+    if(s) s.proyecto_grade=grade;
+    modalEl.remove();
+    renderStudents();
+    toast('Proyecto calificado: '+grade+'/10 ✓','success');
+  }catch(e){toast('Error: '+e.message,'error');}
 }
 
 async function saveTeacherComment(submissionId, studentId){
