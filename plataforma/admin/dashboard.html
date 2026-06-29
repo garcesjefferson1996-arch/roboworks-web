@@ -2958,4 +2958,36 @@ async function printStudentReport(){
   const months=[getMonthKey(-2),getMonthKey(-1),getMonthKey(0)];
   const payRows=months.map(m=>{
     const p=allPayments.find(x=>x.student_id===studentId&&x.month===m);
-    return`<div class="receipt-row"><span>${fmtMonth(m)}:</span><span style="color:${(p&&p.status)==='paid'?'#065f46':'#991b1b'};
+    const paid=(p&&p.status)==='paid';
+    return`<div class="receipt-row"><span>${fmtMonth(m)}:</span><span style="color:${paid?'#065f46':'#991b1b'};font-weight:600">${paid?'✔ Pagado':'✘ Pendiente'}</span></div>`;
+  }).join('');
+  const html=`<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:16pt;font-weight:700;color:#1e3a5f">RoboWorks Ambato</div>
+      <div style="font-size:10pt;color:#555">Centro de Robotica Educativa</div>
+      <div style="font-size:13pt;font-weight:700;margin-top:8px;border:2px solid #1e3a5f;padding:4px;color:#1e3a5f">REPORTE DE ESTUDIANTE</div>
+    </div>
+    <div class="receipt-row"><span>Fecha:</span><span>${today}</span></div>
+    <div class="receipt-row"><span>Estudiante:</span><span>${(s&&s.full_name)||'—'}</span></div>
+    <div class="receipt-row"><span>Programa:</span><span>${(prog&&prog.name)||'—'}</span></div>
+    <div class="receipt-row"><span>Nivel:</span><span>${(s&&s.level)||'—'}</span></div>
+    <div style="margin-top:12px;font-weight:700;border-bottom:1px solid #ccc;padding-bottom:4px">Asistencia</div>
+    <div class="receipt-row"><span>Total clases:</span><span>${total}</span></div>
+    <div class="receipt-row"><span>Presentes (P):</span><span>${pCount}</span></div>
+    <div class="receipt-row"><span>Tardanzas (T):</span><span>${tCount}</span></div>
+    <div class="receipt-row"><span>Justificadas (J):</span><span>${jCount}</span></div>
+    <div class="receipt-row"><span>Ausentes (A):</span><span>${aCount}</span></div>
+    <div class="receipt-row receipt-total"><span>% Asistencia:</span><span>${pct}%</span></div>
+    <div style="margin-top:12px;font-weight:700;border-bottom:1px solid #ccc;padding-bottom:4px">Pagos (ultimos 3 meses)</div>
+    ${payRows}
+    <div style="margin-top:20px;font-size:9pt;color:#555;text-align:center">
+      RoboWorks Ambato · info@roboworks.com · +593 99 334 0103
+    </div>
+  </div>`;
+  document.getElementById('print-area').innerHTML=html;
+  window.print();
+}
+</script>
+</body>
+</html>
+>
