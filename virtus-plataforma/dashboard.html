@@ -25,7 +25,7 @@ body{display:flex;background:var(--bg)}
 /* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar);background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:50;box-shadow:2px 0 16px rgba(255,123,66,.08)}
 .sidebar-brand{padding:1.25rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}
-.sidebar-brand img{height:38px;filter:drop-shadow(0 2px 6px rgba(0,168,232,.25))}
+.sidebar-brand img{height:38px;filter:brightness(0) invert(1) drop-shadow(0 2px 6px rgba(255,123,66,.35))}
 .sidebar-brand-text{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.15rem;line-height:1}
 .sidebar-brand-text .r{color:var(--cyan)}
 .sidebar-brand-text .w{color:var(--orange)}
@@ -310,7 +310,7 @@ const fdb=firebase.firestore();
 <!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sidebar-brand">
-    <img src="/images/virtus/virtus-logo.png" alt="VIRTUS STEAM" style="height:38px;filter:brightness(0) saturate(100%) invert(46%) sepia(96%) saturate(552%) hue-rotate(344deg) brightness(101%) contrast(101%)">
+    <img src="/images/virtus/virtus-logo.png" alt="VIRTUS STEAM" style="height:38px;filter:brightness(0) invert(1);opacity:.9">
     <span class="sidebar-brand-text" style="font-size:.95rem"><span class="r">VIRTUS</span><span class="w"> STEAM</span></span>
   </div>
   <div class="sidebar-nav">
@@ -965,7 +965,7 @@ const CURRICULUM_ROBOWORKS=[
       {n:1,topic:'Scratch avanzado — sprites que se comunican',reto:"¿Cómo se 'hablan' dos sprites en Scratch? Explica el sistema broadcast/receive como si fuera una conversación entre dos personas."},
       {n:2,topic:'Listas en Scratch',reto:'¿Para qué sirve una lista? ¿En qué situación de la vida real usarías una lista en un programa? Da 2 ejemplos concretos.'},
       {n:3,topic:'¿Qué es Python?',reto:'Escribe el mismo programa en Scratch y en Python. ¿Qué diferencias ves? ¿Cuál te parece más claro y por qué?'},
-      {n:4,topic:'Mis primeras líneas en Python',reto:"Escribe un programa Python que le pregunte tu nombre y responda '¡Hola, [nombre]! Bienvenido a RoboWorks.' Pega tu código aquí."},
+      {n:4,topic:'Mis primeras líneas en Python',reto:"Escribe un programa Python que le pregunte tu nombre y responda '¡Hola, [nombre]! Bienvenido a VIRTUS STEAM.' Pega tu código aquí."},
       {n:5,topic:'Loops y condicionales en Python',reto:'¿Por qué Python usa indentación? ¿Qué pasa si no los pones correctamente? Muestra un ejemplo de error.'},
       {n:6,topic:'Mini-proyecto: Python + Scratch',reto:'¿Qué hace tu programa Python? ¿Qué hace tu proyecto Scratch? ¿Cómo se complementan? ¿Qué fue lo más difícil?'},
     ]},
@@ -1081,7 +1081,7 @@ const CURRICULUM_ROBOWORKS=[
     ]},
    ]},
   {id:6,name:'LEGEND',age:'15 – 17 años',color:'#7C3AED',
-   desc:'Flask, OpenCV, scikit-learn, Unity VR, MQTT y un proyecto Legacy con impacto real. El nivel más alto de RoboWorks.',
+   desc:'Flask, OpenCV, scikit-learn, Unity VR, MQTT y un proyecto Legacy con impacto real. El nivel más alto de VIRTUS STEAM.',
    tools:['Python Flask + REST APIs','scikit-learn (Machine Learning)','OpenCV (visión artificial)','MQTT + ESP32','Unity VR','Fusion 360 generativo'],
    units:[
     {name:'U1 — Arquitectura de Software',classes:[
@@ -1117,8 +1117,8 @@ const CURRICULUM_ROBOWORKS=[
       {n:24,topic:'Portfolio final + La Gran Defensa',reto:'Escribe el párrafo de apertura de tu defensa LEGEND: ¿quién eres, qué construiste en estos 3 años, qué problema resuelve tu proyecto y por qué importa?'},
     ]},
     {name:'Certificación LEGEND',classes:[
-      {n:25,topic:'La Gran Defensa',reto:'Reflexión LEGEND: ¿Cuál fue el momento más difícil de todo tu camino en RoboWorks? ¿Cuál fue el más orgulloso? Escribe todo lo que sientas.'},
-      {n:26,topic:'Ceremonia LEGEND',reto:'Este es tu mensaje permanente para todos los futuros estudiantes de RoboWorks. ¿Qué consejo le darías a alguien que empieza en SPARK y sueña con llegar a LEGEND?'},
+      {n:25,topic:'La Gran Defensa',reto:'Reflexión LEGEND: ¿Cuál fue el momento más difícil de todo tu camino en VIRTUS STEAM? ¿Cuál fue el más orgulloso? Escribe todo lo que sientas.'},
+      {n:26,topic:'Ceremonia LEGEND',reto:'Este es tu mensaje permanente para todos los futuros estudiantes de VIRTUS STEAM. ¿Qué consejo le darías a alguien que empieza en SPARK y sueña con llegar a LEGEND?'},
     ]},
    ]},
 ];

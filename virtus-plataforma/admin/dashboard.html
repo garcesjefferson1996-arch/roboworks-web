@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel RoboWorks — Administración</title>
+<title>Panel VIRTUS STEAM — Administración</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --sb:#0F172A;--sb-hover:#1E293B;--sb-active:#1E3A8A;
+  --sb:#0F172A;--sb-hover:#1E293B;--sb-active:#FF7B42;
   --blue:#2563EB;--blue-dark:#1E3A8A;--blue-light:#DBEAFE;--blue-xlight:#EFF6FF;
   --orange:#F97316;--orange-light:#FFF7ED;
   --green:#10B981;--green-light:#ECFDF5;
@@ -23,7 +23,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;font-size:14px;color:var(--
 body{display:flex;background:var(--bg)}
 
 /* ─── SIDEBAR ─────────────────────────────────────── */
-.sb{width:var(--sb-w);background:var(--sb);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:50;overflow:hidden}
+.sb{width:var(--sb-w);background:var(--sb);border-top:3px solid #FF7B42;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:50;overflow:hidden}
 .sb-brand{padding:1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:.75rem}
 .sb-brand img{height:32px;filter:brightness(0) invert(1);opacity:.95}
 .sb-brand span{color:#fff;font-weight:800;font-size:.95rem;letter-spacing:.3px}
@@ -33,11 +33,11 @@ body{display:flex;background:var(--bg)}
 .sb-item{display:flex;align-items:center;gap:.75rem;padding:.65rem .75rem;border-radius:8px;cursor:pointer;color:rgba(255,255,255,.6);font-size:.82rem;font-weight:500;transition:.15s;border:none;background:none;width:100%;text-align:left;position:relative}
 .sb-item i{width:16px;font-size:.9rem;flex-shrink:0}
 .sb-item:hover{background:var(--sb-hover);color:rgba(255,255,255,.9)}
-.sb-item.active{background:var(--blue);color:#fff;font-weight:600}
+.sb-item.active{background:#FF7B42;color:#fff;font-weight:600}
 .sb-badge{margin-left:auto;background:var(--orange);color:#fff;font-size:.6rem;font-weight:700;padding:.15rem .4rem;border-radius:10px;min-width:18px;text-align:center}
 .sb-footer{padding:.75rem;border-top:1px solid rgba(255,255,255,.08)}
 .sb-user{display:flex;align-items:center;gap:.75rem;padding:.65rem .75rem;border-radius:8px;background:rgba(255,255,255,.05)}
-.sb-avatar{width:32px;height:32px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:#fff;flex-shrink:0}
+.sb-avatar{width:32px;height:32px;border-radius:8px;background:#FF7B42;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:#fff;flex-shrink:0}
 .sb-user-info{flex:1}
 .sb-user-name{color:rgba(255,255,255,.9);font-size:.8rem;font-weight:600}
 .sb-user-role{color:rgba(255,255,255,.4);font-size:.7rem}
@@ -52,7 +52,7 @@ body{display:flex;background:var(--bg)}
 .topbar-sub{font-size:.78rem;color:var(--text-light)}
 .topbar-right{display:flex;align-items:center;gap:.75rem}
 .badge-pill{padding:.3rem .8rem;border-radius:20px;font-size:.72rem;font-weight:700}
-.badge-admin{background:var(--blue-xlight);color:var(--blue)}
+.badge-admin{background:#fff4ef;color:#FF7B42}
 .content{padding:1.5rem;flex:1}
 
 /* ─── TAB PANELS ────────────────────────────────────── */
@@ -63,7 +63,7 @@ body{display:flex;background:var(--bg)}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
 .stat-card{background:var(--white);border-radius:12px;padding:1.25rem;border:1px solid var(--border);display:flex;align-items:center;gap:1rem}
 .stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.stat-icon.blue{background:var(--blue-xlight);color:var(--blue)}
+.stat-icon.blue{background:#fff4ef;color:#FF7B42}
 .stat-icon.orange{background:var(--orange-light);color:var(--orange)}
 .stat-icon.green{background:var(--green-light);color:var(--green)}
 .stat-icon.gold{background:var(--gold-light);color:var(--gold)}
@@ -74,13 +74,13 @@ body{display:flex;background:var(--bg)}
 .card{background:var(--white);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:1.25rem}
 .card-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
 .card-title{font-size:.9rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.5rem}
-.card-title i{color:var(--blue)}
+.card-title i{color:#FF7B42}
 .card-body{padding:1.25rem}
 
 /* ─── BUTTONS ───────────────────────────────────────── */
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.15s;text-decoration:none}
-.btn-primary{background:var(--blue);color:#fff}
-.btn-primary:hover{background:var(--blue-dark)}
+.btn-primary{background:#0F1035;color:#fff}
+.btn-primary:hover{background:#1a1f5e}
 .btn-orange{background:var(--orange);color:#fff}
 .btn-orange:hover{background:#EA6C00}
 .btn-ghost{background:transparent;color:var(--text-light);border:1px solid var(--border)}
@@ -104,7 +104,7 @@ tr:hover td{background:#FAFAFA}
 
 /* ─── BADGES ────────────────────────────────────────── */
 .badge{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:6px;font-size:.7rem;font-weight:700}
-.badge-blue{background:var(--blue-xlight);color:var(--blue)}
+.badge-blue{background:var(--blue-xlight);color:#FF7B42}
 .badge-green{background:var(--green-light);color:var(--green)}
 .badge-orange{background:var(--orange-light);color:var(--orange)}
 .badge-red{background:var(--red-light);color:var(--red)}
@@ -125,7 +125,7 @@ tr:hover td{background:#FAFAFA}
 .form-group label{display:block;font-size:.75rem;font-weight:600;color:var(--text);margin-bottom:.4rem}
 .form-group label .req{color:var(--red)}
 .form-control{width:100%;padding:.65rem .875rem;border:2px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;color:var(--text);outline:none;transition:.15s;background:var(--white)}
-.form-control:focus{border-color:var(--blue);background:var(--blue-xlight)}
+.form-control:focus{border-color:#FF7B42;background:var(--blue-xlight)}
 select.form-control{cursor:pointer}
 textarea.form-control{resize:vertical;min-height:80px}
 .form-hint{font-size:.72rem;color:var(--text-light);margin-top:.3rem}
@@ -141,7 +141,7 @@ textarea.form-control{resize:vertical;min-height:80px}
 .grade-topic{flex:1;font-weight:600;font-size:.85rem}
 .grade-badge{font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:20px}
 .grade-badge.done{background:#ECFDF5;color:var(--green)}
-.grade-badge.submitted{background:#DBEAFE;color:var(--blue)}
+.grade-badge.submitted{background:#DBEAFE;color:#FF7B42}
 .grade-badge.empty{background:var(--bg);color:var(--text-light)}
 .grade-body{display:none;padding:.75rem 1rem 1rem;border-top:1px solid var(--border);background:#FAFBFF}
 .grade-body.open{display:block}
@@ -151,15 +151,15 @@ textarea.form-control{resize:vertical;min-height:80px}
 .grade-criterion .criterion-max{font-size:.7rem;color:var(--text-light)}
 .score-btns{display:flex;gap:.25rem;flex-wrap:wrap}
 .score-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;color:var(--text);transition:.12s}
-.score-btn:hover{border-color:var(--blue);color:var(--blue)}
-.score-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.score-btn:hover{border-color:#FF7B42;color:var(--blue)}
+.score-btn.active{background:var(--blue);border-color:#FF7B42;color:#fff}
 .grade-total-row{display:flex;align-items:center;gap:.75rem;padding:.6rem .75rem;background:#fff;border-radius:10px;border:1.5px solid var(--border);margin-bottom:.6rem}
 .grade-total-num{font-size:1.4rem;font-weight:900;font-family:'Nunito',sans-serif;color:var(--blue);min-width:56px}
 .grade-note-input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:.4rem .7rem;font-size:.82rem;font-family:inherit;resize:none}
 .grade-save-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:.45rem 1.1rem;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
 .grade-save-btn:hover{background:var(--blue-dark)}
 .month-tab-btn{padding:.35rem .85rem;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.12s}
-.month-tab-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.month-tab-btn.active{background:var(--blue);border-color:#FF7B42;color:#fff}
 .grade-avg-chip{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:20px;font-size:.78rem;font-weight:700;background:#fff;border:1.5px solid var(--border)}
 .grade-avg-chip.high{border-color:var(--green);color:var(--green);background:#ECFDF5}
 .grade-avg-chip.mid{border-color:var(--gold);color:#92400E;background:#FFFBEB}
@@ -274,7 +274,7 @@ textarea.form-control{resize:vertical;min-height:80px}
 .abtn.sel-P{background:var(--green);border-color:var(--green);color:#fff}
 .abtn.sel-A{background:var(--red);border-color:var(--red);color:#fff}
 .abtn.sel-T{background:var(--gold);border-color:var(--gold);color:#fff}
-.abtn.sel-J{background:var(--blue);border-color:var(--blue);color:#fff}
+.abtn.sel-J{background:var(--blue);border-color:#FF7B42;color:#fff}
 
 /* ─── PAGOS ──────────────────────────────────────────── */
 .pay-cell{display:inline-flex;align-items:center;justify-content:center;min-width:68px;padding:.28rem .45rem;border-radius:8px;font-size:.71rem;font-weight:700;cursor:pointer;border:1.5px solid var(--border);transition:.12s;gap:.2rem;white-space:nowrap}
@@ -353,8 +353,8 @@ function closeSidebar(){
 <nav class="sb" id="sidebar">
   <button class="sb-close-btn" onclick="closeSidebar()" title="Cerrar menú">✕</button>
   <div class="sb-brand">
-    <img src="/images/virtus/virtus-logo.png" alt="VIRTUS STEAM" style="height:36px;filter:brightness(0) saturate(100%) invert(46%) sepia(96%) saturate(552%) hue-rotate(344deg)">
-    <span>Robo<em>Works</em></span>
+    <img src="/images/virtus/virtus-logo.png" alt="VIRTUS STEAM" style="height:36px;filter:brightness(0) invert(1);opacity:.9">
+    <span>VIRTUS <em>STEAM</em></span>
   </div>
   <div class="sb-nav">
     <div class="sb-section">General</div>
@@ -382,7 +382,7 @@ function closeSidebar(){
       <div class="sb-avatar">JG</div>
       <div class="sb-user-info">
         <div class="sb-user-name" id="admin-name">Administrador</div>
-        <div class="sb-user-role">RoboWorks Admin</div>
+        <div class="sb-user-role">VIRTUS STEAM Admin</div>
       </div>
       <button class="sb-logout" onclick="logout()" title="Cerrar sesión"><i class="fa-solid fa-right-from-bracket"></i></button>
     </div>
@@ -398,7 +398,7 @@ function closeSidebar(){
       </button>
       <div>
         <div class="topbar-title" id="topbar-title">Resumen</div>
-        <div class="topbar-sub" id="topbar-sub">Panel de administración RoboWorks</div>
+        <div class="topbar-sub" id="topbar-sub">Panel de administración VIRTUS STEAM</div>
       </div>
     </div>
     <div class="topbar-right">
@@ -806,7 +806,7 @@ function closeSidebar(){
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>Nivel RoboWorks <span class="req">*</span></label>
+          <label>Nivel VIRTUS STEAM <span class="req">*</span></label>
           <select class="form-control" id="s-level" required>
             <option value="">Seleccionar nivel...</option>
             <option value="SPARK">Nivel 1 — SPARK (5-7 años)</option>
@@ -887,7 +887,7 @@ function closeSidebar(){
       <div class="form-group">
         <label>Tipo de currículo</label>
         <select class="form-control" id="p-curriculum">
-          <option value="roboworks">RoboWorks — Robótica, LEGO, Scratch, 3D</option>
+          <option value="roboworks">VIRTUS STEAM — Robótica, LEGO, Scratch, 3D</option>
           <option value="codeworks">CodeWorks — Programación Python</option>
         </select>
         <div class="form-hint">Determina qué portafolio y preguntas verán los estudiantes de este programa</div>
@@ -2463,7 +2463,7 @@ async function printAttendanceFull(){
   const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
   let html=`<div class="print-header">
     <div class="print-logo-row"><div><div class="print-title">LECCIONARIO DE ASISTENCIA</div>
-    <div class="print-sub">RoboWorks Ambato · Ambato, Tungurahua, Ecuador</div></div>
+    <div class="print-sub">VIRTUS STEAM Ambato · Ambato, Tungurahua, Ecuador</div></div>
     <div style="text-align:right;font-size:9pt;color:#555">Generado: ${today}</div></div>
     <div style="margin-top:8px;font-size:10pt"><strong>Clase:</strong> ${(cls&&cls.name)||'—'} &nbsp;|&nbsp;
     <strong>Programa:</strong> ${(prog&&prog.name)||'—'} &nbsp;|&nbsp;
@@ -2520,8 +2520,8 @@ function sendWhatsAppReminder(studentId){
   const mesNombre=fmtMonth(curMonth);
   const esSolo=siblings.length===0;
   const msg=esSolo
-    ?`Hola! Te recordamos que la mensualidad de ${nombres} en RoboWorks correspondiente a ${mesNombre} está pendiente. Puedes coordinar el pago con nosotros al 0993340103. ¡Gracias por confiar en RoboWorks! 🤖`
-    :`Hola! Te recordamos que las mensualidades de ${nombres} en RoboWorks correspondientes a ${mesNombre} están pendientes. Puedes coordinar el pago al 0993340103. ¡Gracias por confiar en RoboWorks! 🤖`;
+    ?`Hola! Te recordamos que la mensualidad de ${nombres} en VIRTUS STEAM correspondiente a ${mesNombre} está pendiente. Puedes coordinar el pago con nosotros al 0993340103. ¡Gracias por confiar en VIRTUS STEAM! 🤖`
+    :`Hola! Te recordamos que las mensualidades de ${nombres} en VIRTUS STEAM correspondientes a ${mesNombre} están pendientes. Puedes coordinar el pago al 0993340103. ¡Gracias por confiar en VIRTUS STEAM! 🤖`;
 
   const url=`https://wa.me/593${phone.replace(/^0/,'')}?text=${encodeURIComponent(msg)}`;
   window.open(url,'_blank');
@@ -2886,7 +2886,7 @@ async function printPaymentReport(){
   const today=new Date().toLocaleDateString('es-EC',{day:'2-digit',month:'long',year:'numeric'});
   let html=`<div class="print-header">
     <div class="print-title">REPORTE DE PAGOS</div>
-    <div class="print-sub">RoboWorks Ambato &nbsp;|&nbsp; Generado: ${today}</div>
+    <div class="print-sub">VIRTUS STEAM Ambato &nbsp;|&nbsp; Generado: ${today}</div>
   </div>
   <table class="print-table"><thead><tr><th>Estudiante</th><th>Nivel</th><th>Programa</th>
     ${months.map(m=>`<th class="center">${fmtMonth(m)}</th>`).join('')}</tr></thead><tbody>`;
@@ -2917,7 +2917,7 @@ async function printPaymentReceipt(){
   const amount=(pay&&pay.amount)||((s&&s.monthly_fee)||(prog&&prog.monthly_fee)||0);
   const html=`<div class="receipt-box">
     <div style="text-align:center;margin-bottom:16px">
-      <div style="font-size:14pt;font-weight:700">RoboWorks Ambato</div>
+      <div style="font-size:14pt;font-weight:700">VIRTUS STEAM Ambato</div>
       <div style="font-size:9pt;color:#666">Centro de Robótica Educativa · Ambato, Ecuador</div>
       <div style="font-size:11pt;font-weight:700;margin-top:8px;border:2px solid #000;padding:4px">COMPROBANTE DE PAGO</div>
     </div>
@@ -2930,7 +2930,7 @@ async function printPaymentReceipt(){
     ${(pay&&pay.note)?`<div class="receipt-row"><span>Nota:</span><span>${pay.note}</span></div>`:''}
     <div class="receipt-row receipt-total"><span>TOTAL:</span><span>$${Number(amount).toFixed(2)}</span></div>
     <div style="margin-top:20px;font-size:9pt;color:#555;text-align:center">
-      Gracias por confiar en RoboWorks.<br>
+      Gracias por confiar en VIRTUS STEAM.<br>
       info@roboworks.com · +593 99 334 0103<br>
       _________________________<br>Firma y sello
     </div>
@@ -2963,7 +2963,7 @@ async function printStudentReport(){
   }).join('');
   const html=`<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
     <div style="text-align:center;margin-bottom:16px">
-      <div style="font-size:16pt;font-weight:700;color:#1e3a5f">RoboWorks Ambato</div>
+      <div style="font-size:16pt;font-weight:700;color:#1e3a5f">VIRTUS STEAM Ambato</div>
       <div style="font-size:10pt;color:#555">Centro de Robotica Educativa</div>
       <div style="font-size:13pt;font-weight:700;margin-top:8px;border:2px solid #1e3a5f;padding:4px;color:#1e3a5f">REPORTE DE ESTUDIANTE</div>
     </div>
@@ -2981,7 +2981,7 @@ async function printStudentReport(){
     <div style="margin-top:12px;font-weight:700;border-bottom:1px solid #ccc;padding-bottom:4px">Pagos (ultimos 3 meses)</div>
     ${payRows}
     <div style="margin-top:20px;font-size:9pt;color:#555;text-align:center">
-      RoboWorks Ambato · info@roboworks.com · +593 99 334 0103
+      VIRTUS STEAM Ambato · info@roboworks.com · +593 99 334 0103
     </div>
   </div>`;
   document.getElementById('print-area').innerHTML=html;
