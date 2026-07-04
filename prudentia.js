@@ -731,7 +731,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){$all('.modal-overla
 $('#confirm-ok').addEventListener('click',()=>{closeModal('modal-confirm');if(confirmCallback)confirmCallback();});
 $('#confirm-cancel').addEventListener('click',()=>closeModal('modal-confirm'));
 
-dieHTML($('#hero-die1'),4);dieHTML($('#hero-die2'),6);
 spawnParticles();
 
 $('#btn-sound').addEventListener('click',()=>{
