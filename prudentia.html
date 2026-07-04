@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es-EC">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>VIRTUS: PRUDENTIA — Think. Decide. Dare. | RoboWorks</title>
+<meta name="description" content="VIRTUS: PRUDENTIA — una aventura educativa STEAM para practicar la prudencia mediante decisiones, riesgo y autocontrol. Think. Decide. Dare."/>
+<link rel="icon" type="image/png" href="assets/icons/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link rel="stylesheet" href="prudentia.css"/>
+</head>
+<body>
+<div id="fx-bg" aria-hidden="true"></div>
+<div id="toast-region" aria-live="polite"></div>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="view active" id="view-hero">
+  <div class="wrap">
+    <div class="brand-eyebrow">VIRTUS STEAM · Formación en Virtudes</div>
+    <div class="dice-duo" aria-hidden="true">
+      <div class="die3d" id="hero-die1"></div>
+      <div class="die3d d2" id="hero-die2"></div>
+    </div>
+    <div class="brand-lockup">
+      <h1 class="brand-title">VIRTUS</h1>
+      <div class="brand-sub">PRUDENTIA</div>
+    </div>
+    <div class="brand-tagline">Think<span class="dot">·</span>Decide<span class="dot">·</span>Dare</div>
+    <div class="hero-phrase">"Cada decisión cuenta."</div>
+    <p class="hero-copy">Una aventura donde avanzar requiere valor, pero detenerse también puede ser una decisión sabia.</p>
+
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" id="btn-new-adventure"><i class="fas fa-dice"></i> Nueva Aventura</button>
+      <button class="btn btn-ghost btn-lg" id="btn-continue-game"><i class="fas fa-play"></i> Continuar Partida</button>
+    </div>
+    <div class="btn-secondary-row">
+      <button class="btn btn-outline btn-sm" id="btn-howto"><i class="fas fa-circle-question"></i> Cómo Jugar</button>
+      <button class="btn btn-outline btn-sm" id="btn-previous"><i class="fas fa-clock-rotate-left"></i> Partidas Anteriores</button>
+    </div>
+    <div class="hero-footer-note">RoboWorks · VIRTUS STEAM</div>
+  </div>
+</section>
+
+<!-- HOW TO PLAY MODAL -->
+<div class="modal-overlay" id="modal-howto">
+  <div class="modal-box modal-wide" role="dialog" aria-modal="true" aria-labelledby="howto-title">
+    <button class="modal-close" data-close="modal-howto" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>
+    <div class="modal-title" id="howto-title">¿Cómo se juega PRUDENTIA?</div>
+    <p class="modal-sub">Los jugadores lanzan <b>dos dados físicos reales</b>. El facilitador registra el resultado en la pantalla y el motor de reglas hace el resto.</p>
+    <div class="howto-step">
+      <div class="howto-num">1</div>
+      <div class="howto-txt"><h4>Lanza y registra</h4><p>En tu turno, lanza los dos dados y pide al facilitador que registre el resultado.</p></div>
+    </div>
+    <div class="howto-step">
+      <div class="howto-num">2</div>
+      <div class="howto-txt"><h4>Suma normal</h4><p>Si no sale ningún 1 ni doble 6, se suman los dos dados a tus puntos en riesgo del turno.
+      <div class="rule-chip-row"><span class="rule-chip chip-green">Ej: 4 + 5 = +9 en riesgo</span></div></p></div>
+    </div>
+    <div class="howto-step">
+      <div class="howto-num">3</div>
+      <div class="howto-txt"><h4>Un solo 1</h4><p>Pierdes todos los puntos en riesgo de este turno. Tu puntaje asegurado no se toca. El turno termina.
+      <div class="rule-chip-row"><span class="rule-chip chip-red">Ej: 1 + 4 → pierdes el turno</span></div></p></div>
+    </div>
+    <div class="howto-step">
+      <div class="howto-num">4</div>
+      <div class="howto-txt"><h4>Doble 1</h4><p>¡Cuidado! Pierdes <b>todo</b> tu puntaje total de la partida, incluso lo asegurado. Regla con prioridad absoluta.
+      <div class="rule-chip-row"><span class="rule-chip chip-red">1 + 1 → puntaje total a cero</span></div></p></div>
+    </div>
+    <div class="howto-step">
+      <div class="howto-num">5</div>
+      <div class="howto-txt"><h4>Doble 6</h4><p>¡Celebración! Ganas +20 puntos en riesgo, pero siguen sin asegurar. Debes decidir igual.
+      <div class="rule-chip-row"><span class="rule-chip chip-gold">6 + 6 → +20 en riesgo</span></div></p></div>
+    </div>
+    <div class="howto-step">
+      <div class="howto-num">6</div>
+      <div class="howto-txt"><h4>Decide: Continuar o Asegurar</h4><p>Después de cada tirada válida, decide si arriesgas de nuevo o aseguras tus puntos del turno al total. La prudencia está en saber cuándo detenerte.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:1.2rem"><button class="btn btn-primary" data-close="modal-howto">Entendido</button></div>
+  </div>
+</div>
+
+<!-- PREVIOUS GAMES MODAL -->
+<div class="modal-overlay" id="modal-previous">
+  <div class="modal-box modal-wide" role="dialog" aria-modal="true" aria-labelledby="prev-title">
+    <button class="modal-close" data-close="modal-previous" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>
+    <div class="modal-title" id="prev-title">Partidas anteriores</div>
+    <p class="modal-sub">Retoma una partida en curso o revisa el cierre de una aventura pasada.</p>
+    <div id="previous-games-list"></div>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG (generic) -->
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal-box" role="alertdialog" aria-modal="true">
+    <div class="modal-title" id="confirm-title">¿Confirmar acción?</div>
+    <p class="modal-sub" id="confirm-msg"></p>
+    <div class="confirm-actions">
+      <button class="btn btn-outline btn-sm" id="confirm-cancel">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="confirm-ok" style="background:linear-gradient(135deg,var(--red),#b91c1c)">Sí, continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     WIZARD — PASO 1: DATOS DE LA AVENTURA
+============================================================ -->
+<section class="view view-panel" id="view-wizard1">
+  <div class="panel-hdr">
+    <div class="mini-brand">VIRTUS: PRUDENTIA</div>
+    <h2>Prepara la aventura</h2>
+    <p>Cuéntanos los datos de esta partida</p>
+    <div class="step-dots"><span class="step-dot active"></span><span class="step-dot"></span><span class="step-dot"></span></div>
+  </div>
+  <div class="wizard-body">
+    <div class="field">
+      <label for="w-name">Nombre de la partida *</label>
+      <input id="w-name" type="text" placeholder="Ej: Primera Aventura RoboWorks" maxlength="60">
+    </div>
+    <div class="field">
+      <label for="w-inst">Institución</label>
+      <input id="w-inst" type="text" placeholder="Ej: RoboWorks Academy" maxlength="60">
+    </div>
+    <div class="field">
+      <label for="w-group">Grupo o curso</label>
+      <input id="w-group" type="text" placeholder="Ej: RoboMisión" maxlength="60">
+    </div>
+    <div class="field">
+      <label for="w-facil">Nombre del facilitador</label>
+      <input id="w-facil" type="text" placeholder="Ej: Profe Jeff" maxlength="60">
+    </div>
+    <div class="field">
+      <label>Fecha</label>
+      <input type="text" id="w-date" disabled>
+    </div>
+  </div>
+  <div class="wizard-actions">
+    <button class="btn btn-outline" id="w1-back"><i class="fas fa-arrow-left"></i> Volver</button>
+    <div class="wa-spacer"></div>
+    <button class="btn btn-primary" id="w1-next">Continuar <i class="fas fa-arrow-right"></i></button>
+  </div>
+</section>
+
+<!-- WIZARD PASO 2: TIPO DE PARTIDA -->
+<section class="view view-panel" id="view-wizard2">
+  <div class="panel-hdr">
+    <div class="mini-brand">VIRTUS: PRUDENTIA</div>
+    <h2>Tipo de partida</h2>
+    <p>¿Cómo quieres jugar hoy?</p>
+    <div class="step-dots"><span class="step-dot"></span><span class="step-dot active"></span><span class="step-dot"></span></div>
+  </div>
+  <div class="wizard-body">
+    <div class="goal-grid">
+      <div class="goal-card" data-goal="50"><div class="gc-num">50</div><div class="gc-label">puntos</div></div>
+      <div class="goal-card selected" data-goal="100"><div class="gc-num">100</div><div class="gc-label">puntos</div><span class="gc-tag">RECOMENDADO</span></div>
+      <div class="goal-card" data-goal="150"><div class="gc-num">150</div><div class="gc-label">puntos</div></div>
+      <div class="goal-card" data-goal="custom"><div class="gc-num"><i class="fas fa-sliders"></i></div><div class="gc-label">Meta personalizada</div></div>
+      <div class="goal-card" data-goal="free"><div class="gc-num"><i class="fas fa-infinity"></i></div><div class="gc-label">Partida libre</div></div>
+      <div class="goal-card" data-goal="time"><div class="gc-num"><i class="fas fa-hourglass-half"></i></div><div class="gc-label">Partida por tiempo</div></div>
+    </div>
+    <div class="field" id="custom-goal-field" style="display:none">
+      <label for="w-custom-goal">Meta personalizada (puntos)</label>
+      <input id="w-custom-goal" type="number" min="10" step="10" placeholder="Ej: 200">
+    </div>
+    <div class="field" id="time-goal-field" style="display:none">
+      <label for="w-time-goal">Duración (minutos)</label>
+      <input id="w-time-goal" type="number" min="5" step="5" placeholder="Ej: 20">
+    </div>
+    <div class="field">
+      <label>Al alcanzar la meta</label>
+      <select id="w-endmode">
+        <option value="B" selected>Completar la ronda (todos juegan igual número de turnos) — recomendado</option>
+        <option value="A">Victoria inmediata</option>
+      </select>
+      <div class="hint">Aplica solo si hay una meta de puntos.</div>
+    </div>
+  </div>
+  <div class="wizard-actions">
+    <button class="btn btn-outline" id="w2-back"><i class="fas fa-arrow-left"></i> Volver</button>
+    <div class="wa-spacer"></div>
+    <button class="btn btn-primary" id="w2-next">Continuar <i class="fas fa-arrow-right"></i></button>
+  </div>
+</section>
+
+<!-- ============================================================
+     INSCRIPCIÓN DE JUGADORES
+============================================================ -->
+<section class="view view-panel" id="view-players">
+  <div class="panel-hdr">
+    <div class="mini-brand">VIRTUS: PRUDENTIA</div>
+    <h2>Prepara a tus aventureros</h2>
+    <p>¿Quiénes aceptarán el desafío de PRUDENTIA?</p>
+    <div class="step-dots"><span class="step-dot"></span><span class="step-dot"></span><span class="step-dot active"></span></div>
+  </div>
+  <div class="wizard-body" style="max-width:760px">
+    <div class="add-player-row">
+      <input id="p-name-input" type="text" placeholder="Nombre del jugador" maxlength="24" aria-label="Nombre del jugador">
+      <button class="btn btn-primary" id="p-add-btn"><i class="fas fa-plus"></i> Añadir</button>
+    </div>
+    <div class="player-count-chip"><i class="fas fa-users"></i> <span id="player-count-text">0 aventureros listos</span></div>
+    <div class="players-grid" id="players-grid"></div>
+    <div class="empty-players" id="empty-players-msg"><i class="fas fa-user-astronaut" style="font-size:2rem;display:block;margin-bottom:.6rem"></i>Añade al menos 2 jugadores para comenzar.</div>
+  </div>
+  <div class="wizard-actions">
+    <button class="btn btn-outline" id="pl-back"><i class="fas fa-arrow-left"></i> Volver</button>
+    <div class="wa-spacer"></div>
+    <button class="btn btn-gold btn-lg" id="pl-start" disabled><i class="fas fa-rocket"></i> Comenzar Aventura</button>
+  </div>
+</section>
+
+<!-- EDIT PLAYER MODAL -->
+<div class="modal-overlay" id="modal-edit-player">
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close="modal-edit-player" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>
+    <div class="modal-title">Editar jugador</div>
+    <div class="field"><label for="ep-name">Nombre</label><input id="ep-name" type="text" maxlength="24"></div>
+    <div class="field"><label for="ep-nick">Apodo (opcional)</label><input id="ep-nick" type="text" maxlength="16"></div>
+    <div class="field"><label for="ep-team">Equipo (opcional)</label><input id="ep-team" type="text" maxlength="20"></div>
+    <div class="field"><label>Avatar</label><div id="ep-avatars" style="display:flex;gap:.4rem;flex-wrap:wrap"></div></div>
+    <div class="field"><label>Color</label><div id="ep-colors" style="display:flex;gap:.4rem;flex-wrap:wrap"></div></div>
+    <div style="text-align:right;margin-top:1rem"><button class="btn btn-primary" id="ep-save">Guardar cambios</button></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TABLERO DE JUEGO
+============================================================ -->
+<section class="view" id="view-board">
+  <div class="board-topbar">
+    <div class="board-brand"><b>VIRTUS: PRUDENTIA</b><span>Think · Decide · Dare</span></div>
+    <div class="board-goal-chip" id="board-goal-chip">META: 100 PUNTOS</div>
+    <div class="board-icon-btns">
+      <button class="icon-btn" id="btn-sound" title="Silenciar sonido" aria-label="Silenciar sonido"><i class="fas fa-volume-high"></i></button>
+      <button class="icon-btn keep-projector" id="btn-projector" title="Modo proyector" aria-label="Modo proyector"><i class="fas fa-tv"></i></button>
+      <button class="icon-btn" id="btn-facilitator" title="Panel del facilitador" aria-label="Panel del facilitador"><i class="fas fa-user-gear"></i></button>
+    </div>
+  </div>
+
+  <div class="board-main">
+    <div class="board-primary">
+      <div class="turn-banner">
+        <div class="tb-label">Turno de</div>
+      </div>
+      <div class="current-player-card">
+        <div class="cp-avatar" id="cp-avatar">?</div>
+        <div class="cp-name" id="cp-name">—</div>
+        <div class="cp-position" id="cp-position">Posición — · Ronda 1</div>
+
+        <div class="score-duo">
+          <div class="score-box safe">
+            <div class="score-label">Puntaje seguro</div>
+            <div class="score-value" id="cp-safe">0</div>
+          </div>
+          <div class="score-box risk">
+            <div class="score-label">Puntos en riesgo</div>
+            <div class="score-value" id="cp-risk">0</div>
+          </div>
+        </div>
+        <div class="score-note" id="cp-risk-note">Aún no hay puntos en riesgo este turno.</div>
+        <div class="last-roll-row" id="last-roll-row" style="display:none">
+          Último lanzamiento: <div class="mini-die" id="lr-die1"></div><div class="mini-die" id="lr-die2"></div> <span id="lr-text"></span>
+        </div>
+      </div>
+
+      <button class="btn big-roll-btn" id="btn-register-roll"><i class="fas fa-dice-d6"></i> Registrar Lanzamiento</button>
+      <div class="turn-tools-row">
+        <button class="btn btn-outline btn-sm" id="btn-undo"><i class="fas fa-rotate-left"></i> Deshacer última jugada</button>
+        <button class="btn btn-outline btn-sm" id="btn-skip-turn"><i class="fas fa-forward"></i> Saltar turno</button>
+      </div>
+    </div>
+
+    <div class="board-side">
+      <div class="side-panel" id="panel-ranking">
+        <h3><i class="fas fa-trophy"></i> Clasificación</h3>
+        <div id="ranking-list"></div>
+      </div>
+      <div class="side-panel" id="panel-history">
+        <h3><i class="fas fa-clock-rotate-left"></i> Últimas jugadas</h3>
+        <div id="history-mini-list" style="max-height:260px;overflow-y:auto"></div>
+        <button class="btn btn-outline btn-sm" style="width:100%;margin-top:.6rem" id="btn-full-history">Ver historial completo</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DICE INPUT MODAL -->
+<div class="modal-overlay modal-forced" id="modal-dice">
+  <div class="modal-box modal-wide" role="dialog" aria-modal="true" aria-labelledby="dice-title">
+    <div class="modal-title" id="dice-title">¿Qué salió en los dados?</div>
+    <p class="modal-sub">Selecciona el valor exacto que muestran los dos dados físicos.</p>
+    <div class="dice-select-row">
+      <div class="dsr-label"><i class="fas fa-dice-one" style="color:var(--blue)"></i> Dado 1</div>
+      <div class="die-options" id="die1-options"></div>
+    </div>
+    <div class="dice-select-row">
+      <div class="dsr-label"><i class="fas fa-dice-two" style="color:var(--orange)"></i> Dado 2</div>
+      <div class="die-options" id="die2-options"></div>
+    </div>
+    <div class="confirm-roll-row">
+      <button class="btn btn-primary btn-lg" id="btn-confirm-roll" disabled><i class="fas fa-check"></i> Confirmar Resultado</button>
+    </div>
+  </div>
+</div>
+
+<!-- DECISION PANEL MODAL -->
+<div class="modal-overlay modal-forced" id="modal-decision">
+  <div class="modal-box modal-wide" role="dialog" aria-modal="true">
+    <div class="modal-title" style="text-align:center">¿QUÉ DECIDES?</div>
+    <div class="decision-scores">
+      <div class="score-box safe"><div class="score-label">Puntos seguros</div><div class="score-value" id="dec-safe">0</div></div>
+      <div class="score-box risk"><div class="score-label">Puntos en riesgo</div><div class="score-value" id="dec-risk">0</div></div>
+    </div>
+    <div class="decision-choice-grid">
+      <button class="choice-card choice-continue" id="btn-choice-continue">
+        <i class="fas fa-dice"></i>
+        <h4>CONTINUAR</h4>
+        <p>Lanza nuevamente y arriesga tus puntos del turno.</p>
+      </button>
+      <button class="choice-card choice-secure" id="btn-choice-secure">
+        <i class="fas fa-shield-halved"></i>
+        <h4 id="secure-btn-title">ASEGURAR PUNTOS</h4>
+        <p>Suma tus puntos al total y termina tu turno.</p>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SPECIAL EVENT: SINGLE ONE -->
+<div class="modal-overlay event-modal modal-forced" id="modal-single-one">
+  <div class="modal-box">
+    <div class="event-icon warn"><i class="fas fa-triangle-exclamation"></i></div>
+    <div class="event-title">¡RIESGO!</div>
+    <div class="event-sub">Perdiste los puntos de este turno.</div>
+    <div class="before-after">
+      <div class="ba-box"><div class="ba-label">Puntos del turno</div><div class="ba-val" id="s1-before">0</div></div>
+      <div class="ba-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="ba-box"><div class="ba-label">Ahora</div><div class="ba-val" style="color:var(--red)">0</div></div>
+    </div>
+    <p class="modal-sub">Tu puntaje asegurado sigue intacto: <b id="s1-total">0</b> puntos.</p>
+    <div style="text-align:center"><button class="btn btn-primary btn-lg" id="s1-next">Siguiente Jugador</button></div>
+  </div>
+</div>
+
+<!-- SPECIAL EVENT: DOUBLE ONE -->
+<div class="modal-overlay event-modal modal-forced" id="modal-double-one">
+  <div class="modal-box">
+    <div class="event-icon danger"><i class="fas fa-skull"></i></div>
+    <div class="event-title">¡DOBLE 1!</div>
+    <div class="event-sub">Tu puntaje total vuelve a cero.</div>
+    <div class="before-after">
+      <div class="ba-box"><div class="ba-label">Antes</div><div class="ba-val" id="d1-before">0</div></div>
+      <div class="ba-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="ba-box"><div class="ba-label">Ahora</div><div class="ba-val" style="color:var(--red)">0</div></div>
+    </div>
+    <p class="modal-sub">Respira. Cada partida es una nueva oportunidad de decidir mejor.</p>
+    <div style="text-align:center"><button class="btn btn-primary btn-lg" id="d1-next">Siguiente Jugador</button></div>
+  </div>
+</div>
+
+<!-- SPECIAL EVENT: DOUBLE SIX -->
+<div class="modal-overlay event-modal modal-forced" id="modal-double-six">
+  <div class="modal-box">
+    <div class="event-icon success"><i class="fas fa-star"></i></div>
+    <div class="event-title">¡DOBLE 6!</div>
+    <div class="event-sub">+20 PUNTOS</div>
+    <p class="modal-sub">Ahora tienes <b id="d6-newtotal">0</b> puntos en riesgo.</p>
+    <div style="text-align:center"><button class="btn btn-gold btn-lg" id="d6-next">Ver mi decisión</button></div>
+  </div>
+</div>
+
+<!-- SPECIAL EVENT: SECURE POINTS -->
+<div class="modal-overlay event-modal modal-forced" id="modal-secure">
+  <div class="modal-box">
+    <div class="event-icon secure"><i class="fas fa-shield-halved"></i></div>
+    <div class="event-title">¡PUNTOS ASEGURADOS!</div>
+    <div class="event-sub" id="secure-added">+0</div>
+    <p class="modal-sub">Nuevo total: <b id="secure-newtotal">0</b> puntos.</p>
+    <div style="text-align:center"><button class="btn btn-primary btn-lg" id="secure-next">Siguiente Jugador</button></div>
+  </div>
+</div>
+
+<!-- FULL HISTORY MODAL -->
+<div class="modal-overlay" id="modal-full-history">
+  <div class="modal-box modal-wide">
+    <button class="modal-close" data-close="modal-full-history" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>
+    <div class="modal-title">Historial completo</div>
+    <div id="full-history-list"></div>
+  </div>
+</div>
+
+<!-- FACILITATOR DRAWER -->
+<div class="drawer-overlay" id="facilitator-overlay"></div>
+<div class="drawer" id="facilitator-drawer" role="dialog" aria-label="Panel del facilitador">
+  <h3><i class="fas fa-user-gear"></i> Panel del Facilitador</h3>
+  <div class="drawer-group">
+    <div class="drawer-group-label">Partida</div>
+    <button class="drawer-btn" id="fp-pause"><i class="fas fa-pause"></i> <span id="fp-pause-label">Pausar partida</span></button>
+    <button class="drawer-btn" id="fp-stats"><i class="fas fa-chart-simple"></i> Ver estadísticas</button>
+    <button class="drawer-btn" id="fp-players"><i class="fas fa-users"></i> Ver / editar jugadores</button>
+  </div>
+  <div class="drawer-group">
+    <div class="drawer-group-label">Turno</div>
+    <button class="drawer-btn" id="fp-change-turn"><i class="fas fa-shuffle"></i> Cambiar turno</button>
+    <button class="drawer-btn" id="fp-correct-roll"><i class="fas fa-pen"></i> Corregir última tirada</button>
+    <button class="drawer-btn" id="fp-undo"><i class="fas fa-rotate-left"></i> Deshacer última acción</button>
+  </div>
+  <div class="drawer-group">
+    <div class="drawer-group-label">Zona de riesgo</div>
+    <button class="drawer-btn danger" id="fp-restart"><i class="fas fa-arrow-rotate-right"></i> Reiniciar partida</button>
+    <button class="drawer-btn danger" id="fp-finish"><i class="fas fa-flag-checkered"></i> Finalizar manualmente</button>
+  </div>
+</div>
+
+<!-- CHANGE TURN MODAL -->
+<div class="modal-overlay" id="modal-change-turn">
+  <div class="modal-box">
+    <button class="modal-close" data-close="modal-change-turn" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>
+    <div class="modal-title">Cambiar turno</div>
+    <p class="modal-sub">Selecciona quién juega ahora.</p>
+    <div id="change-turn-list"></div>
+  </div>
+</div>
+
+<!-- STATS MODAL -->
+<div class="modal-overlay" id="modal-stats">
+  <div class="modal-box modal-wide">
+    <button class="modal-close" data-close="modal-stats" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>
+    <div class="modal-title">Estadísticas pedagógicas</div>
+    <div id="stats-content"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PODIO FINAL
+============================================================ -->
+<section class="view" id="view-podium">
+  <div id="confetti-layer" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="podium-title">AVENTURA COMPLETADA</div>
+    <div class="podium-sub" id="podium-sub">¡Grandes decisiones hoy!</div>
+    <div class="podium-stage" id="podium-stage"></div>
+    <div class="stats-grid" id="recognitions-grid"></div>
+    <div class="podium-actions">
+      <button class="btn btn-gold btn-lg" id="btn-to-reflection"><i class="fas fa-brain"></i> Ir a la Reflexión</button>
+      <button class="btn btn-outline" id="btn-podium-stats"><i class="fas fa-chart-simple"></i> Ver estadísticas completas</button>
+      <button class="btn btn-ghost" id="btn-podium-home"><i class="fas fa-house"></i> Ir al inicio</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     REFLEXIÓN FINAL
+============================================================ -->
+<section class="view" id="view-reflection">
+  <div class="reflect-wrap">
+    <h2>¿QUÉ APRENDIMOS HOY?</h2>
+    <div class="reflect-lead">"La prudencia no significa tener miedo. Significa pensar antes de actuar, comprender los riesgos y elegir el momento correcto para avanzar o detenerse."</div>
+    <div id="reflect-questions"></div>
+    <div class="reflect-nav" id="reflect-dots"></div>
+    <button class="btn btn-primary btn-lg" id="btn-finish-reflection">Finalizar Reflexión</button>
+  </div>
+</section>
+
+<!-- FINAL SCREEN -->
+<section class="view" id="view-final">
+  <div class="final-screen">
+    <div class="brand-lockup" style="margin-bottom:1rem">
+      <h1 class="brand-title">VIRTUS</h1>
+      <div class="brand-sub">PRUDENTIA</div>
+    </div>
+    <div class="brand-tagline">Think<span class="dot">·</span>Decide<span class="dot">·</span>Dare</div>
+    <div class="hero-phrase" style="margin-top:1rem">"Cada decisión cuenta."</div>
+    <div style="margin-top:2.2rem"><button class="btn btn-primary btn-lg" id="btn-final-home"><i class="fas fa-house"></i> Volver al inicio</button></div>
+  </div>
+</section>
+
+<script src="prudentia.js"></script>
+</body>
+</html>

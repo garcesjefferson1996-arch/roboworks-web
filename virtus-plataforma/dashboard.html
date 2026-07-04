@@ -6,13 +6,11 @@
 <title>Mi Espacio — VIRTUS STEAM</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link rel="icon" href="/images/virtus/virtus-logo.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --cyan:#FF7B42;--cyan-dark:#cc5c1f;--cyan-light:#fff4ef;--cyan-glow:rgba(255,123,66,.18);
-  --orange:#ff7b42;--orange-light:#fff4ef;
+  --or:#FF7B42;--or-dark:#cc5c1f;--or-light:#fff4ef;
   --green:#10b981;--green-light:#ecfdf5;
   --gold:#f59e0b;--gold-light:#fffbeb;
   --purple:#7c3aed;--red:#ef4444;--red-light:#fef2f2;
@@ -22,2008 +20,702 @@
 html,body{height:100%;font-family:'Inter',sans-serif;font-size:15px;color:var(--text)}
 body{display:flex;background:var(--bg)}
 
-/* ── SIDEBAR ── */
-.sidebar{width:var(--sidebar);background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:50;box-shadow:2px 0 16px rgba(255,123,66,.08)}
+.sidebar{width:var(--sidebar);background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:50}
 .sidebar-brand{padding:1.25rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}
-.sidebar-brand img{height:38px;filter:brightness(0) invert(1) drop-shadow(0 2px 6px rgba(255,123,66,.35))}
-.sidebar-brand-text{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.15rem;line-height:1}
-.sidebar-brand-text .r{color:var(--cyan)}
-.sidebar-brand-text .w{color:var(--orange)}
+.sidebar-brand img{height:34px}
+.sidebar-brand-text{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem}
+.sidebar-brand-text span{color:var(--or)}
 .sidebar-nav{flex:1;padding:.875rem .75rem;overflow-y:auto}
-.nav-section-label{font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:.5rem .75rem .2rem;margin-top:.5rem}
-.nav-item{display:flex;align-items:center;gap:.75rem;padding:.7rem .875rem;border-radius:12px;cursor:pointer;color:var(--muted);font-size:.88rem;font-weight:600;transition:all .15s;margin-bottom:.2rem;border:none;background:none;width:100%;text-align:left}
+.nav-item{display:flex;align-items:center;gap:.75rem;padding:.7rem .875rem;border-radius:12px;cursor:pointer;color:var(--muted);font-size:.88rem;font-weight:600;border:none;background:none;width:100%;text-align:left;margin-bottom:.2rem}
 .nav-item i{width:18px;font-size:1rem;flex-shrink:0}
-.nav-item:hover{background:var(--cyan-light);color:var(--cyan-dark)}
-.nav-item:hover i{color:var(--cyan)}
-.nav-item.active{background:var(--cyan-light);color:var(--cyan-dark);font-weight:700}
-.nav-item.active i{color:var(--cyan)}
-.nav-item-game{background:linear-gradient(135deg,#7c3aed,#FF7B42);color:#fff!important;font-weight:800;box-shadow:0 4px 14px rgba(255,123,66,.35);animation:robomision-glow 2.4s ease-in-out infinite}
-.nav-item-game i{color:#fff!important}
-.nav-item-game:hover{background:linear-gradient(135deg,#6d28d9,#cc5c1f);color:#fff!important;transform:translateY(-1px)}
-.nav-item-game.active{background:linear-gradient(135deg,#6d28d9,#cc5c1f);color:#fff!important}
-.nav-game-badge{margin-left:auto;background:#fff;color:#7c3aed;font-size:.6rem;font-weight:900;padding:.15rem .4rem;border-radius:50px;letter-spacing:.5px;text-transform:uppercase}
-@keyframes robomision-glow{0%,100%{box-shadow:0 4px 14px rgba(124,58,237,.35)}50%{box-shadow:0 4px 22px rgba(0,168,232,.55)}}
+.nav-item:hover,.nav-item.active{background:var(--or-light);color:var(--or-dark)}
 .sidebar-footer{padding:.875rem .75rem;border-top:1px solid var(--border)}
 .student-chip{display:flex;align-items:center;gap:.75rem;padding:.875rem;border-radius:14px;background:var(--bg)}
-.student-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#FF7B42,#cc5c1f);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.9rem;font-family:'Nunito',sans-serif;flex-shrink:0;box-shadow:0 4px 12px rgba(255,123,66,.25)}
+.student-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--or),#cc5c1f);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:.9rem;font-family:'Nunito',sans-serif;flex-shrink:0}
 .student-chip-info{flex:1;overflow:hidden}
-.student-chip-name{font-size:.83rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Nunito',sans-serif}
-.student-chip-level{font-size:.7rem;color:var(--muted)}
-.logout-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:.3rem;font-size:.9rem;flex-shrink:0;border-radius:6px;transition:.15s}
-.logout-btn:hover{color:var(--red);background:var(--red-light)}
+.student-chip-name{font-size:.83rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Nunito',sans-serif}
+.logout-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:.3rem;font-size:.9rem;flex-shrink:0}
+.logout-btn:hover{color:var(--red)}
 
-/* ── MAIN ── */
 .main{margin-left:var(--sidebar);flex:1;min-height:100vh;display:flex;flex-direction:column}
-.topbar{background:#fff;border-bottom:1px solid var(--border);padding:.875rem 1.75rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;box-shadow:0 1px 8px rgba(0,0,0,.04)}
-.topbar-title{font-size:1rem;font-weight:800;color:var(--text);font-family:'Nunito',sans-serif}
-.topbar-right{display:flex;align-items:center;gap:.75rem}
-.level-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;border-radius:50px;font-size:.78rem;font-weight:800;letter-spacing:.3px;color:#fff;font-family:'Nunito',sans-serif}
-.xp-chip{background:var(--gold-light);color:var(--gold);border:1.5px solid #fde68a;padding:.35rem .875rem;border-radius:50px;font-size:.78rem;font-weight:800;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:.35rem}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:.875rem 1.75rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.topbar-title{font-size:1rem;font-weight:800;font-family:'Nunito',sans-serif}
 .content{flex:1;padding:1.75rem;max-width:1100px;width:100%}
 
-/* ── TABS ── */
 .tab-panel{display:none}
 .tab-panel.active{display:block}
 
-/* ── ROBOMISIÓN ── */
-.robomision-btn{display:flex;align-items:center;gap:.55rem;padding:.45rem .9rem .45rem .55rem;border:none;border-radius:50px;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#FF7B42);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:.8rem;box-shadow:0 4px 14px rgba(124,58,237,.3);transition:.15s;animation:robomision-glow 2.4s ease-in-out infinite}
-.robomision-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(124,58,237,.4)}
-.robomision-btn img{width:30px;height:30px;border-radius:50%;background:#fff;object-fit:contain;padding:2px;flex-shrink:0}
-.robomision-frame-wrap{width:100%;max-width:600px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 8px 30px rgba(124,58,237,.18);border:1px solid var(--border);background:#fff}
-.robomision-frame{width:100%;height:calc(100vh - 140px);min-height:680px;border:none;display:block}
+.card{background:#fff;border-radius:20px;border:1px solid var(--border);padding:1.5rem;margin-bottom:1.25rem}
+.section-title{font-size:1rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;font-family:'Nunito',sans-serif}
 
-/* ── CARDS ── */
-.card{background:#fff;border-radius:20px;border:1px solid var(--border);padding:1.5rem;box-shadow:0 2px 12px rgba(0,168,232,.06)}
-.card-sm{padding:1.1rem}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem}
-.section-title{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;font-family:'Nunito',sans-serif}
-.section-title i{color:var(--cyan)}
+.next-class-card{background:linear-gradient(135deg,#0F1035,#1a1f5e);color:#fff;border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.next-class-card::after{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(ellipse,rgba(255,123,66,.25) 0%,transparent 70%)}
+.next-class-tag{font-size:.7rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--or);margin-bottom:.5rem;position:relative;z-index:1}
+.next-class-name{font-size:1.4rem;font-weight:800;font-family:'Nunito',sans-serif;margin-bottom:.5rem;position:relative;z-index:1}
+.next-class-meta{display:flex;flex-wrap:wrap;gap:1.25rem;font-size:.85rem;color:rgba(255,255,255,.75);position:relative;z-index:1}
+.next-class-meta i{color:var(--or);margin-right:.4rem}
+.next-class-cta{margin-top:1.25rem;position:relative;z-index:1}
+.btn{padding:.65rem 1.2rem;border-radius:10px;border:none;font-weight:700;font-size:.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;font-family:inherit;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--or),#ffaa80);color:#fff}
+.btn-outline{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.3);color:#fff}
+.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--text)}
+.btn-ghost:hover{border-color:var(--or);color:var(--or-dark)}
+.btn-sm{padding:.4rem .8rem;font-size:.75rem}
 
-/* ── HERO ── */
-.hero{border-radius:24px;padding:2rem;margin-bottom:1.5rem;background:linear-gradient(140deg,#0F1035 0%,#1a1f5e 30%,#FF7B42 72%,#ffaa80 100%);color:#fff;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-70px;right:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.06)}
-.hero::after{content:'';position:absolute;bottom:-50px;left:15%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04)}
-.hero-inner{display:flex;align-items:center;gap:1.25rem;position:relative;z-index:1}
-.hero-worky{width:130px;flex-shrink:0;filter:drop-shadow(0 10px 24px rgba(0,0,0,.35))}
-.hero-text{flex:1}
-.hero h2{font-size:1.75rem;font-weight:900;margin-bottom:.3rem;font-family:'Nunito',sans-serif}
-.hero p{opacity:.82;font-size:.9rem;margin-bottom:1.25rem}
-.hero-stats{display:flex;gap:.75rem;flex-wrap:wrap;position:relative;z-index:1}
-.hero-lema{position:absolute;bottom:.75rem;right:1.25rem;font-size:.65rem;font-style:italic;color:rgba(255,255,255,.35);letter-spacing:1.5px;font-family:'Nunito',sans-serif;z-index:1;pointer-events:none}
-.hero-stat{background:rgba(255,255,255,.15);border-radius:12px;padding:.6rem 1rem;display:flex;align-items:center;gap:.6rem;font-size:.84rem;font-weight:700;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);font-family:'Nunito',sans-serif}
+.grid-classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.1rem}
+.class-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:1.25rem;cursor:pointer;transition:.15s}
+.class-card:hover{border-color:var(--or);box-shadow:0 6px 20px rgba(255,123,66,.12);transform:translateY(-2px)}
+.class-card h3{font-size:1rem;font-weight:800;margin-bottom:.4rem;font-family:'Nunito',sans-serif}
+.class-meta{font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:.3rem}
+.class-meta span i{width:16px;color:var(--or)}
 
-/* ── STAT CARDS ── */
-.stat-card{text-align:center;padding:1.25rem 1rem}
-.stat-value{font-size:2.4rem;font-weight:900;color:var(--cyan);line-height:1;font-family:'Nunito',sans-serif}
-.stat-label{font-size:.78rem;color:var(--muted);margin-top:.3rem;font-weight:600}
-.stat-card.orange .stat-value{color:var(--orange)}
-.stat-card.green .stat-value{color:var(--green)}
+.back-btn{display:inline-flex;align-items:center;gap:.5rem;background:none;border:none;color:var(--muted);font-weight:600;font-size:.85rem;cursor:pointer;margin-bottom:1rem}
+.back-btn:hover{color:var(--or)}
+.category-block{margin-bottom:1.25rem}
+.category-title{font-size:.82rem;font-weight:800;color:var(--or-dark);display:flex;align-items:center;gap:.4rem;margin-bottom:.6rem;font-family:'Nunito',sans-serif}
+.material-item{display:flex;align-items:center;gap:.75rem;padding:.8rem 1rem;border:1px solid var(--border);border-radius:12px;margin-bottom:.6rem}
+.material-icon{width:36px;height:36px;border-radius:10px;background:var(--or-light);color:var(--or-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.material-info{flex:1;overflow:hidden}
+.material-title{font-size:.87rem;font-weight:700}
+.material-desc{font-size:.76rem;color:var(--muted)}
+.material-link{color:var(--or-dark);font-size:.8rem;font-weight:700;text-decoration:none;white-space:nowrap}
 
-/* ── NEXT CLASS ── */
-.class-item{padding:1rem 1.1rem;border-radius:16px;border:1.5px solid var(--border);display:flex;align-items:center;gap:1rem;margin-bottom:.75rem;transition:.2s;background:#fff}
-.class-item:hover{border-color:var(--cyan);box-shadow:0 4px 16px var(--cyan-glow)}
-.class-icon{width:48px;height:48px;border-radius:14px;background:var(--cyan-light);display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:1.2rem;flex-shrink:0}
-.class-name{font-weight:700;font-size:.93rem;color:var(--text);font-family:'Nunito',sans-serif}
-.class-meta{font-size:.75rem;color:var(--muted);margin-top:.2rem}
-.zoom-link{margin-left:auto;background:linear-gradient(135deg,var(--green),#059669);color:#fff;padding:.55rem 1.15rem;border-radius:50px;font-size:.82rem;font-weight:800;text-decoration:none;flex-shrink:0;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 4px 16px rgba(16,185,129,.32);font-family:'Nunito',sans-serif;animation:pulse-zoom 2.5s ease-in-out infinite}
-.zoom-link:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.46);animation:none}
-@keyframes pulse-zoom{0%,100%{box-shadow:0 4px 16px rgba(16,185,129,.32)}50%{box-shadow:0 4px 28px rgba(16,185,129,.58)}}
+.soon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.soon-card{background:var(--white);border:1.5px dashed var(--border);border-radius:16px;padding:1.5rem;text-align:center;color:var(--muted)}
+.soon-card i{font-size:1.7rem;color:var(--border);margin-bottom:.6rem;display:block}
+.soon-card strong{display:block;color:var(--text);margin-bottom:.3rem;font-family:'Nunito',sans-serif}
 
-/* ── LEVEL SYSTEM ── */
-.level-track{display:flex;gap:.5rem;margin-bottom:1.75rem;overflow-x:auto;padding-bottom:.5rem}
-.level-step{flex:0 0 auto;min-width:90px;border-radius:14px;padding:.875rem .75rem;text-align:center;border:2px solid var(--border);cursor:default;transition:.2s;background:#fff}
-.level-step.done{border-color:var(--green);background:var(--green-light)}
-.level-step.done .ls-name{color:var(--green)}
-.level-step.current{border-color:var(--cyan);background:var(--cyan-light);box-shadow:0 0 0 4px rgba(0,168,232,.14)}
-.level-step.current .ls-name{color:var(--cyan-dark)}
-.ls-num{font-size:.65rem;color:var(--muted);margin-bottom:.2rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.ls-name{font-size:.88rem;font-weight:800;color:var(--muted);font-family:'Nunito',sans-serif}
-.ls-icon{font-size:.9rem;margin-bottom:.3rem;color:var(--border)}
-.level-step.done .ls-icon{color:var(--green)}
-.level-step.current .ls-icon{color:var(--cyan)}
-.current-level-card{border-radius:22px;padding:1.75rem;color:#fff;margin-bottom:1.25rem;position:relative;overflow:hidden}
-.current-level-card::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.07)}
-.cl-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;position:relative;z-index:1}
-.cl-badge{background:rgba(255,255,255,.2);border-radius:8px;padding:.3rem .875rem;font-size:.75rem;font-weight:800;letter-spacing:.5px;font-family:'Nunito',sans-serif}
-.cl-title{font-size:1.75rem;font-weight:900;margin-bottom:.25rem;font-family:'Nunito',sans-serif}
-.cl-desc{opacity:.82;font-size:.88rem;line-height:1.65;position:relative;z-index:1}
-.progress-bar-wrap{margin-top:1.25rem;position:relative;z-index:1}
-.progress-bar-label{display:flex;justify-content:space-between;font-size:.82rem;opacity:.88;margin-bottom:.5rem;font-weight:700;font-family:'Nunito',sans-serif}
-.progress-bar{height:10px;background:rgba(255,255,255,.2);border-radius:5px;overflow:hidden}
-.progress-bar-fill{height:100%;background:linear-gradient(90deg,#fcd34d,#fbbf24);border-radius:5px;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.units-grid{display:flex;flex-direction:column;gap:.75rem}
-.unit-card{border:1.5px solid var(--border);border-radius:16px;overflow:hidden;transition:.15s}
-.unit-card:hover{border-color:rgba(0,168,232,.3)}
-.unit-header{padding:.875rem 1rem;display:flex;align-items:center;gap:.75rem;background:var(--bg);border-bottom:1px solid transparent;cursor:pointer;transition:.15s}
-.unit-header:hover{background:var(--cyan-light)}
-.unit-num{width:30px;height:30px;border-radius:8px;background:var(--cyan-light);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:var(--cyan);flex-shrink:0;font-family:'Nunito',sans-serif}
-.unit-name{font-size:.88rem;font-weight:700;flex:1;font-family:'Nunito',sans-serif}
-.unit-progress-text{font-size:.75rem;color:var(--muted);font-weight:700}
-.unit-chevron{color:var(--muted);font-size:.75rem;transition:transform .2s}
-.unit-header.open .unit-chevron{transform:rotate(90deg)}
-.unit-classes{display:none;padding:.75rem}
-.unit-header.open + .unit-classes{display:block}
-.class-row{display:flex;align-items:center;gap:.75rem;padding:.6rem .75rem;border-radius:10px;margin-bottom:.3rem;font-size:.83rem;transition:.15s}
-.class-row:hover{background:var(--bg)}
-.class-row-num{width:26px;height:26px;border-radius:7px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:var(--muted);flex-shrink:0;font-family:'Nunito',sans-serif}
-.class-row-num.done{background:var(--green);border-color:var(--green);color:#fff}
-.class-row-topic{flex:1;color:var(--muted)}
-.class-row-badge{font-size:.72rem;color:var(--green);font-weight:700;display:flex;align-items:center;gap:.3rem}
+.empty-state{text-align:center;padding:2.5rem 1rem;color:var(--muted)}
+.empty-state i{font-size:2rem;color:var(--border);margin-bottom:.75rem;display:block}
 
-/* ── PORTFOLIO ── */
-.portfolio-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
-.portfolio-header h2{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem}
-.port-level-tabs{display:flex;gap:.4rem;background:var(--bg);border-radius:14px;padding:.35rem;flex-wrap:wrap;margin-bottom:1.25rem}
-.port-level-btn{padding:.45rem .9rem;border-radius:10px;border:none;cursor:pointer;font-size:.78rem;font-weight:700;color:var(--muted);background:transparent;font-family:'Nunito',sans-serif;transition:.15s}
-.port-level-btn.active{background:#fff;color:var(--cyan-dark);box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.port-unit-tabs{display:flex;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap}
-.port-unit-btn{padding:.4rem .875rem;border-radius:10px;border:1.5px solid var(--border);cursor:pointer;font-size:.78rem;font-weight:700;color:var(--muted);background:#fff;font-family:'Nunito',sans-serif;transition:.15s}
-.port-unit-btn.active{background:var(--cyan);border-color:var(--cyan);color:#fff}
-.port-class-card{border:1.5px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:.875rem;transition:.2s;background:#fff}
-.port-class-card.completed{border-color:var(--green)}
-.port-class-card.completed .pcc-num{background:var(--green);border-color:var(--green);color:#fff}
-.pcc-header{display:flex;align-items:center;gap:.875rem;padding:1rem 1.1rem;cursor:pointer;transition:.15s}
-.pcc-header:hover{background:var(--bg)}
-.pcc-num{width:34px;height:34px;border-radius:10px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;color:var(--muted);flex-shrink:0;font-family:'Nunito',sans-serif}
-.pcc-topic{font-size:.9rem;font-weight:700;flex:1;font-family:'Nunito',sans-serif}
-.pcc-status{font-size:.75rem;color:var(--muted);font-weight:600}
-.pcc-body{display:none;padding:1.1rem;border-top:1px solid var(--border)}
-.pcc-body.open{display:block}
-.reto-box{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-left:4px solid var(--gold);border-radius:14px;padding:1.1rem;margin-bottom:1rem}
-.reto-label{font-size:.7rem;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem;display:flex;align-items:center;gap:.35rem;font-family:'Nunito',sans-serif}
-.reto-q{font-size:.88rem;color:var(--text);line-height:1.7}
-.field-group{margin-bottom:1rem}
-.field-label{font-size:.75rem;font-weight:700;color:var(--cyan-dark);margin-bottom:.4rem;display:flex;align-items:center;gap:.4rem;font-family:'Nunito',sans-serif}
-.field-label i{font-size:.85rem}
-textarea.port-input{width:100%;padding:.75rem;border:2px solid var(--border);border-radius:12px;font-family:'Inter',sans-serif;font-size:.85rem;resize:vertical;min-height:72px;outline:none;transition:border-color .2s,background .2s;color:var(--text)}
-textarea.port-input:focus{border-color:var(--cyan);background:var(--cyan-light)}
-.grade-display{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1.5px solid #93C5FD;border-radius:14px;padding:.9rem 1.1rem;margin-bottom:.75rem}
-.grade-display-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;flex-wrap:wrap;gap:.5rem}
-.grade-score-big{font-size:1.6rem;font-weight:900;font-family:'Nunito',sans-serif;color:#1D4ED8;line-height:1}
-.grade-score-label{font-size:.65rem;color:#3B82F6;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:.1rem}
-.grade-criteria-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem}
-.grade-criterion-chip{background:#fff;border:1px solid #BFDBFE;border-radius:8px;padding:.25rem .6rem;font-size:.72rem;font-weight:700;color:#1E40AF}
-.grade-note-student{font-size:.8rem;color:#1E40AF;font-style:italic;background:#fff;border-left:3px solid #3B82F6;padding:.4rem .7rem;border-radius:0 8px 8px 0}
-.grade-pending-chip{background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:10px;padding:.5rem .9rem;margin-bottom:.75rem;font-size:.78rem;color:#92400E;font-weight:700;display:flex;align-items:center;gap:.4rem}
-.save-row{display:flex;align-items:center;justify-content:space-between;margin-top:.75rem;flex-wrap:wrap;gap:.5rem}
-.xp-note{font-size:.78rem;color:var(--gold);font-weight:800;display:flex;align-items:center;gap:.3rem;font-family:'Nunito',sans-serif}
-.save-btn{background:linear-gradient(135deg,var(--green),#059669);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:50px;font-size:.84rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:.4rem;transition:.15s;box-shadow:0 4px 14px rgba(16,185,129,.3)}
-.save-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(16,185,129,.45)}
-.saved-chip{background:var(--green-light);color:var(--green);font-size:.75rem;font-weight:800;padding:.35rem .875rem;border-radius:50px;display:none;font-family:'Nunito',sans-serif}
-/* ── PORTFOLIO LINKS ── */
-.links-list{display:flex;flex-wrap:wrap;gap:.5rem;min-height:24px;margin-bottom:.5rem}
-.link-chip{display:flex;align-items:center;gap:.45rem;background:var(--blue-xlight);border:1.5px solid var(--blue-light);border-radius:8px;padding:.35rem .65rem;font-size:.75rem;max-width:100%}
-.link-chip a{color:var(--blue);font-weight:600;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
-.link-chip a:hover{text-decoration:underline}
-.link-chip-del{background:none;border:none;color:var(--red);cursor:pointer;font-size:.68rem;padding:.1rem .2rem;border-radius:4px;line-height:1;flex-shrink:0}
-.link-chip-del:hover{background:var(--red-light)}
-.link-add-row{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
-.link-add-row .port-input{padding:.45rem .65rem;font-size:.78rem}
-.link-url-in{flex:1;min-width:160px}
-.link-label-in{width:110px}
-.link-add-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:.45rem .85rem;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.3rem}
-.link-add-btn:hover{background:var(--blue-dark)}
-.qr-section{text-align:center;padding:1.75rem;background:var(--cyan-light);border-radius:20px;margin-top:1.25rem}
-.qr-section h4{font-size:1.05rem;font-weight:800;color:var(--cyan-dark);margin-bottom:.4rem;font-family:'Nunito',sans-serif}
-.qr-section p{font-size:.84rem;color:var(--muted);margin-bottom:1rem}
-#qrcode{display:flex;justify-content:center;margin-bottom:1rem}
+.trimester-section{margin-bottom:1.25rem}
+.trimester-header{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:.82rem;color:var(--or-dark, var(--orange));text-transform:uppercase;letter-spacing:.4px;padding:.5rem 0;border-bottom:2px solid var(--or-dark, var(--orange));margin-bottom:.75rem}
+.lesson-card{border:1px solid var(--border);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.lesson-head{display:flex;align-items:center;gap:.75rem;padding:.8rem 1rem;background:var(--bg);cursor:pointer}
+.lesson-num{width:28px;height:28px;border-radius:8px;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.75rem;flex-shrink:0;font-family:'Nunito',sans-serif}
+.lesson-title{flex:1;font-weight:700;font-size:.85rem;font-family:'Nunito',sans-serif}
+.lesson-body{display:none;padding:.9rem 1rem;border-top:1px solid var(--border)}
+.lesson-body.open{display:block}
+.lesson-plan-box{background:var(--gray-light,#F8FAFC);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;margin-bottom:.75rem}
+.lesson-plan-box strong{display:block;font-size:.72rem;color:var(--muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.4px}
+.lesson-plan-box pre{white-space:pre-wrap;font-family:inherit;font-size:.82rem;color:var(--text,#1E293B);margin:0}
 
-/* ── MATERIALS ── */
-.material-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
-.material-card{border:1.5px solid var(--border);border-radius:18px;padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;transition:.2s;background:#fff}
-.material-card:hover{border-color:var(--cyan);box-shadow:0 6px 22px var(--cyan-glow);transform:translateY(-3px)}
-.material-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
-.mat-pdf{background:#fef2f2;color:#ef4444}
-.mat-video{background:#f0fdf4;color:#16a34a}
-.mat-link{background:var(--cyan-light);color:var(--cyan)}
-.mat-file{background:var(--orange-light);color:var(--orange)}
-.material-info h4{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.25rem;font-family:'Nunito',sans-serif}
-.material-info p{font-size:.78rem;color:var(--muted);line-height:1.45}
-.material-meta{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:.4rem}
-.material-action{display:inline-flex;align-items:center;gap:.5rem;background:var(--cyan);color:#fff;padding:.5rem 1.1rem;border-radius:50px;font-size:.8rem;font-weight:800;text-decoration:none;margin-top:auto;width:fit-content;transition:.15s;font-family:'Nunito',sans-serif;box-shadow:0 3px 10px var(--cyan-glow)}
-.material-action:hover{background:var(--cyan-dark);transform:translateY(-1px)}
-.empty-state{text-align:center;padding:3rem 1rem;color:var(--muted)}
-.empty-state i{font-size:2.8rem;margin-bottom:.875rem;display:block;color:var(--border)}
-.empty-state p{font-size:.875rem}
 
-/* ── TASKS ── */
-.task-card{border:1.5px solid var(--border);border-radius:18px;margin-bottom:.875rem;transition:.2s;background:#fff;overflow:hidden}
-.task-card:hover{border-color:rgba(0,168,232,.25);box-shadow:0 4px 14px var(--cyan-glow)}
-.task-card.done{background:var(--bg)}
-.task-card.done .task-title{text-decoration:line-through;color:var(--muted)}
-.task-card-top{display:flex;gap:1rem;align-items:flex-start;padding:1.25rem;cursor:pointer}
-.task-check{width:26px;height:26px;border-radius:8px;border:2.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:default;margin-top:.1rem;transition:.15s}
-.task-check.checked{background:var(--green);border-color:var(--green);color:#fff}
-.task-check i{font-size:.7rem;display:none}
-.task-check.checked i{display:block}
-.task-body{flex:1}
-.task-title{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:.3rem;font-family:'Nunito',sans-serif}
-.task-desc{font-size:.82rem;color:var(--muted);line-height:1.5;margin-bottom:.5rem}
-.task-footer{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
-.task-due{font-size:.75rem;color:var(--muted);display:flex;align-items:center;gap:.3rem;font-weight:600}
-.task-due.overdue{color:var(--red)}
-.task-file{font-size:.75rem;color:var(--cyan);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem}
-.task-file:hover{color:var(--cyan-dark)}
-.task-badge{font-size:.72rem;font-weight:800;padding:.25rem .625rem;border-radius:50px;font-family:'Nunito',sans-serif}
-.badge-pending{background:var(--gold-light);color:#92400e}
-.badge-done{background:var(--green-light);color:var(--green)}
-.task-chevron{color:var(--muted);font-size:.75rem;flex-shrink:0;transition:transform .2s;margin-top:.3rem}
-.task-chevron.open{transform:rotate(180deg)}
-/* ── TASK SUBMISSION AREA ── */
-.task-submit-area{display:none;border-top:1px solid var(--border);padding:1rem 1.25rem 1.25rem}
-.task-submit-area.open{display:block}
-.task-submitted-box{background:var(--green-light);border:1.5px solid var(--green);border-radius:14px;padding:.875rem 1rem;margin-bottom:.75rem}
-.task-submitted-label{font-size:.7rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:.7px;margin-bottom:.4rem;display:flex;align-items:center;gap:.35rem;font-family:'Nunito',sans-serif}
-.task-submitted-text{font-size:.85rem;color:var(--text);line-height:1.6}
-.task-submit-btn{background:linear-gradient(135deg,var(--cyan),var(--cyan-dark));color:#fff;border:none;padding:.6rem 1.5rem;border-radius:50px;font-size:.84rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;display:inline-flex;align-items:center;gap:.4rem;transition:.15s;box-shadow:0 4px 14px var(--cyan-glow)}
-.task-submit-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--cyan-glow)}
-.task-field-label{font-size:.75rem;font-weight:700;color:var(--cyan-dark);margin-bottom:.4rem;display:flex;align-items:center;gap:.4rem;font-family:'Nunito',sans-serif}
 
-/* ── MOBILE NAV ── */
-.mobile-nav{display:none}
+.task-card{border:1px solid var(--border);border-radius:14px;margin-bottom:.7rem;padding:1rem}
+.task-head{display:flex;align-items:center;gap:.75rem;margin-bottom:.4rem}
+.task-title{flex:1;font-weight:800;font-size:.88rem;font-family:'Nunito',sans-serif}
+.task-meta{font-size:.76rem;color:var(--muted);margin-bottom:.6rem}
+.task-status{font-size:.7rem;font-weight:800;padding:.25rem .6rem;border-radius:50px;white-space:nowrap}
+.status-pending{background:var(--gold-light);color:#92400e}
+.status-submitted{background:#EFF6FF;color:#2563EB}
+.status-graded{background:var(--green-light);color:var(--green)}
+.task-feedback{background:var(--bg);border-radius:10px;padding:.7rem .9rem;font-size:.82rem;margin-top:.5rem}
+.submit-form{margin-top:.75rem;padding-top:.75rem;border-top:1px dashed var(--border)}
+.submit-tabs{display:flex;gap:.4rem;margin-bottom:.6rem}
+.submit-tab{padding:.35rem .8rem;border-radius:50px;border:1.5px solid var(--border);background:#fff;font-size:.75rem;font-weight:700;cursor:pointer}
+.submit-tab.active{background:var(--or);border-color:var(--or);color:#fff}
+.field{margin-bottom:.6rem}
+.field label{display:block;font-size:.76rem;font-weight:700;margin-bottom:.3rem}
+.field input,.field textarea{width:100%;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem}
 
-/* ── LOADER ── */
-.loader{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--muted);gap:.5rem;font-size:.875rem}
-.spin{width:20px;height:20px;border:3px solid var(--border);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+.loader{display:flex;align-items:center;gap:.5rem;padding:2rem;justify-content:center;color:var(--muted);font-size:.85rem}
+.spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--or);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none!important}
 
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .sidebar{display:none}
+@media(max-width:820px){
+  .sidebar{transform:translateX(-110%)}
   .main{margin-left:0}
-  .grid-2,.grid-3{grid-template-columns:1fr 1fr}
-  .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:.4rem .5rem;z-index:50;justify-content:space-around;box-shadow:0 -4px 18px rgba(0,0,0,.07)}
-  .mob-nav-btn{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.45rem .5rem;border-radius:12px;border:none;background:none;color:var(--muted);font-size:.62rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;min-width:50px;transition:.15s}
-  .mob-nav-btn i{font-size:1.2rem}
-  .mob-nav-btn.active{color:var(--cyan);background:var(--cyan-light)}
-  .mob-nav-btn.mob-nav-game{color:#7c3aed}
-  .mob-nav-btn.mob-nav-game.active{color:#fff;background:linear-gradient(135deg,#7c3aed,#FF7B42)}
-  .content{padding:1rem 1rem 90px}
-  .topbar{padding:.75rem 1rem}
-  .robomision-frame-wrap{max-width:100%;border-radius:16px}
-  .robomision-frame{height:calc(100vh - 230px);min-height:480px}
 }
-@media(max-width:600px){
-  .grid-2,.grid-3{grid-template-columns:1fr}
-  .port-level-tabs{flex-wrap:wrap}
-  .hero h2{font-size:1.4rem}
-  .robomision-btn span{display:none}
-  .robomision-btn{padding:.4rem;width:38px;height:38px;justify-content:center}
-  .robomision-btn img{width:26px;height:26px}
-  .hero-stats{gap:.5rem}
-}
+
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,16,53,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:16px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal-head{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-head h3{font-size:.95rem;font-weight:800;font-family:'Nunito',sans-serif}
+.modal-close{background:none;border:none;font-size:1.1rem;color:var(--muted);cursor:pointer}
+.modal-body{padding:1.4rem}
+.modal-foot{padding:1rem 1.4rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.6rem}
+.pw-alert{padding:.7rem .9rem;border-radius:8px;font-size:.8rem;margin-bottom:.75rem;display:none}
+.pw-alert-error{background:var(--red-light);color:var(--red)}
+.pw-alert-success{background:var(--green-light);color:var(--green)}
+.icon-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:.3rem;font-size:.9rem;flex-shrink:0}
+.icon-btn:hover{color:var(--or-dark)}
+
+.gsum-box{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.gsum-card{background:var(--or-light);border-radius:12px;padding:.75rem 1.25rem;text-align:center;min-width:110px}
+.gsum-card .gsum-num{font-size:1.4rem;font-weight:800;color:var(--or-dark)}
+.gsum-card .gsum-label{font-size:.72rem;color:var(--muted);font-weight:600}
+.grades-list{display:flex;flex-direction:column;gap:.5rem}
+.grade-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem .8rem;background:#fff;border:1px solid var(--border);border-radius:10px}
+.grade-row .gr-title{font-size:.85rem;font-weight:600}
+.grade-row .gr-score{font-weight:800;color:var(--or-dark)}
+.att-badges{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem}
+.att-badge{padding:.5rem 1rem;border-radius:10px;font-size:.78rem;font-weight:700;text-align:center;min-width:90px}
+.att-badge.present{background:#e6f7ec;color:#1b8a4a}
+.att-badge.absent{background:#fdeaea;color:#c0392b}
+.att-badge.late{background:#fff6e0;color:#b7791f}
+.att-badge.excused{background:#eaf1fb;color:#2b6cb0}
+.att-history-row{display:flex;justify-content:space-between;padding:.45rem .6rem;font-size:.8rem;border-bottom:1px solid var(--border)}
+.att-history-row:last-child{border-bottom:none}
 </style>
 </head>
 <body>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-<script>
-const firebaseConfig={apiKey:"AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",authDomain:"roboworks-app.firebaseapp.com",projectId:"roboworks-app",storageBucket:"roboworks-app.firebasestorage.app",messagingSenderId:"824986583831",appId:"1:824986583831:web:7477911bd5cb95a18a6d52"};
-firebase.initializeApp(firebaseConfig);
-const fdb=firebase.firestore();
-</script>
-
-<!-- SIDEBAR -->
-<nav class="sidebar">
+<div class="sidebar">
   <div class="sidebar-brand">
-    <img src="/images/virtus/virtus-logo.png" alt="VIRTUS STEAM" style="height:38px;filter:brightness(0) invert(1);opacity:.9">
-    <span class="sidebar-brand-text" style="font-size:.95rem"><span class="r">VIRTUS</span><span class="w"> STEAM</span></span>
+    <img src="/images/virtus/virtus-logo.png" onerror="this.style.display='none'">
+    <div class="sidebar-brand-text">VIRTUS <span>STEAM</span></div>
   </div>
   <div class="sidebar-nav">
-    <div class="nav-section-label">Principal</div>
-    <button class="nav-item active" onclick="showTab('inicio',this)">
-      <i class="fas fa-house"></i> Inicio
-    </button>
-    <button class="nav-item" onclick="showTab('camino',this)">
-      <i class="fas fa-route"></i> Mi Camino
-    </button>
-    <button class="nav-item" onclick="showTab('portfolio',this)">
-      <i class="fas fa-layer-group"></i> Portafolio
-    </button>
-    <div class="nav-section-label">Recursos</div>
-    <button class="nav-item" onclick="showTab('materiales',this)">
-      <i class="fas fa-folder-open"></i> Materiales
-    </button>
-    <button class="nav-item" onclick="showTab('asistencias',this)">
-      <i class="fas fa-clipboard-check"></i> Asistencias
-    </button>
-    <button class="nav-item" onclick="showTab('tareas',this)">
-      <i class="fas fa-list-check"></i> Tareas
-      <span id="task-badge-sidebar" style="margin-left:auto;background:var(--orange);color:#fff;padding:.15rem .45rem;border-radius:50px;font-size:.65rem;display:none"></span>
-    </button>
+    <button class="nav-item active" onclick="showTab('inicio',this)"><i class="fas fa-house"></i> Inicio</button>
+    <button class="nav-item" onclick="showTab('clases',this)"><i class="fas fa-layer-group"></i> Mis Clases</button>
+    <button class="nav-item" onclick="showTab('soon',this)"><i class="fas fa-hourglass-half"></i> Próximamente</button>
   </div>
   <div class="sidebar-footer">
     <div class="student-chip">
-      <div class="student-avatar" id="sb-avatar">R</div>
+      <div class="student-avatar" id="studentAvatar">--</div>
       <div class="student-chip-info">
-        <div class="student-chip-name" id="sb-name">Cargando...</div>
-        <div class="student-chip-level" id="sb-level">Nivel —</div>
+        <div class="student-chip-name" id="studentName">Cargando...</div>
       </div>
-      <button class="logout-btn" onclick="logout()" title="Cerrar sesión"><i class="fas fa-arrow-right-from-bracket"></i></button>
+      <button class="icon-btn" id="changePwBtn" title="Cambiar contraseña"><i class="fas fa-key"></i></button>
+      <button class="logout-btn" id="logoutBtn" title="Cerrar sesión"><i class="fas fa-right-from-bracket"></i></button>
     </div>
   </div>
-</nav>
+</div>
 
-<!-- MAIN -->
 <div class="main">
-  <header class="topbar">
-    <div class="topbar-title" id="topbar-title">Inicio</div>
-    <div class="topbar-right">
-      <span class="level-badge" id="topbar-level-badge" style="background:var(--blue)">SPARK</span>
-      <span class="xp-chip" id="topbar-xp">0 XP</span>
-    </div>
-  </header>
-
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle">Inicio</div>
+    <div id="notifBellWrap"></div>
+  </div>
   <div class="content">
 
-    <!-- ═══════════════════════════════════════════════
-         TAB: INICIO
-    ═══════════════════════════════════════════════ -->
+    <!-- INICIO -->
     <div class="tab-panel active" id="tab-inicio">
-      <div class="hero">
-        <div class="hero-inner">
-          <img src="../images/worky.png" alt="Worky" class="hero-worky">
-          <div class="hero-text">
-            <h2 id="hero-name">¡Hola, Robotista!</h2>
-            <p id="hero-sub">Continúa tu aventura donde la dejaste</p>
-            <div class="hero-stats">
-              <div class="hero-stat"><i class="fas fa-star"></i><span id="hs-xp">0 XP</span></div>
-              <div class="hero-stat"><i class="fas fa-check-circle"></i><span id="hs-classes">0 clases completadas</span></div>
-              <div class="hero-stat"><i class="fas fa-trophy"></i><span id="hs-level">Nivel SPARK</span></div>
-            </div>
-          </div>
-        </div>
-        <span class="hero-lema">Totus Tuus</span>
-      </div>
+      <div id="nextClassWrap"></div>
 
-      <div class="grid-3" style="margin-bottom:1.25rem">
-        <div class="card stat-card">
-          <div class="stat-value" id="stat-xp">0</div>
-          <div class="stat-label">Puntos XP</div>
-        </div>
-        <div class="card stat-card orange">
-          <div class="stat-value" id="stat-classes">0</div>
-          <div class="stat-label">Clases completadas</div>
-        </div>
-        <div class="card stat-card green">
-          <div class="stat-value" id="stat-level-num">1</div>
-          <div class="stat-label">Nivel actual</div>
+      <div class="section-title"><i class="fas fa-layer-group" style="color:var(--or)"></i> Mis clases</div>
+      <div class="grid-classes" id="homeClassesGrid"></div>
+      <div class="empty-state hidden" id="homeClassesEmpty">
+        <i class="fas fa-layer-group"></i>
+        Todavía no estás inscrito en ninguna clase. Pregunta a tu profe o al administrador de tu institución.
+      </div>
+    </div>
+
+    <!-- MIS CLASES (lista + detalle de materiales) -->
+    <div class="tab-panel" id="tab-clases">
+      <div id="classesListView">
+        <div class="grid-classes" id="classesGrid"></div>
+        <div class="empty-state hidden" id="classesEmpty">
+          <i class="fas fa-layer-group"></i>
+          Todavía no estás inscrito en ninguna clase.
         </div>
       </div>
 
-      <div class="grid-2">
+      <div id="classDetailView" class="hidden">
+        <button class="back-btn" id="backToClasses"><i class="fas fa-arrow-left"></i> Volver a mis clases</button>
         <div class="card">
-          <div class="section-title"><i class="fas fa-calendar-day"></i> Próxima clase</div>
-          <div id="next-class-content">
-            <div class="loader"><div class="spin"></div> Cargando...</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="section-title"><i class="fas fa-list-check"></i> Tareas pendientes</div>
-          <div id="pending-tasks-preview">
-            <div class="loader"><div class="spin"></div> Cargando...</div>
-          </div>
+          <div class="section-title" id="detailClassName">-</div>
+          <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem" id="detailClassMeta"></p>
+
+          <div class="section-title" style="font-size:.9rem"><i class="fas fa-video" style="color:var(--or)"></i> Lecciones del año</div>
+          <div id="lessonsContainer" style="margin-bottom:1.5rem"></div>
+
+          <div class="section-title" style="font-size:.9rem"><i class="fas fa-clipboard-list" style="color:var(--or)"></i> Tareas</div>
+          <div id="tasksContainer" style="margin-bottom:1.5rem"></div>
+
+          <div class="section-title" style="font-size:.9rem"><i class="fas fa-star" style="color:var(--or)"></i> Mis calificaciones</div>
+          <div id="gradesContainer" style="margin-bottom:1.5rem"></div>
+
+          <div class="section-title" style="font-size:.9rem"><i class="fas fa-calendar-check" style="color:var(--or)"></i> Mi asistencia</div>
+          <div id="attendanceContainer" style="margin-bottom:1.5rem"></div>
+
+          <div class="section-title" style="font-size:.9rem"><i class="fas fa-book" style="color:var(--or)"></i> Guía y recursos</div>
+          <div id="materialsContainer"></div>
         </div>
       </div>
     </div>
 
-
-      <!-- ══ CALIFICACIONES ════════════════════════════════════ -->
-      <div class="card" id="grades-card" style="margin-top:1.25rem">
-        <div class="section-title" style="margin-bottom:1rem">
-          <i class="fas fa-chart-bar" style="color:#f59e0b"></i> Mis Calificaciones
-          <span id="grades-final-chip" style="margin-left:auto;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:#0f1c2e">—/100</span>
-        </div>
-
-        <!-- Barra de progreso hacia 80 -->
-        <div style="margin-bottom:1.1rem">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
-            <span style="font-size:.75rem;font-weight:700;color:#64748b">Progreso hacia la certificación</span>
-            <span style="font-size:.75rem;font-weight:800;color:#f59e0b">Mínimo: 80/100</span>
-          </div>
-          <div style="height:10px;background:#f1f5f9;border-radius:9999px;overflow:hidden">
-            <div id="grades-bar" style="height:100%;border-radius:9999px;background:linear-gradient(90deg,#f59e0b,#10b981);width:0%;transition:width .6s ease"></div>
-          </div>
-        </div>
-
-        <!-- Desglose por componente -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem">
-          <div style="background:#f8faff;border:1.5px solid #e2eaf6;border-radius:14px;padding:.875rem;text-align:center">
-            <div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.3rem">Clases · 30%</div>
-            <div id="g-clases" style="font-size:1.4rem;font-weight:900;font-family:'Nunito',sans-serif;color:#0f1c2e">—</div>
-            <div style="font-size:.7rem;color:#94a3b8">/10</div>
-          </div>
-          <div style="background:#f8faff;border:1.5px solid #e2eaf6;border-radius:14px;padding:.875rem;text-align:center">
-            <div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.3rem">Tareas · 30%</div>
-            <div id="g-tareas" style="font-size:1.4rem;font-weight:900;font-family:'Nunito',sans-serif;color:#0f1c2e">—</div>
-            <div style="font-size:.7rem;color:#94a3b8">/10</div>
-          </div>
-          <div style="background:#f8faff;border:1.5px solid #e2eaf6;border-radius:14px;padding:.875rem;text-align:center">
-            <div style="font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.3rem">Proyecto · 40%</div>
-            <div id="g-proyecto" style="font-size:1.4rem;font-weight:900;font-family:'Nunito',sans-serif;color:#0f1c2e">—</div>
-            <div style="font-size:.7rem;color:#94a3b8">/10</div>
-          </div>
-        </div>
-
-        <div id="grades-cert-msg" style="display:none;margin-top:.875rem;padding:.65rem 1rem;border-radius:10px;font-size:.83rem;font-weight:700"></div>
-      </div>
-
-      <!-- ══ ROBOMISIÓN ═══════════════════════════════════════ -->
-      <div onclick="window.open('estudiante/robomision/index.html','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#7c3aed,#FF7B42);border-radius:20px;padding:1.5rem 1.75rem;display:flex;align-items:center;gap:1.25rem;margin-top:1.25rem;box-shadow:0 8px 28px rgba(124,58,237,.35);transition:.2s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 36px rgba(124,58,237,.45)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 28px rgba(124,58,237,.35)'">
-        <img src="/assets/icons/robomision-logo.png" alt="RoboMisión" style="width:60px;height:60px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25))">
-        <div style="flex:1">
-          <div style="font-family:'Nunito',sans-serif;font-size:1.25rem;font-weight:900;color:#fff;margin-bottom:.25rem">🚀 Jugar RoboMisión</div>
-          <div style="font-size:.85rem;color:rgba(255,255,255,.85);font-weight:600">Tu aventura espacial de programación te espera</div>
-        </div>
-        <div style="background:rgba(255,255,255,.22);border-radius:14px;padding:.65rem 1.25rem;font-family:'Nunito',sans-serif;font-weight:900;color:#fff;font-size:.9rem;white-space:nowrap;flex-shrink:0">¡Jugar! →</div>
-      </div>
-
-      <!-- ══ ROBOTANGRAM ════════════════════════════════════ -->
-      <div onclick="window.open('/tangram.html','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#00bfa5,#00a8e8);border-radius:20px;padding:1.5rem 1.75rem;display:flex;align-items:center;gap:1.25rem;margin-top:.875rem;box-shadow:0 8px 28px rgba(0,168,232,.3);transition:.2s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 36px rgba(0,168,232,.45)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 28px rgba(0,168,232,.3)'">
-        <img src="/images/robotangram.png" alt="RoboTangram" style="width:60px;height:60px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,.2))">
-        <div style="flex:1">
-          <div style="font-family:'Nunito',sans-serif;font-size:1.25rem;font-weight:900;color:#fff;margin-bottom:.25rem">🧩 Jugar RoboTangram</div>
-          <div style="font-size:.85rem;color:rgba(255,255,255,.85);font-weight:600">Arma los animales con tus 7 piezas de tangram 3D</div>
-        </div>
-        <div style="background:rgba(255,255,255,.22);border-radius:14px;padding:.65rem 1.25rem;font-family:'Nunito',sans-serif;font-weight:900;color:#fff;font-size:.9rem;white-space:nowrap;flex-shrink:0">¡Jugar! →</div>
-      </div>
-
-    <!-- ═══════════════════════════════════════════════
-         TAB: MI CAMINO
-    ═══════════════════════════════════════════════ -->
-    <div class="tab-panel" id="tab-camino">
-      <div class="level-track" id="level-track"></div>
-      <div class="current-level-card" id="current-level-card">
-        <div class="cl-header">
-          <div>
-            <div class="cl-badge" id="cl-badge">NIVEL 1</div>
-            <div class="cl-title" id="cl-title">SPARK</div>
-          </div>
-          <div style="text-align:right;opacity:.8;font-size:.85rem" id="cl-age">5 – 7 años</div>
-        </div>
-        <div class="cl-desc" id="cl-desc">Tu primer contacto con la tecnología.</div>
-        <div class="progress-bar-wrap">
-          <div class="progress-bar-label">
-            <span id="cl-progress-text">0 / 26 clases</span>
-            <span id="cl-pct">0%</span>
-          </div>
-          <div class="progress-bar"><div class="progress-bar-fill" id="cl-bar" style="width:0%"></div></div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:1.25rem">
-        <div class="section-title"><i class="fas fa-graduation-cap"></i> Herramientas de este nivel</div>
-        <div id="cl-tools" style="display:flex;flex-wrap:wrap;gap:.5rem"></div>
-      </div>
-
-      <div class="units-grid" id="units-list">
-        <div class="loader"><div class="spin"></div> Cargando unidades...</div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         TAB: PORTAFOLIO
-    ═══════════════════════════════════════════════ -->
-    <div class="tab-panel" id="tab-portfolio">
-      <div class="portfolio-header">
-        <div>
-          <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.2rem">Mi Portafolio Digital</h2>
-          <p style="font-size:.82rem;color:var(--gray)">Responde el reto de cada clase. Al terminar el nivel, genera tu QR para el certificado.</p>
-        </div>
-        <div id="port-progress-chip" style="background:var(--blue-xlight);color:var(--blue);padding:.4rem 1rem;border-radius:20px;font-size:.8rem;font-weight:700">0 / 26</div>
-      </div>
-
-      <div class="port-level-tabs" id="port-level-tabs" style="margin-bottom:1.25rem"></div>
-      <div class="port-unit-tabs" id="port-unit-tabs"></div>
-      <div id="port-class-list"></div>
-
-      <!-- Share button — siempre visible -->
-      <div style="margin-top:1.5rem;background:var(--blue-xlight);border:1.5px solid var(--blue-light);border-radius:16px;padding:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
-        <div style="flex:1;min-width:180px">
-          <div style="font-weight:700;font-size:.9rem;margin-bottom:.2rem"><i class="fas fa-share-nodes" style="color:var(--blue);margin-right:.4rem"></i>Compartir mi portafolio</div>
-          <div style="font-size:.78rem;color:var(--muted)">Los papitos pueden ver tu progreso en cualquier momento, aunque no hayas terminado el nivel.</div>
-        </div>
-        <button id="share-port-btn" onclick="sharePortfolio()" style="background:var(--blue);color:#fff;border:none;border-radius:10px;padding:.6rem 1.2rem;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.4rem">
-          <i class="fas fa-link"></i> Copiar link
-        </button>
-        <a id="open-port-link" href="#" target="_blank" style="background:#fff;color:var(--blue);border:1.5px solid var(--blue-light);border-radius:10px;padding:.6rem 1.2rem;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.4rem;text-decoration:none">
-          <i class="fas fa-eye"></i> Ver portafolio
-        </a>
-      </div>
-
-      <!-- QR solo al completar nivel -->
-      <div class="qr-section" id="qr-section" style="display:none">
-        <h4>🎉 Nivel completado — Genera tu QR</h4>
-        <p>Este código va en tu certificado. Cualquier persona que lo escanee verá tu portafolio completo.</p>
-        <div id="qrcode"></div>
-        <p style="font-size:.75rem;color:var(--gray)">Toma una captura de pantalla y compártela con tu instructor.</p>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         TAB: MATERIALES
-    ═══════════════════════════════════════════════ -->
-    <div class="tab-panel" id="tab-materiales">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
-        <h2 style="font-size:1.1rem;font-weight:700">Materiales y Recursos</h2>
-        <div style="display:flex;gap:.4rem">
-          <button class="port-unit-btn active" onclick="filterMats('all',this)">Todos</button>
-          <button class="port-unit-btn" onclick="filterMats('pdf',this)">PDF</button>
-          <button class="port-unit-btn" onclick="filterMats('video',this)">Video</button>
-          <button class="port-unit-btn" onclick="filterMats('link',this)">Links</button>
-        </div>
-      </div>
-      <div class="material-grid" id="materials-grid">
-        <div class="loader" style="grid-column:1/-1"><div class="spin"></div> Cargando materiales...</div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         TAB: TAREAS
-    ═══════════════════════════════════════════════ -->
-    <!-- ══ ASISTENCIAS ══════════════════════════════════════ -->
-    <div class="tab-panel" id="tab-asistencias">
-      <!-- Stats rápidos -->
-      <div class="grid-3" style="margin-bottom:1.25rem">
-        <div class="card stat-card">
-          <div class="stat-value" id="att-stat-total">—</div>
-          <div class="stat-label">Sesiones totales</div>
-        </div>
-        <div class="card stat-card" style="--stat-color:var(--green)">
-          <div class="stat-value" style="color:var(--green)" id="att-stat-present">—</div>
-          <div class="stat-label">Asistencias (P + T)</div>
-        </div>
-        <div class="card stat-card" style="--stat-color:var(--orange)">
-          <div class="stat-value" style="color:var(--orange)" id="att-stat-pct">—</div>
-          <div class="stat-label">Porcentaje de asistencia</div>
-        </div>
-      </div>
-      <!-- Historial -->
+    <!-- PRÓXIMAMENTE -->
+    <div class="tab-panel" id="tab-soon">
       <div class="card">
-        <div class="section-title" style="margin-bottom:1rem">
-          <i class="fas fa-calendar-days" style="color:var(--cyan)"></i> Historial de sesiones
-        </div>
-        <div id="att-history-list">
-          <div class="loader"><div class="spin"></div> Cargando asistencias...</div>
+        <div class="section-title"><i class="fas fa-hourglass-half" style="color:var(--or)"></i> En camino</div>
+        <p style="color:var(--muted);margin-bottom:1.25rem">Estas secciones existían antes y las estamos reconstruyendo sobre la nueva plataforma, más seguras y estables. Pronto vuelven.</p>
+        <div class="soon-grid">
+          <div class="soon-card"><i class="fas fa-route"></i><strong>Mi Camino</strong>Niveles y progreso por unidad</div>
+          <div class="soon-card"><i class="fas fa-award"></i><strong>Portafolio</strong>Certificados y logros compartibles</div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="tab-panel" id="tab-tareas">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
-        <h2 style="font-size:1.1rem;font-weight:700">Mis Tareas</h2>
-        <div style="display:flex;gap:.4rem">
-          <button class="port-unit-btn active" onclick="filterTasks('all',this)">Todas</button>
-          <button class="port-unit-btn" onclick="filterTasks('pending',this)">Pendientes</button>
-          <button class="port-unit-btn" onclick="filterTasks('done',this)">Completadas</button>
-        </div>
-      </div>
-      <div id="tasks-list">
-        <div class="loader"><div class="spin"></div> Cargando tareas...</div>
-      </div>
+<div class="modal-overlay" id="modal-password">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fas fa-key"></i> Cambiar contraseña</h3><button class="modal-close" id="pwModalClose">&#10005;</button></div>
+    <div class="modal-body">
+      <p id="pwForceNotice" class="hidden" style="color:var(--muted);font-size:.83rem;margin-bottom:1rem">Tu cuenta tiene una contraseña temporal. Por seguridad, crea una contraseña nueva antes de continuar.</p>
+      <div class="pw-alert" id="pwAlert"></div>
+      <div class="field"><label>Contraseña actual</label><input type="password" id="pw-current"></div>
+      <div class="field"><label>Contraseña nueva</label><input type="password" id="pw-new" placeholder="Mínimo 8 caracteres, con al menos un número"></div>
+      <div class="field"><label>Confirmar contraseña nueva</label><input type="password" id="pw-confirm"></div>
     </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="pwCancelBtn">Cancelar</button>
+      <button class="btn btn-primary" id="pwSaveBtn" onclick="submitPasswordChange()"><i class="fas fa-check"></i> Guardar</button>
+    </div>
+  </div>
+</div>
 
-  </div><!-- /content -->
-</div><!-- /main -->
-
-<!-- MOBILE BOTTOM NAV -->
-<nav class="mobile-nav">
-  <button class="mob-nav-btn active" onclick="showTab('inicio',this,true)"><i class="fas fa-house"></i>Inicio</button>
-  <button class="mob-nav-btn" onclick="showTab('camino',this,true)"><i class="fas fa-route"></i>Camino</button>
-  <button class="mob-nav-btn" onclick="showTab('portfolio',this,true)"><i class="fas fa-layer-group"></i>Portfolio</button>
-  <button class="mob-nav-btn" onclick="showTab('materiales',this,true)"><i class="fas fa-folder-open"></i>Materiales</button>
-  <button class="mob-nav-btn" onclick="showTab('asistencias',this,true)"><i class="fas fa-clipboard-check"></i>Asist.</button>
-  <button class="mob-nav-btn" onclick="showTab('tareas',this,true)"><i class="fas fa-list-check"></i>Tareas</button>
-</nav>
-
+<script src="/virtus-plataforma/js/api-config.js"></script>
+<script src="/virtus-plataforma/js/api-client.js"></script>
 <script>
-// ─── LEVEL DATA ──────────────────────────────────────────────
-const LEVEL_COLORS={SPARK:'#06B6D4',RISE:'#3B82F6',CORE:'#2563EB',SURGE:'#1D4ED8',PINNACLE:'#1E3A8A',LEGEND:'#7C3AED'};
-// ─── CODEWORKS CURRICULUM ─────────────────────────────────────
-const CURRICULUM_CODEWORKS=[
-  {id:1,name:'SPARK',age:'12 – 16 años',color:'#06B6D4',
-   desc:'Tu primer paso en Python. Variables, condicionales, bucles y funciones — del código a tu primer proyecto real.',
-   tools:['Python 3','Replit','VSCode','Arduino (intro)'],
-   units:[
-    {name:'M1 — Variables, Tipos y Operaciones',classes:[
-      {n:1,topic:'Variables y print() 🚀',
-       reto:'Crea tu Tarjeta de Identidad Espacial en Python: almacena tu nombre, edad, país y especialidad en variables y muéstrala formateada en consola. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Qué es una variable y para qué sirve? Explícalo con un ejemplo de tu programa.',
-       q2:'¿Qué fue lo más difícil de hacer que el programa mostrara el texto exactamente como querías?'},
-      {n:2,topic:'Tipos de datos — int, float, str, bool 🪐',
-       reto:'Construye el Conversor de Peso en los Planetas: el usuario ingresa su peso y el programa calcula cuánto pesaría en Luna, Marte, Júpiter y Plutón. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Cuál es la diferencia entre int, float y str? ¿Por qué necesitas convertir el input() antes de hacer cálculos?',
-       q2:'¿En qué planeta pesarías más? ¿Y menos? ¿Qué error encontraste al escribir el programa?'},
-      {n:3,topic:'Operaciones y f-strings 🛸',
-       reto:'Programa la Calculadora de Viaje al Espacio: el usuario ingresa la distancia y velocidad, y el programa calcula el tiempo en horas, días y años. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Cómo usaste f-strings para mostrar los resultados? Escribe un ejemplo de tu código.',
-       q2:'¿Qué distancia real del sistema solar usaste? ¿Cuántos años de vida del astronauta tomaría ese viaje?'},
-      {n:4,topic:'Proyecto del mes — App de Estadísticas ⚽',
-       reto:'Crea tu App de Estadísticas de Fútbol: ingresa datos de un jugador y que el programa calcule su promedio de goles y su rating con tu propia fórmula. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Qué fórmula inventaste para calcular el rating del jugador? ¿Por qué esa fórmula?',
-       q2:'Si pudieras agregar una estadística más a tu app, ¿cuál sería y por qué?'},
-    ]},
-    {name:'M2 — Condicionales: Python Decide',classes:[
-      {n:5,topic:'if / else — La primera decisión 🔭',
-       reto:'Programa el Detector de Planetas Habitables: recibe temperatura y presencia de agua de un planeta imaginario y evalúa si podría albergar vida. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Cómo funciona un if/else? Describe el flujo de decisión de tu programa con tus palabras.',
-       q2:'¿Qué condición fue más interesante de programar? ¿Qué pasa si el planeta cumple solo una de las dos?'},
-      {n:6,topic:'elif y condiciones combinadas 🛰️',
-       reto:'Crea el Sistema de Alerta de la Nave: monitorea oxígeno, temperatura, combustible y velocidad con 3 niveles cada uno (normal/advertencia/crítico). Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Cuándo usarías "and" vs "or" en una condición? Da un ejemplo de tu proyecto.',
-       q2:'¿Qué diferencia hace escribir "elif" en lugar de un segundo "if"? Explícalo con un ejemplo.'},
-      {n:7,topic:'Flujos de decisión complejos ⚽',
-       reto:'Construye el Clasificador de Partidos: el usuario ingresa goles, posición en tabla y partidos restantes, y el programa determina si el equipo está en zona de título, clasificación o descenso. Comparte el link.',
-       retoType:'replit',
-       q1:'¿Cómo diseñaste la lógica antes de escribir el código? ¿Dibujaste un diagrama o lo pensaste directo?',
-       q2:'¿Hubo un caso borde (situación inesperada) que no habías pensado? ¿Cómo lo resolviste?'},
-      {n:8,topic:'Proyecto del mes — Asistente Inteligente 🏠',
-       reto:'Crea tu Asistente Inteligente de Hogar: evalúa temperatura, hora del día, presencia en casa y batería de dispositivos, y recomienda acciones. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Qué condiciones del hogar decidiste programar? ¿Por qué esas y no otras?',
-       q2:'¿Cuál recomendación de tu asistente te pareció más útil o más creativa?'},
-    ]},
-    {name:'M3 — Bucles: Python Trabaja por Ti',classes:[
-      {n:9,topic:'for y range() — Animación en consola 🚀',
-       reto:'Programa el Lanzamiento del Cohete Falcon 9: cuenta regresiva animada del 10 al 0 con time.sleep(), luego muestra la animación ASCII del cohete despegando. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Qué diferencia hay entre range(10), range(1,10) y range(0,10,2)? Explica cada uno.',
-       q2:'¿Cómo usaste time.sleep() para crear el efecto de animación? ¿Qué otro efecto podrías hacer?'},
-      {n:10,topic:'while — El bucle que no para 🔴',
-       reto:'Crea el Simulador de Supervivencia en Marte: el astronauta empieza con 100% de recursos y elige acciones cada turno. El bucle while continúa mientras esté vivo. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Cuándo es mejor usar "while" en vez de "for"? Explícalo con tu proyecto como ejemplo.',
-       q2:'¿Cuál fue la estrategia ganadora? ¿Qué secuencia de acciones mantiene vivo al astronauta más tiempo?'},
-      {n:11,topic:'Acumuladores y contadores ⚽',
-       reto:'Programa el Analizador de Temporada: el usuario ingresa los goles de cada partido de una temporada y el programa calcula el total, promedio, mejor partido y peor partido. Comparte el link.',
-       retoType:'replit',
-       q1:'¿Cómo calculaste el máximo y el mínimo usando un bucle? Describe el proceso paso a paso.',
-       q2:'¿Qué estadística de la temporada te pareció más interesante de calcular? ¿Por qué?'},
-      {n:12,topic:'Proyecto del mes — Arte ASCII del Universo 🌌',
-       reto:'Genera tu Arte ASCII del Universo con bucles anidados: un cielo estrellado con random, órbitas planetarias y una animación. Comparte el link de tu Replit para que todos puedan verlo.',
-       retoType:'replit',
-       q1:'¿Cómo usaste bucles anidados para crear el diseño? ¿Qué dibujaste?',
-       q2:'¿Qué fue lo más sorprendente de crear arte visual solo con texto y código?'},
-    ]},
-    {name:'M4 — Funciones: Código Inteligente',classes:[
-      {n:13,topic:'def — Crea tus propias funciones 🛸',
-       reto:'Construye las Funciones de la Computadora de la Nave: crea 4 funciones independientes (combustible, oxígeno, velocidad, estado) y un programa principal que las llame a todas. Comparte el link.',
-       retoType:'replit',
-       q1:'¿Qué hace el "return" en una función? ¿Por qué es importante? Explícalo con tu código.',
-       q2:'¿Por qué es mejor tener funciones separadas en lugar de todo el código en un solo bloque?'},
-      {n:14,topic:'Funciones avanzadas — Parámetros y retorno ⚽',
-       reto:'Construye el Motor de Estadísticas de Jugador: crea funciones para calcular_rating(), calcular_valor(), comparar_jugadores() y generar_reporte() — donde la última llama a todas las demás. Comparte el link.',
-       retoType:'replit',
-       q1:'¿Cómo funciona una función que llama a otra función internamente? ¿Qué ventaja tiene?',
-       q2:'¿Qué valor por defecto pusiste en algún parámetro de tus funciones? ¿Por qué ese valor?'},
-      {n:15,topic:'Librerías — No reinventes la rueda 🪐',
-       reto:'Crea el Simulador Climático de Exoplanetas usando math, random y datetime: genera planetas con temperatura, presión y probabilidad de lluvia únicos cada vez. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Qué librería importaste y qué función usaste de ella? ¿Para qué sirvió exactamente?',
-       q2:'¿Qué planeta generó tu programa que te pareció más interesante o habitable? Descríbelo.'},
-      {n:16,topic:'Proyecto del mes — Mi Librería Personal 🛠️',
-       reto:'Crea tu archivo utils.py con mínimo 6 funciones útiles que TÚ elegiste (propinas, temperatura, contraseñas, etc.). La librería debe ser algo que realmente podrías usar. Comparte el link.',
-       retoType:'replit',
-       q1:'¿Qué 3 funciones de tu librería son las más útiles? Describe brevemente qué hace cada una.',
-       q2:'¿En qué situación real de tu vida usarías tu librería? Dame un ejemplo concreto.'},
-    ]},
-    {name:'M5 — Estructuras de Datos: El Programa Recuerda',classes:[
-      {n:17,topic:'Listas — Colecciones ordenadas 🛸',
-       reto:'Programa el Sistema de Tripulación de la ISS: menú interactivo para agregar astronautas, ver la lista, buscar por nombre, eliminar y ordenar. Una lista como mini base de datos. Comparte el link.',
-       retoType:'replit',
-       q1:'¿Qué métodos de lista usaste (append, remove, sort, etc.)? Explica qué hace cada uno.',
-       q2:'¿Cómo se diferencia una lista de una variable normal? ¿Por qué es más útil para este proyecto?'},
-      {n:18,topic:'Diccionarios — Datos con nombre 🌍',
-       reto:'Crea la Base de Datos de Exoplanetas NASA: almacena datos reales de planetas conocidos (distancia, temperatura, habitabilidad) y permite buscar y filtrar. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Cuál es la diferencia entre una lista y un diccionario? ¿Cuándo usarías cada uno?',
-       q2:'¿Qué exoplaneta de tu base de datos tiene más probabilidad de albergar vida? ¿Por qué?'},
-      {n:19,topic:'Archivos y persistencia — El programa recuerda 📁',
-       reto:'Construye el Diario de Entrenamiento Deportivo: el usuario registra entrenamientos y el programa los guarda en un archivo .txt — al abrir puede ver el historial y estadísticas. Comparte el link.',
-       retoType:'replit',
-       q1:'¿Qué significa que el programa "persista" datos? ¿Cómo lo lograste con archivos?',
-       q2:'¿Qué entrenamientos registraste? ¿Qué estadística de tu historial encontraste más motivadora?'},
-      {n:20,topic:'Proyecto del mes — App de Misiones Espaciales 🚀',
-       reto:'Crea la App de Gestión de Misiones Espaciales: menú interactivo para crear, listar, buscar y completar misiones — todo guardado en JSON que persiste al reiniciar. Comparte el link de tu Replit.',
-       retoType:'replit',
-       q1:'¿Cómo combinaste listas, diccionarios y archivos en tu app? Explica la estructura.',
-       q2:'Si fuera una app real de la NASA, ¿qué función le agregarías primero y por qué?'},
-    ]},
-    {name:'M6 — Proyecto Final + Intro Arduino',classes:[
-      {n:21,topic:'Introducción a POO — Mi primera clase 🐍',
-       reto:'Crea tu clase NaveEspacial en Python con atributos (nombre, combustible, tripulación) y métodos (acelerar, cargar, reportar). Luego instancia 3 naves y hazlas interactuar. Comparte el link.',
-       retoType:'replit',
-       q1:'¿Qué diferencia hay entre un atributo y un método de una clase? Da un ejemplo de tu código.',
-       q2:'¿Cómo interactuaron tus 3 naves entre sí? ¿Qué métodos usaste más?'},
-      {n:22,topic:'Intro a Arduino — ¡El código mueve el mundo! 💡',
-       reto:'¡Tu primer proyecto de hardware! Construye el Semáforo de Lanzamiento Espacial: 3 LEDs (rojo, amarillo, verde) controlados con Arduino simulando la cuenta regresiva de un cohete. Sube una foto.',
-       retoType:'photo',
-       q1:'¿Qué diferencia hay entre una salida digital y una analógica en Arduino? ¿Cuál usaste?',
-       q2:'¿Cómo se sintió ver que una línea de código encendió algo físico en el mundo real?'},
-      {n:23,topic:'Construyo mi proyecto final 🏗️',
-       reto:'Sesión de construcción de tu proyecto final. Debe usar mínimo 3 conceptos del nivel (variables, condicionales, bucles, funciones o estructuras de datos). ¡Sube el link de tu avance en Replit!',
-       retoType:'replit',
-       q1:'¿Qué 3 conceptos del nivel SPARK usas en tu proyecto final? ¿Por qué los elegiste?',
-       q2:'¿Qué fue lo más difícil del proceso de construcción hasta ahora? ¿Cómo lo superaste?'},
-      {n:24,topic:'DEMO DAY — ¡Mi gran presentación! 🎓',
-       reto:'¡Es el día! Presenta tu proyecto final en vivo. Comparte el link definitivo de tu proyecto en Replit para que quede guardado en tu portafolio forever.',
-       retoType:'replit',
-       q1:'Explica tu proyecto final: ¿qué hace, cómo lo construiste y cuál es tu parte favorita del código?',
-       q2:'¿Qué te llevas del nivel SPARK de CodeWorks que usarás en el siguiente nivel?'},
-    ]},
-   ]},
-  {id:2,name:'RISE',age:'12 – 16 años',color:'#3B82F6',
-   desc:'Programación orientada a objetos, proyectos con APIs y primer acercamiento a bases de datos.',
-   tools:['Python 3','Flask','SQLite','Arduino'],
-   units:[{name:'U1',classes:[{n:1,topic:'Coming soon',reto:'',retoType:'replit',q1:'',q2:''}]}]},
-  {id:3,name:'CORE',age:'12 – 16 años',color:'#2563EB',
-   desc:'Desarrollo web, machine learning básico y proyectos de portafolio profesional.',
-   tools:['Python 3','HTML/CSS','Django','scikit-learn'],
-   units:[{name:'U1',classes:[{n:1,topic:'Coming soon',reto:'',retoType:'replit',q1:'',q2:''}]}]},
-  {id:4,name:'SURGE',age:'12 – 16 años',color:'#1D4ED8',
-   desc:'',tools:[],units:[{name:'U1',classes:[{n:1,topic:'Coming soon',reto:'',retoType:'replit',q1:'',q2:''}]}]},
-  {id:5,name:'PINNACLE',age:'12 – 16 años',color:'#1E3A8A',
-   desc:'',tools:[],units:[{name:'U1',classes:[{n:1,topic:'Coming soon',reto:'',retoType:'replit',q1:'',q2:''}]}]},
-  {id:6,name:'LEGEND',age:'12 – 16 años',color:'#7C3AED',
-   desc:'',tools:[],units:[{name:'U1',classes:[{n:1,topic:'Coming soon',reto:'',retoType:'replit',q1:'',q2:''}]}]},
-];
-// ─── ROBOWORKS CURRICULUM ────────────────────────────────────
-const CURRICULUM_ROBOWORKS=[
-  {id:1,name:'SPARK',age:'5 – 7 años',color:'#06B6D4',
-   desc:'Tu primer contacto con la tecnología. Programas con tarjetas físicas, construyes con LEGO y diseñas tu primera pieza 3D.',
-   tools:['AlphaBot ZMROBO','Scratch Jr','LEGO','Tinkercad','Impresora 3D'],
-   units:[
-    {name:'U1 — Hello, Robot World!',classes:[
-      {n:1,topic:'Hola, Mundo Robot! 🤖',
-       reto:'Construye tu torre de colores con LEGO. ¡Sin reglas, sin modelos! Toma una foto de tu creación y guárdala en Google Drive para subirla aquí.',
-       retoType:'photo',
-       q1:'¿Qué colores usaste en tu torre? ¿Cómo se llama el robot que conociste hoy?',
-       q2:'¿Qué fue lo más divertido de conocer al AlphaBot por primera vez?'},
-      {n:2,topic:'Build It! Count It! 🏗️',
-       reto:'Construye algo con un plan. Dibuja primero y luego constrúyelo con LEGO. Toma una foto de tu construcción terminada.',
-       retoType:'photo',
-       q1:'¿Cuántas piezas tiene tu construcción? ¿Qué construiste?',
-       q2:'¿Qué pasos le diste al AlphaBot para que se moviera? ¿Cuántas tarjetas usaste?'},
-      {n:3,topic:'Patterns & Robots 🔁',
-       reto:'Crea tu muro de patrones de colores con LEGO. Toma una foto de tu muro terminado.',
-       retoType:'photo',
-       q1:'¿Cuál es tu patrón de colores? (Ejemplo: rojo-azul-rojo-azul) ¿Cuántas veces se repite?',
-       q2:'¿En qué se parece un patrón de colores a un LOOP de programación?'},
-      {n:4,topic:'ROBOMISION! — Reto Unidad 1 🏆',
-       reto:'¡ROBOMISION! Toma una foto de tu construcción libre más creativa de hoy.',
-       retoType:'photo',
-       q1:'¿Qué construiste libremente hoy? ¿Qué es?',
-       q2:'¿Pudo el AlphaBot ir del punto A al punto B? ¿Cuántos intentos necesitó tu equipo?'},
-    ]},
-    {name:'U2 — My Body, My Robot',classes:[
-      {n:5,topic:'Robot Body Parts 🦾',
-       reto:'Construye un robot LEGO con partes del cuerpo visibles. ¡Ponle nombre! Toma una foto.',
-       retoType:'photo',
-       q1:'¿Cómo se llama tu robot? ¿Qué partes del cuerpo tiene?',
-       q2:'¿En qué se parece un robot a una persona? ¿En qué se diferencia?'},
-      {n:6,topic:'How Does a Robot Feel? 😊',
-       reto:'Crea una cara de emoción con LEGO. ¿Qué emoción tiene tu robot? Toma una foto.',
-       retoType:'photo',
-       q1:'¿Qué emoción tiene tu robot? ¿Por qué elegiste esa emoción?',
-       q2:'¿Qué color de luz le pusiste al AlphaBot para representar esa emoción? ¿Por qué ese color?'},
-      {n:7,topic:'Step by Step! — Debugging 🐛',
-       reto:'Construye tu circuito de obstáculos con LEGO. Toma una foto del circuito.',
-       retoType:'photo',
-       q1:'¿Encontraste un bug hoy? ¿Qué tarjeta estaba mal y cómo lo arreglaste?',
-       q2:'¿Qué aprendiste sobre el debugging? ¿Por qué es importante encontrar y corregir errores?'},
-      {n:8,topic:'ROBOMISION! — Reto Unidad 2 🏆',
-       reto:'Primera exploración en Scratch Jr. ¡Toma una captura de pantalla o comparte el link de tu proyecto!',
-       retoType:'scratch',
-       q1:'¿Qué descubriste cuando exploraste Scratch Jr por primera vez?',
-       q2:'¿Qué le pasa a SPARKY cuando le das instrucciones? Describe 2 cosas que hiciste.'},
-    ]},
-    {name:'U3 — Animals & Habitats',classes:[
-      {n:9,topic:'Animal World — Habitat LEGO 🌊',
-       reto:'Construye el hábitat de tu animal con LEGO. Toma una foto de tu hábitat terminado.',
-       retoType:'photo',
-       q1:'¿Qué animal elegiste? ¿Qué tiene su hábitat (agua, comida, refugio)?',
-       q2:'¿Cómo programaste al AlphaBot para que se moviera como tu animal?'},
-      {n:10,topic:'Design a Robot Animal! 🦅🤖',
-       reto:'Construye tu animal robot con LEGO y diseña la versión digital en Makers Empire. Sube una foto de tu LEGO y el link del diseño digital si puedes.',
-       retoType:'free',
-       q1:'¿Cómo se llama tu animal robot? ¿Qué partes de distintos animales tiene?',
-       q2:'¿Cuál es el superpoder de tu animal robot? ¿Cómo lo usaría?'},
-      {n:11,topic:'Scratch Jr Animal Stories 🎬',
-       reto:'Crea tu historia de animales en Scratch Jr con al menos 2 personajes y 2 escenas. Comparte el link de tu proyecto.',
-       retoType:'scratch',
-       q1:'¿Qué animales están en tu historia? ¿Qué les pasa al final?',
-       q2:'¿Cuántas escenas tiene tu historia? ¿Qué fue lo más difícil de programar?'},
-      {n:12,topic:'ROBOMISION! — Reto Unidad 3 🏆',
-       reto:'Programa al AlphaBot para recorrer el hábitat. Toma una foto del AlphaBot en el hábitat.',
-       retoType:'photo',
-       q1:'¿Pudo el AlphaBot recorrer el hábitat sin chocar? ¿Qué tarjetas usaste en tu secuencia?',
-       q2:'¿Qué fue lo más emocionante del ROBOMISION de animales?'},
-    ]},
-    {name:'U4 — Build & Code',classes:[
-      {n:13,topic:'Numbers 6-10 & Directions 🗺️',
-       reto:'Construye tu mapa numerado con LEGO. Toma una foto de tu mapa.',
-       retoType:'photo',
-       q1:'¿De qué casilla a qué casilla llegó tu AlphaBot? ¿Cuántos pasos dio?',
-       q2:'¿Qué dirección fue la más difícil de programar con las tarjetas? ¿Por qué?'},
-      {n:14,topic:'Loops & Repeats! — SPARKY Baila 💃',
-       reto:'Crea el baile de SPARKY en Scratch Jr con al menos 1 LOOP. Comparte el link de tu proyecto.',
-       retoType:'scratch',
-       q1:'¿Cuántas veces se repite el baile? ¿Qué movimientos le pusiste a SPARKY?',
-       q2:'¿Por qué los loops hacen los programas más cortos? Explícalo con tus palabras.'},
-      {n:15,topic:'Tinkercad: My First 3D World 🖥️',
-       reto:'Diseña tu robot favorito en Tinkercad usando formas 3D. Comparte el link de tu diseño.',
-       retoType:'tinkercad',
-       q1:'¿Qué formas 3D usaste (cubo, esfera, cilindro)? ¿De qué color es tu diseño?',
-       q2:'¿En qué se parece y en qué se diferencia tu diseño en Tinkercad de tu robot LEGO?'},
-      {n:16,topic:'ROBOMISION! — Reto Unidad 4 🏆',
-       reto:'Programa a SPARKY para que llegue a casa en Scratch Jr usando loops. Comparte el link.',
-       retoType:'scratch',
-       q1:'¿Cuántos bloques usaste para llevar a SPARKY a casa? ¿Usaste un LOOP?',
-       q2:'¿Qué fue más desafiante: el camino de SPARKY en Scratch Jr o el AlphaBot avanzado?'},
-    ]},
-    {name:'U5 — Light Up!',classes:[
-      {n:17,topic:'¡Mi Primera Luz! ⚡',
-       reto:'¡Hiciste brillar tu primer LED! Toma una foto de tu circuito encendido.',
-       retoType:'photo',
-       q1:'¿Qué 3 cosas necesitas para que un LED se encienda? ¿Qué pasa si falta una?',
-       q2:'¿Qué es un circuito cerrado? ¿Y uno abierto? Explícalo con tus palabras.'},
-      {n:18,topic:'Build a Robot Flashlight! 🔦',
-       reto:'Construye tu robot linterna con LEGO y el circuito. Toma una foto con la luz encendida.',
-       retoType:'photo',
-       q1:'¿Cómo diseñaste tu robot linterna? ¿Dónde pusiste el LED y el interruptor?',
-       q2:'¿Tuviste algún bug con el circuito? ¿Cómo lo arreglaste?'},
-      {n:19,topic:'Robot Traffic Lights — IF/THEN 🚦',
-       reto:'Construye tu semáforo robot con LEGO y 3 LEDs. Toma una foto de tu semáforo.',
-       retoType:'photo',
-       q1:'¿Qué significa cada color de tu semáforo? ¿Qué secuencia sigue?',
-       q2:'¿Puedes explicar qué es un IF/THEN con un ejemplo de tu vida diaria?'},
-      {n:20,topic:'ROBOMISION! — Reto Unidad 5 🏆',
-       reto:'Crea tu indicador de emoción con LED. Toma una foto de tu indicador encendido.',
-       retoType:'photo',
-       q1:'¿Qué color usaste para cada emoción? ¿Por qué elegiste esos colores?',
-       q2:'¿Qué fue lo más sorprendente que descubriste sobre la electricidad?'},
-    ]},
-    {name:'U6 — SPARK Showcase',classes:[
-      {n:21,topic:'Design My Showcase Project 🎨',
-       reto:'Finaliza tu diseño 3D en Tinkercad para el Showcase Day. Comparte el link de tu diseño.',
-       retoType:'tinkercad',
-       q1:'¿Qué proyecto elegiste para presentar el día del Showcase? ¿Por qué ese?',
-       q2:'¿Qué vas a decir en inglés cuando presentes? Escribe 2 oraciones en inglés.'},
-      {n:22,topic:'3D Print Day! 🖨️',
-       reto:'¡Tu diseño se imprimió en 3D! Toma una foto con tu objeto impreso en la mano.',
-       retoType:'photo',
-       q1:'¿Cómo se sintió ver tu diseño convertido en un objeto real? ¿Es exactamente como lo imaginaste?',
-       q2:'¿Por qué crees que la impresora 3D imprime capa por capa y no de una sola vez?'},
-      {n:23,topic:'ROBOMISION Grand Tournament! 🏆',
-       reto:'¡El gran torneo! Toma una foto o video de tu mejor programa AlphaBot de todo el nivel.',
-       retoType:'photo',
-       q1:'¿Cuántas tarjetas usaste en tu mejor programa AlphaBot? ¿Qué hacía el robot?',
-       q2:'¿Qué fue lo más difícil de todo el nivel SPARK? ¿Qué fue lo más emocionante?'},
-      {n:24,topic:'SPARK Showcase Day! 🎉',
-       reto:'¡El gran día! Toma una foto con tu familia y tu proyecto en el Showcase.',
-       retoType:'photo',
-       q1:'¿Qué presentaste a tu familia hoy? ¿Cómo te sentiste hablando en inglés?',
-       q2:'Mensaje para el próximo estudiante SPARK: ¿Qué consejo le darías?'},
-    ]},
-   ]},
-  {id:2,name:'RISE',age:'7 – 10 años',color:'#3B82F6',
-   desc:'Scratch completo, Arduino Blink y TinkerCAD funcional. El primer robot que resuelve un problema real.',
-   tools:['Scratch','Arduino Uno','Protoboard + LED','LEGO WeDo 2.0','TinkerCAD'],
-   units:[
-    {name:'U1 — Programación',classes:[
-      {n:1,topic:'De Scratch Jr a Scratch',reto:'¿Cuáles son las 3 diferencias más grandes entre Scratch Jr y Scratch? ¿Qué puedes hacer ahora que antes no podías?'},
-      {n:2,topic:'Loops — el robot repite',reto:'Sin loop necesitas 20 bloques. Con loop, ¿cuántos usas? ¿Cuánto tiempo te ahorra el loop?'},
-      {n:3,topic:'Condicionales — el robot decide',reto:"Escribe una condición de tu vida real en formato código: 'IF ___ THEN ___ ELSE ___'. ¡Un ejemplo que no sea de tecnología!"},
-      {n:4,topic:'Variables — el robot recuerda',reto:'¿Para qué sirve una variable? Explícalo como si se lo explicaras a alguien de 5 años que nunca ha oído esa palabra.'},
-      {n:5,topic:'Debugging — encuentra el error',reto:'¿Qué bugs encontraste hoy? ¿Cómo los detectaste? ¿Qué estrategia usas para encontrar errores?'},
-      {n:6,topic:'Mini-proyecto: Juego interactivo',reto:'Describe tu juego en 3 palabras. ¿Qué mecánica usas (loop, if, variable)? ¿Qué añadirías si tuvieras más tiempo?'},
-    ]},
-    {name:'U2 — Electrónica',classes:[
-      {n:7,topic:'Conoce los componentes',reto:'Nombra cada componente de tu kit. ¿Para qué sirve cada uno? ¿Qué pasaría si faltara alguno del circuito?'},
-      {n:8,topic:'Mi primer circuito real',reto:'¿Por qué necesitas una resistencia con el LED? ¿Qué pasaría sin ella? Explícalo con tus palabras.'},
-      {n:9,topic:'¿Qué es Arduino?',reto:'¿Qué tiene Arduino que no tiene un circuito normal con batería? Escribe 3 diferencias que observaste.'},
-      {n:10,topic:'Blink — mi primer código Arduino',reto:'¿Qué significa delay(1000)? Cambia el número a 200 y a 2000. ¿Qué pasa? Explica la relación.'},
-      {n:11,topic:'Botón + sensor de luz',reto:'¿Cómo sabe el Arduino si presionaste el botón? Describe el flujo: botón → Arduino → LED.'},
-      {n:12,topic:'Mini-proyecto: Sistema reactivo',reto:'Explica tu sistema paso a paso: ¿qué pasa cuando activas el trigger? ¿Cómo usarías esto en tu casa para algo útil?'},
-    ]},
-    {name:'U3 — Diseño 3D',classes:[
-      {n:13,topic:'TinkerCAD avanzado',reto:"¿Cuál es la diferencia entre 'group' y 'hole' en TinkerCAD? Crea un ejemplo de cada uno y descríbelo."},
-      {n:14,topic:'Diseño un objeto funcional',reto:'¿Tu diseño es realmente funcional? ¿Cómo lo comprobaste? ¿Qué medidas usaste y por qué?'},
-      {n:15,topic:'Las medidas importan',reto:'¿Por qué importan las medidas exactas en 3D? ¿Qué pasa si la pieza está 2mm de más?'},
-      {n:16,topic:'Pieza para mi robot',reto:'¿Cómo se conectará tu pieza 3D a tu robot? Describe la unión. ¿Qué medidas necesita para encajar?'},
-      {n:17,topic:'Preparo para imprimir',reto:'¿En qué orientación vas a imprimir? ¿Por qué esa y no otra? ¿Necesita soportes tu diseño?'},
-      {n:18,topic:'Mini-proyecto: Objeto funcional impreso',reto:'¿Tu objeto funciona como esperabas? ¿Qué salió diferente? ¿Qué cambiarías si lo imprimieras de nuevo?'},
-    ]},
-    {name:'U4 — Proyecto: Robot with a Mission',classes:[
-      {n:19,topic:'¿Cuál es tu misión?',reto:'¿Cuál es el problema que resuelve tu robot? ¿Por qué ese y no otro? ¿A quién beneficia directamente?'},
-      {n:20,topic:'Fase diseño',reto:'Describe el diagrama de tu robot: ¿dónde van el sensor, motor y Arduino? ¿Por qué pusiste cada elemento en ese lugar?'},
-      {n:21,topic:'Fase construcción',reto:'¿Cuál fue el mayor reto de construcción? ¿Cambias algo del diseño original basándote en lo que aprendiste?'},
-      {n:22,topic:'Fase programación',reto:"¿Qué hace tu robot cuando detecta algo? Escribe la lógica: IF ___ THEN ___. ¿Cómo corregiste los errores?"},
-      {n:23,topic:'Integración 3D',reto:'¿Tu pieza 3D encajó perfectamente? ¿Cuántos intentos necesitaste? ¿Qué aprendiste?'},
-      {n:24,topic:'Ensayo de presentación',reto:"Escribe tu presentación: 'The problem I solved is... My robot works by... I programmed it to... The hardest part was...'"},
-    ]},
-    {name:'Certificación RISE',classes:[
-      {n:25,topic:'Día de presentaciones',reto:'Reflexión RISE: ¿Qué fue lo más difícil? ¿Qué fue lo más emocionante? ¿Qué te llevas? Mínimo 5 oraciones.'},
-      {n:26,topic:'Ceremonia RISE',reto:'Mensaje para el próximo estudiante RISE: ¿Qué consejo le darías? ¿Qué harías diferente?'},
-    ]},
-   ]},
-  {id:3,name:'CORE',age:'9 – 12 años',color:'#2563EB',
-   desc:'Python básico, Arduino con múltiples sensores, Design Thinking y primer contacto con Inteligencia Artificial.',
-   tools:['Python','Scratch avanzado','Arduino + sensores','TinkerCAD (precisión)','Teachable Machine'],
-   units:[
-    {name:'U1 — Programación',classes:[
-      {n:1,topic:'Scratch avanzado — sprites que se comunican',reto:"¿Cómo se 'hablan' dos sprites en Scratch? Explica el sistema broadcast/receive como si fuera una conversación entre dos personas."},
-      {n:2,topic:'Listas en Scratch',reto:'¿Para qué sirve una lista? ¿En qué situación de la vida real usarías una lista en un programa? Da 2 ejemplos concretos.'},
-      {n:3,topic:'¿Qué es Python?',reto:'Escribe el mismo programa en Scratch y en Python. ¿Qué diferencias ves? ¿Cuál te parece más claro y por qué?'},
-      {n:4,topic:'Mis primeras líneas en Python',reto:"Escribe un programa Python que le pregunte tu nombre y responda '¡Hola, [nombre]! Bienvenido a VIRTUS STEAM.' Pega tu código aquí."},
-      {n:5,topic:'Loops y condicionales en Python',reto:'¿Por qué Python usa indentación? ¿Qué pasa si no los pones correctamente? Muestra un ejemplo de error.'},
-      {n:6,topic:'Mini-proyecto: Python + Scratch',reto:'¿Qué hace tu programa Python? ¿Qué hace tu proyecto Scratch? ¿Cómo se complementan? ¿Qué fue lo más difícil?'},
-    ]},
-    {name:'U2 — Electrónica & IA',classes:[
-      {n:7,topic:'Sensor ultrasónico',reto:'¿Cómo funciona el sensor ultrasónico? (pista: como los murciélagos) Explica el principio. ¿Qué aplicaciones reales tiene?'},
-      {n:8,topic:'Sistema de alerta',reto:'¿A qué distancia configuraste tu alarma? ¿Por qué esa distancia? ¿Cómo usarías este sistema para proteger algo en tu casa?'},
-      {n:9,topic:'Sensor temperatura y humedad',reto:'¿Cuál es la temperatura y humedad del salón hoy? ¿Para qué industrias es útil este sensor? Da 3 ejemplos.'},
-      {n:10,topic:'Dos sensores a la vez',reto:'¿Qué desafíos tuviste al programar dos sensores simultáneamente? ¿Cómo organizaste tu código?'},
-      {n:11,topic:'Inteligencia Artificial — Teachable Machine',reto:'Entrenaste un modelo de IA hoy. ¿Qué aprendió la máquina? ¿Cuántos ejemplos necesitaste? ¿Qué pasa si le muestras algo que no entrenaste?'},
-      {n:12,topic:'Mini-proyecto: Sistema de seguridad',reto:'Explica tu sistema completo: ¿qué detecta, cómo responde, qué código lo controla? ¿Cómo lo mejorarías?'},
-    ]},
-    {name:'U3 — Diseño 3D',classes:[
-      {n:13,topic:'TinkerCAD avanzado',reto:'¿Qué operaciones booleanas usaste? Describe cómo funcionan con dos formas simples.'},
-      {n:14,topic:'Piezas mecánicas',reto:'¿Por qué un engranaje necesita medidas exactas? ¿Qué pasa con 0.5mm de más? ¿Y con 0.5mm de menos?'},
-      {n:15,topic:'Design Thinking — metodología',reto:"Aplica Design Thinking a un problema de tu salón: Empatizo con... / El problema es... / Mi idea es... / Mi prototipo sería..."},
-      {n:16,topic:'Pieza para el proyecto final',reto:'¿Qué función cumple tu pieza 3D en el proyecto? ¿Qué medidas necesita para conectarse correctamente?'},
-      {n:17,topic:'Ensamblajes de varias piezas',reto:'¿Cuánta tolerancia dejaste entre las piezas? ¿Cómo decidiste ese número? ¿Qué pasó cuando las probaste juntas?'},
-      {n:18,topic:'Mini-proyecto: Ensamblaje de precisión',reto:'¿Tus piezas encajaron al primer intento? ¿Qué ajustaste? ¿Cuántos milímetros de tolerancia son los correctos?'},
-    ]},
-    {name:'U4 — Proyecto: Team Mission',classes:[
-      {n:19,topic:'Formación de equipos + Design Thinking',reto:'¿Cuál es el problema que resuelve tu equipo? ¿Cómo lo eligieron? ¿Qué aprendieron al investigar el problema?'},
-      {n:20,topic:'Roles del equipo',reto:'¿Cuál es tu rol? ¿Por qué elegiste ese y no otro? ¿Cómo coordinan el trabajo para que todo encaje al final?'},
-      {n:21,topic:'Fase construcción en equipo',reto:'¿Qué hizo cada miembro hoy? ¿Hubo algún desacuerdo? ¿Cómo lo resolvieron?'},
-      {n:22,topic:'Fase programación — Scratch + Arduino',reto:'¿Cuál es la lógica principal del robot? Escribe los IF/THEN más importantes. ¿Qué sensor es el más crítico?'},
-      {n:23,topic:'Integración 3D + debugging',reto:'¿Cuántos bugs encontraron? Describe el más interesante: ¿qué hacía mal el robot y cómo lo corrigieron?'},
-      {n:24,topic:'Ensayo de presentación en equipo',reto:'Escribe el guión de tu equipo: ¿quién dice qué parte? ¿Qué preguntas difíciles esperan?'},
-    ]},
-    {name:'Certificación CORE',classes:[
-      {n:25,topic:'Día de presentaciones',reto:'Reflexión CORE: ¿Qué fue lo más difícil? ¿Qué aprendiste de trabajar en equipo? ¿Qué te llevas? Mínimo 5 oraciones.'},
-      {n:26,topic:'Ceremonia CORE',reto:'Mensaje para el próximo estudiante CORE: ¿Qué consejo le darías sobre Python y el trabajo en equipo?'},
-    ]},
-   ]},
-  {id:4,name:'SURGE',age:'11 – 14 años',color:'#1D4ED8',
-   desc:'Python intermedio con Arduino serial, Fusion 360 paramétrico, IA aplicada y primera experiencia de Realidad Virtual.',
-   tools:['Python intermedio','Arduino C++','Fusion 360','Teachable Machine avanzado','Google Cardboard VR'],
-   units:[
-    {name:'U1 — Programación Avanzada',classes:[
-      {n:1,topic:'Python — funciones propias',reto:'Crea una función Python que reciba el nombre de un sensor y su valor, y retorne un mensaje formateado. Pega tu código y explica cada línea.'},
-      {n:2,topic:'Listas y diccionarios',reto:'¿Cuál es la diferencia entre lista y diccionario? ¿Cuándo usarías cada uno? Crea un diccionario con 3 lecturas de sensores distintos.'},
-      {n:3,topic:'Arduino C++ — librerías',reto:'¿Qué es una librería en programación? ¿Por qué es mejor usarla que escribir todo desde cero? ¿Qué librerías usaste hoy?'},
-      {n:4,topic:'Python habla con Arduino',reto:'Dibuja el flujo completo: Python → Serial → Arduino → Actuador. ¿Qué pasa si el baudrate no coincide?'},
-      {n:5,topic:'Dashboard de datos en tiempo real',reto:'¿Qué ventaja tiene visualizar datos en gráfica vs. verlos en el monitor serial? ¿Qué patrones puedes detectar?'},
-      {n:6,topic:'Mini-proyecto: Dashboard de sensores',reto:'¿Qué datos muestra tu dashboard? ¿Cómo funciona la comunicación entre Python y Arduino? ¿Qué mejorarías?'},
-    ]},
-    {name:'U2 — Sistemas Inteligentes',classes:[
-      {n:7,topic:'Servo motor — movimiento angular',reto:'¿En qué se diferencia un servo de un motor normal? ¿Por qué es útil controlar el ángulo exacto? Da 3 aplicaciones reales.'},
-      {n:8,topic:'Pantalla LCD',reto:'¿Qué información muestra tu LCD? ¿Por qué es útil tener pantalla física en lugar de solo ver datos en la computadora?'},
-      {n:9,topic:'Módulo relay',reto:'¿Por qué necesitas un relay para controlar dispositivos de mayor potencia? ¿Qué pasaría si los conectaras directo al Arduino?'},
-      {n:10,topic:'Sistema integrado completo',reto:'Dibuja el diagrama de tu sistema. ¿Qué decisiones toma el código automáticamente sin intervención humana?'},
-      {n:11,topic:'Teachable Machine avanzado',reto:'¿Cuántos ejemplos entrenaste por clase? ¿Qué accuracy logró tu modelo? ¿Qué confusiones comete y por qué?'},
-      {n:12,topic:'Mini-proyecto: Sistema inteligente',reto:'¿Tu sistema toma decisiones solo? Describe 3 situaciones en las que actúa diferente y qué lo desencadena en cada caso.'},
-    ]},
-    {name:'U3 — Fusion 360 & VR',classes:[
-      {n:13,topic:'¿Por qué Fusion 360?',reto:'¿Cuáles son las 3 diferencias más importantes entre TinkerCAD y Fusion 360? ¿Por qué los ingenieros prefieren Fusion 360?'},
-      {n:14,topic:'Fusion 360 — sketch y extrude',reto:"¿Qué es una 'restricción' en Fusion 360? ¿Por qué es importante restringir completamente un sketch?"},
-      {n:15,topic:'Diseño paramétrico',reto:"Cambia el parámetro 'ancho' de 30mm a 50mm. ¿Qué cambió automáticamente? ¿Qué ventaja enorme tiene esto vs. TinkerCAD?"},
-      {n:16,topic:'Pieza mecánica compleja',reto:'¿Cuántas operaciones tiene tu pieza en el timeline? ¿Qué hace cada una? Describe el proceso de construcción.'},
-      {n:17,topic:'Intro a Realidad Virtual',reto:'¿Cómo crea la ilusión de profundidad el VR? ¿En qué se parece a cómo ven tus dos ojos? ¿Qué aplicaciones ves para VR?'},
-      {n:18,topic:'Mini-proyecto: Pieza paramétrica',reto:'¿Cuál fue la tolerancia correcta para tu impresora? ¿Cómo la determinaste? ¿Qué aprendiste sobre diseño digital vs. objeto físico?'},
-    ]},
-    {name:'U4 — Proyecto: Community Impact',classes:[
-      {n:19,topic:'Investigación del problema',reto:'¿A quién entrevistaste? ¿Qué descubriste que no esperabas? ¿Cómo cambió tu comprensión después de investigar?'},
-      {n:20,topic:'Design Thinking — concepto',reto:'¿Cuál fue el insight más importante? ¿Cómo llegaste a tu solución? ¿Qué ideas descartaste y por qué?'},
-      {n:21,topic:'Fase construcción — hardware',reto:'Describe el esquema de conexiones de tu proyecto. ¿Qué pasaría si un cable se desconectara?'},
-      {n:22,topic:'Fase programación — Python + Arduino',reto:'¿Cómo se dividen las responsabilidades entre Python y Arduino? ¿Qué hace cada uno?'},
-      {n:23,topic:'Integración 3D + pruebas',reto:'¿Qué casos extremos probaste? ¿En qué condiciones falló tu sistema? ¿Cómo lo hiciste más robusto?'},
-      {n:24,topic:'Documentación técnica',reto:'Escribe el resumen de tu proyecto (abstract): problema + solución + resultados en máximo 5 oraciones.'},
-    ]},
-    {name:'Certificación SURGE',classes:[
-      {n:25,topic:'Defensa técnica',reto:'Reflexión SURGE: ¿Cuál fue la decisión técnica más importante que tomaste? ¿Qué aprendiste de investigar un problema real?'},
-      {n:26,topic:'Ceremonia SURGE',reto:'Mensaje para el próximo estudiante SURGE: ¿Qué consejo le darías sobre Python y la investigación de problemas reales?'},
-    ]},
-   ]},
-  {id:5,name:'PINNACLE',age:'13 – 16 años',color:'#1E3A8A',
-   desc:'Python OOP, Git, Bluetooth, IoT real, visión artificial con ML5.js, Fusion 360 con simulación y VR interactivo con A-Frame.',
-   tools:['Python OOP','Git','Arduino Bluetooth HC-05','ML5.js (visión artificial)','Fusion 360 + simulación','A-Frame VR'],
-   units:[
-    {name:'U1 — Python Profesional',classes:[
-      {n:1,topic:'Python OOP — clases y objetos',reto:"Crea una clase 'Sensor' con atributos: nombre, unidad, valor. Agrega un método que retorne una lectura formateada. ¿Por qué OOP organiza mejor proyectos grandes?"},
-      {n:2,topic:'Módulos y archivos CSV',reto:'¿Por qué es importante dividir el código en módulos? Crea un módulo sensors.py. ¿Cómo lo importas en tu programa principal?'},
-      {n:3,topic:'Arduino Bluetooth HC-05',reto:'¿Cómo configuraste el módulo HC-05? ¿Qué son los comandos AT? ¿Por qué la comunicación inalámbrica es un salto importante?'},
-      {n:4,topic:'Control remoto por Bluetooth',reto:'¿Qué protocolo de comandos diseñaste? ¿Qué latencia notaste? ¿Cómo afecta la latencia a la experiencia de control?'},
-      {n:5,topic:'Git — control de versiones',reto:'¿Por qué los ingenieros usan Git? ¿Qué pasaría sin control de versiones en un proyecto grande? ¿Cuántos commits tiene tu repositorio?'},
-      {n:6,topic:'Mini-proyecto: Sistema remoto + logging',reto:'¿Qué datos registra tu sistema en CSV? ¿Qué podrías descubrir analizando esos datos? Muestra una tabla con tus primeros datos.'},
-    ]},
-    {name:'U2 — IA + Hardware',classes:[
-      {n:7,topic:'Giroscopio y acelerómetro MPU6050',reto:'¿Cuáles son los 6 ejes que mide el MPU6050? ¿Cómo usarías estos datos para hacer un robot que se mantenga equilibrado?'},
-      {n:8,topic:'Detección de movimiento y equilibrio',reto:'¿Qué es un sistema PID en términos simples? ¿Cómo se relaciona con mantener el equilibrio? Da un ejemplo de PID en la vida cotidiana.'},
-      {n:9,topic:'IoT — ESP8266 WiFi',reto:'¿Dónde se almacenan los datos de tus sensores en la nube? ¿Cómo accedes desde cualquier lugar? ¿Qué implicaciones de privacidad tiene IoT?'},
-      {n:10,topic:'Visión artificial con ML5.js',reto:'¿Cómo funciona ML5.js — dónde corre el modelo? ¿Qué nivel de confidence necesitas para que el sistema sea confiable?'},
-      {n:11,topic:'IA controla hardware — gestos',reto:'Describe el pipeline completo: gesto → cámara → ML5 → Bluetooth → Arduino → motor. ¿Dónde está la mayor fuente de delay?'},
-      {n:12,topic:'Mini-proyecto: IoT + control por gestos',reto:'¿Qué datos publica tu estación IoT? ¿Cómo funciona el control por gestos? ¿Qué falló y cómo lo resolviste?'},
-    ]},
-    {name:'U3 — Fusion 360 & A-Frame VR',classes:[
-      {n:13,topic:'Fusion 360 — ensamblajes con movimiento',reto:'¿Cuántos grados de libertad tiene tu ensamblaje? ¿Cómo se mueve cada pieza respecto a las otras? Describe el mecanismo.'},
-      {n:14,topic:'Fusion 360 — simulación de esfuerzos',reto:'¿Qué resultado arrojó la simulación? ¿Hay zonas de alta tensión? ¿Qué cambiarías para hacerlo más resistente?'},
-      {n:15,topic:'Diseño optimizado para impresión',reto:'¿Qué porcentaje de infill usaste y por qué? ¿En qué orientación imprimiste y qué impacto tiene en la resistencia?'},
-      {n:16,topic:'A-Frame — VR web desde cero',reto:"¿Qué entidades creaste en tu escena A-Frame? ¿Cómo funciona su sistema de componentes? ¿Qué se puede y no se puede hacer con él?"},
-      {n:17,topic:'A-Frame interactivo',reto:'¿Qué interacciones implementaste? ¿Cómo se activan? ¿Qué se siente diferente al navegar tu VR vs. una web normal?'},
-      {n:18,topic:'Mini-proyecto: Sala VR de proyectos',reto:'¿Qué proyectos exhibes en tu sala VR? ¿Cómo navega el usuario? ¿Publicaste tu sala en internet? Comparte el link.'},
-    ]},
-    {name:'U4 — Proyecto: Ready to Win',classes:[
-      {n:19,topic:'Análisis de competencias',reto:'¿Qué competencia estudiaste? ¿Cuáles son sus reglas más importantes? ¿Qué estrategia adoptaría tu equipo?'},
-      {n:20,topic:'Selección del proyecto y estrategia',reto:'¿Cuál es la estrategia técnica de tu equipo? ¿Qué compromisos (trade-offs) hicieron? ¿Qué riesgos identificaron?'},
-      {n:21,topic:'Build sprint — construcción intensiva',reto:'¿Cuántos prototipos construyeron hoy? ¿Qué descartaron? ¿Cuál fue el cambio de diseño más importante después de probar?'},
-      {n:22,topic:'Code sprint — programación intensiva',reto:'¿Qué optimizaciones de código hicieron para mejorar el rendimiento? ¿Cómo midieron la mejora?'},
-      {n:23,topic:'Testing en condiciones de competencia',reto:'¿Cuál es el mejor tiempo/puntaje de tu robot? ¿En qué condiciones falla? ¿Qué ajuste tuvo el mayor impacto?'},
-      {n:24,topic:'Preparación de defensa técnica',reto:'¿Cuáles son las 5 decisiones técnicas más importantes de tu proyecto? Para cada una: qué decidiste, por qué, qué alternativa descartaste.'},
-    ]},
-    {name:'Certificación PINNACLE',classes:[
-      {n:25,topic:'Defensa ante jurado externo',reto:'Reflexión PINNACLE: ¿Cuál fue la decisión técnica más difícil? ¿Qué aprendiste de preparar un proyecto a nivel de competencia? Mínimo 5 oraciones.'},
-      {n:26,topic:'Ceremonia PINNACLE',reto:'Mensaje para el próximo estudiante PINNACLE: ¿Qué consejo le darías sobre IoT, visión artificial y preparación para competencias?'},
-    ]},
-   ]},
-  {id:6,name:'LEGEND',age:'15 – 17 años',color:'#7C3AED',
-   desc:'Flask, OpenCV, scikit-learn, Unity VR, MQTT y un proyecto Legacy con impacto real. El nivel más alto de VIRTUS STEAM.',
-   tools:['Python Flask + REST APIs','scikit-learn (Machine Learning)','OpenCV (visión artificial)','MQTT + ESP32','Unity VR','Fusion 360 generativo'],
-   units:[
-    {name:'U1 — Arquitectura de Software',classes:[
-      {n:1,topic:'Python Flask — web para tu robot',reto:'¿Cómo funciona el ciclo request-response en Flask? Dibuja el flujo. ¿Qué ventaja tiene que tu robot tenga interfaz web?'},
-      {n:2,topic:'APIs REST — el robot habla con el mundo',reto:'¿Qué diferencia hay entre GET y POST? Diseña los endpoints de la API de tu robot: ¿qué rutas expone?'},
-      {n:3,topic:'Data science con Pandas',reto:'¿Qué patrón encontraste en tus datos de sensores? ¿A qué hora son más altos/bajos? ¿Qué decisión tomaría tu sistema si supiera esos patrones?'},
-      {n:4,topic:'Machine Learning con scikit-learn',reto:'¿Qué clasificó tu modelo? ¿Cuál fue su accuracy en el conjunto de prueba? ¿Por qué no puedes evaluar el modelo con los mismos datos de entrenamiento?'},
-      {n:5,topic:'ML integrado al proyecto',reto:'¿Qué predice tu modelo en tiempo real? ¿Cómo integras la predicción con la acción del robot? ¿Qué pasa cuando el modelo se equivoca?'},
-      {n:6,topic:'Mini-proyecto: Dashboard inteligente',reto:'¿Qué puede hacer un usuario desde tu dashboard? ¿Cómo se comunica el frontend con el backend? ¿Qué predicción hace tu ML?'},
-    ]},
-    {name:'U2 — Sistemas Autónomos',classes:[
-      {n:7,topic:'ESP32 / Raspberry Pi',reto:'¿Qué puede hacer una Raspberry Pi que no puede hacer un Arduino? ¿Y al revés? ¿Para qué tipo de proyecto usarías cada una?'},
-      {n:8,topic:'OpenCV — la máquina ve el mundo',reto:'¿Cómo detecta OpenCV un color específico con HSV? Explica el proceso. ¿Qué diferencia hay entre RGB y HSV?'},
-      {n:9,topic:'MQTT — red de dispositivos IoT',reto:'¿Cómo funciona el patrón publish/subscribe de MQTT? ¿Por qué es más eficiente que HTTP para IoT? Dibuja la arquitectura.'},
-      {n:10,topic:'Arquitectura de sistema complejo',reto:'Dibuja el diagrama de arquitectura de tu proyecto Legend. ¿Qué módulo es el más crítico? ¿Qué pasa si ese módulo falla?'},
-      {n:11,topic:'Sistema autónomo completo',reto:'¿Cuánto tiempo tarda tu pipeline completo desde que la cámara ve algo hasta que el hardware actúa? ¿Cómo reducirías esa latencia?'},
-      {n:12,topic:'Mini-proyecto: Sistema que ve, piensa y actúa',reto:'¿En qué situaciones falla tu sistema autónomo? ¿Qué edge cases encontraste? ¿Cómo harías tu sistema más robusto?'},
-    ]},
-    {name:'U3 — Unity VR & Fusion Generativo',classes:[
-      {n:13,topic:'Fusion 360 — diseño generativo',reto:'¿Qué restricciones le diste al diseño generativo? ¿Cuántas variantes generó Fusion? ¿Cuál elegiste y por qué?'},
-      {n:14,topic:'Ensamblaje completo del proyecto',reto:'¿Cuántas piezas tiene tu ensamblaje? ¿Cuál es la más crítica y por qué? Genera la vista explosionada y descríbela.'},
-      {n:15,topic:'Impresión 3D avanzada',reto:'¿Qué material usaste y por qué ese sobre PLA? ¿Cómo cambiaron los parámetros de impresión? ¿Qué aprendiste del post-procesado?'},
-      {n:16,topic:'Unity — intro al motor',reto:'¿Cómo se diferencia el sistema de componentes de Unity del de A-Frame? ¿Qué es un Rigidbody y para qué sirve?'},
-      {n:17,topic:'Unity VR — experiencia interactiva',reto:'¿Qué puede hacer el usuario en tu experiencia VR? ¿Cómo implementaste las interacciones? ¿Qué hace que una experiencia VR sea realmente inmersiva?'},
-      {n:18,topic:'Mini-proyecto: VR Unity del proyecto Legend',reto:'¿Qué puede hacer el usuario dentro de tu VR? ¿Cómo representa tu proyecto físico? ¿Qué se entiende mejor en VR que con un video?'},
-    ]},
-    {name:'U4 — Legacy + Enseñanza',classes:[
-      {n:19,topic:'Definición del Proyecto Legacy',reto:'¿Por qué elegiste este proyecto como tu Legacy? ¿Qué impacto concreto tendrá? ¿Seguirá siendo útil en 2 años?'},
-      {n:20,topic:'Diseño de tu clase para enseñar',reto:'¿Qué quieres que tus estudiantes aprendan? ¿Cómo lo medirás? ¿Qué harías diferente si tu primera explicación no funciona?'},
-      {n:21,topic:'El Legend Enseña',reto:'¿Cómo reaccionaron los estudiantes? ¿Qué funcionó como lo planeaste? ¿Qué improvisaste? ¿Qué aprendiste de enseñar a otros?'},
-      {n:22,topic:'Build intensivo — proyecto Legacy',reto:'¿En qué estado está tu proyecto Legacy? ¿Qué queda por hacer? ¿Cuál es el riesgo más grande de no terminar a tiempo?'},
-      {n:23,topic:'Integración total + pruebas finales',reto:'¿Tu sistema pasó todas las pruebas? ¿Qué casos extremos encontraste? ¿Cuál fue el bug más difícil de resolver en todo el nivel LEGEND?'},
-      {n:24,topic:'Portfolio final + La Gran Defensa',reto:'Escribe el párrafo de apertura de tu defensa LEGEND: ¿quién eres, qué construiste en estos 3 años, qué problema resuelve tu proyecto y por qué importa?'},
-    ]},
-    {name:'Certificación LEGEND',classes:[
-      {n:25,topic:'La Gran Defensa',reto:'Reflexión LEGEND: ¿Cuál fue el momento más difícil de todo tu camino en VIRTUS STEAM? ¿Cuál fue el más orgulloso? Escribe todo lo que sientas.'},
-      {n:26,topic:'Ceremonia LEGEND',reto:'Este es tu mensaje permanente para todos los futuros estudiantes de VIRTUS STEAM. ¿Qué consejo le darías a alguien que empieza en SPARK y sueña con llegar a LEGEND?'},
-    ]},
-   ]},
-];
-let LEVELS=CURRICULUM_ROBOWORKS; // will be overridden based on program curriculum_type
+let myClasses = [];
+let currentClassId = null;
+const DAY_LABEL = { monday:'Lunes', tuesday:'Martes', wednesday:'Miércoles', thursday:'Jueves', friday:'Viernes', saturday:'Sábado', sunday:'Domingo' };
 
-// ─── STATE ───────────────────────────────────────────────────
-let student=null;
-let myClasses=[];
-let currentProgram=null;
-let allTasks=[];
-let allMaterials=[];
-let portCache={}; // portfolio data keyed by 'lvl_cls'
-let portCurrentLevel=1;
-let portCurrentUnit=0;
-let tasksFilter='all';
-let matsFilter='all';
+function initials(n){ return (n||'?').split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
+function esc(s){ const d=document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
+function escAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
-// ─── INIT ────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded',async()=>{
-  student=JSON.parse(localStorage.getItem('currentStudent'));
-  if(!student){window.location.href='login.html';return;}
-  if(location.protocol!=='file:'){
-    try{await firebase.auth().signInAnonymously();}catch(_){}
-  }
-  // Load program curriculum type (timeout 3s so it never blocks the UI)
-  if(student.program_id){
-    try{
-      const _timeout=new Promise((_,rej)=>setTimeout(()=>rej('t'),3000));
-      const pSnap=await Promise.race([fdb.collection('programs').doc(student.program_id).get(),_timeout]);
-      if(pSnap.exists){
-        currentProgram={id:pSnap.id,...pSnap.data()};
-        if(currentProgram.curriculum_type==='codeworks') LEVELS=CURRICULUM_CODEWORKS;
-      }
-    }catch(_){}
-  }
-  initUI();
-  await Promise.all([loadPortfolioFromFirebase(),loadClasses(),loadTasks(),loadMaterials()]);
-  renderPortfolioLevelTabs();
-  renderPortfolioUnit();
-});
-
-function initUI(){
-  const name=student.full_name||student.name||'Robotista';
-  const lvl=student.level||'SPARK';
-  const xp=student.xp||0;
-  const initials=name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  const color=LEVEL_COLORS[lvl]||'var(--blue)';
-  // Portfolio link
-  const portUrl=`${location.origin}/plataforma/portfolio.html?s=${student.id}`;
-  const openLink=document.getElementById('open-port-link');
-  if(openLink) openLink.href=portUrl;
-
-  document.getElementById('sb-avatar').textContent=initials;
-  document.getElementById('sb-avatar').style.background=`linear-gradient(135deg,${color},${color}bb)`;
-  document.getElementById('sb-name').textContent=name;
-  document.getElementById('sb-level').textContent='Nivel '+lvl;
-
-  const badge=document.getElementById('topbar-level-badge');
-  badge.textContent=lvl;
-  badge.style.background=color;
-  document.getElementById('topbar-xp').textContent=xp+' XP';
-
-  document.getElementById('hero-name').textContent='Hola, '+name.split(' ')[0];
-  document.getElementById('hs-xp').textContent=xp+' XP';
-  document.getElementById('hs-level').textContent='Nivel '+lvl;
-  document.getElementById('stat-xp').textContent=xp;
-
-  // Level track (Mi Camino)
-  const track=document.getElementById('level-track');
-  LEVELS.forEach(lv=>{
-    const isDone=lv.id<(student.level_num||1);
-    const isCurrent=lv.name===(student.level||'SPARK');
-    const el=document.createElement('div');
-    el.className='level-step'+(isDone?' done':isCurrent?' current':'');
-    el.innerHTML=`<div class="ls-num">Nivel ${lv.id}</div>
-      <div class="ls-icon"><i class="fas fa-${isDone?'check-circle':isCurrent?'circle-dot':'circle'}"></i></div>
-      <div class="ls-name">${lv.name}</div>`;
-    track.appendChild(el);
-  });
-
-  // Current level card
-  const cl=LEVELS.find(l=>l.name===(student.level||'SPARK'))||LEVELS[0];
-  document.getElementById('cl-badge').textContent='NIVEL '+cl.id;
-  document.getElementById('cl-title').textContent=cl.name;
-  document.getElementById('cl-age').textContent=cl.age;
-  document.getElementById('cl-desc').textContent=cl.desc;
-  document.getElementById('current-level-card').style.background=`linear-gradient(135deg,${cl.color}dd,${cl.color})`;
-  const tools=document.getElementById('cl-tools');
-  cl.tools.forEach(t=>{
-    const chip=document.createElement('span');
-    chip.style.cssText='background:rgba(255,255,255,.15);color:#fff;padding:.35rem .75rem;border-radius:20px;font-size:.75rem;font-weight:600;';
-    chip.textContent=t;
-    tools.appendChild(chip);
-  });
-
-  // Units list
-  renderUnits(cl);
-}
-
-// ─── UNITS (Mi Camino) ───────────────────────────────────────
-function renderUnits(cl){
-  const list=document.getElementById('units-list');
-  list.innerHTML='';
-  cl.units.forEach((unit,ui)=>{
-    const uc=document.createElement('div');
-    uc.className='unit-card';
-    const done=unit.classes.filter(c=>isClassDone(cl.id,c.n)).length;
-    const header=document.createElement('div');
-    header.className='unit-header';
-    header.innerHTML=`<div class="unit-num">${ui+1}</div>
-      <div class="unit-name">${unit.name}</div>
-      <div class="unit-progress-text">${done}/${unit.classes.length}</div>
-      <i class="fas fa-chevron-right unit-chevron"></i>`;
-    header.onclick=()=>{header.classList.toggle('open');cls.style.display=header.classList.contains('open')?'block':'none';};
-    const cls=document.createElement('div');
-    cls.className='unit-classes';
-    unit.classes.forEach(c=>{
-      const d=isClassDone(cl.id,c.n);
-      const row=document.createElement('div');
-      row.className='class-row';
-      row.innerHTML=`<div class="class-row-num${d?' done':''}">${d?'<i class="fas fa-check" style="font-size:.6rem"></i>':c.n}</div>
-        <div class="class-row-topic">${c.topic}</div>
-        ${d?'<div class="class-row-badge"><i class="fas fa-check-circle"></i> Completada</div>':''}`;
-      cls.appendChild(row);
-    });
-    uc.appendChild(header);
-    uc.appendChild(cls);
-    list.appendChild(uc);
-  });
-}
-
-// ─── NEXT CLASS ──────────────────────────────────────────────
-async function loadClasses(){
-  try{
-    const prSnap=await fdb.collection('programs').get();
-    const programs={};
-    prSnap.forEach(d=>{programs[d.id]={id:d.id,...d.data()}});
-    const clSnap=await fdb.collection('classes').get();
-    const classes=[];
-    clSnap.forEach(d=>classes.push({id:d.id,...d.data()}));
-    const studentClassIds=student.class_ids||[];
-    const myCls=classes.filter(c=>studentClassIds.includes(c.id));
-    myClasses=classes; // guardar para loadAttendance
-    const dayOrder={monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6};
-    myCls.sort((a,b)=>(dayOrder[a.schedule_day]||7)-(dayOrder[b.schedule_day]||7));
-    // Leer documento del estudiante (sin caché) para obtener attendance_map actualizado
-    let clasesCompletadas=0;
-    try{
-      const stuDoc=await fdb.collection('students').doc(student.id).get({source:'server'});
-      if(stuDoc.exists){
-        const data=stuDoc.data();
-        const updated={...student,...data,id:student.id};
-        localStorage.setItem('currentStudent',JSON.stringify(updated));
-        student=updated;
-      }
-    }catch(_){}
-    // Contar sesiones P+T desde attendance_map del documento
-    const attMap=student.attendance_map||{};
-    Object.entries(attMap).forEach(([key,status])=>{
-      const classId=key.split('__')[0];
-      if(studentClassIds.includes(classId)&&['P','T'].includes(status)) clasesCompletadas++;
-    });
-    const nc=document.getElementById('next-class-content');
-    const stat=document.getElementById('hs-classes');
-    stat.textContent=clasesCompletadas+' clase'+(clasesCompletadas!==1?'s':'');
-    document.getElementById('stat-classes').textContent=clasesCompletadas;
-    document.getElementById('profileClasses');
-    if(myCls.length===0){
-      nc.innerHTML='<div class="empty-state"><i class="fas fa-calendar-xmark"></i><p>No hay clases programadas</p></div>';
-      return;
-    }
-    const days={monday:'Lunes',tuesday:'Martes',wednesday:'Miércoles',thursday:'Jueves',friday:'Viernes',saturday:'Sábado'};
-    const cls=myCls[0];
-    const prog=programs[cls.program_id];
-    nc.innerHTML=`<div class="class-item">
-      <div class="class-icon"><i class="fas fa-robot"></i></div>
-      <div>
-        <div class="class-name">${cls.name}</div>
-        <div class="class-meta">${days[cls.schedule_day]||cls.schedule_day} &bull; ${cls.schedule_time||''} ${prog?'&bull; '+prog.name:''}</div>
-      </div>
-      ${cls.zoom_link?`<a href="${cls.zoom_link}" target="_blank" class="zoom-link"><i class="fas fa-video"></i> Unirse</a>`:''}
-    </div>
-    ${myCls.length>1?`<p style="font-size:.78rem;color:var(--gray);text-align:center">${myCls.length-1} clase${myCls.length>2?'s':''} más inscritas</p>`:''}`;
-  }catch(e){
-    document.getElementById('next-class-content').innerHTML='<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>Error al cargar</p></div>';
+function checkForcedPasswordChange(user){
+  if (user.temporary_password) {
+    document.getElementById('pwForceNotice').classList.remove('hidden');
+    document.getElementById('pwModalClose').classList.add('hidden');
+    document.getElementById('pwCancelBtn').classList.add('hidden');
+    openModal('modal-password');
   }
 }
 
-// ─── ASISTENCIAS ─────────────────────────────────────────────
-function loadAttendance(){
-  const attMap=student.attendance_map||{};
-  const studentClassIds=student.class_ids||[];
-  // Construir registros solo para las clases del estudiante
-  const records=[];
-  Object.entries(attMap).forEach(([key,status])=>{
-    const parts=key.split('__');
-    if(parts.length<2) return;
-    const classId=parts[0];
-    const raw=parts[1]; // YYYYMMDD
-    if(!studentClassIds.includes(classId)) return;
-    const dateStr=raw.slice(0,4)+'-'+raw.slice(4,6)+'-'+raw.slice(6,8);
-    const cls=myClasses.find(c=>c.id===classId);
-    records.push({classId,date:dateStr,status,className:cls?cls.name:'Clase'});
+function showPwAlert(msg, type){
+  const el = document.getElementById('pwAlert');
+  el.textContent = msg;
+  el.className = 'pw-alert pw-alert-' + (type || 'error');
+  el.style.display = 'block';
+}
+
+async function submitPasswordChange(){
+  const current = document.getElementById('pw-current').value;
+  const next = document.getElementById('pw-new').value;
+  const confirmVal = document.getElementById('pw-confirm').value;
+
+  if (!current || !next) { showPwAlert('Completa todos los campos'); return; }
+  if (next.length < 8 || !/\d/.test(next)) { showPwAlert('La nueva contraseña debe tener al menos 8 caracteres y un número'); return; }
+  if (next !== confirmVal) { showPwAlert('Las contraseñas nuevas no coinciden'); return; }
+
+  const btn = document.getElementById('pwSaveBtn');
+  btn.disabled = true;
+  const res = await virtusApiFetch('/api/auth/change-password', {
+    method: 'POST', body: JSON.stringify({ currentPassword: current, newPassword: next })
   });
-  records.sort((a,b)=>b.date.localeCompare(a.date)); // más reciente primero
-  // Stats
-  const total=records.length;
-  const present=records.filter(r=>['P','T'].includes(r.status)).length;
-  const pct=total>0?Math.round(present/total*100):0;
-  document.getElementById('att-stat-total').textContent=total;
-  document.getElementById('att-stat-present').textContent=present;
-  document.getElementById('att-stat-pct').textContent=total>0?pct+'%':'—';
-  // Actualizar también el contador en la pantalla de inicio
-  document.getElementById('stat-classes').textContent=present;
-  document.getElementById('hs-classes').textContent=present+' clase'+(present!==1?'s':'');
-  // Historial
-  const wrap=document.getElementById('att-history-list');
-  const STATUS_LABEL={P:'Presente',A:'Ausente',T:'Tarde',J:'Justificado'};
-  const STATUS_COLOR={P:'var(--green)',A:'var(--red)',T:'var(--gold)',J:'var(--cyan)'};
-  const STATUS_ICON={P:'fa-circle-check',A:'fa-circle-xmark',T:'fa-clock',J:'fa-file-circle-check'};
-  if(records.length===0){
-    wrap.innerHTML='<div class="empty-state"><i class="fas fa-calendar-xmark" style="font-size:2rem;color:var(--muted);opacity:.4;margin-bottom:.75rem"></i><p style="color:var(--muted)">Aún no hay asistencias registradas</p></div>';
+  btn.disabled = false;
+
+  if (!res || !res.ok) {
+    showPwAlert(res?.data?.message || res?.data?.errors?.[0]?.msg || 'No se pudo cambiar la contraseña');
     return;
   }
-  wrap.innerHTML=records.map(r=>{
-    const d=new Date(r.date+'T12:00');
-    const fechaStr=d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    const color=STATUS_COLOR[r.status]||'var(--muted)';
-    const icon=STATUS_ICON[r.status]||'fa-circle';
-    const label=STATUS_LABEL[r.status]||r.status;
-    return `<div style="display:flex;align-items:center;gap:1rem;padding:.875rem 0;border-bottom:1px solid var(--border)">
-      <div style="width:40px;height:40px;border-radius:12px;background:${color}1a;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i class="fas ${icon}" style="color:${color};font-size:1.1rem"></i>
-      </div>
-      <div style="flex:1">
-        <div style="font-weight:700;font-size:.88rem;color:var(--text);text-transform:capitalize">${fechaStr}</div>
-        <div style="font-size:.78rem;color:var(--muted);margin-top:.1rem">${r.className}</div>
-      </div>
-      <div style="display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:50px;background:${color}1a;color:${color};font-size:.78rem;font-weight:700">
-        ${r.status} — ${label}
-      </div>
-    </div>`;
-  }).join('');
+
+  document.getElementById('pw-current').value = '';
+  document.getElementById('pw-new').value = '';
+  document.getElementById('pw-confirm').value = '';
+  document.getElementById('pwForceNotice').classList.add('hidden');
+  document.getElementById('pwModalClose').classList.remove('hidden');
+  document.getElementById('pwCancelBtn').classList.remove('hidden');
+  closeModal('modal-password');
 }
 
-// ─── TASKS ───────────────────────────────────────────────────
-let taskSubmissions={}; // keyed by task_id
 
-/* ── CALIFICACIONES ─────────────────────────────── */
-function computeAndShowGrades(){
-  // 1. Clases: presente = 10, ausente = 0
-  const att=student.attendance_map||{};
-  const total=Object.keys(att).length;
-  // P/true=10, T=7, J=10, A/false=0
-  const attScore=v=>v==='P'||v===true?10:v==='T'?7:v==='J'?10:0;
-  const sumScores=Object.values(att).reduce((s,v)=>s+attScore(v),0);
-  const avgClases=total>0?Math.round(sumScores/total*10)/10:null;
-
-  // 2. Tareas: promedio de entregas calificadas
-  const graded=Object.values(taskSubmissions).filter(s=>s.grade!=null);
-  const avgTareas=graded.length>0
-    ?Math.round(graded.reduce((sum,s)=>sum+s.grade,0)/graded.length*10)/10
-    :null;
-
-  // 3. Proyecto final
-  const proyecto=student.proyecto_grade!=null?student.proyecto_grade:null;
-
-  // 4. Fórmula: clases×30% + tareas×30% + proyecto×40%  → /100
-  let pts=0, possible=0;
-  if(avgClases!=null){pts+=avgClases*3; possible+=30;}
-  if(avgTareas!=null){pts+=avgTareas*3; possible+=30;}
-  if(proyecto!=null){pts+=proyecto*4;   possible+=40;}
-
-  const final=possible>0?Math.round(pts/possible*100*10)/10:null;
-
-  // Mostrar
-  document.getElementById('g-clases').textContent  = avgClases!=null?avgClases:'—';
-  document.getElementById('g-tareas').textContent  = avgTareas!=null?avgTareas:'—';
-  document.getElementById('g-proyecto').textContent= proyecto!=null?proyecto:'—';
-
-  const chip=document.getElementById('grades-final-chip');
-  const bar =document.getElementById('grades-bar');
-  const msg =document.getElementById('grades-cert-msg');
-
-  if(final!=null){
-    chip.textContent=final+'/100';
-    const pct=Math.min(final,100);
-    bar.style.width=pct+'%';
-    bar.style.background=pct>=80?'linear-gradient(90deg,#10b981,#059669)':pct>=60?'linear-gradient(90deg,#f59e0b,#d97706)':'linear-gradient(90deg,#ef4444,#dc2626)';
-    chip.style.color=pct>=80?'#10b981':pct>=60?'#d97706':'#ef4444';
-
-    msg.style.display='block';
-    if(pct>=80){
-      msg.style.background='#ecfdf5';msg.style.color='#065f46';msg.style.border='1.5px solid #6ee7b7';
-      msg.innerHTML='<i class="fas fa-trophy" style="margin-right:.4rem;color:#10b981"></i>¡Vas camino a tu certificación! Sigue así.';
-    } else {
-      const need=Math.round((80-pct)*10)/10;
-      msg.style.background='#fffbeb';msg.style.color='#92400e';msg.style.border='1.5px solid #fde68a';
-      msg.innerHTML=`<i class="fas fa-star" style="margin-right:.4rem;color:#f59e0b"></i>Necesitas <strong>${need} puntos más</strong> para alcanzar el 80 de certificación.`;
-    }
-  } else {
-    chip.textContent='—/100';
-    bar.style.width='0%';
-    msg.style.display='none';
-  }
-}
-
-async function loadTasks(){
-  try{
-    const [taskSnap,subSnap]=await Promise.all([
-      fdb.collection('tasks').orderBy('created_at','desc').limit(100).get(),
-      fdb.collection('task_submissions').where('student_id','==',student.id).get().catch(()=>({docs:[]}))
-    ]);
-    allTasks=[];
-    taskSubmissions={};
-    taskSnap.forEach(d=>allTasks.push({id:d.id,...d.data()}));
-    // Filtrar: mostrar solo tareas asignadas al estudiante (por clase o explícitamente)
-    const studentClassIds=student.class_ids||[];
-    allTasks=allTasks.filter(t=>{
-      // Si hay student_ids específicos → solo esos estudiantes
-      if(t.student_ids&&t.student_ids.length>0) return t.student_ids.includes(student.id);
-      // Si hay class_ids → solo estudiantes en esas clases
-      if(t.class_ids&&t.class_ids.length>0) return t.class_ids.some(cid=>studentClassIds.includes(cid));
-      // Sin restricción → tarea global (todos la ven)
-      return true;
-    });
-    subSnap.docs.forEach(d=>{const dat=d.data();taskSubmissions[dat.task_id]={...dat,doc_id:d.id};});
-    allTasks.forEach(t=>{t._done=!!(taskSubmissions[t.id]);});
-    renderTasks();
-    renderTasksPreview();
-    updateTaskBadge();
-    computeAndShowGrades();
-  }catch(e){
-    document.getElementById('tasks-list').innerHTML='<div class="empty-state"><i class="fas fa-list-check"></i><p>No hay tareas aún</p></div>';
-    document.getElementById('pending-tasks-preview').innerHTML='<div class="empty-state"><i class="fas fa-check-circle"></i><p>Sin tareas pendientes</p></div>';
-  }
-}
-
-function renderTasksPreview(){
-  const el=document.getElementById('pending-tasks-preview');
-  const pending=allTasks.filter(t=>!t._done).slice(0,3);
-  if(pending.length===0){
-    el.innerHTML='<div class="empty-state"><i class="fas fa-check-circle" style="color:var(--green)"></i><p>¡Sin tareas pendientes!</p></div>';
-    return;
-  }
-  el.innerHTML=pending.map(t=>`<div class="class-item">
-    <div class="class-icon" style="background:var(--orange-light);color:var(--orange)"><i class="fas fa-clipboard-list"></i></div>
-    <div><div class="class-name" style="font-size:.85rem">${t.title}</div>
-    <div class="class-meta">${t.due_date?'Entrega: '+fmtDate(t.due_date.toDate?t.due_date.toDate():new Date(t.due_date)):''}</div></div>
-  </div>`).join('')+`<button onclick="showTab('tareas',null)" style="width:100%;margin-top:.5rem;background:none;border:1px solid var(--gray-border);border-radius:8px;padding:.5rem;cursor:pointer;font-size:.78rem;color:var(--gray);font-family:inherit">Ver todas las tareas</button>`;
-}
-
-function renderTasks(){
-  const el=document.getElementById('tasks-list');
-  let list=allTasks;
-  if(tasksFilter==='pending') list=list.filter(t=>!t._done);
-  if(tasksFilter==='done') list=list.filter(t=>t._done);
-  if(list.length===0){
-    el.innerHTML='<div class="empty-state"><i class="fas fa-list-check"></i><p>No hay tareas en esta categoría</p></div>';
-    return;
-  }
-  el.innerHTML=list.map(t=>{
-    const due=t.due_date?(t.due_date.toDate?t.due_date.toDate():new Date(t.due_date)):null;
-    const overdue=due&&!t._done&&due<new Date();
-    const sub=taskSubmissions[t.id];
-    const submitBody=sub
-      ? `<div class="task-submitted-box">
-           <div class="task-submitted-label"><i class="fas fa-check-circle"></i> Entregada</div>
-           ${sub.response?`<div class="task-submitted-text">${sub.response}</div>`:''}
-           ${sub.image_url?`<div style="margin:.5rem 0"><img src="${sub.image_url}" style="max-width:100%;max-height:200px;border-radius:10px;border:1px solid var(--border)" alt="Tu captura enviada"></div>`:''}
-           ${sub.link_url?`<a href="${sub.link_url}" target="_blank" class="task-file" style="margin-top:.5rem;display:inline-flex"><i class="fas fa-arrow-up-right-from-square"></i> Ver proyecto</a>`:''}
-           ${sub.teacher_comment?`<div style="margin-top:.75rem;background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1.5px solid #bfdbfe;border-radius:12px;padding:.7rem .9rem">
-             <div style="font-size:.72rem;font-weight:800;color:#2563eb;letter-spacing:.5px;margin-bottom:.3rem;display:flex;align-items:center;gap:.35rem"><i class="fas fa-comment-dots"></i> COMENTARIO DE TU PROFE</div>
-             <div style="font-size:.85rem;color:#1e3a5f;line-height:1.5">${sub.teacher_comment}</div>
-           </div>`:''}
-         </div>
-         <p style="font-size:.76rem;color:var(--muted);font-style:italic">Entregado el ${sub.submitted_at?(sub.submitted_at.toDate?fmtDate(sub.submitted_at.toDate()):fmtDate(new Date(sub.submitted_at))):''}</p>`
-      : buildSubmitForm(t.id, t.submission_type);
-    return `<div class="task-card${t._done?' done':''}" id="task-card-${t.id}">
-      <div class="task-card-top" onclick="toggleTaskExpand('${t.id}')">
-        <div class="task-check${t._done?' checked':''}"><i class="fas fa-check"></i></div>
-        <div class="task-body">
-          <div class="task-title">${t.title}</div>
-          ${t.description?`<div class="task-desc">${t.description}</div>`:''}
-          <div class="task-footer">
-            ${due?`<span class="task-due${overdue?' overdue':''}"><i class="fas fa-calendar"></i> ${fmtDate(due)}</span>`:''}
-            ${t.file_url?`<a href="${t.file_url}" target="_blank" class="task-file" onclick="event.stopPropagation()"><i class="fas fa-paperclip"></i> Ver archivo</a>`:''}
-            <span class="task-badge ${t._done?'badge-done':'badge-pending'}">${t._done?'Entregada':'Pendiente'}</span>
-          </div>
-        </div>
-        <i class="fas fa-chevron-down task-chevron" id="task-chev-${t.id}"></i>
-      </div>
-      <div class="task-submit-area" id="task-body-${t.id}">
-        ${submitBody}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function toggleTaskExpand(taskId){
-  const body=document.getElementById('task-body-'+taskId);
-  const chev=document.getElementById('task-chev-'+taskId);
-  if(!body) return;
-  body.classList.toggle('open');
-  if(chev) chev.classList.toggle('open');
-}
-
-// ─── IMGBB IMAGE UPLOAD ───────────────────────────────────────
-// Obtén tu clave gratis en https://imgbb.com (sin cuenta de estudiante requerida)
-const IMGBB_API_KEY='cd51342033da6c50da04bce3b827d3e6';
-
-async function uploadToImgbb(file){
-  return new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-    reader.onload=async e=>{
-      const base64=e.target.result.split(',')[1];
-      const form=new FormData();
-      form.append('image',base64);
-      try{
-        const res=await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,{method:'POST',body:form});
-        const json=await res.json();
-        if(json.success) resolve(json.data.url);
-        else reject(new Error(json.error?.message||'Error al subir la imagen'));
-      }catch(err){reject(err);}
-    };
-    reader.onerror=reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-function previewTaskImage(taskId){
-  const input=document.getElementById('task-img-'+taskId);
-  const preview=document.getElementById('task-img-preview-'+taskId);
-  const thumb=document.getElementById('task-img-thumb-'+taskId);
-  const nameEl=document.getElementById('task-img-name-'+taskId);
-  const label=document.getElementById('task-img-label-'+taskId);
-  if(input.files&&input.files[0]){
-    const file=input.files[0];
-    const reader=new FileReader();
-    reader.onload=e=>{
-      thumb.src=e.target.result;
-      nameEl.textContent=file.name;
-      preview.style.display='block';
-      if(label) label.style.display='none';
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-function buildSubmitForm(taskId,subType){
-  const st=subType||'any';
-  let fields='';
-  if(st==='text'||st==='any'){
-    fields+=`<div class="field-group" style="margin-bottom:.75rem">
-      <div class="task-field-label"><i class="fas fa-pencil"></i> Tu respuesta${st==='any'?' (opcional)':''}</div>
-      <textarea id="task-resp-${taskId}" class="port-input" rows="3" placeholder="Describe qué hiciste, responde las preguntas..."></textarea>
-    </div>`;
-  }
-  if(st==='link'||st==='any'){
-    fields+=`<div class="field-group" style="margin-bottom:.75rem">
-      <div class="task-field-label"><i class="fas fa-link"></i> Link de tu proyecto${st==='any'?' (opcional)':''}</div>
-      <input type="url" id="task-link-${taskId}" class="port-input" style="padding:.6rem .75rem;width:100%" placeholder="https://replit.com/..., https://drive.google.com/...">
-    </div>`;
-  }
-  if(st==='image'||st==='any'){
-    fields+=`<div class="field-group" style="margin-bottom:.75rem">
-      <div class="task-field-label"><i class="fas fa-camera"></i> Captura de pantalla${st==='any'?' (opcional)':''}</div>
-      <label id="task-img-label-${taskId}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1.5rem 1rem;border:2px dashed var(--border);border-radius:12px;cursor:pointer;transition:all .2s;background:var(--bg-card)" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-        <i class="fas fa-cloud-upload-alt" style="font-size:1.75rem;color:var(--muted)"></i>
-        <span style="font-size:.82rem;color:var(--muted);text-align:center">Toca aquí para elegir una imagen<br><span style="font-size:.75rem">JPG, PNG o screenshot — máx 32 MB</span></span>
-        <input type="file" id="task-img-${taskId}" accept="image/*" style="display:none" onchange="previewTaskImage('${taskId}')">
-      </label>
-      <div id="task-img-preview-${taskId}" style="display:none;margin-top:.5rem">
-        <img id="task-img-thumb-${taskId}" src="" style="max-width:100%;max-height:200px;border-radius:10px;border:1px solid var(--border)" alt="Vista previa">
-        <div style="font-size:.75rem;color:var(--muted);margin-top:.3rem;display:flex;align-items:center;gap:.4rem">
-          <i class="fas fa-check-circle" style="color:var(--green)"></i>
-          <span id="task-img-name-${taskId}"></span>
-          <button onclick="document.getElementById('task-img-${taskId}').value='';document.getElementById('task-img-preview-${taskId}').style.display='none';document.getElementById('task-img-label-${taskId}').style.display='flex'" style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.72rem">Cambiar</button>
-        </div>
-      </div>
-    </div>`;
-  }
-  return fields+`<button class="task-submit-btn" onclick="submitTask('${taskId}','${st}')"><i class="fas fa-paper-plane"></i> Entregar tarea</button>`;
-}
-
-async function submitTask(taskId,subType){
-  subType=subType||'any';
-  const respEl=document.getElementById('task-resp-'+taskId);
-  const linkEl=document.getElementById('task-link-'+taskId);
-  const imgEl=document.getElementById('task-img-'+taskId);
-  const response=(respEl?.value||'').trim();
-  const link_url=(linkEl?.value||'').trim();
-  const imageFile=imgEl?.files?.[0]||null;
-  if(!response&&!link_url&&!imageFile){
-    alert('Por favor completa tu entrega antes de enviar.');return;
-  }
-  const btn=document.querySelector(`#task-body-${taskId} .task-submit-btn`);
-  if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Enviando...';}
-  try{
-    let image_url='';
-    if(imageFile){
-      if(btn) btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Subiendo imagen...';
-      if(IMGBB_API_KEY==='YOUR_IMGBB_KEY_HERE'){
-        throw new Error('Configura tu clave de imgbb en el código (IMGBB_API_KEY)');
-      }
-      image_url=await uploadToImgbb(imageFile);
-    }
-    const sub={student_id:student.id,task_id:taskId,response,link_url,image_url,submitted_at:firebase.firestore.FieldValue.serverTimestamp()};
-    const docId='tsub_'+student.id+'_'+taskId;
-    await fdb.collection('task_submissions').doc(docId).set(sub);
-    taskSubmissions[taskId]={...sub,doc_id:docId,submitted_at:new Date()};
-    const task=allTasks.find(t=>t.id===taskId);
-    if(task) task._done=true;
-    renderTasks();
-    renderTasksPreview();
-    updateTaskBadge();
-    setTimeout(()=>{
-      const b=document.getElementById('task-body-'+taskId);
-      const c=document.getElementById('task-chev-'+taskId);
-      if(b){b.classList.add('open');}
-      if(c){c.classList.add('open');}
-    },50);
-  }catch(e){
-    alert('Error al guardar la entrega: '+e.message);
-    if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane"></i> Entregar tarea';}
-  }
-}
-
-function updateTaskBadge(){
-  const pending=allTasks.filter(t=>!t._done).length;
-  const b=document.getElementById('task-badge-sidebar');
-  if(pending>0){b.textContent=pending;b.style.display='inline';}
-  else b.style.display='none';
-  // Hero stat
-  const hsStat=document.getElementById('hs-classes');
-  if(hsStat){
-    const done=allTasks.filter(t=>t._done).length;
-    // keep existing content (clases completadas), don't overwrite
-  }
-}
-
-function filterTasks(f,btn){
-  tasksFilter=f;
-  document.querySelectorAll('#tab-tareas .port-unit-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderTasks();
-}
-
-// ─── MATERIALS ───────────────────────────────────────────────
-async function loadMaterials(){
-  try{
-    const snap=await fdb.collection('materials').orderBy('created_at','desc').limit(60).get();
-    allMaterials=[];
-    snap.forEach(d=>allMaterials.push({id:d.id,...d.data()}));
-    renderMaterials();
-  }catch(e){
-    document.getElementById('materials-grid').innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-folder-open"></i><p>No hay materiales disponibles aún</p></div>';
-  }
-}
-
-function renderMaterials(){
-  const el=document.getElementById('materials-grid');
-  let list=allMaterials;
-  if(matsFilter!=='all') list=list.filter(m=>m.type===matsFilter);
-  if(list.length===0){
-    el.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-folder-open"></i><p>No hay materiales en esta categoría</p></div>';
-    return;
-  }
-  const typeIcon={pdf:'fa-file-pdf mat-pdf',video:'fa-play-circle mat-video',link:'fa-link mat-link'};
-  const typeLabel={pdf:'PDF','video':'Video','link':'Link','file':'Archivo'};
-  el.innerHTML=list.map(m=>{
-    const ic=typeIcon[m.type]||'fa-file mat-file';
-    return `<div class="material-card">
-      <div class="material-icon ${ic.split(' ')[1]}"><i class="fas ${ic.split(' ')[0]}"></i></div>
-      <div class="material-info">
-        <h4>${m.title}</h4>
-        ${m.description?`<p>${m.description}</p>`:''}
-      </div>
-      <div class="material-meta"><i class="fas fa-tag"></i>${typeLabel[m.type]||'Archivo'} ${m.created_at?'&bull; '+fmtDate(m.created_at.toDate?m.created_at.toDate():new Date(m.created_at)):''}
-      </div>
-      ${m.file_url||m.url?`<a href="${m.file_url||m.url}" target="_blank" class="material-action"><i class="fas fa-arrow-up-right-from-square"></i> Abrir</a>`:''}
-    </div>`;
-  }).join('');
-}
-
-function filterMats(f,btn){
-  matsFilter=f;
-  document.querySelectorAll('#tab-materiales .port-unit-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  renderMaterials();
-}
-
-// ─── PORTFOLIO ───────────────────────────────────────────────
-// ─── PORTFOLIO — Firebase como fuente principal, localStorage como caché offline ───
-async function loadPortfolioFromFirebase(){
-  try{
-    const snap=await fdb.collection('portfolio').where('student_id','==',student.id).get();
-    snap.forEach(doc=>{
-      const d=doc.data();
-      if(d.level_id&&d.class_num) portCache[d.level_id+'_'+d.class_num]=d;
-    });
-  }catch(e){console.warn('Firebase portfolio unavailable, using localStorage');}
-  // Migrate localStorage entries → Firebase (primera vez o datos previos)
-  for(let lvl=1;lvl<=6;lvl++){
-    for(let cls=1;cls<=26;cls++){
-      const lsKey='rw_port_'+student.id+'_'+lvl+'_'+cls;
-      const raw=localStorage.getItem(lsKey);
-      if(!raw) continue;
-      let parsed; try{parsed=JSON.parse(raw);}catch(e){continue;}
-      const cKey=lvl+'_'+cls;
-      if(!portCache[cKey]&&parsed.reto&&parsed.reto.trim().length>3){
-        portCache[cKey]=parsed;
-        const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
-        fdb.collection('portfolio').doc(fbKey).set({
-          student_id:student.id,level_id:lvl,
-          level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
-          class_num:cls,...parsed,
-          migrated:true,savedAt:firebase.firestore.FieldValue.serverTimestamp()
-        }).catch(()=>{});
-      }
-    }
-  }
-}
-
-function isClassDone(lvl,cls){
-  const e=portCache[lvl+'_'+cls];
-  return !!(e&&e.reto&&e.reto.trim().length>3);
-}
-function getPortEntry(lvl,cls){return portCache[lvl+'_'+cls]||null;}
-function savePortEntry(lvl,cls,obj){
-  const cKey=lvl+'_'+cls;
-  portCache[cKey]={...obj,savedAt:new Date().toISOString()};
-  // localStorage como caché offline
-  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(portCache[cKey]));
-  // Firebase como fuente principal
-  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
-  fdb.collection('portfolio').doc(fbKey).set({
-    student_id:student.id,level_id:lvl,
-    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
-    class_num:cls,...obj,
-    savedAt:firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(()=>{});
-}
-
-function renderPortfolioLevelTabs(){
-  const el=document.getElementById('port-level-tabs');
-  el.innerHTML='';
-  LEVELS.forEach(lv=>{
-    const done=lv.units.reduce((a,u)=>a+u.classes.filter(c=>isClassDone(lv.id,c.n)).length,0);
-    const btn=document.createElement('button');
-    btn.className='port-level-btn'+(lv.id===portCurrentLevel?' active':'');
-    btn.innerHTML=`${lv.name} <span style="font-size:.65rem;opacity:.7">${done}/26</span>`;
-    btn.onclick=()=>{portCurrentLevel=lv.id;portCurrentUnit=0;renderPortfolioLevelTabs();renderPortfolioUnit();};
-    el.appendChild(btn);
-  });
-  updatePortProgress();
-}
-
-function renderPortfolioUnit(){
-  const lv=LEVELS[portCurrentLevel-1];
-  // Unit tabs
-  const utabs=document.getElementById('port-unit-tabs');
-  utabs.innerHTML='';
-  lv.units.forEach((u,ui)=>{
-    const done=u.classes.filter(c=>isClassDone(lv.id,c.n)).length;
-    const btn=document.createElement('button');
-    btn.className='port-unit-btn'+(ui===portCurrentUnit?' active':'');
-    btn.textContent=`U${ui+1} (${done}/${u.classes.length})`;
-    btn.onclick=()=>{portCurrentUnit=ui;renderPortfolioUnit();};
-    utabs.appendChild(btn);
-  });
-  // Class cards
-  const list=document.getElementById('port-class-list');
-  list.innerHTML='';
-  const unit=lv.units[portCurrentUnit];
-  unit.classes.forEach(cls=>{
-    const done=isClassDone(lv.id,cls.n);
-    const entry=getPortEntry(lv.id,cls.n)||{};
-    const card=document.createElement('div');
-    card.className='port-class-card'+(done?' completed':'');
-    const retoTypeMeta={
-      replit:{icon:'fa-code',color:'#F26207',label:'💻 Link de Replit',placeholder:'Pega el link de tu proyecto en Replit (replit.com/...)'},
-      photo:{icon:'fa-camera',color:'#7C3AED',bg:'#F5F3FF',label:'📷 Sube tu foto',placeholder:'Pega el link de tu foto (Google Drive, Google Photos...)'},
-      scratch:{icon:'fa-gamepad',color:'#F59E0B',bg:'#FFFBEB',label:'🎮 Link de Scratch Jr',placeholder:'Pega el link de tu proyecto en Scratch Jr (scratch.mit.edu)'},
-      tinkercad:{icon:'fa-cube',color:'#0EA5E9',bg:'#F0F9FF',label:'🖥️ Link de Tinkercad',placeholder:'Pega el link de tu diseño en Tinkercad (tinkercad.com)'},
-      free:{icon:'fa-link',color:'#10B981',bg:'#ECFDF5',label:'🔗 Comparte tu proyecto',placeholder:'Pega el link de tu proyecto (Drive, Tinkercad, Scratch...)'},
-    };
-    const rt=retoTypeMeta[cls.retoType]||{icon:'fa-link',color:'var(--blue)',bg:'#fff',label:'🔗 Mis proyectos',placeholder:'https://... (Drive, Tinkercad, YouTube...)'};
-    const q1label=cls.q1||'Mi respuesta';
-    const q2label=cls.q2||'Lo más difícil fue...';
-    card.innerHTML=`<div class="pcc-header" onclick="togglePCC(this)">
-      <div class="pcc-num${done?' done':''}">${done?'<i class="fas fa-check" style="font-size:.65rem"></i>':cls.n}</div>
-      <div class="pcc-topic">${cls.topic}</div>
-      <div class="pcc-status">${done?'Completada':'Pendiente'}</div>
-      <i class="fas fa-chevron-right" style="color:var(--gray);font-size:.75rem;margin-left:.5rem"></i>
-    </div>
-    <div class="pcc-body">
-      <div class="reto-box">
-        <div class="reto-label"><i class="fas fa-bolt"></i> Reto del día</div>
-        <div class="reto-q">${cls.reto}</div>
-      </div>
-      <div class="field-group">
-        <div class="field-label"><i class="fas fa-comment-dots"></i> ${q1label}</div>
-        <textarea class="port-input" id="reto-${lv.id}-${cls.n}" placeholder="Escribe aquí tu respuesta...">${entry.reto||''}</textarea>
-      </div>
-      <div class="field-group">
-        <div class="field-label"><i class="fas fa-mountain"></i> ${q2label}</div>
-        <textarea class="port-input" rows="2" id="diff-${lv.id}-${cls.n}" placeholder="Escribe aquí tu respuesta...">${entry.difficulty||''}</textarea>
-      </div>
-      <div class="field-group">
-        <div class="field-label"><i class="fas fa-lightbulb"></i> Hoy aprendí que...</div>
-        <textarea class="port-input" rows="2" id="learn-${lv.id}-${cls.n}" placeholder="Una frase que resuma tu aprendizaje...">${entry.learning||''}</textarea>
-      </div>
-      <div class="field-group">
-        <div class="field-label" style="color:${rt.color}"><i class="fas ${rt.icon}"></i> ${rt.label}</div>
-        <div class="links-list" id="links-${lv.id}-${cls.n}"></div>
-        <div class="link-add-row">
-          <input class="port-input link-url-in" id="link-url-${lv.id}-${cls.n}" placeholder="${rt.placeholder}">
-          <input class="port-input link-label-in" id="link-label-${lv.id}-${cls.n}" placeholder="Descripción (ej: Mi robot, Clase 3)">
-          <button class="link-add-btn" onclick="addLink(${lv.id},${cls.n})"><i class="fas fa-plus"></i> Agregar</button>
-        </div>
-      </div>
-      ${(()=>{
-        if(entry.score_total!=null){
-          const sc=entry.score_total;
-          const cl=sc>=8?'#059669':sc>=6?'#D97706':'#DC2626';
-          return `<div class="grade-display">
-            <div class="grade-display-top">
-              <div><div class="grade-score-big" style="color:${cl}">${sc}<span style="font-size:.9rem;opacity:.6">/10</span></div><div class="grade-score-label">Calificación del docente</div></div>
-              <div style="font-size:.7rem;color:#3B82F6;font-weight:700">${sc>=9?'⭐ Excelente':sc>=7?'✅ Bien':sc>=6?'💪 Suficiente':'📚 A mejorar'}</div>
-            </div>
-            <div class="grade-criteria-row">
-              <span class="grade-criterion-chip">🎯 Reto: ${entry.score_reto??'—'}/4</span>
-              <span class="grade-criterion-chip">💭 Reflexión: ${entry.score_reflex??'—'}/4</span>
-              <span class="grade-criterion-chip">🙋 Participación: ${entry.score_part??'—'}/2</span>
-            </div>
-            ${entry.teacher_note?`<div class="grade-note-student"><i class="fas fa-comment-dots" style="margin-right:.35rem;color:#3B82F6"></i>${entry.teacher_note}</div>`:''}
-          </div>`;
-        } else if(entry.reto&&entry.reto.trim().length>2){
-          return '<div class="grade-pending-chip"><i class="fas fa-hourglass-half"></i>Entregado — esperando calificación del docente</div>';
-        }
-        return '';
-      })()}
-      <div class="save-row">
-        <span class="xp-note"><i class="fas fa-star"></i> XP asignado por el docente al calificar</span>
-        <div style="display:flex;align-items:center;gap:.5rem">
-          <span class="saved-chip" id="chip-${lv.id}-${cls.n}" ${done?'style="display:inline-block"':''}>Guardado</span>
-          <button class="save-btn" onclick="savePort(${lv.id},${cls.n})"><i class="fas fa-floppy-disk"></i> Guardar</button>
-        </div>
-      </div>
-    </div>`;
-    list.appendChild(card);
-    renderLinks(lv.id, cls.n, entry.links||[]);
-  });
-  updatePortProgress();
-  checkQR(lv);
-}
-
-function togglePCC(header){
-  const body=header.nextElementSibling;
-  body.classList.toggle('open');
-  const chev=header.querySelector('.fa-chevron-right');
-  if(chev) chev.style.transform=body.classList.contains('open')?'rotate(90deg)':'rotate(0)';
-}
-
-function savePort(lvl,cls){
-  const reto=document.getElementById(`reto-${lvl}-${cls}`)?.value||'';
-  if(!reto.trim()){alert('Por favor escribe tu respuesta al reto antes de guardar.');return;}
-  const difficulty=document.getElementById(`diff-${lvl}-${cls}`)?.value||'';
-  const learning=document.getElementById(`learn-${lvl}-${cls}`)?.value||'';
-  const existing=portCache[`${lvl}_${cls}`]||{};
-  savePortEntry(lvl,cls,{...existing,reto,difficulty,learning});
-  const chip=document.getElementById(`chip-${lvl}-${cls}`);
-  if(chip){chip.style.display='inline-block';}
-  // XP is assigned by teacher grading — no auto-increment here
-  // Re-render to mark as done
-  renderPortfolioLevelTabs();
-  renderPortfolioUnit();
-}
-
-function updatePortProgress(){
-  const lv=LEVELS[portCurrentLevel-1];
-  const done=lv.units.reduce((a,u)=>a+u.classes.filter(c=>isClassDone(lv.id,c.n)).length,0);
-  const total=26;
-  const pct=Math.round(done/total*100);
-  document.getElementById('port-progress-chip').textContent=`${done} / ${total}`;
-  // Update level card progress
-  document.getElementById('cl-progress-text').textContent=`${done} / 26 clases`;
-  document.getElementById('cl-pct').textContent=pct+'%';
-  document.getElementById('cl-bar').style.width=pct+'%';
-  document.getElementById('stat-level-num').textContent=portCurrentLevel;
-}
-
-function checkQR(lv){
-  const done=lv.units.reduce((a,u)=>a+u.classes.filter(c=>isClassDone(lv.id,c.n)).length,0);
-  const qrSection=document.getElementById('qr-section');
-  if(done>=26){
-    qrSection.style.display='block';
-    document.getElementById('qrcode').innerHTML='';
-    const url=`https://roboworks.site/portfolio?s=${encodeURIComponent(student.id)}&l=${lv.name}&xp=${student.xp||0}&d=${done}`;
-    try{new QRCode(document.getElementById('qrcode'),{text:url,width:160,height:160,colorDark:'#1E3A8A',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
-    catch(e){document.getElementById('qrcode').innerHTML='<div style="padding:1rem;background:var(--blue-xlight);border-radius:8px;font-size:.8rem;color:var(--blue)">QR listo para el certificado</div>';}
-  } else {
-    qrSection.style.display='none';
-  }
-}
-
-// ─── SHARE PORTFOLIO ─────────────────────────────────────────
-function sharePortfolio(){
-  const url=`${location.origin}/plataforma/portfolio.html?s=${student.id}`;
-  navigator.clipboard.writeText(url).then(()=>{
-    const btn=document.getElementById('share-port-btn');
-    btn.innerHTML='<i class="fas fa-check"></i> ¡Copiado!';
-    setTimeout(()=>{btn.innerHTML='<i class="fas fa-link"></i> Copiar link';},2200);
-  }).catch(()=>{prompt('Copia este link:',url);});
-}
-
-// ─── PORTFOLIO LINKS ─────────────────────────────────────────
-function getLinkIcon(url){
-  if(!url) return 'fa-link';
-  const u=url.toLowerCase();
-  if(u.includes('drive.google')||u.includes('docs.google')) return 'fa-brands fa-google-drive';
-  if(u.includes('youtube')||u.includes('youtu.be')) return 'fa-brands fa-youtube';
-  if(u.includes('tinkercad')) return 'fa-cube';
-  if(u.includes('scratch.mit')) return 'fa-cat';
-  if(u.includes('github')) return 'fa-brands fa-github';
-  return 'fa-link';
-}
-
-function renderLinks(lvlId,clsN,links){
-  const el=document.getElementById(`links-${lvlId}-${clsN}`);
-  if(!el) return;
-  if(!links||links.length===0){
-    el.innerHTML='<span style="font-size:.75rem;color:var(--gray)">Agrega el link de tu proyecto aquí ↓</span>';
-    return;
-  }
-  el.innerHTML=links.map((l,i)=>`
-    <div class="link-chip">
-      <i class="fas ${getLinkIcon(l.url)}" style="color:var(--blue);font-size:.8rem"></i>
-      <a href="${l.url}" target="_blank" rel="noopener" title="${l.url}">${l.label||'Ver proyecto'}</a>
-      <button class="link-chip-del" onclick="removeLink(${lvlId},${clsN},${i})"><i class="fas fa-xmark"></i></button>
-    </div>
-  `).join('');
-}
-
-function addLink(lvl,cls){
-  const urlEl=document.getElementById(`link-url-${lvl}-${cls}`);
-  const labelEl=document.getElementById(`link-label-${lvl}-${cls}`);
-  const url=(urlEl?.value||'').trim();
-  const label=(labelEl?.value||'').trim();
-  if(!url){alert('Pega primero el link de tu proyecto.');return;}
-  if(!url.startsWith('http')){alert('El link debe comenzar con https://');return;}
-  const cKey=`${lvl}_${cls}`;
-  const entry=portCache[cKey]||{};
-  const links=entry.links?[...entry.links]:[];
-  links.push({url,label:label||'Proyecto '+(links.length+1)});
-  entry.links=links;
-  portCache[cKey]=entry;
-  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
-  fdb.collection('portfolio').doc(fbKey).set({
-    student_id:student.id,level_id:lvl,
-    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
-    class_num:cls,...entry,
-    savedAt:firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(()=>{});
-  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(entry));
-  if(urlEl) urlEl.value='';
-  if(labelEl) labelEl.value='';
-  renderLinks(lvl,cls,links);
-}
-
-function removeLink(lvl,cls,idx){
-  const cKey=`${lvl}_${cls}`;
-  const entry=portCache[cKey]||{};
-  const links=entry.links?[...entry.links]:[];
-  links.splice(idx,1);
-  entry.links=links;
-  portCache[cKey]=entry;
-  const fbKey='port_'+student.id+'_'+lvl+'_'+cls;
-  fdb.collection('portfolio').doc(fbKey).set({
-    student_id:student.id,level_id:lvl,
-    level:LEVELS[lvl-1]?LEVELS[lvl-1].name:'',
-    class_num:cls,...entry,
-    savedAt:firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(()=>{});
-  localStorage.setItem('rw_port_'+student.id+'_'+lvl+'_'+cls,JSON.stringify(entry));
-  renderLinks(lvl,cls,links);
-}
-
-// ─── TAB NAVIGATION ──────────────────────────────────────────
-const tabTitles={inicio:'Inicio',camino:'Mi Camino',portfolio:'Portafolio',materiales:'Materiales',asistencias:'Asistencias',tareas:'Tareas',robomision:'RoboMisión'};
-function showTab(id,btn,isMobile=false){
+function showTab(id, btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
-  document.getElementById('topbar-title').textContent=tabTitles[id]||'';
   document.querySelectorAll('.sidebar .nav-item').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
-  if(isMobile&&btn) btn.classList.add('active');
-  else if(!isMobile&&btn) btn.classList.add('active');
-  if(id==='asistencias') loadAttendance();
+  btn.classList.add('active');
+  document.getElementById('topbarTitle').textContent = btn.textContent.trim();
 }
 
-// ─── HELPERS ─────────────────────────────────────────────────
-function fmtDate(d){if(!d) return '';const dt=d instanceof Date?d:new Date(d);return dt.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});}
-function logout(){localStorage.removeItem('currentStudent');window.location.href='login.html';}
+async function init(){
+  const verify = await virtusApiFetch('/api/auth/verify');
+  if (!verify || !verify.ok) { window.location.href = '/virtus-plataforma/login.html'; return; }
+  if (verify.data.user.role !== 'student') { virtusRedirectForRole(verify.data.user.role); return; }
+
+  document.getElementById('studentName').textContent = verify.data.user.full_name;
+  document.getElementById('studentAvatar').textContent = initials(verify.data.user.full_name);
+  checkForcedPasswordChange(verify.data.user);
+  virtusInitNotificationBell('notifBellWrap');
+
+  await Promise.all([loadNextClass(), loadMyClasses()]);
+}
+
+async function loadNextClass(){
+  const res = await virtusApiFetch('/api/student/next-class');
+  const wrap = document.getElementById('nextClassWrap');
+  if (!res || !res.ok || !res.data) {
+    wrap.innerHTML = '';
+    return;
+  }
+  const c = res.data;
+  wrap.innerHTML = `
+    <div class="next-class-card">
+      <div class="next-class-tag">Tu próxima clase</div>
+      <div class="next-class-name">${esc(c.name)}</div>
+      <div class="next-class-meta">
+        <span><i class="fas fa-layer-group"></i>${esc(c.program_name||'')}${c.course_name?' · '+esc(c.course_name):''}</span>
+        <span><i class="fas fa-clock"></i>${DAY_LABEL[c.schedule_day]||''} ${c.schedule_time||''}</span>
+      </div>
+      ${virtusSafeUrl(c.zoom_link) ? `<div class="next-class-cta"><a class="btn btn-outline" href="${escAttr(virtusSafeUrl(c.zoom_link))}" target="_blank" rel="noopener"><i class="fas fa-video"></i> Entrar a la clase</a></div>` : ''}
+    </div>
+  `;
+}
+
+async function loadMyClasses(){
+  const res = await virtusApiFetch('/api/student/classes');
+  if (!res || !res.ok) return;
+  myClasses = res.data || [];
+  renderClassCards('homeClassesGrid', 'homeClassesEmpty', true);
+  renderClassCards('classesGrid', 'classesEmpty', false);
+}
+
+function renderClassCards(gridId, emptyId, limitToThree){
+  const grid = document.getElementById(gridId);
+  const empty = document.getElementById(emptyId);
+  grid.innerHTML = '';
+
+  if (myClasses.length === 0) { empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  const list = limitToThree ? myClasses.slice(0, 3) : myClasses;
+  list.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'class-card';
+    card.innerHTML = `
+      <h3>${esc(c.name)}</h3>
+      <div class="class-meta">
+        <span><i class="fas fa-layer-group"></i> ${esc(c.program_name||'')}${c.course_name?' · '+esc(c.course_name):''}</span>
+        <span><i class="fas fa-clock"></i> ${DAY_LABEL[c.schedule_day]||'Sin horario'} ${c.schedule_time||''}</span>
+      </div>
+    `;
+    card.addEventListener('click', () => openClassDetail(c.id));
+    grid.appendChild(card);
+  });
+}
+
+async function openClassDetail(classId){
+  currentClassId = classId;
+  const cls = myClasses.find(c => c.id === classId);
+  if (!cls) return;
+
+  document.querySelectorAll('.sidebar .nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sidebar .nav-item')[1].classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-clases').classList.add('active');
+  document.getElementById('topbarTitle').textContent = 'Mis Clases';
+
+  document.getElementById('classesListView').classList.add('hidden');
+  document.getElementById('classDetailView').classList.remove('hidden');
+  document.getElementById('detailClassName').textContent = cls.name;
+  document.getElementById('detailClassMeta').textContent =
+    `${cls.program_name||''}${cls.course_name?' · '+cls.course_name:''} — ${DAY_LABEL[cls.schedule_day]||'Sin horario'} ${cls.schedule_time||''}`;
+
+  await Promise.all([loadClassLessons(classId), loadTasks(classId), loadGrades(classId), loadAttendance(classId)]);
+
+  const container = document.getElementById('materialsContainer');
+  container.innerHTML = '<div class="loader"><div class="spin"></div>Cargando...</div>';
+
+  const res = await virtusApiFetch(`/api/student/classes/${classId}/materials`);
+  if (!res || !res.ok) { container.innerHTML = '<p style="color:var(--muted)">No se pudieron cargar los materiales.</p>'; return; }
+
+  const { materials = [], categories = [] } = res.data;
+  container.innerHTML = '';
+
+  if (materials.length === 0) {
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open"></i>Tu profe todavía no ha subido nada aquí.</div>';
+    return;
+  }
+
+  const grouped = {};
+  const noCategory = [];
+  materials.forEach(m => {
+    if (m.category_id) { grouped[m.category_id] = grouped[m.category_id] || []; grouped[m.category_id].push(m); }
+    else noCategory.push(m);
+  });
+
+  [...categories].sort((a,b)=>(b.is_system - a.is_system)).forEach(cat => {
+    const items = grouped[cat.id];
+    if (!items || items.length === 0) return;
+    container.appendChild(renderCategoryBlock(cat.name, items, cat.is_system));
+  });
+  if (noCategory.length > 0) container.appendChild(renderCategoryBlock('Otros recursos', noCategory, false));
+}
+
+async function loadClassLessons(classId){
+  const container = document.getElementById('lessonsContainer');
+  container.innerHTML = '<div class="loader"><div class="spin"></div>Cargando...</div>';
+
+  const res = await virtusApiFetch(`/api/student/classes/${classId}/lessons`);
+  if (!res || !res.ok) { container.innerHTML = ''; return; }
+
+  const { grade, lessons = [] } = res.data;
+  if (!grade) { container.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Esta clase todavía no tiene un currículo activado.</p>'; return; }
+  if (lessons.length === 0) { container.innerHTML = `<p style="color:var(--muted);font-size:.85rem">${esc(grade.name)} todavía no tiene lecciones cargadas.</p>`; return; }
+
+  container.innerHTML = '';
+  const renderLessonCard = (l) => {
+    const card = document.createElement('div');
+    card.className = 'lesson-card';
+    const resourcesHtml = (l.resources || []).map(r => {
+      const url = virtusSafeUrl(r.resource_type === 'link' ? r.external_link : r.file_url);
+      return `<div class="material-item">
+        <div class="material-icon"><i class="fas ${r.resource_type==='link'?'fa-link':(r.resource_type==='image'?'fa-image':'fa-file')}"></i></div>
+        <div class="material-info"><div class="material-title">${esc(r.title)}</div></div>
+        ${url ? `<a class="material-link" href="${escAttr(url)}" target="_blank" rel="noopener">Abrir</a>` : ''}
+      </div>`;
+    }).join('') || '<p style="color:var(--muted);font-size:.78rem">Sin recursos adicionales.</p>';
+
+    card.innerHTML = `
+      <div class="lesson-head" onclick="this.nextElementSibling.classList.toggle('open')">
+        <div class="lesson-num">#${l.lesson_number}</div>
+        <div class="lesson-title">${esc(l.title)}</div>
+        ${virtusSafeUrl(l.video_link) ? `<a href="${escAttr(virtusSafeUrl(l.video_link))}" target="_blank" rel="noopener" class="btn btn-outline" style="padding:.4rem .8rem;font-size:.75rem;color:var(--or-dark);background:var(--or-light);border-color:transparent" onclick="event.stopPropagation()"><i class="fas fa-play"></i> Video</a>` : ''}
+      </div>
+      <div class="lesson-body">
+        ${l.description ? `<p style="color:var(--muted);font-size:.82rem;margin-bottom:.75rem">${esc(l.description)}</p>` : ''}
+        ${resourcesHtml}
+      </div>
+    `;
+    container.appendChild(card);
+  };
+
+  const TRIMESTER_LABELS = { 1: '1er trimestre', 2: '2do trimestre', 3: '3er trimestre' };
+  const groups = { 1: [], 2: [], 3: [], sin: [] };
+  lessons.forEach(l => {
+    const t = parseInt(l.trimester);
+    if (t === 1 || t === 2 || t === 3) groups[t].push(l);
+    else groups.sin.push(l);
+  });
+
+  [1, 2, 3, 'sin'].forEach(key => {
+    const group = groups[key];
+    if (group.length === 0) return;
+    const section = document.createElement('div');
+    section.className = 'trimester-section';
+    const header = document.createElement('div');
+    header.className = 'trimester-header';
+    header.innerHTML = `<i class="fas fa-calendar-alt"></i> ${key === 'sin' ? 'Sin trimestre asignado' : TRIMESTER_LABELS[key]}`;
+    section.appendChild(header);
+    container.appendChild(section);
+    group.forEach(renderLessonCard);
+  });
+}
+
+// ───────────── TAREAS ─────────────
+async function loadTasks(classId){
+  const container = document.getElementById('tasksContainer');
+  container.innerHTML = '<div class="loader"><div class="spin"></div>Cargando...</div>';
+
+  const res = await virtusApiFetch(`/api/student/classes/${classId}/tasks`);
+  if (!res || !res.ok) { container.innerHTML = ''; return; }
+
+  const tasks = res.data || [];
+  if (tasks.length === 0) {
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-clipboard-list"></i>Tu profe todavía no ha asignado tareas en esta clase.</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  tasks.forEach(t => container.appendChild(renderTaskCard(t)));
+}
+
+function renderTaskCard(t){
+  const card = document.createElement('div');
+  card.className = 'task-card';
+  const sub = t.my_submission;
+  const graded = sub && sub.score !== null && sub.score !== undefined;
+  const statusClass = graded ? 'status-graded' : (sub ? 'status-submitted' : 'status-pending');
+  const statusText = graded ? `Calificado: ${sub.score}/${t.max_score}` : (sub ? 'Entregado' : 'Pendiente');
+  const dueText = t.due_date ? `Vence: ${new Date(t.due_date).toLocaleString('es-ES', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}` : 'Sin fecha límite';
+
+  card.innerHTML = `
+    <div class="task-head">
+      <div class="task-title">${esc(t.title)}</div>
+      <span class="task-status ${statusClass}">${statusText}</span>
+    </div>
+    <div class="task-meta">${dueText}</div>
+    ${t.description ? `<p style="font-size:.83rem;color:var(--muted);margin-bottom:.5rem">${esc(t.description)}</p>` : ''}
+    ${graded && sub.teacher_feedback ? `<div class="task-feedback"><strong>Comentario del profe:</strong> ${esc(sub.teacher_feedback)}</div>` : ''}
+    ${!graded ? renderSubmitFormHtml(t.id, sub) : ''}
+  `;
+
+  if (!graded) {
+    const form = card.querySelector('.submit-form');
+    wireSubmitForm(form, t.id);
+  }
+  return card;
+}
+
+function renderSubmitFormHtml(taskId, existingSub){
+  return `
+    <div class="submit-form" data-task="${taskId}">
+      ${existingSub ? '<p style="font-size:.78rem;color:var(--muted);margin-bottom:.5rem">Ya entregaste esto. Puedes reemplazarlo mientras no esté calificado.</p>' : ''}
+      <div class="submit-tabs">
+        <button type="button" class="submit-tab active" data-type="file">Archivo</button>
+        <button type="button" class="submit-tab" data-type="link">Link</button>
+        <button type="button" class="submit-tab" data-type="text">Texto</button>
+      </div>
+      <div class="submit-field-file field"><input type="file"></div>
+      <div class="submit-field-link field hidden"><input type="text" placeholder="https://..."></div>
+      <div class="submit-field-text field hidden"><textarea rows="3" placeholder="Escribe tu respuesta..."></textarea></div>
+      <button type="button" class="btn btn-primary btn-sm submit-task-btn"><i class="fas fa-paper-plane"></i> Entregar</button>
+    </div>
+  `;
+}
+
+function wireSubmitForm(formEl, taskId){
+  if (!formEl) return;
+  let currentType = 'file';
+
+  formEl.querySelectorAll('.submit-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      formEl.querySelectorAll('.submit-tab').forEach(t2 => t2.classList.remove('active'));
+      tab.classList.add('active');
+      currentType = tab.dataset.type;
+      formEl.querySelector('.submit-field-file').classList.toggle('hidden', currentType !== 'file');
+      formEl.querySelector('.submit-field-link').classList.toggle('hidden', currentType !== 'link');
+      formEl.querySelector('.submit-field-text').classList.toggle('hidden', currentType !== 'text');
+    });
+  });
+
+  formEl.querySelector('.submit-task-btn').addEventListener('click', async () => {
+    const btn = formEl.querySelector('.submit-task-btn');
+    btn.disabled = true;
+
+    let res;
+    if (currentType === 'file') {
+      const file = formEl.querySelector('.submit-field-file input').files[0];
+      if (!file) { alert('Selecciona un archivo'); btn.disabled = false; return; }
+      const fd = new FormData();
+      fd.append('file', file);
+      res = await virtusApiUpload(`/api/student/tasks/${taskId}/submit/upload`, fd);
+    } else if (currentType === 'link') {
+      const link = formEl.querySelector('.submit-field-link input').value.trim();
+      if (!link) { alert('Pega un link'); btn.disabled = false; return; }
+      res = await virtusApiFetch(`/api/student/tasks/${taskId}/submit`, {
+        method: 'POST', body: JSON.stringify({ submission_type: 'link', external_link: link })
+      });
+    } else {
+      const text = formEl.querySelector('.submit-field-text textarea').value.trim();
+      if (!text) { alert('Escribe tu respuesta'); btn.disabled = false; return; }
+      res = await virtusApiFetch(`/api/student/tasks/${taskId}/submit`, {
+        method: 'POST', body: JSON.stringify({ submission_type: 'text', text_content: text })
+      });
+    }
+
+    btn.disabled = false;
+    if (!res || !res.ok) { alert(res?.data?.message || 'No se pudo entregar la tarea'); return; }
+
+    if (currentClassId) await loadTasks(currentClassId);
+  });
+}
+
+function renderCategoryBlock(title, items, isSystem){
+  const block = document.createElement('div');
+  block.className = 'category-block';
+  block.innerHTML = `<div class="category-title"><i class="fas ${isSystem?'fa-bookmark':'fa-folder'}"></i> ${esc(title)}</div>`;
+  items.forEach(m => block.appendChild(renderMaterialItem(m)));
+  return block;
+}
+
+function renderMaterialItem(m){
+  const item = document.createElement('div');
+  item.className = 'material-item';
+  const isLink = m.material_type === 'link';
+  const url = virtusSafeUrl(isLink ? m.external_link : m.file_url);
+  item.innerHTML = `
+    <div class="material-icon"><i class="fas ${isLink?'fa-link':'fa-file'}"></i></div>
+    <div class="material-info">
+      <div class="material-title">${esc(m.title)}</div>
+      ${m.description ? `<div class="material-desc">${esc(m.description)}</div>` : ''}
+    </div>
+    ${url ? `<a class="material-link" href="${escAttr(url)}" target="_blank" rel="noopener">Abrir <i class="fas fa-arrow-up-right-from-square"></i></a>` : ''}
+  `;
+  return item;
+}
+
+document.getElementById('backToClasses').addEventListener('click', () => {
+  document.getElementById('classDetailView').classList.add('hidden');
+  document.getElementById('classesListView').classList.remove('hidden');
+});
+
+document.getElementById('changePwBtn').addEventListener('click', () => openModal('modal-password'));
+document.getElementById('pwModalClose').addEventListener('click', () => closeModal('modal-password'));
+document.getElementById('pwCancelBtn').addEventListener('click', () => closeModal('modal-password'));
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await virtusApiFetch('/api/auth/logout', { method: 'POST' });
+  window.location.href = '/virtus-plataforma/login.html';
+});
+
+// ───────────── MIS CALIFICACIONES ─────────────
+async function loadGrades(classId){
+  const container = document.getElementById('gradesContainer');
+  container.innerHTML = '<div class="loader"><div class="spin"></div>Cargando...</div>';
+
+  const res = await virtusApiFetch(`/api/student/classes/${classId}/grades`);
+  if (!res || !res.ok) { container.innerHTML = ''; return; }
+
+  const { grades = [], average, total_tasks = 0, total_graded = 0 } = res.data;
+  if (grades.length === 0) {
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-star"></i>Todavía no hay tareas calificadas en esta clase.</div>';
+    return;
+  }
+
+  const avgText = average !== null && average !== undefined ? average.toFixed(1) : '—';
+  let html = `<div class="gsum-box">
+    <div class="gsum-card"><div class="gsum-num">${avgText}</div><div class="gsum-label">Promedio</div></div>
+    <div class="gsum-card"><div class="gsum-num">${total_graded}</div><div class="gsum-label">Calificadas</div></div>
+    <div class="gsum-card"><div class="gsum-num">${total_tasks}</div><div class="gsum-label">Total tareas</div></div>
+  </div><div class="grades-list">`;
+  grades.forEach(g => {
+    const scoreText = g.score !== null && g.score !== undefined ? `${g.score} / ${g.max_score}` : 'Sin calificar';
+    html += `<div class="grade-row"><span class="gr-title">${esc(g.title)}</span><span class="gr-score">${esc(scoreText)}</span></div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ───────────── MI ASISTENCIA ─────────────
+const ATT_STATUS_LABELS = { present: 'Presente', absent: 'Ausente', late: 'Tarde', excused: 'Justificado' };
+
+async function loadAttendance(classId){
+  const container = document.getElementById('attendanceContainer');
+  container.innerHTML = '<div class="loader"><div class="spin"></div>Cargando...</div>';
+
+  const res = await virtusApiFetch(`/api/student/classes/${classId}/attendance`);
+  if (!res || !res.ok) { container.innerHTML = ''; return; }
+
+  const { history = [], summary = {} } = res.data;
+  if (history.length === 0) {
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-calendar-check"></i>Tu profe todavía no ha registrado asistencia en esta clase.</div>';
+    return;
+  }
+
+  let html = '<div class="att-badges">';
+  ['present','absent','late','excused'].forEach(key => {
+    html += `<div class="att-badge ${key}">${summary[key] || 0} ${ATT_STATUS_LABELS[key]}</div>`;
+  });
+  html += '</div><div class="att-history">';
+  history.slice(0, 15).forEach(h => {
+    const dateText = new Date(h.attendance_date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+    html += `<div class="att-history-row"><span>${esc(dateText)}</span><span>${esc(ATT_STATUS_LABELS[h.status] || h.status)}</span></div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+init();
 </script>
 </body>
 </html>

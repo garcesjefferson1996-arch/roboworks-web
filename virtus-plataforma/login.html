@@ -34,7 +34,6 @@ body{display:flex;min-height:100vh;background:var(--gray-light)}
   width:380px;height:380px;border-radius:50%;
   background:radial-gradient(ellipse,rgba(255,123,66,.10) 0%,transparent 70%);
 }
-/* Orange accent top bar */
 .left-panel .top-bar{
   position:absolute;top:0;left:0;right:0;height:4px;
   background:linear-gradient(90deg,var(--or),#ffaa80,var(--or));
@@ -111,6 +110,7 @@ body{display:flex;min-height:100vh;background:var(--gray-light)}
   outline:none;border-color:var(--or);background:var(--white);
   box-shadow:0 0 0 4px rgba(255,123,66,.12);
 }
+.input-wrap input.code-input{padding-left:1rem;letter-spacing:.4em;font-weight:700;text-align:center}
 .toggle-pw{
   position:absolute;right:12px;top:50%;transform:translateY(-50%);
   background:none;border:none;color:var(--gray);cursor:pointer;padding:.3rem;font-size:.9rem;
@@ -125,6 +125,8 @@ body{display:flex;min-height:100vh;background:var(--gray-light)}
 }
 .submit-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 22px rgba(255,123,66,.4)}
 .submit-btn:disabled{opacity:.65;cursor:not-allowed;transform:none}
+.link-btn{background:none;border:none;color:var(--gray);font-size:.85rem;cursor:pointer;margin-top:1rem;text-decoration:underline}
+.link-btn:hover{color:var(--or)}
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 .alert{
@@ -133,10 +135,12 @@ body{display:flex;min-height:100vh;background:var(--gray-light)}
 }
 .alert-error{background:#FEF2F2;color:#DC2626;border-left:3px solid #DC2626}
 .alert-success{background:#F0FDF4;color:#16A34A;border-left:3px solid #16A34A}
+.alert-info{background:#EFF6FF;color:#2563EB;border-left:3px solid #2563EB}
 .form-footer{text-align:center;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)}
 .form-footer p{font-size:.82rem;color:var(--gray)}
 .form-footer a{color:var(--or);font-weight:600;text-decoration:none}
 .form-footer a:hover{text-decoration:underline}
+.hidden{display:none!important}
 
 /* MOBILE */
 @media(max-width:820px){
@@ -201,15 +205,16 @@ body{display:flex;min-height:100vh;background:var(--gray-light)}
 <div class="right-panel">
   <div class="form-header">
     <span class="virtus-tag">VIRTUS STEAM · Plataforma</span>
-    <h2>Bienvenido de vuelta</h2>
-    <p>Ingresa tus datos para acceder a tu espacio</p>
+    <h2 id="formTitle">Bienvenido de vuelta</h2>
+    <p id="formSubtitle">Ingresa tus datos para acceder a tu espacio</p>
   </div>
 
   <div id="alert" class="alert alert-error" role="alert">
-    <i class="fas fa-exclamation-circle"></i>
+    <i class="fas fa-exclamation-circle" id="alertIcon"></i>
     <span id="alert-text"></span>
   </div>
 
+  <!-- Paso 1: usuario y contraseña -->
   <form class="login-form" id="loginForm" novalidate>
     <div class="field">
       <label for="username">Usuario</label>
@@ -235,88 +240,170 @@ body{display:flex;min-height:100vh;background:var(--gray-light)}
     </button>
   </form>
 
+  <!-- Paso 2: código de verificación en dos pasos (solo administradores) -->
+  <form class="login-form hidden" id="totpForm" novalidate>
+    <div class="field">
+      <label for="totpCode">Código de verificación (6 dígitos)</label>
+      <div class="input-wrap">
+        <i class="fas fa-shield-halved icon"></i>
+        <input type="text" id="totpCode" name="totpCode" class="code-input" inputmode="numeric"
+               maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
+      </div>
+    </div>
+    <button type="submit" class="submit-btn" id="totpSubmitBtn">
+      <i class="fas fa-check"></i>
+      <span id="totpBtnText">Verificar</span>
+      <span id="totpBtnSpinner" class="spinner"></span>
+    </button>
+    <button type="button" class="link-btn" id="backToLogin">Volver a ingresar usuario y contraseña</button>
+  </form>
+
   <div class="form-footer">
     <p>¿Problemas para acceder? <a href="https://wa.me/593993340103">Escríbenos por WhatsApp</a></p>
   </div>
 </div>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="/virtus-plataforma/js/api-config.js"></script>
+<script src="/virtus-plataforma/js/api-client.js"></script>
 <script>
-const firebaseConfig={apiKey:"AIzaSyDYbas3MnL0u5wOyXO1Ok70lC3wSIGb0gM",authDomain:"roboworks-app.firebaseapp.com",projectId:"roboworks-app",storageBucket:"roboworks-app.firebasestorage.app",messagingSenderId:"824986583831",appId:"1:824986583831:web:7477911bd5cb95a18a6d52"};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
+const loginForm = document.getElementById('loginForm');
+const totpForm = document.getElementById('totpForm');
+const alertEl = document.getElementById('alert');
+const alertText = document.getElementById('alert-text');
+const btnText = document.getElementById('btnText');
+const btnSpinner = document.getElementById('btnSpinner');
+const submitBtn = document.getElementById('submitBtn');
+const togglePw = document.getElementById('togglePw');
+const pwInput = document.getElementById('password');
+const totpSubmitBtn = document.getElementById('totpSubmitBtn');
+const totpBtnText = document.getElementById('totpBtnText');
+const totpBtnSpinner = document.getElementById('totpBtnSpinner');
+const formTitle = document.getElementById('formTitle');
+const formSubtitle = document.getElementById('formSubtitle');
 
-const form=document.getElementById('loginForm');
-const alertEl=document.getElementById('alert');
-const alertText=document.getElementById('alert-text');
-const btnText=document.getElementById('btnText');
-const btnSpinner=document.getElementById('btnSpinner');
-const submitBtn=document.getElementById('submitBtn');
-const togglePw=document.getElementById('togglePw');
-const pwInput=document.getElementById('password');
+let pendingLogin = null;
 
-togglePw.addEventListener('click',()=>{
-  const show=pwInput.type==='password';
-  pwInput.type=show?'text':'password';
-  togglePw.querySelector('i').className=show?'fas fa-eye-slash':'fas fa-eye';
+togglePw.addEventListener('click', () => {
+  const show = pwInput.type === 'password';
+  pwInput.type = show ? 'text' : 'password';
+  togglePw.querySelector('i').className = show ? 'fas fa-eye-slash' : 'fas fa-eye';
 });
 
-function showAlert(msg,type='error'){
-  alertEl.className='alert alert-'+type;
-  alertText.textContent=msg;
-  alertEl.style.display='flex';
+function showAlert(msg, type = 'error') {
+  alertEl.className = 'alert alert-' + type;
+  alertText.textContent = msg;
+  alertEl.style.display = 'flex';
 }
-function setLoading(on){
-  submitBtn.disabled=on;
-  btnText.style.display=on?'none':'inline';
-  btnSpinner.style.display=on?'inline-block':'none';
+function hideAlert() {
+  alertEl.style.display = 'none';
+}
+function setLoading(on) {
+  submitBtn.disabled = on;
+  btnText.style.display = on ? 'none' : 'inline';
+  btnSpinner.style.display = on ? 'inline-block' : 'none';
+}
+function setTotpLoading(on) {
+  totpSubmitBtn.disabled = on;
+  totpBtnText.style.display = on ? 'none' : 'inline';
+  totpBtnSpinner.style.display = on ? 'inline-block' : 'none';
 }
 
-form.addEventListener('submit',async e=>{
-  e.preventDefault();
-  const username=document.getElementById('username').value.trim();
-  const password=document.getElementById('password').value;
-  if(!username||!password){showAlert('Ingresa usuario y contraseña');return;}
-  setLoading(true);
-  alertEl.style.display='none';
-  try{await firebase.auth().signInAnonymously();}catch(_){}
+function showTotpStep() {
+  loginForm.classList.add('hidden');
+  totpForm.classList.remove('hidden');
+  formTitle.textContent = 'Verificación en dos pasos';
+  formSubtitle.textContent = 'Ingresa el código de tu app de autenticación';
+  document.getElementById('totpCode').focus();
+}
+function showLoginStep() {
+  totpForm.classList.add('hidden');
+  loginForm.classList.remove('hidden');
+  formTitle.textContent = 'Bienvenido de vuelta';
+  formSubtitle.textContent = 'Ingresa tus datos para acceder a tu espacio';
+  pendingLogin = null;
+  hideAlert();
+}
 
-  // Admin check
-  try{
-    const adminSnap=await db.collection('admins').where('username','==',username).where('password','==',password).where('active','==',true).get();
-    if(!adminSnap.empty){
-      const adminDoc=adminSnap.docs[0].data();
-      localStorage.setItem('isAdmin','true');
-      localStorage.setItem('adminName',adminDoc.name);
-      localStorage.setItem('adminRole',adminDoc.role||'admin');
-      showAlert('Bienvenido, '+adminDoc.name,'success');
-      setTimeout(()=>window.location.href='/virtus-plataforma/admin/dashboard.html',900);
-      return;
-    }
-  }catch(e){console.warn(e);}
+document.getElementById('backToLogin').addEventListener('click', showLoginStep);
 
-  // Student check
-  try{
-    const snap=await db.collection('students').where('username','==',username).where('password','==',password).get();
-    if(!snap.empty){
-      const doc=snap.docs[0];
-      const student={id:doc.id,...doc.data()};
-      localStorage.setItem('currentStudent',JSON.stringify(student));
-      showAlert(`Hola, ${student.full_name||student.name||'Estudiante VIRTUS'}. Cargando tu espacio...`,'success');
-      setTimeout(()=>window.location.href='/virtus-plataforma/dashboard.html',1000);
-    } else {
-      showAlert('Usuario o contraseña incorrectos. Intenta de nuevo.');
-      pwInput.value='';
-      setLoading(false);
-    }
-  } catch(err){
-    console.error(err);
-    showAlert('Error de conexión. Intenta nuevamente.');
-    setLoading(false);
+async function attemptLogin(username, password, totpCode) {
+  const body = { username, password };
+  if (totpCode) body.totp_code = totpCode;
+
+  const res = await virtusApiFetch('/api/auth/login', {
+    method: 'POST',
+    body: JSON.stringify(body)
+  });
+
+  if (!res) return;
+
+  if (res.ok && res.data?.requiresTotp) {
+    pendingLogin = { username, password };
+    return { requiresTotp: true };
   }
+
+  if (res.ok && res.data?.user) {
+    return { success: true, user: res.data.user };
+  }
+
+  if (res.status === 428) {
+    return { error: 'Tu cuenta necesita configurar la verificación en dos pasos. Contacta al administrador de la plataforma.' };
+  }
+
+  return { error: res.data?.message || 'No se pudo iniciar sesión. Intenta de nuevo.' };
+}
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  if (!username || !password) { showAlert('Ingresa usuario y contraseña'); return; }
+
+  hideAlert();
+  setLoading(true);
+
+  const result = await attemptLogin(username, password);
+  setLoading(false);
+
+  if (!result) return;
+
+  if (result.requiresTotp) {
+    showTotpStep();
+    return;
+  }
+
+  if (result.success) {
+    showAlert(`Bienvenido, ${result.user.full_name}. Cargando tu espacio...`, 'success');
+    setTimeout(() => virtusRedirectForRole(result.user.role), 700);
+    return;
+  }
+
+  showAlert(result.error);
+  pwInput.value = '';
+});
+
+totpForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!pendingLogin) { showLoginStep(); return; }
+
+  const code = document.getElementById('totpCode').value.trim();
+  if (!/^\d{6}$/.test(code)) { showAlert('Ingresa el código de 6 dígitos'); return; }
+
+  hideAlert();
+  setTotpLoading(true);
+  const result = await attemptLogin(pendingLogin.username, pendingLogin.password, code);
+  setTotpLoading(false);
+
+  if (!result) return;
+
+  if (result.success) {
+    showAlert(`Bienvenido, ${result.user.full_name}. Cargando tu espacio...`, 'success');
+    setTimeout(() => virtusRedirectForRole(result.user.role), 700);
+    return;
+  }
+
+  showAlert(result.error || 'Código incorrecto');
+  document.getElementById('totpCode').value = '';
 });
 </script>
 </body>
