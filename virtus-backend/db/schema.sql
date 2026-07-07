@@ -53,28 +53,6 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX idx_users_tenant_role (tenant_id, role)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DELIMITER //
-CREATE PROCEDURE IF NOT EXISTS virtus_add_column_if_missing(
-    IN p_table VARCHAR(64), IN p_column VARCHAR(64), IN p_definition VARCHAR(255)
-)
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.COLUMNS
-        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = p_table AND COLUMN_NAME = p_column
-    ) THEN
-        SET @ddl = CONCAT('ALTER TABLE `', p_table, '` ADD COLUMN ', p_definition);
-        PREPARE stmt FROM @ddl;
-        EXECUTE stmt;
-        DEALLOCATE PREPARE stmt;
-    END IF;
-END //
-DELIMITER ;
-
-CALL virtus_add_column_if_missing('users', 'failed_login_attempts', 'failed_login_attempts INT NOT NULL DEFAULT 0');
-CALL virtus_add_column_if_missing('users', 'locked_until', 'locked_until TIMESTAMP NULL');
-CALL virtus_add_column_if_missing('users', 'totp_secret', 'totp_secret VARCHAR(255) NULL');
-CALL virtus_add_column_if_missing('users', 'totp_enabled', 'totp_enabled TINYINT(1) NOT NULL DEFAULT 0');
-
 -- ------------------------------------------------------------
 -- PROGRAMAS
 -- ------------------------------------------------------------
@@ -189,12 +167,7 @@ CREATE TABLE IF NOT EXISTS classes (
     INDEX idx_classes_grade (grade_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CALL virtus_add_column_if_missing('classes', 'grade_id', 'grade_id INT NULL');
 ALTER TABLE classes MODIFY COLUMN program_id INT NULL;
-CALL virtus_add_column_if_missing('grade_lessons', 'lesson_plan', 'lesson_plan LONGTEXT NULL');
-CALL virtus_add_column_if_missing('grade_lessons', 'lesson_plan_file_url', 'lesson_plan_file_url VARCHAR(500) NULL');
-CALL virtus_add_column_if_missing('grade_lessons', 'lesson_plan_file_name', 'lesson_plan_file_name VARCHAR(255) NULL');
-CALL virtus_add_column_if_missing('grade_lessons', 'trimester', 'trimester TINYINT NULL');
 
 -- ------------------------------------------------------------
 -- INSCRIPCIONES
@@ -353,8 +326,6 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     INDEX idx_audit_action (action),
     INDEX idx_audit_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-DROP PROCEDURE IF EXISTS virtus_add_column_if_missing;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
