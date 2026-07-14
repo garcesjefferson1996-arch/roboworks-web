@@ -13,13 +13,13 @@
 *{margin:0;padding:0;box-sizing:border-box}
 .hidden{display:none!important}
 :root{
-  --sb:#0F172A;--sb-hover:#1E293B;
-  --orange:#FF7B42;--orange-dark:#cc5c1f;--orange-light:#FFF7ED;
-  --green:#10B981;--green-light:#ECFDF5;
-  --red:#EF4444;--red-light:#FEF2F2;
-  --gold:#F59E0B;--gold-light:#FFFBEB;
-  --text:#1E293B;--text-light:#64748B;--border:#E2E8F0;
-  --bg:#F8FAFC;--white:#FFFFFF;--sb-w:240px;
+  --sb:#0c0d10;--sb-hover:#181b22;
+  --orange:#22e0ff;--orange-dark:#17b8d1;--orange-light:rgba(34,224,255,.14);
+  --green:#10B981;--green-light:rgba(16,185,129,.16);
+  --red:#EF4444;--red-light:rgba(239,68,68,.16);
+  --gold:#F59E0B;--gold-light:rgba(245,158,11,.16);
+  --text:#ffffff;--text-light:rgba(255,255,255,.55);--border:rgba(255,255,255,.09);
+  --bg:#08090b;--white:#111318;--sb-w:240px;
 }
 html,body{height:100%;font-family:'Inter',sans-serif;font-size:14px;color:var(--text)}
 body{display:flex;background:var(--bg)}
@@ -67,7 +67,7 @@ body{display:flex;background:var(--bg)}
 .card-body{padding:1.25rem}
 
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;font-family:inherit}
-.btn-primary{background:#0F1035;color:#fff}
+.btn-primary{background:#111318;color:#fff}
 .btn-orange{background:var(--orange);color:#fff}
 .btn-ghost{background:transparent;color:var(--text-light);border:1px solid var(--border)}
 .btn-ghost:hover{background:var(--bg);color:var(--text)}
@@ -92,7 +92,7 @@ tr:last-child td{border-bottom:none}
 .form-group label{display:block;font-size:.75rem;font-weight:600;margin-bottom:.4rem}
 .form-group label .req{color:var(--red)}
 .form-control{width:100%;padding:.65rem .875rem;border:2px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;outline:none;background:var(--white)}
-.form-control:focus{border-color:var(--orange);background:#fffaf7}
+.form-control:focus{border-color:var(--orange);background:#181b22}
 .form-hint{font-size:.72rem;color:var(--text-light);margin-top:.3rem}
 .checks-wrap{display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem;border:1px solid var(--border);border-radius:8px;max-height:140px;overflow-y:auto}
 .check-pill{display:flex;align-items:center;gap:.3rem;font-size:.78rem;background:var(--bg);padding:.3rem .6rem;border-radius:20px}
@@ -121,7 +121,7 @@ tr:last-child td{border-bottom:none}
 
 .empty{text-align:center;padding:3rem 1rem;color:var(--text-light)}
 .empty i{font-size:2.5rem;display:block;margin-bottom:.75rem;color:var(--border)}
-.avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--orange),#ffaa80);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;flex-shrink:0}
+.avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--orange),#17b8d1);color:#04141a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;flex-shrink:0}
 .loader{display:flex;align-items:center;gap:.5rem;padding:2rem;justify-content:center;color:var(--text-light);font-size:.82rem}
 .spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -140,7 +140,7 @@ tr:last-child td{border-bottom:none}
 .trimester-header{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:.82rem;color:var(--orange);text-transform:uppercase;letter-spacing:.4px;padding:.5rem 0;border-bottom:2px solid var(--orange);margin-bottom:.75rem}
 .lesson-card{border:1px solid var(--border);border-radius:12px;margin-bottom:.9rem;overflow:hidden}
 .lesson-head{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:var(--bg);cursor:pointer}
-.lesson-num{width:30px;height:30px;border-radius:8px;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;flex-shrink:0}
+.lesson-num{width:30px;height:30px;border-radius:8px;background:var(--orange);color:#08090b;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;flex-shrink:0}
 .lesson-title{flex:1;font-weight:700;font-size:.85rem}
 .lesson-body{display:none;padding:1rem;border-top:1px solid var(--border)}
 .lesson-body.open{display:block}
@@ -1123,7 +1123,7 @@ async function toggleTaskSubmissions(taskId, btn){
 }
 
 const ATT_STATUS_LABELS_ADMIN = { present: 'Presente', absent: 'Ausente', late: 'Tarde', excused: 'Justificado' };
-const ATT_STATUS_COLORS_ADMIN = { present: 'background:#e6f7ec;color:#1b8a4a', absent: 'background:#fdeaea;color:#c0392b', late: 'background:#fff6e0;color:#b7791f', excused: 'background:#eaf1fb;color:#2b6cb0' };
+const ATT_STATUS_COLORS_ADMIN = { present: 'background:rgba(16,185,129,.16);color:#34d399', absent: 'background:rgba(239,68,68,.16);color:#f87171', late: 'background:rgba(245,158,11,.16);color:#fbbf24', excused: 'background:rgba(59,130,246,.16);color:#60a5fa' };
 
 async function loadClassAttendance(classId){
   const res = await virtusApiFetch(`/api/admin/classes/${classId}/attendance/history`);
