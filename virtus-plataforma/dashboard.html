@@ -269,8 +269,8 @@ body{display:flex;background:var(--bg)}
   </div>
 </div>
 
-<script src="/virtus-plataforma/js/api-config.js"></script>
-<script src="/virtus-plataforma/js/api-client.js"></script>
+<script src="/js/api-config.js"></script>
+<script src="/js/api-client.js"></script>
 <script>
 let myClasses = [];
 let currentClassId = null;
@@ -339,7 +339,7 @@ function showTab(id, btn){
 
 async function init(){
   const verify = await virtusApiFetch('/api/auth/verify');
-  if (!verify || !verify.ok) { window.location.href = '/virtus-plataforma/login.html'; return; }
+  if (!verify || !verify.ok) { window.location.href = '/login.html'; return; }
   if (verify.data.user.role !== 'student') { virtusRedirectForRole(verify.data.user.role); return; }
 
   document.getElementById('studentName').textContent = verify.data.user.full_name;
@@ -655,7 +655,7 @@ document.getElementById('pwCancelBtn').addEventListener('click', () => closeModa
 
 document.getElementById('logoutBtn').addEventListener('click', async () => {
   await virtusApiFetch('/api/auth/logout', { method: 'POST' });
-  window.location.href = '/virtus-plataforma/login.html';
+  window.location.href = '/login.html';
 });
 
 // ───────────── MIS CALIFICACIONES ─────────────

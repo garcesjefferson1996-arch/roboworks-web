@@ -551,8 +551,8 @@ body{display:flex;background:var(--gray-light)}
   </div>
 </div>
 
-<script src="/virtus-plataforma/js/api-config.js"></script>
-<script src="/virtus-plataforma/js/api-client.js"></script>
+<script src="/js/api-config.js"></script>
+<script src="/js/api-client.js"></script>
 <script>
 let currentGrades = [];
 let currentGradeId = null;
@@ -577,7 +577,7 @@ const DAY_LABEL = { monday: 'Lunes', tuesday: 'Martes', wednesday: 'Miércoles',
 
 async function init() {
   const verify = await virtusApiFetch('/api/auth/verify');
-  if (!verify || !verify.ok) { window.location.href = '/virtus-plataforma/login.html'; return; }
+  if (!verify || !verify.ok) { window.location.href = '/login.html'; return; }
   if (verify.data.user.role !== 'teacher') { virtusRedirectForRole(verify.data.user.role); return; }
 
   document.getElementById('teacherName').textContent = verify.data.user.full_name;
@@ -1170,7 +1170,7 @@ document.getElementById('materialForm').addEventListener('submit', async (e) => 
 
 document.getElementById('logoutBtn').addEventListener('click', async () => {
   await virtusApiFetch('/api/auth/logout', { method: 'POST' });
-  window.location.href = '/virtus-plataforma/login.html';
+  window.location.href = '/login.html';
 });
 
 function escapeHtml(str) {
