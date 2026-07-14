@@ -23,7 +23,7 @@ async function virtusApiFetch(path, options = {}) {
 
     // Sesión expirada o inválida: si no estamos ya en el login, redirige.
     if (response.status === 401 && !window.location.pathname.includes('login.html')) {
-        window.location.href = '/virtus-plataforma/login.html';
+        window.location.href = '/login.html';
         return null;
     }
 
@@ -44,7 +44,7 @@ async function virtusApiUpload(path, formData) {
     } catch (_) {}
 
     if (response.status === 401 && !window.location.pathname.includes('login.html')) {
-        window.location.href = '/virtus-plataforma/login.html';
+        window.location.href = '/login.html';
         return null;
     }
 
@@ -65,12 +65,12 @@ function virtusSafeUrl(url) {
 // Redirige según el rol devuelto por /api/auth/verify o /api/auth/login.
 function virtusRedirectForRole(role) {
     const routes = {
-        super_admin: '/virtus-plataforma/admin/dashboard.html',
-        academy_admin: '/virtus-plataforma/admin/dashboard.html',
-        teacher: '/virtus-plataforma/teacher/dashboard.html',
-        student: '/virtus-plataforma/dashboard.html'
+        super_admin: '/admin/dashboard.html',
+        academy_admin: '/admin/dashboard.html',
+        teacher: '/teacher/dashboard.html',
+        student: '/dashboard.html'
     };
-    window.location.href = routes[role] || '/virtus-plataforma/login.html';
+    window.location.href = routes[role] || '/login.html';
 }
 
 // ─────────────────────────────────────────────────────────────
