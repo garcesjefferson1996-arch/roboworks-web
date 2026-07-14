@@ -7,6 +7,6 @@ const VIRTUS_API_BASE = (function () {
     if (host === 'localhost' || host === '127.0.0.1') {
         return 'http://localhost:4000';
     }
-    const VIRTUS_API_BASE_PROD = 'https://virtus-backend-qfwb.onrender.com'; // TODO: cambiar a https://api.virtusrobotica.com cuando el DNS este conectado
+    const VIRTUS_API_BASE_PROD = 'https://api.virtusrobotica.com';
     return VIRTUS_API_BASE_PROD;
 })();
