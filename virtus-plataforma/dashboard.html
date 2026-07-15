@@ -48,6 +48,29 @@ body{display:flex;background:var(--bg)}
 .card{background:var(--white);border-radius:20px;border:1px solid var(--border);padding:1.5rem;margin-bottom:1.25rem}
 .section-title{font-size:1rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;font-family:'Nunito',sans-serif}
 
+.hero-virtus{background:linear-gradient(135deg,#071130,#0d1f24 45%,#123640 78%,var(--or) 145%);color:#fff;border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.hero-virtus::before{content:'';position:absolute;top:-70px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(ellipse,rgba(34,224,255,.22) 0%,transparent 70%)}
+.hero-virtus-inner{display:flex;align-items:center;gap:1.25rem;position:relative;z-index:1}
+.hero-worky{width:110px;flex-shrink:0;filter:drop-shadow(0 10px 22px rgba(0,0,0,.45))}
+.hero-virtus-text{flex:1}
+.hero-virtus-text h2{font-size:1.5rem;font-weight:900;font-family:'Nunito',sans-serif;margin-bottom:.3rem}
+.hero-virtus-text p{font-size:.85rem;color:rgba(255,255,255,.75)}
+.hero-virtus-lema{position:absolute;bottom:.7rem;right:1.1rem;font-size:.62rem;font-style:italic;color:rgba(255,255,255,.32);letter-spacing:1.5px;font-family:'Nunito',sans-serif;z-index:1}
+@media(max-width:560px){.hero-worky{width:78px}.hero-virtus-text h2{font-size:1.2rem}}
+
+.games-grid{display:grid;grid-template-columns:1fr;gap:.875rem;margin-bottom:1.5rem}
+.game-card{cursor:pointer;border:none;border-radius:18px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.1rem;transition:.2s;color:#fff;text-align:left;width:100%;font-family:inherit}
+.game-card:hover{transform:translateY(-2px)}
+.game-card img{width:50px;height:50px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25))}
+.game-card-text{flex:1;min-width:0}
+.game-card-title{font-family:'Nunito',sans-serif;font-size:1.02rem;font-weight:900;margin-bottom:.2rem}
+.game-card-sub{font-size:.78rem;color:rgba(255,255,255,.8);font-weight:600}
+.game-card-cta{margin-left:auto;background:rgba(255,255,255,.2);border-radius:12px;padding:.55rem 1rem;font-family:'Nunito',sans-serif;font-weight:900;font-size:.8rem;white-space:nowrap;flex-shrink:0}
+.game-tangram{background:linear-gradient(135deg,#0086bb,var(--or))}
+.game-robomision{background:linear-gradient(135deg,#6d28d9,var(--or))}
+.game-prudentia{background:linear-gradient(135deg,#071130,#17b8d1)}
+@media(max-width:640px){.game-card-sub{display:none}}
+
 .next-class-card{background:linear-gradient(135deg,#0d1f24,#123640);color:#fff;border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
 .next-class-card::after{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(ellipse,rgba(34,224,255,.25) 0%,transparent 70%)}
 .next-class-tag{font-size:.7rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--or);margin-bottom:.5rem;position:relative;z-index:1}
@@ -194,6 +217,44 @@ body{display:flex;background:var(--bg)}
 
     <!-- INICIO -->
     <div class="tab-panel active" id="tab-inicio">
+      <div class="hero-virtus">
+        <div class="hero-virtus-inner">
+          <img src="images/worky.png" alt="Worky" class="hero-worky">
+          <div class="hero-virtus-text">
+            <h2 id="heroName">¡Hola, Robotista!</h2>
+            <p>Sigue tu aventura Virtus donde la dejaste.</p>
+          </div>
+        </div>
+        <span class="hero-virtus-lema">Totus Tuus</span>
+      </div>
+
+      <div class="games-grid">
+        <button class="game-card game-tangram" onclick="window.open('tangram.html','_blank')">
+          <img src="images/robotangram.png" alt="RoboTangram">
+          <div class="game-card-text">
+            <div class="game-card-title">🧩 RoboTangram</div>
+            <div class="game-card-sub">Arma animales con tus 7 piezas de tangram 3D</div>
+          </div>
+          <span class="game-card-cta">¡Jugar! →</span>
+        </button>
+        <button class="game-card game-robomision" onclick="window.open('robomision/index.html','_blank')">
+          <img src="images/robomision-logo.png" alt="RoboMisión">
+          <div class="game-card-text">
+            <div class="game-card-title">🚀 RoboMisión</div>
+            <div class="game-card-sub">Tu aventura espacial de programación te espera</div>
+          </div>
+          <span class="game-card-cta">¡Jugar! →</span>
+        </button>
+        <button class="game-card game-prudentia" onclick="window.open('prudentia.html','_blank')">
+          <img src="images/virtus/prudentia-icon-512.png" alt="Virtus Prudentia">
+          <div class="game-card-text">
+            <div class="game-card-title">VIRTUS: PRUDENTIA</div>
+            <div class="game-card-sub">Think. Decide. Dare. — Practica la prudencia con dos dados</div>
+          </div>
+          <span class="game-card-cta">¡Jugar! →</span>
+        </button>
+      </div>
+
       <div id="nextClassWrap"></div>
 
       <div class="section-title"><i class="fas fa-layer-group" style="color:var(--or)"></i> Mis clases</div>
@@ -344,6 +405,8 @@ async function init(){
 
   document.getElementById('studentName').textContent = verify.data.user.full_name;
   document.getElementById('studentAvatar').textContent = initials(verify.data.user.full_name);
+  const firstName = (verify.data.user.full_name || 'Robotista').split(' ')[0];
+  document.getElementById('heroName').textContent = `¡Hola, ${firstName}!`;
   checkForcedPasswordChange(verify.data.user);
   virtusInitNotificationBell('notifBellWrap');
 

@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es-EC">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RoboTangram — Misión Selva | Virtus STEAM</title>
+  <meta name="description" content="Ayuda a Worky en su expedición por la selva. Arma los animales con tus 7 piezas de tangram y completa el Diario del Explorador."/>
+  <link rel="icon" type="image/png" href="images/virtus/virtus-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+
+  <style>
+    /* =============================================
+       ROBO-TANGRAM — Tema claro estilo Osmo
+       ============================================= */
+
+    /* Fondo con patrón de triángulos sutiles */
+    .tg-bg {
+      background-color: #f5f8ff;
+      background-image:
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='30,5 55,50 5,50' fill='none' stroke='%2300a8e8' stroke-width='0.5' opacity='0.12'/%3E%3C/svg%3E");
+      background-size: 60px 60px;
+      font-family: 'Nunito', sans-serif;
+      color: #0f1c2e;
+      min-height: 100vh;
+    }
+
+    /* ── SCREENS ── */
+    .tg-screen { display: none; }
+    .tg-screen.active { display: block; }
+    #screen-intro.active,
+    #screen-puzzle.active,
+    #screen-celebration.active { display: flex; }
+
+    /* =============================================
+       HEADER override — ligero sobre fondo claro
+       ============================================= */
+    .tg-bg .site-header {
+      background: rgba(255,255,255,0.95);
+      border-bottom: 1px solid rgba(0,168,232,0.12);
+      backdrop-filter: blur(16px);
+    }
+
+    /* =============================================
+       SCREEN 1 — INTRO
+       ============================================= */
+    #screen-intro {
+      min-height: calc(100vh - 76px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 52px 24px 60px;
+      text-align: center;
+    }
+
+    .intro-world-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #e8f5ff;
+      border: 1.5px solid rgba(0,168,232,0.3);
+      border-radius: 9999px;
+      padding: 7px 18px;
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0086bb;
+      margin-bottom: 28px;
+    }
+
+    .worky-intro {
+      position: relative;
+      margin-bottom: 28px;
+      animation: float 3.4s ease-in-out infinite;
+    }
+    .worky-intro img {
+      width: 170px; height: 170px;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 28px rgba(0,168,232,0.25));
+    }
+    .worky-intro::after {
+      content: '';
+      position: absolute;
+      bottom: -14px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 20px;
+      background: radial-gradient(ellipse, rgba(0,168,232,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .intro-mission-card {
+      background: #fff;
+      border: 1.5px solid rgba(0,168,232,0.15);
+      border-radius: 24px;
+      padding: 32px 36px;
+      max-width: 560px;
+      box-shadow: 0 8px 32px rgba(0,168,232,0.10);
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    .mission-label {
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ff7b42;
+      margin-bottom: 8px;
+    }
+    .intro-mission-card h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 900;
+      color: #0f1c2e;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    .intro-mission-card h1 span { color: #00a8e8; }
+    .intro-mission-card p {
+      color: #4a6580;
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+    .intro-mission-card strong { color: #0f1c2e; }
+
+    .mission-objectives {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .obj-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.9rem; font-weight: 700; color: #334155;
+    }
+    .obj-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
+    }
+    .obj-icon.blue  { background: #e8f5ff; color: #00a8e8; }
+    .obj-icon.orange{ background: #fff3ee; color: #ff7b42; }
+    .obj-icon.green { background: #edfcf6; color: #10b981; }
+
+    .btn-start-mission {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: linear-gradient(135deg, #00a8e8 0%, #0086bb 100%);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.1rem; font-weight: 900;
+      padding: 17px 42px;
+      border-radius: 9999px; border: none; cursor: pointer;
+      box-shadow: 0 8px 28px rgba(0,168,232,0.30);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-start-mission:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 16px 40px rgba(0,168,232,0.40);
+    }
+
+    /* Piezas decorativas intro */
+    .intro-pieces-strip {
+      margin-top: 32px;
+      display: flex; gap: 10px; align-items: center; justify-content: center;
+      flex-wrap: wrap;
+    }
+    .intro-pieces-strip span {
+      font-size: 0.78rem; font-weight: 800; color: #7a98b8; letter-spacing: 0.04em;
+    }
+
+    /* =============================================
+       SCREEN 2 — MAPA
+       ============================================= */
+    #screen-map { padding: 52px 24px 80px; }
+    #screen-map.active { display: block; }
+
+    .map-header { text-align: center; margin-bottom: 44px; }
+    .world-section {
+      margin-bottom: 36px;
+    }
+    .world-section-header {
+      margin-bottom: 16px;
+    }
+    .world-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .world-pill-map {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(135deg,#0f1c2e,#1a3050);
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 900;
+      padding: 7px 16px;
+      border-radius: 9999px;
+      letter-spacing: .03em;
+      font-family: 'Nunito',sans-serif;
+    }
+    .world-count-chip {
+      font-size: .8rem;
+      font-weight: 800;
+      color: #64748b;
+      font-family: 'Nunito',sans-serif;
+    }
+    .world-progress-bar-wrap {
+      height: 5px;
+      background: #e2eaf6;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .world-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg,#00a8e8,#10b981);
+      border-radius: 9999px;
+      transition: width .5s ease;
+    }
+    .map-world-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff3ee;
+      border: 1.5px solid rgba(255,123,66,0.3);
+      border-radius: 9999px;
+      padding: 6px 16px;
+      font-size: 0.74rem; font-weight: 900;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #e5622e; margin-bottom: 14px;
+    }
+    .map-title {
+      font-size: clamp(1.7rem, 5vw, 2.6rem);
+      font-weight: 900; color: #0f1c2e; margin-bottom: 6px;
+    }
+    .map-title span { color: #00a8e8; }
+    .map-subtitle { color: #64748b; font-size: 0.96rem; margin-bottom: 20px; }
+
+    /* Barra de progreso */
+    .map-progress {
+      max-width: 380px; margin: 0 auto;
+    }
+    .progress-track {
+      background: #e2eaf6; border-radius: 9999px; height: 10px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00a8e8, #10b981);
+      border-radius: 9999px;
+      transition: width 0.7s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .progress-text {
+      text-align: center; font-size: 0.8rem; font-weight: 800;
+      color: #64748b; margin-top: 8px;
+    }
+
+    /* Grid de puzzles */
+    .puzzle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
+      gap: 18px; max-width: 880px; margin: 40px auto 0;
+    }
+
+    .pz-card {
+      background: #fff;
+      border: 1.5px solid #e2eaf6;
+      border-radius: 20px;
+      padding: 20px 14px 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+      position: relative;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .pz-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 38px rgba(0,168,232,0.15);
+      border-color: rgba(0,168,232,0.3);
+    }
+    .pz-card.locked { opacity: 0.4; cursor: not-allowed; }
+    .pz-card.locked:hover { transform: none; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .pz-card.done { border-color: rgba(16,185,129,0.4); }
+    .pz-card.done:hover { border-color: #10b981; box-shadow: 0 16px 38px rgba(16,185,129,0.15); }
+
+    .pz-num {
+      position: absolute; top: 10px; left: 12px;
+      font-size: 0.68rem; font-weight: 900;
+      color: #a8c0d8; letter-spacing: 0.04em;
+    }
+    .pz-lock {
+      position: absolute; top: 10px; right: 12px;
+      font-size: 0.85rem; color: #b8ccd8;
+    }
+    .pz-check {
+      position: absolute; top: 10px; right: 12px;
+      font-size: 0.9rem; color: #10b981;
+    }
+
+    /* Silueta en tarjeta del mapa */
+    .pz-thumb {
+      width: 100px; height: 100px;
+      margin: 0 auto 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pz-thumb svg, .pz-thumb img { width: 100%; height: 100%; object-fit: contain; }
+
+    .pz-name {
+      font-size: 0.95rem; font-weight: 900; color: #0f1c2e; margin-bottom: 8px;
+    }
+    .pz-stars {
+      display: flex; justify-content: center; gap: 4px;
+      font-size: 0.95rem; margin-bottom: 8px;
+    }
+    .pz-stars .s-on  { color: #fbbf24; }
+    .pz-stars .s-off { color: #d1dde8; }
+
+    .pz-level {
+      display: inline-block; padding: 3px 10px; border-radius: 9999px;
+      font-size: 0.67rem; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .lv-easy   { background:#edfcf6; color:#10b981; }
+    .lv-medium { background:#fefce8; color:#d97706; }
+    .lv-hard   { background:#fef2f2; color:#ef4444; }
+
+    /* Dots row */
+    .dots-row {
+      display: flex; gap: 6px; justify-content: center; margin-top: 28px;
+    }
+    .dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #d1dde8; transition: background 0.3s, transform 0.3s;
+    }
+    .dot.done    { background: #10b981; transform: scale(1.2); }
+    .dot.current { background: #00a8e8; transform: scale(1.4); }
+
+    /* =============================================
+       SCREEN 3 — PUZZLE ACTIVO
+       ============================================= */
+    #screen-puzzle {
+      padding: 0;
+      align-items: stretch;
+    }
+
+    .pv-topbar {
+      width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 20px;
+      border-bottom: 1px solid rgba(0,168,232,0.12);
+      background: #fff;
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+    .btn-back-light {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #fff; border: 1.5px solid #e2eaf6;
+      color: #64748b; font-family: 'Nunito',sans-serif;
+      font-size: 0.88rem; font-weight: 800;
+      padding: 9px 18px; border-radius: 9999px; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-back-light:hover { border-color: #00a8e8; color: #00a8e8; }
+
+    .pv-meta { text-align: right; }
+    .pv-name {
+      font-size: 1.5rem; font-weight: 900; color: #0f1c2e; line-height: 1;
+    }
+    .pv-world { font-size: 0.78rem; font-weight: 700; color: #7a98b8; margin-top: 4px; }
+
+    /* Área central — silueta */
+    /* ── PUZZLE STAGE (pantalla completa estilo Osmo) ── */
+    #screen-puzzle.active {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .puzzle-stage {
+      flex: 1;
+      position: relative;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .stage-sil {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      padding: 18px;
+      display: block;
+      user-select: none;
+    }
+    .stage-col {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 18px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+    .stage-col.revealed {
+      opacity: 1;
+    }
+    .puzzle-bottom {
+      flex-shrink: 0;
+      background: #fff;
+      border-top: 1px solid rgba(0,168,232,0.12);
+      padding: 10px 20px 14px;
+    }
+    .pieces-strip-mini {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .piece-dot {
+      width: 24px; height: 24px;
+      border-radius: 7px;
+      display: inline-block;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+    }
+    .pv-stars-display {
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+    }
+
+    /* Botones de acción */
+    .pv-actions {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn-hint-light {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1.5px solid #fbbf24;
+      color: #d97706; font-family: 'Nunito',sans-serif;
+      font-size: 0.95rem; font-weight: 800;
+      padding: 13px 24px; border-radius: 9999px; cursor: pointer;
+      box-shadow: 0 2px 10px rgba(251,191,36,0.15);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-hint-light:hover { background: #fefce8; transform: translateY(-2px); }
+    .btn-hint-light:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .btn-done-light {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff; font-family: 'Nunito',sans-serif;
+      font-size: 1.05rem; font-weight: 900;
+      padding: 14px 36px; border-radius: 9999px; border: none; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(16,185,129,0.28);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-done-light:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 14px 34px rgba(16,185,129,0.40);
+    }
+
+    /* Instrucción bajo botones */
+    .pv-instruction {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 0.85rem; font-weight: 700; color: #a8c0d8;
+      max-width: 420px;
+    }
+
+    /* =============================================
+       SCREEN 4 — CELEBRACIÓN
+       ============================================= */
+    #screen-celebration {
+      min-height: calc(100vh - 76px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .cel-worky {
+      margin-bottom: 20px;
+      animation: cel-bounce 0.55s ease-in-out infinite alternate;
+    }
+    .cel-worky img {
+      width: 150px; height: 150px; object-fit: contain;
+      filter: drop-shadow(0 10px 24px rgba(16,185,129,0.25));
+    }
+    @keyframes cel-bounce {
+      from { transform: translateY(0) rotate(-4deg) scale(1); }
+      to   { transform: translateY(-18px) rotate(4deg) scale(1.04); }
+    }
+
+    .cel-title {
+      font-size: clamp(2rem, 7vw, 3.4rem);
+      font-weight: 900; color: #0f1c2e; line-height: 1.05; margin-bottom: 10px;
+    }
+    .cel-title span { color: #10b981; }
+
+    .cel-subtitle {
+      font-size: 1rem; color: #64748b;
+      max-width: 420px; margin: 0 auto 28px; line-height: 1.65;
+    }
+
+    .cel-animal-card {
+      background: #fff;
+      border: 1.5px solid rgba(16,185,129,0.25);
+      border-radius: 20px;
+      padding: 20px 30px;
+      display: inline-flex; align-items: center; gap: 16px;
+      box-shadow: 0 6px 24px rgba(16,185,129,0.10);
+      margin-bottom: 28px;
+    }
+    .cel-animal-svg svg { width: 80px; height: 80px; }
+    .cel-animal-info { text-align: left; }
+    .cel-animal-name { font-size: 1.2rem; font-weight: 900; color: #0f1c2e; }
+    .cel-animal-msg { font-size: 0.84rem; color: #64748b; margin-top: 2px; }
+
+    .cel-stars {
+      display: flex; justify-content: center; gap: 14px; margin-bottom: 32px;
+    }
+    .cel-star {
+      font-size: 2.4rem;
+      animation: star-pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .cel-star:nth-child(1){ animation-delay:0.12s; }
+    .cel-star:nth-child(2){ animation-delay:0.27s; }
+    .cel-star:nth-child(3){ animation-delay:0.42s; }
+    @keyframes star-pop {
+      from { transform: scale(0) rotate(-25deg); opacity:0; }
+      to   { transform: scale(1) rotate(0); opacity:1; }
+    }
+
+    .cel-actions {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn-next-light {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #00a8e8 0%, #0086bb 100%);
+      color: #fff; font-family: 'Nunito',sans-serif;
+      font-size: 1rem; font-weight: 900;
+      padding: 14px 32px; border-radius: 9999px; border: none; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,168,232,0.28);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-next-light:hover { transform: translateY(-3px); }
+
+    .btn-map-light {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1.5px solid #e2eaf6;
+      color: #64748b; font-family: 'Nunito',sans-serif;
+      font-size: 0.95rem; font-weight: 800;
+      padding: 13px 24px; border-radius: 9999px; cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-map-light:hover { border-color: #00a8e8; color: #00a8e8; }
+
+    /* Worky diario sello */
+    .journal-stamp {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #edfcf6; border: 2px solid #10b981;
+      border-radius: 12px; padding: 8px 16px;
+      font-size: 0.8rem; font-weight: 900; color: #059669;
+      margin-bottom: 20px; transform: rotate(-1.5deg);
+    }
+
+    /* ── CONFETTI ── */
+    #confetti-canvas {
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none; z-index:9999;
+    }
+
+    /* ── FOOTER override ── */
+    .tg-bg .site-footer { background: #0f1c2e; }
+    .tg-bg .site-footer h2,
+    .tg-bg .site-footer p,
+    .tg-bg .site-footer a { color: #4a6580; }
+    .tg-bg .site-footer h2 span { color: #00a8e8; }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    /* Responsive */
+    @media(max-width:580px){
+      .puzzle-grid { grid-template-columns: repeat(2,1fr); gap:12px; }
+      .pz-thumb { width:80px; height:80px; }
+      .pv-topbar { flex-direction:column; align-items:flex-start; gap:12px; }
+      .pv-meta { text-align:left; }
+      .intro-mission-card { padding:22px 20px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="tg-bg">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="dashboard.html" class="brand-link">
+        <img src="images/virtus/virtus-logo.png" alt="Virtus STEAM Logo" class="brand-logo">
+        <span class="brand-copy">
+          <span class="brand-robo">VIRTUS</span> <span class="brand-works">STEAM</span>
+        </span>
+      </a>
+      <nav class="site-nav">
+        <a href="dashboard.html" class="student-access">
+          <i class="fas fa-arrow-left"></i>
+          <span class="nav-label-full">Volver a mi espacio</span>
+          <span class="nav-label-short">Volver</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ══ SCREEN 1 — INTRO ══ -->
+  <div id="screen-intro" class="tg-screen active">
+
+    <div class="intro-world-badge">
+      <i class="fas fa-leaf"></i> Misión 1 · Explorador de la Selva
+    </div>
+
+    <div class="worky-intro">
+      <img src="images/worky_inicio.png" alt="Worky, mascota de Virtus">
+    </div>
+
+    <div class="intro-mission-card">
+      <p class="mission-label">📋 Briefing de misión</p>
+      <h1>¡Worky necesita<br><span>tu ayuda</span> en la selva!</h1>
+      <p>
+        Worky está en su primera expedición como explorador Virtus.
+        Encontró <strong>10 animales increíbles</strong> en la jungla,
+        ¡pero para registrarlos en su Diario del Explorador necesita
+        construirlos con las <strong>7 piezas de tangram</strong>!
+        ¿Lo ayudas?
+      </p>
+      <div class="mission-objectives">
+        <div class="obj-item">
+          <div class="obj-icon blue"><i class="fas fa-puzzle-piece"></i></div>
+          Usa tus 7 piezas de tangram impresas en 3D
+        </div>
+        <div class="obj-item">
+          <div class="obj-icon orange"><i class="fas fa-eye"></i></div>
+          Observa la silueta y arma la figura sobre la mesa
+        </div>
+        <div class="obj-item">
+          <div class="obj-icon green"><i class="fas fa-check-circle"></i></div>
+          Presiona "¡Lo logré!" para añadirlo al diario
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-start-mission" onclick="showMap()">
+      <i class="fas fa-rocket"></i>
+      ¡Comenzar expedición!
+    </button>
+
+    <div class="intro-pieces-strip">
+      <span>Tus piezas:</span>
+      <!-- 7 piezas en sus colores reales -->
+      <svg width="24" height="20" viewBox="0 0 24 20"><polygon points="0,20 24,20 0,0" fill="#e53935"/></svg>
+      <svg width="24" height="20" viewBox="0 0 24 20"><polygon points="0,0 24,20 0,20" fill="#1565c0"/></svg>
+      <svg width="20" height="18" viewBox="0 0 20 18"><polygon points="0,18 20,18 0,0" fill="#43a047"/></svg>
+      <svg width="18" height="15" viewBox="0 0 18 15"><polygon points="0,15 18,15 0,0" fill="#00acc1"/></svg>
+      <svg width="18" height="15" viewBox="0 0 18 15"><polygon points="0,0 18,15 0,15" fill="#d81b60"/></svg>
+      <svg width="18" height="18" viewBox="0 0 18 18"><rect width="18" height="18" fill="#fdd835"/></svg>
+      <svg width="22" height="16" viewBox="0 0 22 16"><polygon points="4,0 22,0 18,16 0,16" fill="#fb8c00"/></svg>
+    </div>
+
+  </div>
+
+  <!-- ══ SCREEN 2 — MAPA ══ -->
+  <div id="screen-map" class="tg-screen">
+    <div class="section-shell">
+      <div class="map-header">
+        <div class="map-world-pill"><i class="fas fa-book-open"></i> Diario del Explorador</div>
+        <h2 class="map-title">Las aventuras <span>de Worky</span></h2>
+        <p class="map-subtitle">Cada figura que construyas queda registrada para siempre en el diario de Worky.</p>
+        <div class="map-progress">
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+          </div>
+          <p class="progress-text" id="progress-text">¡Comienza tu expedición!</p>
+        </div>
+      </div>
+
+      <div id="worlds-container"></div>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 3 — PUZZLE (pantalla completa estilo Osmo) ══ -->
+  <div id="screen-puzzle" class="tg-screen">
+
+    <div class="pv-topbar">
+      <button class="btn-back-light" onclick="showMap()">
+        <i class="fas fa-arrow-left"></i> Volver
+      </button>
+      <div class="pv-meta">
+        <div class="pv-name" id="pv-name">Gato 🐱</div>
+        <div class="pv-world" id="pv-world-text">Figura 1 de 5</div>
+      </div>
+      <div class="pv-stars-display" id="pv-stars-display">⭐⭐⭐</div>
+    </div>
+
+    <!-- STAGE: silueta ocupa toda la pantalla -->
+    <div class="puzzle-stage">
+      <img id="stage-sil" class="stage-img stage-sil" src="" alt="Figura a construir" draggable="false">
+      <img id="stage-col" class="stage-img stage-col" src="" alt="Pista de colores" draggable="false">
+    </div>
+
+    <!-- Barra inferior: piezas + botones -->
+    <div class="puzzle-bottom">
+      <div class="pieces-strip-mini">
+        <span class="piece-dot" style="background:#e53935" title="Roja"></span>
+        <span class="piece-dot" style="background:#1565c0" title="Azul"></span>
+        <span class="piece-dot" style="background:#43a047" title="Verde"></span>
+        <span class="piece-dot" style="background:#00acc1" title="Cyan"></span>
+        <span class="piece-dot" style="background:#d81b60" title="Fucsia"></span>
+        <span class="piece-dot" style="background:#fdd835" title="Amarilla"></span>
+        <span class="piece-dot" style="background:#fb8c00" title="Naranja"></span>
+      </div>
+      <div class="pv-actions">
+        <button class="btn-hint-light" id="btn-hint" onclick="revealHint()">
+          <i class="fas fa-lightbulb"></i> Ver pista (−1 ★)
+        </button>
+        <button class="btn-done-light" onclick="puzzleDone()">
+          <i class="fas fa-check-circle"></i> ¡Lo logré!
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ SCREEN 4 — CELEBRACIÓN ══ -->
+  <div id="screen-celebration" class="tg-screen">
+
+    <div class="journal-stamp">
+      <i class="fas fa-book-open"></i> ¡Añadido al Diario del Explorador!
+    </div>
+
+    <div class="cel-worky">
+      <img src="images/worky_logro.png" alt="Worky celebrando">
+    </div>
+
+    <h2 class="cel-title">¡<span>Descubierto!</span></h2>
+    <p class="cel-subtitle" id="cel-subtitle">Worky ya puede registrar este animal en su diario.</p>
+
+    <div class="cel-animal-card" id="cel-animal-card">
+      <div class="cel-animal-svg" id="cel-animal-svg"></div>
+      <div class="cel-animal-info">
+        <div class="cel-animal-name" id="cel-animal-name">Pato 🦆</div>
+        <div class="cel-animal-msg" id="cel-animal-msg">Animal #1 registrado</div>
+      </div>
+    </div>
+
+    <div class="cel-stars" id="cel-stars"></div>
+
+    <div class="cel-actions">
+      <button class="btn-next-light" id="btn-next" onclick="nextPuzzle()">
+        Siguiente animal <i class="fas fa-arrow-right"></i>
+      </button>
+      <button class="btn-map-light" onclick="showMap()">
+        <i class="fas fa-book-open"></i> Ver diario
+      </button>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contacto" class="site-footer">
+    <div class="section-shell">
+      <h2>VIRTUS <span>STEAM</span></h2>
+      <p>Educación en robótica y programación con carácter.</p>
+      <div class="footer-contact">
+        <span>Totus Tuus</span>
+      </div>
+      <p class="footer-small">© 2026 Virtus STEAM. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+</div>
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+/* =============================================
+   PIEZAS DE JEFF — colores reales del tangram impreso
+   R=rojo, B=azul grande, G=verde medio,
+   C=cyan pequeño, F=fucsia pequeño, Y=amarillo cuadrado, O=naranja paralelogramo
+============================================= */
+const PC = {
+  R:'#e53935', B:'#1565c0', G:'#43a047',
+  C:'#00acc1', F:'#d81b60', Y:'#fdd835', O:'#fb8c00'
+};
+
+/* =============================================
+   PUZZLES — silhouette (negro) + colored (piezas)
+   Todos los SVGs en viewBox="0 0 200 200"
+============================================= */
+const PUZZLES = [
+  /* ══ MUNDO 1 — SELVA ══ */
+  { id:1, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Gato',    emoji:'🐱', level:'easy',   levelLabel:'Fácil',
+    silImg:'gato_silueta.svg',    colorImg:'gato.svg',
+    hint:'Las orejas son los triángulos pequeños. El cuerpo, los dos triángulos grandes.',
+    msg:'¡Miau! Worky encontró un gato curioso acechando entre la maleza de la selva.' },
+  { id:2, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Cisne',   emoji:'🦢', level:'easy',   levelLabel:'Fácil',
+    silImg:'cisne_silueta.svg',   colorImg:'Cisne.svg',
+    hint:'El cuello largo usa el paralelogramo naranja. Los triángulos grandes forman el cuerpo.',
+    msg:'¡Un cisne elegante! Worky lo encontró flotando en el río de la selva.' },
+  { id:3, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Pájaro',  emoji:'🐦', level:'easy',   levelLabel:'Fácil',
+    silImg:'pajaro_silueta.svg',  colorImg:'pajaro.svg',
+    hint:'Las alas son los dos triángulos grandes. ¡Ábrelos hacia los lados!',
+    msg:'¡Worky vio este pájaro volar sobre la copa de los árboles!' },
+  { id:4, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Conejo',  emoji:'🐰', level:'medium', levelLabel:'Medio',
+    silImg:'conejo_silueta.svg',  colorImg:'conejo.svg',
+    hint:'Las orejas largas son los triángulos pequeños en vertical.',
+    msg:'¡Un conejo saltó justo frente a Worky en la maleza!' },
+  { id:5, world:1, worldName:'Selva', worldIcon:'🌿',
+    name:'Camello', emoji:'🐪', level:'medium', levelLabel:'Medio',
+    silImg:'camello_silueta.svg', colorImg:'camello.svg',
+    hint:'La joroba del camello usa el triángulo mediano verde.',
+    msg:'¡Un camello en la selva! Worky no podía creerlo. Lo registró en el diario.' },
+
+  /* ══ MUNDO 2 — PUEBLO MÁGICO ══ */
+  { id:6, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Casa',     emoji:'🏠', level:'easy',   levelLabel:'Fácil',
+    silImg:'casa_silueta.svg',    colorImg:'casa.svg',
+    hint:'El techo es un triángulo grande. Las paredes usan el cuadrado y el paralelogramo.',
+    msg:'¡Worky construyó la primera casa del Pueblo Mágico! Ya tienen donde vivir.' },
+  { id:7, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Cabaña',   emoji:'🏡', level:'easy',   levelLabel:'Fácil',
+    silImg:'casa2_silueta.svg',   colorImg:'casa2.svg',
+    hint:'El techo puntiagudo usa dos triángulos pequeños. El cuerpo, el triángulo grande.',
+    msg:'¡Esta cabaña con techo puntiagudo es perfecta para el carpintero del pueblo!' },
+  { id:8, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Casona',   emoji:'🏛️', level:'medium', levelLabel:'Medio',
+    silImg:'casa3_silueta.svg',   colorImg:'casa3.svg',
+    hint:'La casona grande usa los dos triángulos grandes como base. Úsalos bien.',
+    msg:'¡La casona será el ayuntamiento del pueblo! Worky está muy orgulloso de su obra.' },
+  { id:9, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Molino',   emoji:'⚙️', level:'medium', levelLabel:'Medio',
+    silImg:'Molino_silueta.svg',  colorImg:'Molino.svg',
+    hint:'Las aspas del molino son los triángulos pequeños en diagonal. El cuerpo es ancho.',
+    msg:'¡El molino de viento vuelve a girar! Los panaderos del Pueblo Mágico están felices.' },
+  { id:10, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Iglesia',  emoji:'⛪', level:'medium', levelLabel:'Medio',
+    silImg:'Iglesia_silueta.svg', colorImg:'Iglesia.svg',
+    hint:'La torre de la iglesia usa el triángulo pequeño arriba. La nave es el paralelogramo.',
+    msg:'¡La iglesia del Pueblo Mágico está lista! Las campanas vuelven a sonar para Worky.' },
+  { id:11, world:2, worldName:'Pueblo Mágico', worldIcon:'🏘️',
+    name:'Catedral', emoji:'🕍', level:'hard',   levelLabel:'Difícil',
+    silImg:'Iglesia2_silueta.svg',colorImg:'Iglesia2.svg',
+    hint:'La catedral es la más difícil. Dos torres usan los triángulos pequeños. ¡Paciencia!',
+    msg:'¡La catedral es la obra más grande! Todo el pueblo aplaudió a Worky al verla terminada.' }
+];
+
+/* =============================================
+   ESTADO Y PERSISTENCIA
+============================================= */
+let progress = JSON.parse(localStorage.getItem('rw_tangram_v2') || '{}');
+let currentId = null;
+let hintUsed = false;
+
+function save() { localStorage.setItem('rw_tangram_v2', JSON.stringify(progress)); }
+function getStars(id) { return progress[id] || 0; }
+function countDone() { return Object.values(progress).filter(v=>v>0).length; }
+
+/* =============================================
+   NAVEGACIÓN
+============================================= */
+function showScreen(id) {
+  document.querySelectorAll('.tg-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showMap() {
+  renderMap();
+  showScreen('screen-map');
+}
+
+function showPuzzle(id) {
+  const p = PUZZLES.find(x => x.id === id);
+  if (!p) return;
+  currentId = id;
+  hintUsed = false;
+
+  document.getElementById('pv-name').textContent = p.name + ' ' + p.emoji;
+  const _wp = PUZZLES.filter(x => x.world === p.world);
+  const _wi = _wp.findIndex(x => x.id === p.id) + 1;
+  document.getElementById('pv-world-text').textContent =
+    p.worldIcon + ' Mundo ' + p.world + ' · ' + p.worldName + ' — ' + _wi + ' de ' + _wp.length;
+
+  // Imágenes SVG de Illustrator
+  const base = 'images/tangram/';
+  document.getElementById('stage-sil').src = base + p.silImg;
+  const col = document.getElementById('stage-col');
+  col.src = base + p.colorImg;
+  col.classList.remove('revealed');
+
+  // Estrellas potenciales
+  _updateStarsDisplay();
+
+  // Hint button reset
+  const btnH = document.getElementById('btn-hint');
+  btnH.disabled = false;
+  btnH.style.opacity = '1';
+
+  showScreen('screen-puzzle');
+}
+
+function _updateStarsDisplay() {
+  const potential = hintUsed ? 2 : 3;
+  document.getElementById('pv-stars-display').innerHTML =
+    [1,2,3].map(i => `<span style="opacity:${i<=potential?'1':'0.3'}">${i<=potential?'⭐':'☆'}</span>`).join('');
+}
+
+function revealHint() {
+  if (!hintUsed) {
+    hintUsed = true;
+    const btnH = document.getElementById('btn-hint');
+    btnH.disabled = true;
+    btnH.style.opacity = '0.45';
+    _updateStarsDisplay();
+  }
+  document.getElementById('stage-col').classList.add('revealed');
+}
+
+function puzzleDone() {
+  const stars = hintUsed ? 2 : 3;
+  const prev = getStars(currentId);
+  const final = Math.max(stars, prev);
+  if (final > prev) { progress[currentId] = final; save(); }
+  showCelebration(final);
+}
+
+function nextPuzzle() {
+  const cur = PUZZLES.find(p => p.id === currentId);
+  const wPuzzles = PUZZLES.filter(p => p.world === cur.world);
+  const curIdx = wPuzzles.findIndex(p => p.id === currentId);
+  const next = wPuzzles[curIdx + 1] || PUZZLES.find(p => p.world === cur.world + 1);
+  if (next) showPuzzle(next.id);
+  else showMap();
+}
+
+function showCelebration(stars) {
+  const p = PUZZLES.find(x => x.id === currentId);
+  const msgs = [
+    'Bien hecho, ¡sigue intentando! Worky te da ánimo.',
+    '¡Excelente! Worky lo añadió al diario con una estrella.',
+    '¡PERFECTO! Worky saltó de alegría al ver tu construcción.'
+  ];
+
+  document.getElementById('cel-subtitle').textContent = msgs[stars - 1];
+  document.getElementById('cel-animal-name').textContent = p.name + ' ' + p.emoji;
+  document.getElementById('cel-animal-msg').textContent = `${p.worldIcon} ${p.worldName} · Figura #${p.id} registrada en el diario`;
+  document.getElementById('cel-animal-svg').innerHTML =
+    `<img src="images/tangram/${p.colorImg}" width="80" height="80" style="object-fit:contain;display:block">`;
+
+  // Stars
+  const el = document.getElementById('cel-stars');
+  el.innerHTML = '';
+  for (let i=1; i<=3; i++) {
+    const s = document.createElement('span');
+    s.className = 'cel-star';
+    s.textContent = i <= stars ? '⭐' : '☆';
+    s.style.opacity = i <= stars ? '1' : '0.2';
+    el.appendChild(s);
+  }
+
+  // Botón siguiente
+  const next = PUZZLES.find(x => x.id === currentId + 1);
+  const btn = document.getElementById('btn-next');
+  if (next) {
+    btn.innerHTML = `Siguiente: ${next.name} ${next.emoji} <i class="fas fa-arrow-right"></i>`;
+    btn.style.display = '';
+  } else {
+    btn.style.display = 'none';
+  }
+
+  showScreen('screen-celebration');
+  if (stars >= 2) launchConfetti();
+}
+
+/* =============================================
+   RENDER MAPA
+============================================= */
+function renderMap() {
+  const totalDone = countDone();
+  const total = PUZZLES.length;
+  const pct = Math.round(totalDone/total*100);
+
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent =
+    totalDone === 0 ? '¡Comienza tu expedición con el Gato!' :
+    totalDone === total ? '🎉 ¡Diario completo! Eres un explorador legendario.' :
+    `${totalDone} de ${total} figuras completadas · ${pct}%`;
+
+  const container = document.getElementById('worlds-container');
+  container.innerHTML = '';
+
+  const worlds = [...new Set(PUZZLES.map(p => p.world))];
+
+  worlds.forEach(worldNum => {
+    const wPuzzles = PUZZLES.filter(p => p.world === worldNum);
+    const wDone = wPuzzles.filter(p => getStars(p.id) > 0).length;
+    const wPct = Math.round(wDone / wPuzzles.length * 100);
+    const w = wPuzzles[0];
+
+    // ── Sección del mundo
+    const section = document.createElement('div');
+    section.className = 'world-section';
+
+    // Header del mundo
+    const header = document.createElement('div');
+    header.className = 'world-section-header';
+    header.innerHTML = `
+      <div class="world-header-top">
+        <div class="world-pill-map">
+          <i class="fas fa-${worldNum===1?'tree':'city'}"></i>
+          ${w.worldIcon} Mundo ${worldNum} — ${w.worldName}
+        </div>
+        <span class="world-count-chip">${wDone}/${wPuzzles.length}</span>
+      </div>
+      <div class="world-progress-bar-wrap">
+        <div class="world-progress-bar-fill" style="width:${wPct}%"></div>
+      </div>`;
+    section.appendChild(header);
+
+    // Grid de cards
+    const grid = document.createElement('div');
+    grid.className = 'puzzle-grid';
+
+    wPuzzles.forEach((p, i) => {
+      const stars = getStars(p.id);
+      const locked = i > 0 && getStars(wPuzzles[i-1].id) === 0;
+      const done = stars > 0;
+
+      const card = document.createElement('div');
+      card.className = `pz-card${locked?' locked':''}${done?' done':''}`;
+      card.innerHTML = `
+        <span class="pz-num">#${p.id}</span>
+        ${locked ? '<span class="pz-lock"><i class="fas fa-lock"></i></span>' : ''}
+        ${done  ? '<span class="pz-check"><i class="fas fa-check-circle"></i></span>' : ''}
+        <div class="pz-thumb">
+          <img src="images/tangram/${p.silImg}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain">
+        </div>
+        <div class="pz-name">${p.name} ${p.emoji}</div>
+        <div class="pz-stars">
+          ${[1,2,3].map(s=>`<span class="${s<=stars?'s-on':'s-off'}">${s<=stars?'★':'☆'}</span>`).join('')}
+        </div>
+        <span class="pz-level lv-${p.level}">${p.levelLabel}</span>`;
+
+      if (!locked) card.addEventListener('click', () => showPuzzle(p.id));
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+
+    // Dots del mundo
+    const dotsRow = document.createElement('div');
+    dotsRow.className = 'dots-row';
+    wPuzzles.forEach((p, i) => {
+      const d = document.createElement('div');
+      const s = getStars(p.id);
+      d.className = 'dot' + (s > 0 ? ' done' : (i===0 && wDone===0 ? ' current' : ''));
+      dotsRow.appendChild(d);
+    });
+    section.appendChild(dotsRow);
+
+    container.appendChild(section);
+  });
+}
+
+/* =============================================
+   CONFETTI
+============================================= */
+function launchConfetti() {
+  const cv = document.getElementById('confetti-canvas');
+  const ctx = cv.getContext('2d');
+  cv.width = window.innerWidth;
+  cv.height = window.innerHeight;
+  const cols = ['#e53935','#1565c0','#43a047','#00acc1','#d81b60','#fdd835','#fb8c00','#00a8e8','#ff7b42'];
+  const pts = Array.from({length:130}, () => ({
+    x: Math.random()*cv.width, y:-20,
+    r: Math.random()*7+4,
+    d: Math.random()*3+1.2,
+    c: cols[Math.floor(Math.random()*cols.length)],
+    ta: Math.random()*Math.PI*2,
+    ts: Math.random()*0.1+0.02,
+    shape: Math.random()>.5?'c':'r'
+  }));
+  let f=0;
+  function draw(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{
+      p.ta+=p.ts; p.y+=p.d+Math.sin(f*.05)*.8; p.x+=Math.sin(p.ta)*1.8;
+      ctx.beginPath(); ctx.fillStyle=p.c;
+      if(p.shape==='c'){ ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }
+      else {
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.ta);
+        ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r); ctx.restore();
+      }
+      ctx.fill();
+    });
+    f++;
+    if(f<200) requestAnimationFrame(draw);
+    else { ctx.clearRect(0,0,cv.width,cv.height); cv.width=0; }
+  }
+  draw();
+}
+</script>
+</body>
+</html>
