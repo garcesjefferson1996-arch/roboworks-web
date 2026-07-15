@@ -243,7 +243,7 @@ tr:last-child td{border-bottom:none}
       <div class="card">
         <div class="card-header"><div class="card-title"><i class="fas fa-info-circle"></i> Bienvenido a Virtus</div></div>
         <div class="card-body">
-          <p style="color:var(--text-light);line-height:1.6">Desde aquí administras docentes, estudiantes, clases y programas. Los módulos de tareas, asistencia, pagos y calificaciones están en desarrollo — revisa la pestaña "Próximamente".</p>
+          <p style="color:var(--text-light);line-height:1.6">Desde aquí administras docentes, estudiantes, clases, programas y el currículo por grado. También puedes revisar tareas, asistencia y calificaciones de cada clase desde "Gestionar" en la pestaña Clases. Los módulos de pagos, documentos y portafolio del estudiante siguen en desarrollo — revisa la pestaña "Próximamente".</p>
         </div>
       </div>
     </div>
@@ -361,11 +361,10 @@ tr:last-child td{border-bottom:none}
       <div class="card">
         <div class="card-header"><div class="card-title"><i class="fas fa-hourglass-half"></i> En desarrollo</div></div>
         <div class="card-body">
-          <p style="color:var(--text-light);margin-bottom:1.25rem">Estos módulos existían en la versión anterior de la plataforma y todavía no se han migrado al nuevo backend seguro. Se irán agregando por fases.</p>
+          <p style="color:var(--text-light);margin-bottom:1.25rem">Tareas, asistencia y calificaciones ya están disponibles por clase (entra a "Gestionar" desde la pestaña Clases). Estos otros módulos siguen en desarrollo y se irán agregando por fases.</p>
           <div class="soon-grid">
-            <div class="soon-card"><i class="fas fa-calendar-check"></i>Asistencia / Leccionario</div>
             <div class="soon-card"><i class="fas fa-coins"></i>Pagos y mensualidades</div>
-            <div class="soon-card"><i class="fas fa-star"></i>Calificaciones y portafolio</div>
+            <div class="soon-card"><i class="fas fa-award"></i>Portafolio de logros del estudiante</div>
             <div class="soon-card"><i class="fas fa-file-alt"></i>Documentos</div>
             <div class="soon-card"><i class="fas fa-users-cog"></i>Gestión de equipo/administradores</div>
           </div>
@@ -384,8 +383,14 @@ tr:last-child td{border-bottom:none}
         <div class="form-group"><label>Nombre completo <span class="req">*</span></label><input class="form-control" id="s-fullname" required></div>
         <div class="form-group"><label>Teléfono del padre/madre (opcional)</label><input class="form-control" id="s-phone" placeholder="0999999999"></div>
         <div class="form-group">
-          <label>Asignar a clases (opcional)</label>
-          <div class="checks-wrap" id="s-classes-checks"><span class="form-hint">Cargando clases...</span></div>
+          <label>Curso (grado)</label>
+          <select class="form-control" id="s-grade-select" onchange="fillStudentFormClassChecks()">
+            <option value="">Selecciona un curso...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Paralelo / clase (opcional)</label>
+          <div class="checks-wrap" id="s-classes-checks"><span class="form-hint">Selecciona primero un curso.</span></div>
         </div>
         <div id="creds-result"></div>
       </form>
@@ -763,6 +768,7 @@ async function init(){
   }
 
   await Promise.all([loadStudents(), loadTeachers(), loadClasses(), loadPrograms(), loadGrades()]);
+  fillStudentGradeSelect();
   updateStats();
 }
 
@@ -829,6 +835,7 @@ async function saveStudent(){
     </div>`;
   toast('Estudiante creado exitosamente');
   document.getElementById('studentForm').reset();
+  fillStudentFormClassChecks();
   await loadStudents();
 }
 
@@ -848,6 +855,7 @@ async function viewStudent(id){
       ${classesHtml}
     </div>`;
   document.getElementById('studentForm').reset();
+  fillStudentFormClassChecks();
   openModal('modal-student');
 }
 
@@ -989,10 +997,25 @@ async function fillClassFormSelects(){
   }
 }
 
+function fillStudentGradeSelect(){
+  const sel = document.getElementById('s-grade-select');
+  if (!sel) return;
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">Selecciona un curso...</option>' + allGrades.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('');
+  if (prev) sel.value = prev;
+}
+
 async function fillStudentFormClassChecks(){
   const wrap = document.getElementById('s-classes-checks');
-  if (allClasses.length === 0) { wrap.innerHTML = '<span class="form-hint">No hay clases creadas todavía.</span>'; return; }
-  wrap.innerHTML = allClasses.map(c => `
+  const gradeSel = document.getElementById('s-grade-select');
+  const gradeId = gradeSel ? gradeSel.value : '';
+
+  if (!gradeId) { wrap.innerHTML = '<span class="form-hint">Selecciona primero un curso para ver sus paralelos.</span>'; return; }
+
+  const classesInGrade = allClasses.filter(c => String(c.grade_id) === String(gradeId));
+  if (classesInGrade.length === 0) { wrap.innerHTML = '<span class="form-hint">Este curso todavía no tiene paralelos (clases) creados.</span>'; return; }
+
+  wrap.innerHTML = classesInGrade.map(c => `
     <label class="check-pill"><input type="checkbox" class="s-class-check" value="${c.id}"> ${esc(c.name)}</label>
   `).join('');
 }
@@ -1330,6 +1353,7 @@ async function loadGrades(){
   });
   updateStats();
   await fillClassFormSelects();
+  fillStudentGradeSelect();
 }
 
 async function saveGrade(){
