@@ -200,7 +200,7 @@ tr:last-child td{border-bottom:none}
     <div class="sb-section">Gestión</div>
     <button class="sb-item" onclick="goTab('students',this)"><i class="fas fa-user-graduate"></i> Estudiantes</button>
     <button class="sb-item" onclick="goTab('teachers',this)"><i class="fas fa-chalkboard-teacher"></i> Docentes</button>
-    <button class="sb-item" onclick="goTab('classes',this)"><i class="fas fa-layer-group"></i> Clases</button>
+    <button class="sb-item" onclick="goTab('classes',this)"><i class="fas fa-layer-group"></i> Paralelos</button>
     <button class="sb-item" onclick="goTab('programs',this)"><i class="fas fa-cubes"></i> Programas</button>
     <button class="sb-item" onclick="goTab('curriculum',this)"><i class="fas fa-graduation-cap"></i> Currículo</button>
     <div class="sb-section">Otros</div>
@@ -237,13 +237,13 @@ tr:last-child td{border-bottom:none}
       <div class="stats-grid">
         <div class="stat-card"><div class="stat-icon"><i class="fas fa-user-graduate"></i></div><div><div class="stat-value" id="statStudents">-</div><div class="stat-label">Estudiantes</div></div></div>
         <div class="stat-card"><div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div><div><div class="stat-value" id="statTeachers">-</div><div class="stat-label">Docentes</div></div></div>
-        <div class="stat-card"><div class="stat-icon"><i class="fas fa-layer-group"></i></div><div><div class="stat-value" id="statClasses">-</div><div class="stat-label">Clases activas</div></div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-layer-group"></i></div><div><div class="stat-value" id="statClasses">-</div><div class="stat-label">Paralelos activos</div></div></div>
         <div class="stat-card"><div class="stat-icon"><i class="fas fa-cubes"></i></div><div><div class="stat-value" id="statPrograms">-</div><div class="stat-label">Programas</div></div></div>
       </div>
       <div class="card">
         <div class="card-header"><div class="card-title"><i class="fas fa-info-circle"></i> Bienvenido a Virtus</div></div>
         <div class="card-body">
-          <p style="color:var(--text-light);line-height:1.6">Desde aquí administras docentes, estudiantes, clases, programas y el currículo por grado. También puedes revisar tareas, asistencia y calificaciones de cada clase desde "Gestionar" en la pestaña Clases. Los módulos de pagos, documentos y portafolio del estudiante siguen en desarrollo — revisa la pestaña "Próximamente".</p>
+          <p style="color:var(--text-light);line-height:1.6">Desde aquí administras docentes, estudiantes, paralelos, programas y el currículo por grado. También puedes revisar tareas, asistencia y calificaciones de cada paralelo desde "Gestionar" en la pestaña Paralelos. Los módulos de pagos, documentos y portafolio del estudiante siguen en desarrollo — revisa la pestaña "Próximamente".</p>
         </div>
       </div>
     </div>
@@ -260,7 +260,7 @@ tr:last-child td{border-bottom:none}
         </div>
         <div class="card-body table-wrap">
           <table>
-            <thead><tr><th>Nombre</th><th>Usuario</th><th>Clases</th><th>Código</th><th>Creado</th><th></th></tr></thead>
+            <thead><tr><th>Nombre</th><th>Usuario</th><th>Paralelos</th><th>Código</th><th>Creado</th><th></th></tr></thead>
             <tbody id="studentsTable"></tbody>
           </table>
           <div class="loader" id="studentsLoader"><div class="spin"></div>Cargando...</div>
@@ -278,7 +278,7 @@ tr:last-child td{border-bottom:none}
         </div>
         <div class="card-body table-wrap">
           <table>
-            <thead><tr><th>Nombre</th><th>Usuario</th><th>Email</th><th>Clases activas</th><th></th></tr></thead>
+            <thead><tr><th>Nombre</th><th>Usuario</th><th>Email</th><th>Paralelos activos</th><th></th></tr></thead>
             <tbody id="teachersTable"></tbody>
           </table>
           <div class="loader" id="teachersLoader"><div class="spin"></div>Cargando...</div>
@@ -291,16 +291,16 @@ tr:last-child td{border-bottom:none}
     <div class="tab-panel" id="tab-classes">
       <div class="card">
         <div class="card-header">
-          <div class="card-title"><i class="fas fa-layer-group"></i> Clases</div>
-          <button class="btn btn-orange" onclick="openClassModal()"><i class="fas fa-plus"></i> Nueva clase</button>
+          <div class="card-title"><i class="fas fa-layer-group"></i> Paralelos</div>
+          <button class="btn btn-orange" onclick="openClassModal()"><i class="fas fa-plus"></i> Nuevo paralelo</button>
         </div>
         <div class="card-body table-wrap">
           <table>
-            <thead><tr><th>Nombre</th><th>Programa</th><th>Grado</th><th>Docente</th><th>Horario</th><th>Cupo</th><th></th></tr></thead>
+            <thead><tr><th>Nombre</th><th>Grado</th><th>Docente</th><th>Horario</th><th>Cupo</th><th></th></tr></thead>
             <tbody id="classesTable"></tbody>
           </table>
           <div class="loader" id="classesLoader"><div class="spin"></div>Cargando...</div>
-          <div class="empty hidden" id="classesEmpty"><i class="fas fa-layer-group"></i>Todavía no hay clases creadas.</div>
+          <div class="empty hidden" id="classesEmpty"><i class="fas fa-layer-group"></i>Todavía no hay paralelos creados.</div>
         </div>
       </div>
     </div>
@@ -333,9 +333,9 @@ tr:last-child td{border-bottom:none}
             <button class="btn btn-orange" id="newGradeBtn" onclick="openModal('modal-grade')"><i class="fas fa-plus"></i> Nuevo grado</button>
           </div>
           <div class="card-body table-wrap">
-            <p class="form-hint" id="curriculumHint" style="margin-bottom:.75rem">Cada grado tiene su currículo del año (lecciones con video y recursos). Al crear una clase, actívalo asignándole este grado — todo el que esté inscrito lo verá automáticamente.</p>
+            <p class="form-hint" id="curriculumHint" style="margin-bottom:.75rem">Cada grado tiene su currículo del año (clases con video y recursos). Al crear un paralelo, actívalo asignándole este grado — todo el que esté inscrito lo verá automáticamente.</p>
             <table>
-              <thead><tr><th>Grado</th><th>Lecciones</th><th></th></tr></thead>
+              <thead><tr><th>Grado</th><th>Clases</th><th></th></tr></thead>
               <tbody id="gradesTable"></tbody>
             </table>
             <div class="loader" id="gradesLoader"><div class="spin"></div>Cargando...</div>
@@ -348,8 +348,8 @@ tr:last-child td{border-bottom:none}
         <button class="btn btn-ghost btn-sm" onclick="closeGradeDetail()" style="margin-bottom:1rem"><i class="fas fa-arrow-left"></i> Volver a grados</button>
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><i class="fas fa-book-open"></i> <span id="gd-grade-name">Grado</span> — Lecciones del año</div>
-            <button class="btn btn-orange btn-sm" id="newLessonBtn" onclick="openLessonModal()"><i class="fas fa-plus"></i> Nueva lección</button>
+            <div class="card-title"><i class="fas fa-book-open"></i> <span id="gd-grade-name">Grado</span> — Clases del año</div>
+            <button class="btn btn-orange btn-sm" id="newLessonBtn" onclick="openLessonModal()"><i class="fas fa-plus"></i> Nueva clase</button>
           </div>
           <div class="card-body" id="lessonsContainer"></div>
         </div>
@@ -389,7 +389,7 @@ tr:last-child td{border-bottom:none}
           </select>
         </div>
         <div class="form-group">
-          <label>Paralelo / clase (opcional)</label>
+          <label>Paralelo (opcional)</label>
           <div class="checks-wrap" id="s-classes-checks"><span class="form-hint">Selecciona primero un curso.</span></div>
         </div>
         <div id="creds-result"></div>
@@ -398,6 +398,19 @@ tr:last-child td{border-bottom:none}
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('modal-student')">Cerrar</button>
       <button class="btn btn-orange" id="saveStudentBtn" onclick="saveStudent()"><i class="fas fa-check"></i> Crear estudiante</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VER ESTUDIANTE (solo lectura) -->
+<div class="modal-overlay" id="modal-view-student">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fas fa-eye"></i> Clases del estudiante</h3><button class="modal-close" onclick="closeModal('modal-view-student')">✕</button></div>
+    <div class="modal-body">
+      <div id="view-student-result"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-view-student')">Cerrar</button>
     </div>
   </div>
 </div>
@@ -490,21 +503,18 @@ tr:last-child td{border-bottom:none}
   </div>
 </div>
 
-<!-- MODAL: CLASE (crear) -->
+<!-- MODAL: PARALELO (crear) -->
 <div class="modal-overlay" id="modal-class">
   <div class="modal-box">
-    <div class="modal-head"><h3><i class="fas fa-layer-group"></i> Nueva clase</h3><button class="modal-close" onclick="closeModal('modal-class')">✕</button></div>
+    <div class="modal-head"><h3><i class="fas fa-layer-group"></i> Nuevo paralelo</h3><button class="modal-close" onclick="closeModal('modal-class')">✕</button></div>
     <div class="modal-body">
       <form id="classForm">
         <div class="form-group"><label>Nombre <span class="req">*</span></label><input class="form-control" id="c-name" required></div>
-        <div class="form-row">
-          <div class="form-group"><label>Programa (opcional)</label><select class="form-control" id="c-program"></select></div>
-          <div class="form-group"><label>Docente</label><select class="form-control" id="c-teacher"><option value="">Sin asignar</option></select></div>
-        </div>
+        <div class="form-group"><label>Docente</label><select class="form-control" id="c-teacher"><option value="">Sin asignar</option></select></div>
         <div class="form-group">
           <label>Grado (activa el currículo del año)</label>
           <select class="form-control" id="c-grade"><option value="">Sin grado / sin currículo</option></select>
-          <p class="form-hint">Al elegir un grado, el docente y los estudiantes inscritos verán automáticamente todas las lecciones de ese grado.</p>
+          <p class="form-hint">Al elegir un grado, el docente y los estudiantes inscritos verán automáticamente todas las clases de ese grado.</p>
         </div>
         <div class="form-row">
           <div class="form-group"><label>Día</label>
@@ -518,22 +528,22 @@ tr:last-child td{border-bottom:none}
         </div>
         <div class="form-row">
           <div class="form-group"><label>Cupo máximo</label><input class="form-control" id="c-max" type="number" value="25" min="1" max="500"></div>
-          <div class="form-group"><label>Link de la clase (Zoom, Meet)</label><input class="form-control" id="c-zoom"></div>
+          <div class="form-group"><label>Link del paralelo (Zoom, Meet)</label><input class="form-control" id="c-zoom"></div>
         </div>
         <div class="form-group"><label>Descripción</label><textarea class="form-control" id="c-desc" rows="2"></textarea></div>
       </form>
     </div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('modal-class')">Cerrar</button>
-      <button class="btn btn-orange" onclick="saveClass()"><i class="fas fa-check"></i> Crear clase</button>
+      <button class="btn btn-orange" onclick="saveClass()"><i class="fas fa-check"></i> Crear paralelo</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: DETALLE DE CLASE -->
+<!-- MODAL: DETALLE DE PARALELO -->
 <div class="modal-overlay" id="modal-class-detail">
   <div class="modal-box modal-lg">
-    <div class="modal-head"><h3><i class="fas fa-layer-group"></i> <span id="cd-name">Clase</span></h3><button class="modal-close" onclick="closeModal('modal-class-detail')">✕</button></div>
+    <div class="modal-head"><h3><i class="fas fa-layer-group"></i> <span id="cd-name">Paralelo</span></h3><button class="modal-close" onclick="closeModal('modal-class-detail')">✕</button></div>
     <div class="modal-body">
       <div class="form-row" style="margin-bottom:1.25rem">
         <div class="form-group"><label>Reasignar docente</label>
@@ -553,7 +563,7 @@ tr:last-child td{border-bottom:none}
       <div class="card-title" style="margin-bottom:.6rem"><i class="fas fa-users"></i> Estudiantes inscritos (<span id="cd-student-count">0</span>)</div>
       <div id="cd-students" style="margin-bottom:1.5rem"></div>
 
-      <div class="card-title" style="margin-bottom:.6rem"><i class="fas fa-video"></i> Lecciones del año (currículo activado)</div>
+      <div class="card-title" style="margin-bottom:.6rem"><i class="fas fa-video"></i> Clases del año (currículo activado)</div>
       <div id="cd-lessons" style="margin-bottom:1.5rem"></div>
 
       <div class="card-title" style="margin-bottom:.6rem"><i class="fas fa-clipboard-list"></i> Tareas y entregas (solo lectura)</div>
@@ -606,20 +616,20 @@ tr:last-child td{border-bottom:none}
   </div>
 </div>
 
-<!-- MODAL: LECCIÓN -->
+<!-- MODAL: CLASE (currículo) -->
 <div class="modal-overlay" id="modal-lesson">
   <div class="modal-box modal-lg">
-    <div class="modal-head"><h3><i class="fas fa-video"></i> <span id="lesson-modal-title">Nueva lección</span></h3><button class="modal-close" onclick="closeModal('modal-lesson')">✕</button></div>
+    <div class="modal-head"><h3><i class="fas fa-video"></i> <span id="lesson-modal-title">Nueva clase</span></h3><button class="modal-close" onclick="closeModal('modal-lesson')">✕</button></div>
     <div class="modal-body">
       <form id="lessonForm">
         <div class="form-row">
           <div class="form-group"><label>Número <span class="req">*</span></label><input class="form-control" id="l-number" type="number" min="1" required></div>
-          <div class="form-group"><label>Trimestre</label>
+          <div class="form-group"><label>Unidad</label>
             <select class="form-control" id="l-trimester">
               <option value="">Sin asignar</option>
-              <option value="1">1er trimestre</option>
-              <option value="2">2do trimestre</option>
-              <option value="3">3er trimestre</option>
+              <option value="1">Unidad 1</option>
+              <option value="2">Unidad 2</option>
+              <option value="3">Unidad 3</option>
             </select>
           </div>
         </div>
@@ -628,14 +638,14 @@ tr:last-child td{border-bottom:none}
         <div class="form-group"><label>Descripción corta</label><textarea class="form-control" id="l-description" rows="2"></textarea></div>
         <div class="form-group">
           <label>Planificación completa de la clase</label>
-          <span class="form-hint" style="display:block;margin-bottom:.4rem">Objetivos, paso a paso, materiales necesarios, evaluación. Se ve como documento (título con #, negrita con **texto**, listas con -, imágenes con el botón de abajo). Los demás recursos (archivos, links) se agregan aparte, abajo de la lección ya creada.</span>
+          <span class="form-hint" style="display:block;margin-bottom:.4rem">Objetivos, paso a paso, materiales necesarios, evaluación. Se ve como documento (título con #, negrita con **texto**, listas con -, imágenes con el botón de abajo). Los demás recursos (archivos, links) se agregan aparte, abajo de la clase ya creada.</span>
           <textarea class="form-control" id="l-plan" rows="8" placeholder="1. Objetivo de la clase...&#10;2. Materiales...&#10;3. Desarrollo paso a paso...&#10;4. Cierre/evaluación..."></textarea>
           <div class="plan-toolbar hidden" id="l-plan-toolbar">
             <input type="file" id="l-plan-image-input" accept="image/*" class="hidden">
             <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('l-plan-image-input').click()"><i class="fas fa-image"></i> Insertar imagen</button>
             <button type="button" class="btn btn-ghost btn-sm" onclick="toggleLessonPlanPreview()"><i class="fas fa-eye"></i> <span id="l-plan-preview-toggle-text">Vista previa</span></button>
           </div>
-          <span class="form-hint hidden" id="l-plan-toolbar-hint-new">Guarda la lección primero para poder insertar imágenes en la planificación.</span>
+          <span class="form-hint hidden" id="l-plan-toolbar-hint-new">Guarda la clase primero para poder insertar imágenes en la planificación.</span>
           <div class="plan-preview-box hidden markdown-doc" id="l-plan-preview"></div>
         </div>
         <div class="form-group hidden" id="l-plan-file-section">
@@ -651,7 +661,7 @@ tr:last-child td{border-bottom:none}
     </div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('modal-lesson')">Cerrar</button>
-      <button class="btn btn-orange" id="saveLessonBtn" onclick="saveLesson()"><i class="fas fa-check"></i> <span id="lesson-modal-btn-text">Crear lección</span></button>
+      <button class="btn btn-orange" id="saveLessonBtn" onclick="saveLesson()"><i class="fas fa-check"></i> <span id="lesson-modal-btn-text">Crear clase</span></button>
     </div>
   </div>
 </div>
@@ -849,14 +859,12 @@ async function viewStudent(id){
       <button class="btn btn-danger btn-sm" onclick="unenrollStudent(${id},${c.id})">Quitar</button>
     </div>`).join('') || '<p class="form-hint">No está inscrito en ninguna clase.</p>';
 
-  document.getElementById('creds-result').innerHTML = `
+  document.getElementById('view-student-result').innerHTML = `
     <div class="creds-box">
       <h4>${esc(s.full_name)} — clases inscritas</h4>
       ${classesHtml}
     </div>`;
-  document.getElementById('studentForm').reset();
-  fillStudentFormClassChecks();
-  openModal('modal-student');
+  openModal('modal-view-student');
 }
 
 async function unenrollStudent(studentId, classId){
@@ -973,7 +981,6 @@ async function loadClasses(){
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><strong>${esc(c.name)}</strong></td>
-      <td>${esc(c.program_name||'-')}</td>
       <td>${c.grade_name ? `<span class="badge badge-green">${esc(c.grade_name)}</span>` : '<span class="badge badge-gray">Sin grado</span>'}</td>
       <td>${esc(c.teacher_name||'Sin asignar')}</td>
       <td>${DAY_LABEL[c.schedule_day]||'-'} ${c.schedule_time||''}</td>
@@ -987,8 +994,6 @@ async function loadClasses(){
 }
 
 async function fillClassFormSelects(){
-  const progSel = document.getElementById('c-program');
-  progSel.innerHTML = '<option value="">Sin programa</option>' + allPrograms.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
   const teacherSel = document.getElementById('c-teacher');
   teacherSel.innerHTML = '<option value="">Sin asignar</option>' + allTeachers.map(t=>`<option value="${t.id}">${esc(t.full_name)}</option>`).join('');
   const gradeSel = document.getElementById('c-grade');
@@ -1013,7 +1018,7 @@ async function fillStudentFormClassChecks(){
   if (!gradeId) { wrap.innerHTML = '<span class="form-hint">Selecciona primero un curso para ver sus paralelos.</span>'; return; }
 
   const classesInGrade = allClasses.filter(c => String(c.grade_id) === String(gradeId));
-  if (classesInGrade.length === 0) { wrap.innerHTML = '<span class="form-hint">Este curso todavía no tiene paralelos (clases) creados.</span>'; return; }
+  if (classesInGrade.length === 0) { wrap.innerHTML = '<span class="form-hint">Este curso todavía no tiene paralelos creados.</span>'; return; }
 
   wrap.innerHTML = classesInGrade.map(c => `
     <label class="check-pill"><input type="checkbox" class="s-class-check" value="${c.id}"> ${esc(c.name)}</label>
@@ -1027,11 +1032,10 @@ function openClassModal(){
 
 async function saveClass(){
   const name = document.getElementById('c-name').value.trim();
-  if (!name) { toast('El nombre de la clase es requerido','error'); return; }
-  const program_id = document.getElementById('c-program').value;
+  if (!name) { toast('El nombre del paralelo es requerido','error'); return; }
 
   const payload = {
-    name, program_id: program_id ? parseInt(program_id) : undefined,
+    name,
     teacher_id: document.getElementById('c-teacher').value ? parseInt(document.getElementById('c-teacher').value) : undefined,
     grade_id: document.getElementById('c-grade').value ? parseInt(document.getElementById('c-grade').value) : undefined,
     schedule_day: document.getElementById('c-day').value || undefined,
@@ -1042,9 +1046,9 @@ async function saveClass(){
   };
 
   const res = await virtusApiFetch('/api/classes', { method: 'POST', body: JSON.stringify(payload) });
-  if (!res || !res.ok) { toast(res?.data?.message || res?.data?.errors?.[0]?.msg || 'Error al crear la clase','error'); return; }
+  if (!res || !res.ok) { toast(res?.data?.message || res?.data?.errors?.[0]?.msg || 'Error al crear el paralelo','error'); return; }
 
-  toast('Clase creada exitosamente');
+  toast('Paralelo creado exitosamente');
   closeModal('modal-class');
   await loadClasses();
 }
@@ -1085,7 +1089,7 @@ async function loadClassLessons(classId){
 
   const { grade, lessons = [] } = res.data;
   if (!grade) { container.innerHTML = '<p class="form-hint">Esta clase no tiene un grado activado todavía.</p>'; return; }
-  if (lessons.length === 0) { container.innerHTML = `<p class="form-hint">${esc(grade.name)} todavía no tiene lecciones cargadas en el currículo.</p>`; return; }
+  if (lessons.length === 0) { container.innerHTML = `<p class="form-hint">${esc(grade.name)} todavía no tiene clases cargadas en el currículo.</p>`; return; }
 
   lessons.forEach(l => {
     const row = document.createElement('div');
@@ -1331,7 +1335,7 @@ async function addClassMaterial(){
   await loadClassMaterials(currentClassId);
 }
 
-// ───────────── CURRÍCULO (grados, lecciones, recursos) ─────────────
+// ───────────── CURRÍCULO (grados, clases, recursos) ─────────────
 async function loadGrades(){
   const res = await virtusApiFetch('/api/curriculum/grades');
   document.getElementById('gradesLoader').style.display = 'none';
@@ -1346,7 +1350,7 @@ async function loadGrades(){
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><strong>${esc(g.name)}</strong>${g.description ? `<div class="form-hint">${esc(g.description)}</div>` : ''}</td>
-      <td><span class="badge badge-orange">${g.total_lessons||0} lección(es)</span></td>
+      <td><span class="badge badge-orange">${g.total_lessons||0} clase(s)</span></td>
       <td class="td-actions"><button class="btn btn-ghost btn-sm" onclick="openGradeDetail(${g.id})"><i class="fas fa-book-open"></i> Ver currículo</button></td>
     `;
     tbody.appendChild(tr);
@@ -1398,11 +1402,11 @@ async function loadLessons(gradeId){
   const res = await virtusApiFetch(`/api/curriculum/grades/${gradeId}/lessons`);
   const container = document.getElementById('lessonsContainer');
   container.innerHTML = '';
-  if (!res || !res.ok) { toast('No se pudieron cargar las lecciones','error'); return; }
+  if (!res || !res.ok) { toast('No se pudieron cargar las clases','error'); return; }
 
   const { lessons = [] } = res.data;
   if (lessons.length === 0) {
-    container.innerHTML = '<div class="empty"><i class="fas fa-video"></i>Todavía no hay lecciones para este grado.</div>';
+    container.innerHTML = '<div class="empty"><i class="fas fa-video"></i>Todavía no hay clases para este grado.</div>';
     return;
   }
 
@@ -1441,7 +1445,7 @@ async function loadLessons(gradeId){
     renderLessonResources(l.id, l.resources || []);
   };
 
-  const TRIMESTER_LABELS = { 1: '1er trimestre', 2: '2do trimestre', 3: '3er trimestre' };
+  const TRIMESTER_LABELS = { 1: 'Unidad 1', 2: 'Unidad 2', 3: 'Unidad 3' };
   const groups = { 1: [], 2: [], 3: [], sin: [] };
   lessons.forEach(l => {
     const t = parseInt(l.trimester);
@@ -1456,7 +1460,7 @@ async function loadLessons(gradeId){
     section.className = 'trimester-section';
     const header = document.createElement('div');
     header.className = 'trimester-header';
-    header.innerHTML = `<i class="fas fa-calendar-alt"></i> ${key === 'sin' ? 'Sin trimestre asignado' : TRIMESTER_LABELS[key]}`;
+    header.innerHTML = `<i class="fas fa-calendar-alt"></i> ${key === 'sin' ? 'Sin unidad asignada' : TRIMESTER_LABELS[key]}`;
     section.appendChild(header);
     container.appendChild(section);
     group.forEach(renderLessonCard);
@@ -1499,8 +1503,8 @@ function openLessonModal(lesson){
   document.getElementById('lessonForm').reset();
   currentEditLessonId = lesson ? lesson.id : null;
   currentEditLessonPlanFile = lesson ? { url: lesson.lesson_plan_file_url, name: lesson.lesson_plan_file_name } : null;
-  document.getElementById('lesson-modal-title').textContent = lesson ? 'Editar lección' : 'Nueva lección';
-  document.getElementById('lesson-modal-btn-text').textContent = lesson ? 'Guardar cambios' : 'Crear lección';
+  document.getElementById('lesson-modal-title').textContent = lesson ? 'Editar clase' : 'Nueva clase';
+  document.getElementById('lesson-modal-btn-text').textContent = lesson ? 'Guardar cambios' : 'Crear clase';
 
   document.getElementById('l-plan-preview').classList.add('hidden');
   document.getElementById('l-plan-preview-toggle-text').textContent = 'Vista previa';
@@ -1577,7 +1581,7 @@ document.getElementById('l-plan-image-input').addEventListener('change', async (
 function renderLessonPlanFileStatus(){
   const wrap = document.getElementById('l-plan-file-current');
   const url = virtusSafeUrl(currentEditLessonPlanFile?.url);
-  if (!url) { wrap.innerHTML = '<span class="form-hint">Todavía no hay PDF subido para esta lección.</span>'; return; }
+  if (!url) { wrap.innerHTML = '<span class="form-hint">Todavía no hay PDF subido para esta clase.</span>'; return; }
   wrap.innerHTML = `
     <div class="cred-row" style="background:var(--bg);color:var(--text)">
       <span><i class="fas fa-file-pdf"></i> ${esc(currentEditLessonPlanFile.name || 'planificacion.pdf')}</span>
@@ -1607,7 +1611,7 @@ async function uploadLessonPlanFile(){
 
 async function removeLessonPlanFile(){
   if (!currentEditLessonId) return;
-  if (!confirm('¿Quitar el PDF de planificación de esta lección?')) return;
+  if (!confirm('¿Quitar el PDF de planificación de esta clase?')) return;
 
   const res = await virtusApiFetch(`/api/curriculum/lessons/${currentEditLessonId}/plan-file`, { method: 'DELETE' });
   if (!res || !res.ok) { toast(res?.data?.message || 'Error al quitar la planificación','error'); return; }
@@ -1634,9 +1638,9 @@ async function saveLesson(){
     method: isEdit ? 'PUT' : 'POST',
     body: JSON.stringify({ lesson_number, trimester, title, video_link, description, lesson_plan })
   });
-  if (!res || !res.ok) { toast(res?.data?.message || 'Error al guardar la lección','error'); return; }
+  if (!res || !res.ok) { toast(res?.data?.message || 'Error al guardar la clase','error'); return; }
 
-  toast(isEdit ? 'Lección actualizada exitosamente' : 'Lección creada exitosamente');
+  toast(isEdit ? 'Clase actualizada exitosamente' : 'Clase creada exitosamente');
   closeModal('modal-lesson');
   currentEditLessonId = null;
   await loadLessons(currentGradeId);
@@ -1644,8 +1648,8 @@ async function saveLesson(){
 
 async function deleteLesson(lessonId){
   const res = await virtusApiFetch(`/api/curriculum/lessons/${lessonId}`, { method: 'DELETE' });
-  if (!res || !res.ok) { toast(res?.data?.message || 'Error al eliminar la lección','error'); return; }
-  toast('Lección eliminada');
+  if (!res || !res.ok) { toast(res?.data?.message || 'Error al eliminar la clase','error'); return; }
+  toast('Clase eliminada');
   await loadLessons(currentGradeId);
 }
 

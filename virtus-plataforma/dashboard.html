@@ -281,7 +281,7 @@ body{display:flex;background:var(--bg)}
           <div class="section-title" id="detailClassName">-</div>
           <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem" id="detailClassMeta"></p>
 
-          <div class="section-title" style="font-size:.9rem"><i class="fas fa-video" style="color:var(--or)"></i> Lecciones del año</div>
+          <div class="section-title" style="font-size:.9rem"><i class="fas fa-video" style="color:var(--or)"></i> Clases del año</div>
           <div id="lessonsContainer" style="margin-bottom:1.5rem"></div>
 
           <div class="section-title" style="font-size:.9rem"><i class="fas fa-clipboard-list" style="color:var(--or)"></i> Tareas</div>
@@ -523,7 +523,7 @@ async function loadClassLessons(classId){
 
   const { grade, lessons = [] } = res.data;
   if (!grade) { container.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Esta clase todavía no tiene un currículo activado.</p>'; return; }
-  if (lessons.length === 0) { container.innerHTML = `<p style="color:var(--muted);font-size:.85rem">${esc(grade.name)} todavía no tiene lecciones cargadas.</p>`; return; }
+  if (lessons.length === 0) { container.innerHTML = `<p style="color:var(--muted);font-size:.85rem">${esc(grade.name)} todavía no tiene clases cargadas.</p>`; return; }
 
   container.innerHTML = '';
   const renderLessonCard = (l) => {
@@ -552,7 +552,7 @@ async function loadClassLessons(classId){
     container.appendChild(card);
   };
 
-  const TRIMESTER_LABELS = { 1: '1er trimestre', 2: '2do trimestre', 3: '3er trimestre' };
+  const TRIMESTER_LABELS = { 1: 'Unidad 1', 2: 'Unidad 2', 3: 'Unidad 3' };
   const groups = { 1: [], 2: [], 3: [], sin: [] };
   lessons.forEach(l => {
     const t = parseInt(l.trimester);
@@ -567,7 +567,7 @@ async function loadClassLessons(classId){
     section.className = 'trimester-section';
     const header = document.createElement('div');
     header.className = 'trimester-header';
-    header.innerHTML = `<i class="fas fa-calendar-alt"></i> ${key === 'sin' ? 'Sin trimestre asignado' : TRIMESTER_LABELS[key]}`;
+    header.innerHTML = `<i class="fas fa-calendar-alt"></i> ${key === 'sin' ? 'Sin unidad asignada' : TRIMESTER_LABELS[key]}`;
     section.appendChild(header);
     container.appendChild(section);
     group.forEach(renderLessonCard);

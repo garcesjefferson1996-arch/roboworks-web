@@ -160,7 +160,7 @@ body{display:flex;background:var(--gray-light)}
 .att-select{padding:.4rem .6rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.8rem}
 
 /* ═══════════════════════════════════════════════════════
-   LFS — Detalle de leccion pantalla completa
+   LFS — Detalle de clase pantalla completa
    (mismo lenguaje visual que RoboWorks Building Series)
 ═══════════════════════════════════════════════════════ */
 .lfs-overlay{
@@ -346,7 +346,7 @@ body{display:flex;background:var(--gray-light)}
       </div>
     </div>
 
-    <!-- Vista: detalle de un grado (lecciones del año + paralelos) -->
+    <!-- Vista: detalle de un grado (clases del año + paralelos) -->
     <div id="viewGradeDetail" class="hidden">
       <button class="back-btn" id="gradeBackBtn"><i class="fas fa-arrow-left"></i> Volver a mis grados</button>
 
@@ -359,7 +359,7 @@ body{display:flex;background:var(--gray-light)}
       </div>
 
       <div class="section">
-        <div class="section-title">Lecciones del año</div>
+        <div class="section-title">Clases del año</div>
         <div id="gradeLessonsContainer"></div>
       </div>
 
@@ -483,7 +483,7 @@ body{display:flex;background:var(--gray-light)}
   </div>
 </div>
 
-<!-- PANTALLA COMPLETA: Detalle de leccion (estilo Building Series) -->
+<!-- PANTALLA COMPLETA: Detalle de clase (estilo Building Series) -->
 <div class="lfs-overlay" id="lessonFullscreen">
   <div class="lfs-stars-bg" id="lfsStarsBg"></div>
   <nav class="lfs-nav-top">
@@ -616,7 +616,7 @@ function renderGrades() {
       <div class="grade-card-icon"><i class="fas fa-graduation-cap"></i></div>
       <h3>${escapeHtml(g.name)}</h3>
       <div class="class-meta">
-        <span><i class="fas fa-video"></i> ${g.total_lessons || 0} lecciones este año</span>
+        <span><i class="fas fa-video"></i> ${g.total_lessons || 0} clases este año</span>
         <span><i class="fas fa-users-rectangle"></i> ${(g.classes || []).length} paralelo(s)</span>
       </div>
       <span class="class-count"><i class="fas fa-users"></i> ${totalEnrolled} estudiantes</span>
@@ -637,7 +637,7 @@ async function openGradeDetail(gradeId) {
   document.getElementById('topbarTitle').textContent = grade.name;
 
   document.getElementById('gdName').textContent = grade.name;
-  document.getElementById('gdLessonCount').innerHTML = `<i class="fas fa-video"></i> ${grade.total_lessons || 0} lecciones este año`;
+  document.getElementById('gdLessonCount').innerHTML = `<i class="fas fa-video"></i> ${grade.total_lessons || 0} clases este año`;
   document.getElementById('gdParaleloCount').innerHTML = `<i class="fas fa-users-rectangle"></i> ${(grade.classes || []).length} paralelo(s)`;
 
   renderParalelos(grade);
@@ -763,15 +763,15 @@ function openLessonFullscreen(lesson) {
   let videoHtml = '';
   if (ytId) {
     videoHtml = `<div class="lfs-yt-wrap" id="lfsYtBox" onclick="lfsLoadVideo('${ytId}')">
-      <img class="lfs-yt-thumb" src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" alt="Video de la lección" onerror="this.style.display='none'">
+      <img class="lfs-yt-thumb" src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" alt="Video de la clase" onerror="this.style.display='none'">
       <div class="lfs-yt-overlay">
         <div class="lfs-yt-play"><i class="fas fa-play"></i></div>
-        <strong>Ver video de la lección</strong>
+        <strong>Ver video de la clase</strong>
         <span>Haz clic para reproducir</span>
       </div>
     </div>`;
   } else if (videoUrl) {
-    videoHtml = `<a class="lfs-video-btn" href="${escapeAttr(videoUrl)}" target="_blank" rel="noopener"><i class="fas fa-play"></i> Ver video de la lección</a>`;
+    videoHtml = `<a class="lfs-video-btn" href="${escapeAttr(videoUrl)}" target="_blank" rel="noopener"><i class="fas fa-play"></i> Ver video de la clase</a>`;
   }
 
   const planDocHtml = lesson.lesson_plan
@@ -795,7 +795,7 @@ function openLessonFullscreen(lesson) {
   const planHtml = planUrl
     ? `<div class="lfs-pdf-wrap"><iframe src="${escapeAttr(planUrl)}" class="lfs-pdf-frame" title="Planificación de la clase"></iframe></div>
        <a class="lfs-pdf-openlink" href="${escapeAttr(planUrl)}" target="_blank" rel="noopener"><i class="fas fa-up-right-and-down-left-from-center"></i> Abrir en pestaña nueva</a>`
-    : '<div class="lfs-plan-empty"><i class="fas fa-circle-info"></i>El admin todavía no subió la planificación en PDF de esta lección.</div>';
+    : '<div class="lfs-plan-empty"><i class="fas fa-circle-info"></i>El admin todavía no subió la planificación en PDF de esta clase.</div>';
 
   const idx = currentGradeLessons.findIndex(l => l.id === lesson.id);
   const prevL = idx > 0 ? currentGradeLessons[idx - 1] : null;
@@ -805,13 +805,13 @@ function openLessonFullscreen(lesson) {
     <div class="lfs-header">
       <div class="lfs-num-badge">
         <div class="big">${lesson.lesson_number}</div>
-        <div class="small">LECCIÓN</div>
+        <div class="small">CLASE</div>
       </div>
       <div class="lfs-title-area">
         <h1>${escapeHtml(lesson.title)}</h1>
         <div class="lfs-chips">
-          ${lesson.trimester ? `<span class="lfs-chip lfs-chip-y"><i class="fas fa-calendar-alt"></i> Trimestre ${lesson.trimester}</span>` : ''}
-          <span class="lfs-chip lfs-chip-cy"><i class="fas fa-graduation-cap"></i> Lección #${lesson.lesson_number}</span>
+          ${lesson.trimester ? `<span class="lfs-chip lfs-chip-y"><i class="fas fa-calendar-alt"></i> Unidad ${lesson.trimester}</span>` : ''}
+          <span class="lfs-chip lfs-chip-cy"><i class="fas fa-graduation-cap"></i> Clase #${lesson.lesson_number}</span>
         </div>
       </div>
     </div>
@@ -842,10 +842,10 @@ function openLessonFullscreen(lesson) {
     </div>
 
     <div class="lfs-nav">
-      <button class="lfs-nav-btn" onclick="closeLessonFullscreen()"><i class="fas fa-arrow-left"></i> Volver a lecciones</button>
+      <button class="lfs-nav-btn" onclick="closeLessonFullscreen()"><i class="fas fa-arrow-left"></i> Volver a clases</button>
       <div style="display:flex;gap:10px">
-        ${prevL ? `<button class="lfs-nav-btn" onclick='openLessonFullscreen(${JSON.stringify(prevL).replace(/'/g, "&apos;")})'><i class="fas fa-arrow-left"></i> Lección ${prevL.lesson_number}</button>` : ''}
-        ${nextL ? `<button class="lfs-nav-btn next" onclick='openLessonFullscreen(${JSON.stringify(nextL).replace(/'/g, "&apos;")})'>Lección ${nextL.lesson_number} <i class="fas fa-arrow-right"></i></button>` : ''}
+        ${prevL ? `<button class="lfs-nav-btn" onclick='openLessonFullscreen(${JSON.stringify(prevL).replace(/'/g, "&apos;")})'><i class="fas fa-arrow-left"></i> Clase ${prevL.lesson_number}</button>` : ''}
+        ${nextL ? `<button class="lfs-nav-btn next" onclick='openLessonFullscreen(${JSON.stringify(nextL).replace(/'/g, "&apos;")})'>Clase ${nextL.lesson_number} <i class="fas fa-arrow-right"></i></button>` : ''}
       </div>
     </div>
   `;
@@ -867,7 +867,7 @@ async function loadGradeLessons(gradeId) {
   const { grade, lessons = [] } = res.data;
   currentGradeLessons = lessons;
   if (lessons.length === 0) {
-    container.innerHTML = `<div class="empty-state"><i class="fas fa-video"></i>${escapeHtml(grade.name)} todavía no tiene lecciones cargadas.</div>`;
+    container.innerHTML = `<div class="empty-state"><i class="fas fa-video"></i>${escapeHtml(grade.name)} todavía no tiene clases cargadas.</div>`;
     return;
   }
 
@@ -884,7 +884,7 @@ async function loadGradeLessons(gradeId) {
     container.appendChild(card);
   };
 
-  const TRIMESTER_LABELS = { 1: '1er trimestre', 2: '2do trimestre', 3: '3er trimestre' };
+  const TRIMESTER_LABELS = { 1: 'Unidad 1', 2: 'Unidad 2', 3: 'Unidad 3' };
   const groups = { 1: [], 2: [], 3: [], sin: [] };
   lessons.forEach(l => {
     const t = parseInt(l.trimester);
@@ -899,7 +899,7 @@ async function loadGradeLessons(gradeId) {
     section.className = 'trimester-section';
     const header = document.createElement('div');
     header.className = 'trimester-header';
-    header.innerHTML = `<i class="fas fa-calendar-alt"></i> ${key === 'sin' ? 'Sin trimestre asignado' : TRIMESTER_LABELS[key]}`;
+    header.innerHTML = `<i class="fas fa-calendar-alt"></i> ${key === 'sin' ? 'Sin unidad asignada' : TRIMESTER_LABELS[key]}`;
     section.appendChild(header);
     container.appendChild(section);
     group.forEach(renderLessonCard);

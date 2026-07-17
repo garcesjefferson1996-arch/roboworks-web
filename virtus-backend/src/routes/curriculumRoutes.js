@@ -82,7 +82,7 @@ router.get('/grades/:gradeId/lessons', readAccess, async (req, res) => {
 const lessonValidation = [
     body('lesson_number').isInt({ min: 1 }).withMessage('El número de lección debe ser un entero positivo'),
     body('title').trim().notEmpty().withMessage('El título es requerido'),
-    body('trimester').optional({ checkFalsy: true }).isInt({ min: 1, max: 3 }).withMessage('El trimestre debe ser 1, 2 o 3'),
+    body('trimester').optional({ checkFalsy: true }).isInt({ min: 1, max: 3 }).withMessage('La unidad debe ser 1, 2 o 3'),
     body('video_link').optional({ checkFalsy: true }).trim().matches(/^https?:\/\//i)
         .withMessage('El link de video debe empezar con http:// o https://')
 ];
@@ -123,7 +123,7 @@ router.put('/lessons/:lessonId', writeAccess, async (req, res) => {
             return res.status(400).json({ message: 'El link de video debe empezar con http:// o https://' });
         }
         if (trimester !== undefined && trimester !== null && trimester !== '' && ![1, 2, 3].includes(parseInt(trimester))) {
-            return res.status(400).json({ message: 'El trimestre debe ser 1, 2 o 3' });
+            return res.status(400).json({ message: 'La unidad debe ser 1, 2 o 3' });
         }
         const updated = await GradeLesson.update(req.params.lessonId, {
             title, description, lesson_plan, video_link, lesson_number, trimester, is_active
