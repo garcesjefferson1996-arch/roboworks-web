@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi Espacio — VIRTUS STEAM</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Nunito:wght@600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="icon" href="/images/virtus/virtus-logo.png">
 <style>
@@ -15,10 +15,17 @@
   --gold:#f59e0b;--gold-light:rgba(245,158,11,.16);
   --purple:#9f6dfa;--red:#f87171;--red-light:rgba(239,68,68,.16);
   --text:#ffffff;--muted:rgba(255,255,255,.55);--white:#111318;
-  --border:rgba(255,255,255,.09);--bg:#08090b;--sidebar:240px;
+  --border:rgba(255,255,255,.09);--border-hover:rgba(255,255,255,.2);--bg:#08090b;--sidebar:240px;
+  --glass:rgba(255,255,255,.035);--glass-border:rgba(255,255,255,.08);
 }
-html,body{height:100%;font-family:'Inter',sans-serif;font-size:15px;color:var(--text)}
-body{display:flex;background:var(--bg)}
+html,body{height:100%;font-family:'Inter',sans-serif;font-size:15px;color:var(--text);letter-spacing:-.01em}
+body{display:flex;background:var(--bg);position:relative}
+.mono{font-family:'JetBrains Mono',monospace;letter-spacing:0}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(ellipse 70% 55% at 30% 0%,#000 25%,transparent 80%)}
+body::after{content:'';position:fixed;z-index:-1;pointer-events:none;width:820px;height:820px;top:-360px;left:10%;
+  background:radial-gradient(circle,rgba(34,224,255,.10) 0%,transparent 62%)}
 
 .sidebar{width:var(--sidebar);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:50}
 .sidebar-brand{padding:1.25rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}
@@ -48,34 +55,41 @@ body{display:flex;background:var(--bg)}
 .card{background:var(--white);border-radius:20px;border:1px solid var(--border);padding:1.5rem;margin-bottom:1.25rem}
 .section-title{font-size:1rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;font-family:'Nunito',sans-serif}
 
-.hero-virtus{background:linear-gradient(135deg,#071130,#0d1f24 45%,#123640 78%,var(--or) 145%);color:#fff;border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
-.hero-virtus::before{content:'';position:absolute;top:-70px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(ellipse,rgba(34,224,255,.22) 0%,transparent 70%)}
-.hero-virtus-inner{display:flex;align-items:center;gap:1.25rem;position:relative;z-index:1}
-.hero-worky{width:110px;flex-shrink:0;filter:drop-shadow(0 10px 22px rgba(0,0,0,.45))}
+.hero-virtus{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);color:#fff;border-radius:22px;padding:2rem 2.25rem;margin-bottom:1.25rem;position:relative;overflow:hidden;transition:border-color .3s}
+.hero-virtus:hover{border-color:var(--border-hover)}
+.hero-virtus::before{content:'';position:absolute;top:-90px;right:-70px;width:300px;height:300px;border-radius:50%;background:radial-gradient(ellipse,rgba(34,224,255,.14) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--or);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem;position:relative;z-index:1}
+.hero-virtus-inner{display:flex;align-items:center;gap:1.5rem;position:relative;z-index:1}
+.hero-worky-holder{width:112px;height:112px;flex-shrink:0;position:relative}
+.hero-worky-holder::before{content:'';position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle,rgba(34,224,255,.16) 0%,transparent 72%)}
+.hero-worky{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 24px rgba(0,0,0,.5))}
 .hero-virtus-text{flex:1}
-.hero-virtus-text h2{font-size:1.5rem;font-weight:900;font-family:'Nunito',sans-serif;margin-bottom:.3rem}
-.hero-virtus-text p{font-size:.85rem;color:rgba(255,255,255,.75)}
-.hero-virtus-lema{position:absolute;bottom:.7rem;right:1.1rem;font-size:.62rem;font-style:italic;color:rgba(255,255,255,.32);letter-spacing:1.5px;font-family:'Nunito',sans-serif;z-index:1}
-@media(max-width:560px){.hero-worky{width:78px}.hero-virtus-text h2{font-size:1.2rem}}
+.hero-virtus-text h2{font-size:1.65rem;font-weight:800;font-family:'Nunito',sans-serif;letter-spacing:-.01em;margin-bottom:.35rem}
+.hero-virtus-text p{font-size:.88rem;color:rgba(255,255,255,.62)}
+.hero-virtus-lema{position:absolute;bottom:.9rem;right:1.25rem;font-size:.6rem;font-style:italic;color:rgba(255,255,255,.28);letter-spacing:1.5px;font-family:'Nunito',sans-serif;z-index:1}
+@media(max-width:560px){.hero-worky-holder{width:78px;height:78px;margin:0 auto}.hero-virtus-text h2{font-size:1.25rem}.hero-virtus-inner{flex-direction:column;text-align:center;gap:.85rem}.hero-eyebrow{justify-content:center}}
 
-.games-grid{display:grid;grid-template-columns:1fr;gap:.875rem;margin-bottom:1.5rem}
-.game-card{cursor:pointer;border:none;border-radius:18px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.1rem;transition:.2s;color:#fff;text-align:left;width:100%;font-family:inherit}
-.game-card:hover{transform:translateY(-2px)}
-.game-card img{width:50px;height:50px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25))}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.5rem}
+.game-card{cursor:pointer;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:18px;padding:1.35rem 1.5rem;display:flex;align-items:center;gap:1.1rem;transition:transform .3s,border-color .3s,box-shadow .3s;color:#fff;text-align:left;width:100%;font-family:inherit}
+.game-card:hover{transform:translateY(-3px);border-color:var(--border-hover);box-shadow:0 16px 36px rgba(0,0,0,.35)}
+.game-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.game-icon img{width:30px;height:30px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
 .game-card-text{flex:1;min-width:0}
-.game-card-title{font-family:'Nunito',sans-serif;font-size:1.02rem;font-weight:900;margin-bottom:.2rem}
-.game-card-sub{font-size:.78rem;color:rgba(255,255,255,.8);font-weight:600}
-.game-card-cta{margin-left:auto;background:rgba(255,255,255,.2);border-radius:12px;padding:.55rem 1rem;font-family:'Nunito',sans-serif;font-weight:900;font-size:.8rem;white-space:nowrap;flex-shrink:0}
-.game-tangram{background:linear-gradient(135deg,#0086bb,var(--or))}
-.game-robomision{background:linear-gradient(135deg,#6d28d9,var(--or))}
-.game-prudentia{background:linear-gradient(135deg,#071130,#17b8d1)}
+.game-card-title{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;margin-bottom:.25rem}
+.game-card-sub{font-size:.78rem;color:var(--muted);font-weight:500}
+.game-tangram .game-icon{color:#5ee6d0}
+.game-robomision .game-icon{color:var(--purple)}
+.game-prudentia .game-icon{color:var(--gold)}
+.game-arrow{margin-left:auto;color:var(--muted);font-size:.85rem;transition:transform .25s,color .25s;flex-shrink:0}
+.game-card:hover .game-arrow{transform:translateX(4px);color:var(--or)}
 @media(max-width:640px){.game-card-sub{display:none}}
 
-.next-class-card{background:linear-gradient(135deg,#0d1f24,#123640);color:#fff;border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
-.next-class-card::after{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(ellipse,rgba(34,224,255,.25) 0%,transparent 70%)}
-.next-class-tag{font-size:.7rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--or);margin-bottom:.5rem;position:relative;z-index:1}
-.next-class-name{font-size:1.4rem;font-weight:800;font-family:'Nunito',sans-serif;margin-bottom:.5rem;position:relative;z-index:1}
-.next-class-meta{display:flex;flex-wrap:wrap;gap:1.25rem;font-size:.85rem;color:rgba(255,255,255,.75);position:relative;z-index:1}
+.next-class-card{background:var(--glass);backdrop-filter:blur(20px);color:#fff;border-radius:20px;padding:1.6rem 1.85rem;margin-bottom:1.25rem;position:relative;overflow:hidden;border:1px solid var(--glass-border);transition:border-color .3s}
+.next-class-card:hover{border-color:var(--border-hover)}
+.next-class-card::after{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(ellipse,rgba(34,224,255,.12) 0%,transparent 70%);pointer-events:none}
+.next-class-tag{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--or);margin-bottom:.55rem;position:relative;z-index:1}
+.next-class-name{font-size:1.3rem;font-weight:800;font-family:'Nunito',sans-serif;letter-spacing:-.01em;margin-bottom:.5rem;position:relative;z-index:1}
+.next-class-meta{display:flex;flex-wrap:wrap;gap:1.25rem;font-size:.83rem;color:var(--muted);position:relative;z-index:1}
 .next-class-meta i{color:var(--or);margin-right:.4rem}
 .next-class-cta{margin-top:1.25rem;position:relative;z-index:1}
 .btn{padding:.65rem 1.2rem;border-radius:10px;border:none;font-weight:700;font-size:.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;font-family:inherit;text-decoration:none}
@@ -85,11 +99,11 @@ body{display:flex;background:var(--bg)}
 .btn-ghost:hover{border-color:var(--or);color:var(--or-dark)}
 .btn-sm{padding:.4rem .8rem;font-size:.75rem}
 
-.grid-classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.1rem}
-.class-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:1.25rem;cursor:pointer;transition:.15s}
-.class-card:hover{border-color:var(--or);box-shadow:0 6px 20px rgba(34,224,255,.15);transform:translateY(-2px)}
-.class-card h3{font-size:1rem;font-weight:800;margin-bottom:.4rem;font-family:'Nunito',sans-serif}
-.class-meta{font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:.3rem}
+.grid-classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.class-card{background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:16px;padding:1.25rem;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s}
+.class-card:hover{border-color:var(--border-hover);box-shadow:0 12px 28px rgba(0,0,0,.3);transform:translateY(-3px)}
+.class-card h3{font-size:1rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.5rem;font-family:'Nunito',sans-serif}
+.class-meta{font-size:.8rem;color:var(--muted);display:flex;flex-direction:column;gap:.35rem}
 .class-meta span i{width:16px;color:var(--or)}
 
 .back-btn{display:inline-flex;align-items:center;gap:.5rem;background:none;border:none;color:var(--muted);font-weight:600;font-size:.85rem;cursor:pointer;margin-bottom:1rem}
@@ -218,8 +232,11 @@ body{display:flex;background:var(--bg)}
     <!-- INICIO -->
     <div class="tab-panel active" id="tab-inicio">
       <div class="hero-virtus">
+        <div class="hero-eyebrow"><i class="fas fa-sparkles"></i> Tu espacio</div>
         <div class="hero-virtus-inner">
-          <img src="images/worky.png" alt="Worky" class="hero-worky">
+          <div class="hero-worky-holder">
+            <img src="images/worky.png" alt="Worky" class="hero-worky">
+          </div>
           <div class="hero-virtus-text">
             <h2 id="heroName">¡Hola, Robotista!</h2>
             <p>Sigue tu aventura Virtus donde la dejaste.</p>
@@ -230,28 +247,28 @@ body{display:flex;background:var(--bg)}
 
       <div class="games-grid">
         <button class="game-card game-tangram" onclick="window.open('tangram.html','_blank')">
-          <img src="images/robotangram.png" alt="RoboTangram">
+          <div class="game-icon"><img src="images/robotangram.png" alt="RoboTangram"></div>
           <div class="game-card-text">
-            <div class="game-card-title">🧩 RoboTangram</div>
+            <div class="game-card-title">RoboTangram</div>
             <div class="game-card-sub">Arma animales con tus 7 piezas de tangram 3D</div>
           </div>
-          <span class="game-card-cta">¡Jugar! →</span>
+          <i class="fas fa-arrow-right game-arrow"></i>
         </button>
         <button class="game-card game-robomision" onclick="window.open('robomision/index.html','_blank')">
-          <img src="images/robomision-logo.png" alt="RoboMisión">
+          <div class="game-icon"><img src="images/robomision-logo.png" alt="RoboMisión"></div>
           <div class="game-card-text">
-            <div class="game-card-title">🚀 RoboMisión</div>
+            <div class="game-card-title">RoboMisión</div>
             <div class="game-card-sub">Tu aventura espacial de programación te espera</div>
           </div>
-          <span class="game-card-cta">¡Jugar! →</span>
+          <i class="fas fa-arrow-right game-arrow"></i>
         </button>
         <button class="game-card game-prudentia" onclick="window.open('prudentia.html','_blank')">
-          <img src="images/virtus/prudentia-icon-512.png" alt="Virtus Prudentia">
+          <div class="game-icon"><img src="images/virtus/prudentia-icon-512.png" alt="Virtus Prudentia"></div>
           <div class="game-card-text">
-            <div class="game-card-title">VIRTUS: PRUDENTIA</div>
+            <div class="game-card-title">Virtus: Prudentia</div>
             <div class="game-card-sub">Think. Decide. Dare. — Practica la prudencia con dos dados</div>
           </div>
-          <span class="game-card-cta">¡Jugar! →</span>
+          <i class="fas fa-arrow-right game-arrow"></i>
         </button>
       </div>
 
@@ -540,7 +557,7 @@ async function loadClassLessons(classId){
 
     card.innerHTML = `
       <div class="lesson-head" onclick="this.nextElementSibling.classList.toggle('open')">
-        <div class="lesson-num">#${l.lesson_number}</div>
+        <div class="lesson-num mono">#${l.lesson_number}</div>
         <div class="lesson-title">${esc(l.title)}</div>
         ${virtusSafeUrl(l.video_link) ? `<a href="${escAttr(virtusSafeUrl(l.video_link))}" target="_blank" rel="noopener" class="btn btn-outline" style="padding:.4rem .8rem;font-size:.75rem;color:var(--or-dark);background:var(--or-light);border-color:transparent" onclick="event.stopPropagation()"><i class="fas fa-play"></i> Video</a>` : ''}
       </div>
@@ -737,13 +754,13 @@ async function loadGrades(classId){
 
   const avgText = average !== null && average !== undefined ? average.toFixed(1) : '—';
   let html = `<div class="gsum-box">
-    <div class="gsum-card"><div class="gsum-num">${avgText}</div><div class="gsum-label">Promedio</div></div>
-    <div class="gsum-card"><div class="gsum-num">${total_graded}</div><div class="gsum-label">Calificadas</div></div>
-    <div class="gsum-card"><div class="gsum-num">${total_tasks}</div><div class="gsum-label">Total tareas</div></div>
+    <div class="gsum-card"><div class="gsum-num mono">${avgText}</div><div class="gsum-label">Promedio</div></div>
+    <div class="gsum-card"><div class="gsum-num mono">${total_graded}</div><div class="gsum-label">Calificadas</div></div>
+    <div class="gsum-card"><div class="gsum-num mono">${total_tasks}</div><div class="gsum-label">Total tareas</div></div>
   </div><div class="grades-list">`;
   grades.forEach(g => {
     const scoreText = g.score !== null && g.score !== undefined ? `${g.score} / ${g.max_score}` : 'Sin calificar';
-    html += `<div class="grade-row"><span class="gr-title">${esc(g.title)}</span><span class="gr-score">${esc(scoreText)}</span></div>`;
+    html += `<div class="grade-row"><span class="gr-title">${esc(g.title)}</span><span class="gr-score mono">${esc(scoreText)}</span></div>`;
   });
   html += '</div>';
   container.innerHTML = html;
@@ -767,7 +784,7 @@ async function loadAttendance(classId){
 
   let html = '<div class="att-badges">';
   ['present','absent','late','excused'].forEach(key => {
-    html += `<div class="att-badge ${key}">${summary[key] || 0} ${ATT_STATUS_LABELS[key]}</div>`;
+    html += `<div class="att-badge ${key}"><span class="mono">${summary[key] || 0}</span> ${ATT_STATUS_LABELS[key]}</div>`;
   });
   html += '</div><div class="att-history">';
   history.slice(0, 15).forEach(h => {
