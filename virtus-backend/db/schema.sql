@@ -98,12 +98,53 @@ CREATE TABLE IF NOT EXISTS grade_lessons (
     lesson_plan_file_url VARCHAR(500),
     lesson_plan_file_name VARCHAR(255),
     video_link VARCHAR(500),
+    -- Planificacion pedagogica estructurada (asistente pedagogico Virtus)
+    objetivos JSON NULL,
+    competencias JSON NULL,
+    destrezas JSON NULL,
+    indicadores_evaluacion JSON NULL,
+    tiempo_estimado VARCHAR(100) NULL,
+    recursos_necesarios JSON NULL,
+    materiales JSON NULL,
+    kits JSON NULL,
+    software_requerido JSON NULL,
+    actividades TEXT NULL,
+    proyecto_descripcion TEXT NULL,
+    evaluacion_descripcion TEXT NULL,
+    tarea_descripcion TEXT NULL,
+    paso_a_paso JSON NULL,
     is_active TINYINT(1) NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_gl_grade FOREIGN KEY (grade_id) REFERENCES grades(id) ON DELETE CASCADE,
     UNIQUE KEY uq_grade_lesson_number (grade_id, lesson_number),
     INDEX idx_gl_grade (grade_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ------------------------------------------------------------
+-- Planificacion pedagogica estructurada (Virtus asistente docente)
+-- MySQL no soporta "ADD COLUMN IF NOT EXISTS" (eso es sintaxis de
+-- Postgres/MariaDB). Este bloque es un parche de una sola vez para la
+-- tabla grade_lessons que ya existia en produccion sin estas columnas.
+-- Una vez aplicado en produccion, si este archivo se vuelve a correr
+-- completo contra esa misma base, estas lineas fallaran con "Duplicate
+-- column" (las columnas ya existiran) - en ese caso, borrar este
+-- bloque, ya que el CREATE TABLE de arriba ya las incluye para
+-- instalaciones nuevas desde cero.
+-- ------------------------------------------------------------
+ALTER TABLE grade_lessons ADD COLUMN objetivos JSON NULL;
+ALTER TABLE grade_lessons ADD COLUMN competencias JSON NULL;
+ALTER TABLE grade_lessons ADD COLUMN destrezas JSON NULL;
+ALTER TABLE grade_lessons ADD COLUMN indicadores_evaluacion JSON NULL;
+ALTER TABLE grade_lessons ADD COLUMN tiempo_estimado VARCHAR(100) NULL;
+ALTER TABLE grade_lessons ADD COLUMN recursos_necesarios JSON NULL;
+ALTER TABLE grade_lessons ADD COLUMN materiales JSON NULL;
+ALTER TABLE grade_lessons ADD COLUMN kits JSON NULL;
+ALTER TABLE grade_lessons ADD COLUMN software_requerido JSON NULL;
+ALTER TABLE grade_lessons ADD COLUMN actividades TEXT NULL;
+ALTER TABLE grade_lessons ADD COLUMN proyecto_descripcion TEXT NULL;
+ALTER TABLE grade_lessons ADD COLUMN evaluacion_descripcion TEXT NULL;
+ALTER TABLE grade_lessons ADD COLUMN tarea_descripcion TEXT NULL;
+ALTER TABLE grade_lessons ADD COLUMN paso_a_paso JSON NULL;
 
 CREATE TABLE IF NOT EXISTS lesson_resources (
     id INT AUTO_INCREMENT PRIMARY KEY,

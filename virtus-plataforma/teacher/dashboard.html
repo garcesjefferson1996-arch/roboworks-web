@@ -244,6 +244,7 @@ body{display:flex;position:relative;background-color:var(--gray-light);
 .lfs-obj p{color:rgba(255,255,255,.7);font-size:.93rem;line-height:1.7;white-space:pre-wrap}
 
 .lfs-side-sec{margin-bottom:24px}
+.lfs-tag-wrap{display:flex;flex-wrap:wrap;gap:6px}
 .lfs-side-sec h4{font-size:.72rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
   color:rgba(255,255,255,.35);margin-bottom:12px;display:flex;align-items:center;gap:7px}
 
@@ -763,6 +764,40 @@ function lfsLoadVideo(videoId) {
   box.style.cursor = 'default';
 }
 
+const PASO_A_PASO_STEPS = [
+  { key: 'bienvenida', label: 'Bienvenida' },
+  { key: 'motivacion', label: 'Motivación' },
+  { key: 'preguntas_iniciales', label: 'Preguntas iniciales' },
+  { key: 'explicacion_teorica', label: 'Explicación teórica' },
+  { key: 'analogias', label: 'Analogías para explicar el concepto' },
+  { key: 'construccion_robot', label: 'Construcción del robot' },
+  { key: 'conexiones_electronicas', label: 'Conexiones electrónicas' },
+  { key: 'programacion', label: 'Programación' },
+  { key: 'pruebas', label: 'Pruebas' },
+  { key: 'posibles_errores', label: 'Posibles errores' },
+  { key: 'como_solucionarlos', label: 'Cómo solucionarlos' },
+  { key: 'preguntas_estudiantes', label: 'Preguntas para los estudiantes' },
+  { key: 'actividad_practica', label: 'Actividad práctica' },
+  { key: 'proyecto_final', label: 'Proyecto final' },
+  { key: 'evaluacion_paso', label: 'Evaluación' },
+  { key: 'cierre_clase', label: 'Cierre de la clase' },
+  { key: 'reflexion', label: 'Reflexión' }
+];
+
+function renderTagList(items) {
+  if (!Array.isArray(items) || !items.length) return '<p style="color:rgba(255,255,255,.3);font-size:.8rem">Sin información cargada.</p>';
+  return `<div class="lfs-tag-wrap">${items.map(i => `<span class="lfs-chip lfs-chip-or">${escapeHtml(i)}</span>`).join('')}</div>`;
+}
+
+function renderPasoAPasoLfs(pasoAPaso) {
+  const steps = (pasoAPaso && typeof pasoAPaso === 'object') ? pasoAPaso : {};
+  const filled = PASO_A_PASO_STEPS.filter(s => (steps[s.key] || '').trim());
+  if (!filled.length) return '<p class="lfs-doc-empty">Todavía no hay un paso a paso cargado para esta clase.</p>';
+  return `<div class="lfs-steps">${filled.map((s, i) => `
+    <div class="lfs-step"><div class="lfs-step-n">${i + 1}</div><div><strong style="color:#fff">${escapeHtml(s.label)}:</strong> ${escapeHtml(steps[s.key])}</div></div>
+  `).join('')}</div>`;
+}
+
 function openLessonFullscreen(lesson) {
   lfsGenerateStars();
 
@@ -820,6 +855,7 @@ function openLessonFullscreen(lesson) {
         <div class="lfs-chips">
           ${lesson.trimester ? `<span class="lfs-chip lfs-chip-y"><i class="fas fa-calendar-alt"></i> Unidad ${lesson.trimester}</span>` : ''}
           <span class="lfs-chip lfs-chip-cy"><i class="fas fa-graduation-cap"></i> Clase #${lesson.lesson_number}</span>
+          ${lesson.tiempo_estimado ? `<span class="lfs-chip lfs-chip-or"><i class="fas fa-clock"></i> ${escapeHtml(lesson.tiempo_estimado)}</span>` : ''}
         </div>
       </div>
     </div>
@@ -836,12 +872,36 @@ function openLessonFullscreen(lesson) {
           ${planHtml}
         </div>
         <div class="lfs-obj">
-          <h3><i class="fas fa-list-check"></i> Explicación paso a paso</h3>
+          <h3><i class="fas fa-shoe-prints"></i> Paso a paso metodológico</h3>
+          ${renderPasoAPasoLfs(lesson.paso_a_paso)}
+        </div>
+        ${lesson.actividades ? `<div class="lfs-obj"><h3><i class="fas fa-person-chalkboard"></i> Actividades</h3><p>${escapeHtml(lesson.actividades)}</p></div>` : ''}
+        ${lesson.proyecto_descripcion ? `<div class="lfs-obj"><h3><i class="fas fa-diagram-project"></i> Proyecto de la clase</h3><p>${escapeHtml(lesson.proyecto_descripcion)}</p></div>` : ''}
+        ${lesson.evaluacion_descripcion ? `<div class="lfs-obj"><h3><i class="fas fa-clipboard-check"></i> Evaluación</h3><p>${escapeHtml(lesson.evaluacion_descripcion)}</p></div>` : ''}
+        ${lesson.tarea_descripcion ? `<div class="lfs-obj"><h3><i class="fas fa-book"></i> Tarea</h3><p>${escapeHtml(lesson.tarea_descripcion)}</p></div>` : ''}
+        <div class="lfs-obj">
+          <h3><i class="fas fa-file-lines"></i> Notas adicionales</h3>
           <div class="lfs-doc">${planDocHtml}</div>
         </div>
       </div>
 
       <div class="lfs-side">
+        <div class="lfs-side-sec">
+          <h4><i class="fas fa-bullseye"></i> Objetivos de aprendizaje</h4>
+          ${renderTagList(lesson.objetivos)}
+        </div>
+        <div class="lfs-side-sec">
+          <h4><i class="fas fa-star"></i> Competencias y destrezas</h4>
+          ${renderTagList([...(lesson.competencias||[]), ...(lesson.destrezas||[])])}
+        </div>
+        <div class="lfs-side-sec">
+          <h4><i class="fas fa-clipboard-list"></i> Indicadores de evaluación</h4>
+          ${renderTagList(lesson.indicadores_evaluacion)}
+        </div>
+        <div class="lfs-side-sec">
+          <h4><i class="fas fa-toolbox"></i> Materiales, kits y software</h4>
+          ${renderTagList([...(lesson.recursos_necesarios||[]), ...(lesson.materiales||[]), ...(lesson.kits||[]), ...(lesson.software_requerido||[])])}
+        </div>
         <div class="lfs-side-sec">
           <h4><i class="fas fa-cubes"></i> Recursos</h4>
           <div class="lfs-resources">${resourcesHtml}</div>

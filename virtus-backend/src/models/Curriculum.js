@@ -1,5 +1,20 @@
 const db = require('../config/database');
 
+// Campos de planificacion pedagogica que se guardan como JSON (arrays de
+// texto libre: objetivos, competencias, etc, o el objeto de paso a paso).
+// mysql2 NO serializa arrays/objetos JS automaticamente al insertarlos como
+// bind param (un array se convierte en lista SQL "a,b,c", no en JSON) asi
+// que hay que stringificarlos a mano antes de cada INSERT/UPDATE.
+const JSON_FIELDS = [
+    'objetivos', 'competencias', 'destrezas', 'indicadores_evaluacion',
+    'recursos_necesarios', 'materiales', 'kits', 'software_requerido', 'paso_a_paso'
+];
+function toJsonParam(value) {
+    if (value === undefined) return undefined;
+    if (value === null) return null;
+    return JSON.stringify(value);
+}
+
 // Catálogo de grados escolares (ej. "5to de Básica"). Igual patrón que
 // programs: catálogo global de Virtus, no pertenece a una institución.
 class Grade {
@@ -42,16 +57,38 @@ class GradeLesson {
         return rows[0];
     }
 
-    static async create({ grade_id, lesson_number, trimester, title, description, lesson_plan, video_link }) {
+    static async create({
+        grade_id, lesson_number, trimester, title, description, lesson_plan, video_link,
+        objetivos, competencias, destrezas, indicadores_evaluacion, tiempo_estimado,
+        recursos_necesarios, materiales, kits, software_requerido,
+        actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion, paso_a_paso
+    }) {
         const [result] = await db.pool.query(
-            `INSERT INTO grade_lessons (grade_id, lesson_number, trimester, title, description, lesson_plan, video_link)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [grade_id, lesson_number, trimester || null, title, description || null, lesson_plan || null, video_link || null]
+            `INSERT INTO grade_lessons (
+                grade_id, lesson_number, trimester, title, description, lesson_plan, video_link,
+                objetivos, competencias, destrezas, indicadores_evaluacion, tiempo_estimado,
+                recursos_necesarios, materiales, kits, software_requerido,
+                actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion, paso_a_paso
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                grade_id, lesson_number, trimester || null, title, description || null, lesson_plan || null, video_link || null,
+                toJsonParam(objetivos) ?? null, toJsonParam(competencias) ?? null, toJsonParam(destrezas) ?? null,
+                toJsonParam(indicadores_evaluacion) ?? null, tiempo_estimado || null,
+                toJsonParam(recursos_necesarios) ?? null, toJsonParam(materiales) ?? null,
+                toJsonParam(kits) ?? null, toJsonParam(software_requerido) ?? null,
+                actividades || null, proyecto_descripcion || null, evaluacion_descripcion || null,
+                tarea_descripcion || null, toJsonParam(paso_a_paso) ?? null
+            ]
         );
         return result.insertId;
     }
 
-    static async update(id, { title, description, lesson_plan, video_link, lesson_number, trimester, is_active }) {
+    static async update(id, {
+        title, description, lesson_plan, video_link, lesson_number, trimester, is_active,
+        objetivos, competencias, destrezas, indicadores_evaluacion, tiempo_estimado,
+        recursos_necesarios, materiales, kits, software_requerido,
+        actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion, paso_a_paso
+    }) {
         const [result] = await db.pool.query(
             `UPDATE grade_lessons SET
                 title = COALESCE(?, title),
@@ -60,9 +97,32 @@ class GradeLesson {
                 video_link = COALESCE(?, video_link),
                 lesson_number = COALESCE(?, lesson_number),
                 trimester = COALESCE(?, trimester),
-                is_active = COALESCE(?, is_active)
+                is_active = COALESCE(?, is_active),
+                objetivos = COALESCE(?, objetivos),
+                competencias = COALESCE(?, competencias),
+                destrezas = COALESCE(?, destrezas),
+                indicadores_evaluacion = COALESCE(?, indicadores_evaluacion),
+                tiempo_estimado = COALESCE(?, tiempo_estimado),
+                recursos_necesarios = COALESCE(?, recursos_necesarios),
+                materiales = COALESCE(?, materiales),
+                kits = COALESCE(?, kits),
+                software_requerido = COALESCE(?, software_requerido),
+                actividades = COALESCE(?, actividades),
+                proyecto_descripcion = COALESCE(?, proyecto_descripcion),
+                evaluacion_descripcion = COALESCE(?, evaluacion_descripcion),
+                tarea_descripcion = COALESCE(?, tarea_descripcion),
+                paso_a_paso = COALESCE(?, paso_a_paso)
              WHERE id = ?`,
-            [title, description, lesson_plan, video_link, lesson_number, trimester, is_active, id]
+            [
+                title, description, lesson_plan, video_link, lesson_number, trimester, is_active,
+                toJsonParam(objetivos), toJsonParam(competencias), toJsonParam(destrezas),
+                toJsonParam(indicadores_evaluacion), tiempo_estimado,
+                toJsonParam(recursos_necesarios), toJsonParam(materiales),
+                toJsonParam(kits), toJsonParam(software_requerido),
+                actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion,
+                toJsonParam(paso_a_paso),
+                id
+            ]
         );
         return result.affectedRows > 0;
     }

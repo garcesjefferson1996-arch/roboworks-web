@@ -10,6 +10,62 @@ const { logAction } = require('../utils/audit');
 
 router.use(authMiddleware);
 
+// Estructura fija del "paso a paso metodologico" de cada clase (17 puntos).
+// El admin llena el contenido de cada paso; las etiquetas son fijas para
+// que toda clase de Virtus siga la misma guia pedagogica.
+const PASO_A_PASO_STEPS = [
+    { key: 'bienvenida', label: 'Bienvenida' },
+    { key: 'motivacion', label: 'Motivación' },
+    { key: 'preguntas_iniciales', label: 'Preguntas iniciales' },
+    { key: 'explicacion_teorica', label: 'Explicación teórica' },
+    { key: 'analogias', label: 'Analogías para explicar el concepto' },
+    { key: 'construccion_robot', label: 'Construcción del robot' },
+    { key: 'conexiones_electronicas', label: 'Conexiones electrónicas' },
+    { key: 'programacion', label: 'Programación' },
+    { key: 'pruebas', label: 'Pruebas' },
+    { key: 'posibles_errores', label: 'Posibles errores' },
+    { key: 'como_solucionarlos', label: 'Cómo solucionarlos' },
+    { key: 'preguntas_estudiantes', label: 'Preguntas para los estudiantes' },
+    { key: 'actividad_practica', label: 'Actividad práctica' },
+    { key: 'proyecto_final', label: 'Proyecto final' },
+    { key: 'evaluacion_paso', label: 'Evaluación' },
+    { key: 'cierre_clase', label: 'Cierre de la clase' },
+    { key: 'reflexion', label: 'Reflexión' }
+];
+const PASO_A_PASO_KEYS = PASO_A_PASO_STEPS.map(s => s.key);
+
+// Campos de planificacion estructurada que deben llegar como array de
+// strings (objetivos, competencias, etc). Valida forma sin ser demasiado
+// estricto en el contenido (texto libre por item).
+const ARRAY_PLAN_FIELDS = [
+    'objetivos', 'competencias', 'destrezas', 'indicadores_evaluacion',
+    'recursos_necesarios', 'materiales', 'kits', 'software_requerido'
+];
+
+function validateStructuredPlanFields(body) {
+    for (const field of ARRAY_PLAN_FIELDS) {
+        const value = body[field];
+        if (value === undefined || value === null) continue;
+        if (!Array.isArray(value) || !value.every(item => typeof item === 'string')) {
+            return `El campo "${field}" debe ser una lista de texto`;
+        }
+    }
+    if (body.paso_a_paso !== undefined && body.paso_a_paso !== null) {
+        if (typeof body.paso_a_paso !== 'object' || Array.isArray(body.paso_a_paso)) {
+            return 'El paso a paso debe ser un objeto con las 17 etapas';
+        }
+        for (const key of Object.keys(body.paso_a_paso)) {
+            if (!PASO_A_PASO_KEYS.includes(key)) {
+                return `Etapa de paso a paso desconocida: ${key}`;
+            }
+            if (typeof body.paso_a_paso[key] !== 'string') {
+                return `El contenido de la etapa "${key}" debe ser texto`;
+            }
+        }
+    }
+    return null;
+}
+
 // Lectura: super_admin y academy_admin (necesitan ver el catálogo para
 // escoger el grado al crear una clase). Escritura: solo super_admin - el
 // currículo es de Virtus, no de una institución individual (ver misma regla
@@ -28,6 +84,10 @@ const uploadLimiter = rateLimit({
 // ============================================
 // GRADOS
 // ============================================
+
+router.get('/paso-a-paso-steps', readAccess, (req, res) => {
+    res.json({ steps: PASO_A_PASO_STEPS });
+});
 
 router.get('/grades', readAccess, async (req, res) => {
     try {
@@ -95,9 +155,20 @@ router.post('/grades/:gradeId/lessons', writeAccess, lessonValidation, async (re
         const grade = await Grade.getById(req.params.gradeId);
         if (!grade) return res.status(404).json({ message: 'Grado no encontrado' });
 
-        const { lesson_number, trimester, title, description, lesson_plan, video_link } = req.body;
+        const planError = validateStructuredPlanFields(req.body);
+        if (planError) return res.status(400).json({ message: planError });
+
+        const {
+            lesson_number, trimester, title, description, lesson_plan, video_link,
+            objetivos, competencias, destrezas, indicadores_evaluacion, tiempo_estimado,
+            recursos_necesarios, materiales, kits, software_requerido,
+            actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion, paso_a_paso
+        } = req.body;
         const id = await GradeLesson.create({
-            grade_id: req.params.gradeId, lesson_number, trimester, title, description, lesson_plan, video_link
+            grade_id: req.params.gradeId, lesson_number, trimester, title, description, lesson_plan, video_link,
+            objetivos, competencias, destrezas, indicadores_evaluacion, tiempo_estimado,
+            recursos_necesarios, materiales, kits, software_requerido,
+            actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion, paso_a_paso
         });
 
         await logAction({
@@ -118,15 +189,26 @@ router.post('/grades/:gradeId/lessons', writeAccess, lessonValidation, async (re
 
 router.put('/lessons/:lessonId', writeAccess, async (req, res) => {
     try {
-        const { title, description, lesson_plan, video_link, lesson_number, trimester, is_active } = req.body;
+        const {
+            title, description, lesson_plan, video_link, lesson_number, trimester, is_active,
+            objetivos, competencias, destrezas, indicadores_evaluacion, tiempo_estimado,
+            recursos_necesarios, materiales, kits, software_requerido,
+            actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion, paso_a_paso
+        } = req.body;
         if (video_link && !/^https?:\/\//i.test(video_link)) {
             return res.status(400).json({ message: 'El link de video debe empezar con http:// o https://' });
         }
         if (trimester !== undefined && trimester !== null && trimester !== '' && ![1, 2, 3].includes(parseInt(trimester))) {
             return res.status(400).json({ message: 'La unidad debe ser 1, 2 o 3' });
         }
+        const planError = validateStructuredPlanFields(req.body);
+        if (planError) return res.status(400).json({ message: planError });
+
         const updated = await GradeLesson.update(req.params.lessonId, {
-            title, description, lesson_plan, video_link, lesson_number, trimester, is_active
+            title, description, lesson_plan, video_link, lesson_number, trimester, is_active,
+            objetivos, competencias, destrezas, indicadores_evaluacion, tiempo_estimado,
+            recursos_necesarios, materiales, kits, software_requerido,
+            actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion, paso_a_paso
         });
         if (!updated) return res.status(404).json({ message: 'Lección no encontrada' });
         res.json({ message: 'Lección actualizada' });

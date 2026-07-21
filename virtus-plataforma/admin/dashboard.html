@@ -159,6 +159,21 @@ tr:last-child td{border-bottom:none}
 .markdown-doc strong{font-weight:800}
 .markdown-doc a{color:var(--orange);text-decoration:underline}
 .plan-toolbar{display:flex;gap:.5rem;margin:.4rem 0 .6rem;flex-wrap:wrap}
+.form-section-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);margin:1.2rem 0 .6rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;align-items:center;gap:.4rem}
+.form-section-title:first-child{border-top:none;padding-top:0;margin-top:0}
+.chip-input-row{display:flex;gap:.5rem;margin-bottom:.5rem}
+.chip-input-row input{flex:1}
+.chip-list{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.3rem}
+.chip-list:empty{margin-bottom:0}
+.chip{display:inline-flex;align-items:center;gap:.4rem;background:var(--orange-light);color:var(--orange-dark);font-size:.78rem;font-weight:600;padding:.3rem .6rem;border-radius:50px}
+.chip button{background:none;border:none;color:inherit;cursor:pointer;font-size:.75rem;line-height:1;padding:0;opacity:.75}
+.chip button:hover{opacity:1}
+.pas-details{border:1px solid var(--border);border-radius:10px;margin-bottom:.5rem;overflow:hidden}
+.pas-details summary{padding:.6rem .9rem;cursor:pointer;font-size:.8rem;font-weight:700;background:var(--bg);list-style:none;display:flex;align-items:center;gap:.55rem}
+.pas-details summary::-webkit-details-marker{display:none}
+.pas-num{width:20px;height:20px;border-radius:6px;background:var(--orange);color:#08090b;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;flex-shrink:0}
+.pas-details textarea{width:100%;border:none;border-top:1px solid var(--border);padding:.7rem .9rem;font-family:inherit;font-size:.82rem;background:var(--white);color:var(--text);resize:vertical;min-height:64px}
+.pas-details textarea:focus{outline:none}
 .plan-preview-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;margin-top:.5rem}
 
 .resource-item{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;border:1px solid var(--border);border-radius:8px;margin-bottom:.5rem;font-size:.8rem}
@@ -636,10 +651,67 @@ tr:last-child td{border-bottom:none}
         <div class="form-group"><label>Título <span class="req">*</span></label><input class="form-control" id="l-title" required placeholder="Ej. Introducción a sensores"></div>
         <div class="form-group"><label>Link de video</label><input class="form-control" id="l-video" placeholder="https://youtube.com/..."></div>
         <div class="form-group"><label>Descripción corta</label><textarea class="form-control" id="l-description" rows="2"></textarea></div>
+
+        <div class="form-section-title"><i class="fas fa-bullseye"></i> Objetivos y competencias</div>
+        <div class="form-group"><label>Tiempo estimado</label><input class="form-control" id="l-tiempo" placeholder="Ej. 90 minutos"></div>
         <div class="form-group">
-          <label>Planificación completa de la clase</label>
-          <span class="form-hint" style="display:block;margin-bottom:.4rem">Objetivos, paso a paso, materiales necesarios, evaluación. Se ve como documento (título con #, negrita con **texto**, listas con -, imágenes con el botón de abajo). Los demás recursos (archivos, links) se agregan aparte, abajo de la clase ya creada.</span>
-          <textarea class="form-control" id="l-plan" rows="8" placeholder="1. Objetivo de la clase...&#10;2. Materiales...&#10;3. Desarrollo paso a paso...&#10;4. Cierre/evaluación..."></textarea>
+          <label>Objetivos de aprendizaje</label>
+          <div class="chip-input-row"><input class="form-control" id="l-objetivos-input" placeholder="Escribe un objetivo y presiona Agregar" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipItem('objetivos')}"><button type="button" class="btn btn-ghost btn-sm" onclick="addChipItem('objetivos')">Agregar</button></div>
+          <div class="chip-list" id="l-objetivos-chips"></div>
+        </div>
+        <div class="form-group">
+          <label>Competencias</label>
+          <div class="chip-input-row"><input class="form-control" id="l-competencias-input" placeholder="Escribe una competencia y presiona Agregar" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipItem('competencias')}"><button type="button" class="btn btn-ghost btn-sm" onclick="addChipItem('competencias')">Agregar</button></div>
+          <div class="chip-list" id="l-competencias-chips"></div>
+        </div>
+        <div class="form-group">
+          <label>Destrezas</label>
+          <div class="chip-input-row"><input class="form-control" id="l-destrezas-input" placeholder="Escribe una destreza y presiona Agregar" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipItem('destrezas')}"><button type="button" class="btn btn-ghost btn-sm" onclick="addChipItem('destrezas')">Agregar</button></div>
+          <div class="chip-list" id="l-destrezas-chips"></div>
+        </div>
+        <div class="form-group">
+          <label>Indicadores de evaluación</label>
+          <div class="chip-input-row"><input class="form-control" id="l-indicadores_evaluacion-input" placeholder="Escribe un indicador y presiona Agregar" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipItem('indicadores_evaluacion')}"><button type="button" class="btn btn-ghost btn-sm" onclick="addChipItem('indicadores_evaluacion')">Agregar</button></div>
+          <div class="chip-list" id="l-indicadores_evaluacion-chips"></div>
+        </div>
+
+        <div class="form-section-title"><i class="fas fa-toolbox"></i> Recursos y materiales</div>
+        <div class="form-group">
+          <label>Recursos necesarios</label>
+          <div class="chip-input-row"><input class="form-control" id="l-recursos_necesarios-input" placeholder="Escribe un recurso y presiona Agregar" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipItem('recursos_necesarios')}"><button type="button" class="btn btn-ghost btn-sm" onclick="addChipItem('recursos_necesarios')">Agregar</button></div>
+          <div class="chip-list" id="l-recursos_necesarios-chips"></div>
+        </div>
+        <div class="form-group">
+          <label>Materiales</label>
+          <div class="chip-input-row"><input class="form-control" id="l-materiales-input" placeholder="Escribe un material y presiona Agregar" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipItem('materiales')}"><button type="button" class="btn btn-ghost btn-sm" onclick="addChipItem('materiales')">Agregar</button></div>
+          <div class="chip-list" id="l-materiales-chips"></div>
+        </div>
+        <div class="form-group">
+          <label>Kits</label>
+          <div class="chip-input-row"><input class="form-control" id="l-kits-input" placeholder="Escribe un kit y presiona Agregar" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipItem('kits')}"><button type="button" class="btn btn-ghost btn-sm" onclick="addChipItem('kits')">Agregar</button></div>
+          <div class="chip-list" id="l-kits-chips"></div>
+        </div>
+        <div class="form-group">
+          <label>Software requerido</label>
+          <div class="chip-input-row"><input class="form-control" id="l-software_requerido-input" placeholder="Escribe un software y presiona Agregar" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipItem('software_requerido')}"><button type="button" class="btn btn-ghost btn-sm" onclick="addChipItem('software_requerido')">Agregar</button></div>
+          <div class="chip-list" id="l-software_requerido-chips"></div>
+        </div>
+
+        <div class="form-section-title"><i class="fas fa-list-check"></i> Actividades, proyecto y evaluación</div>
+        <div class="form-group"><label>Actividades</label><textarea class="form-control" id="l-actividades" rows="2"></textarea></div>
+        <div class="form-group"><label>Proyecto de la clase</label><textarea class="form-control" id="l-proyecto" rows="2"></textarea></div>
+        <div class="form-group"><label>Evaluación</label><textarea class="form-control" id="l-evaluacion" rows="2"></textarea></div>
+        <div class="form-group"><label>Tarea</label><textarea class="form-control" id="l-tarea" rows="2"></textarea></div>
+
+        <div class="form-section-title"><i class="fas fa-shoe-prints"></i> Paso a paso metodológico</div>
+        <span class="form-hint" style="display:block;margin-bottom:.5rem">Guía detallada para que cualquier docente, incluso uno nuevo, pueda impartir la clase siguiendo estos 17 pasos.</span>
+        <div id="l-paso-a-paso-wrap"></div>
+
+        <div class="form-section-title"><i class="fas fa-file-lines"></i> Notas adicionales (opcional)</div>
+        <div class="form-group">
+          <label>Notas y contenido enriquecido</label>
+          <span class="form-hint" style="display:block;margin-bottom:.4rem">Espacio libre para cualquier detalle extra que no encaje arriba. Se ve como documento (título con #, negrita con **texto**, listas con -, imágenes con el botón de abajo).</span>
+          <textarea class="form-control" id="l-plan" rows="5" placeholder="Notas adicionales, aclaraciones, contexto..."></textarea>
           <div class="plan-toolbar hidden" id="l-plan-toolbar">
             <input type="file" id="l-plan-image-input" accept="image/*" class="hidden">
             <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('l-plan-image-input').click()"><i class="fas fa-image"></i> Insertar imagen</button>
@@ -1426,7 +1498,8 @@ async function loadLessons(gradeId){
       </div>
       <div class="lesson-body" id="lesson-body-${l.id}">
         ${l.description ? `<p class="form-hint" style="margin-bottom:.75rem">${esc(l.description)}</p>` : ''}
-        ${l.lesson_plan ? `<div class="lesson-plan-box"><strong>Planificación de la clase</strong><div class="markdown-doc">${renderMarkdownSafe(l.lesson_plan)}</div></div>` : ''}
+        ${renderLessonPlanSummary(l)}
+        ${l.lesson_plan ? `<div class="lesson-plan-box"><strong>Notas adicionales</strong><div class="markdown-doc">${renderMarkdownSafe(l.lesson_plan)}</div></div>` : ''}
         <div id="lesson-resources-${l.id}"></div>
         ${canEdit ? `
           <button class="btn btn-ghost btn-sm" onclick="toggleResourceForm(${l.id})"><i class="fas fa-plus"></i> Agregar recurso</button>
@@ -1495,6 +1568,72 @@ function toggleResourceForm(lessonId){
   document.getElementById(`resource-form-${lessonId}`).classList.toggle('open');
 }
 
+const PASO_A_PASO_STEPS = [
+  { key: 'bienvenida', label: 'Bienvenida' },
+  { key: 'motivacion', label: 'Motivación' },
+  { key: 'preguntas_iniciales', label: 'Preguntas iniciales' },
+  { key: 'explicacion_teorica', label: 'Explicación teórica' },
+  { key: 'analogias', label: 'Analogías para explicar el concepto' },
+  { key: 'construccion_robot', label: 'Construcción del robot' },
+  { key: 'conexiones_electronicas', label: 'Conexiones electrónicas' },
+  { key: 'programacion', label: 'Programación' },
+  { key: 'pruebas', label: 'Pruebas' },
+  { key: 'posibles_errores', label: 'Posibles errores' },
+  { key: 'como_solucionarlos', label: 'Cómo solucionarlos' },
+  { key: 'preguntas_estudiantes', label: 'Preguntas para los estudiantes' },
+  { key: 'actividad_practica', label: 'Actividad práctica' },
+  { key: 'proyecto_final', label: 'Proyecto final' },
+  { key: 'evaluacion_paso', label: 'Evaluación' },
+  { key: 'cierre_clase', label: 'Cierre de la clase' },
+  { key: 'reflexion', label: 'Reflexión' }
+];
+const CHIP_FIELDS = ['objetivos','competencias','destrezas','indicadores_evaluacion','recursos_necesarios','materiales','kits','software_requerido'];
+let lessonPlanArrays = {};
+
+function renderChips(field){
+  lessonPlanArrays[field] = lessonPlanArrays[field] || [];
+  const wrap = document.getElementById(`l-${field}-chips`);
+  wrap.innerHTML = lessonPlanArrays[field].map((item, idx) =>
+    `<span class="chip">${esc(item)}<button type="button" onclick="removeChipItem('${field}',${idx})" title="Quitar">&times;</button></span>`
+  ).join('');
+}
+
+function addChipItem(field){
+  const input = document.getElementById(`l-${field}-input`);
+  const val = input.value.trim();
+  if (!val) return;
+  lessonPlanArrays[field] = lessonPlanArrays[field] || [];
+  lessonPlanArrays[field].push(val);
+  input.value = '';
+  input.focus();
+  renderChips(field);
+}
+
+function removeChipItem(field, idx){
+  lessonPlanArrays[field].splice(idx, 1);
+  renderChips(field);
+}
+
+function ensurePasoAPasoInputsBuilt(){
+  const wrap = document.getElementById('l-paso-a-paso-wrap');
+  if (wrap.dataset.built) return;
+  wrap.innerHTML = PASO_A_PASO_STEPS.map((s, i) => `
+    <details class="pas-details">
+      <summary><span class="pas-num">${i + 1}</span> ${esc(s.label)}</summary>
+      <textarea id="l-paso-${s.key}" rows="3" placeholder="Contenido de este paso..."></textarea>
+    </details>
+  `).join('');
+  wrap.dataset.built = '1';
+}
+
+function renderLessonPlanSummary(l){
+  const bits = [];
+  if (l.tiempo_estimado) bits.push(`<span class="chip"><i class="fas fa-clock"></i>&nbsp;${esc(l.tiempo_estimado)}</span>`);
+  if (Array.isArray(l.objetivos) && l.objetivos.length) bits.push(...l.objetivos.slice(0,3).map(o => `<span class="chip">${esc(o)}</span>`));
+  if (!bits.length) return '';
+  return `<div class="chip-list" style="margin-bottom:.75rem">${bits.join('')}</div>`;
+}
+
 let currentEditLessonId = null;
 
 let currentEditLessonPlanFile = null;
@@ -1508,6 +1647,7 @@ function openLessonModal(lesson){
 
   document.getElementById('l-plan-preview').classList.add('hidden');
   document.getElementById('l-plan-preview-toggle-text').textContent = 'Vista previa';
+  ensurePasoAPasoInputsBuilt();
 
   const fileSection = document.getElementById('l-plan-file-section');
   const planToolbar = document.getElementById('l-plan-toolbar');
@@ -1519,11 +1659,21 @@ function openLessonModal(lesson){
     document.getElementById('l-video').value = lesson.video_link || '';
     document.getElementById('l-description').value = lesson.description || '';
     document.getElementById('l-plan').value = lesson.lesson_plan || '';
+    document.getElementById('l-tiempo').value = lesson.tiempo_estimado || '';
+    document.getElementById('l-actividades').value = lesson.actividades || '';
+    document.getElementById('l-proyecto').value = lesson.proyecto_descripcion || '';
+    document.getElementById('l-evaluacion').value = lesson.evaluacion_descripcion || '';
+    document.getElementById('l-tarea').value = lesson.tarea_descripcion || '';
+    CHIP_FIELDS.forEach(field => { lessonPlanArrays[field] = Array.isArray(lesson[field]) ? [...lesson[field]] : []; renderChips(field); });
+    const pasoAPaso = (lesson.paso_a_paso && typeof lesson.paso_a_paso === 'object') ? lesson.paso_a_paso : {};
+    PASO_A_PASO_STEPS.forEach(s => { document.getElementById(`l-paso-${s.key}`).value = pasoAPaso[s.key] || ''; });
     fileSection.classList.remove('hidden');
     renderLessonPlanFileStatus();
     planToolbar.classList.remove('hidden');
     planToolbarHintNew.classList.add('hidden');
   } else {
+    CHIP_FIELDS.forEach(field => { lessonPlanArrays[field] = []; renderChips(field); });
+    PASO_A_PASO_STEPS.forEach(s => { document.getElementById(`l-paso-${s.key}`).value = ''; });
     fileSection.classList.add('hidden');
     planToolbar.classList.add('hidden');
     planToolbarHintNew.classList.remove('hidden');
@@ -1631,12 +1781,25 @@ async function saveLesson(){
   const video_link = document.getElementById('l-video').value.trim();
   const description = document.getElementById('l-description').value.trim();
   const lesson_plan = document.getElementById('l-plan').value.trim();
+  const tiempo_estimado = document.getElementById('l-tiempo').value.trim();
+  const actividades = document.getElementById('l-actividades').value.trim();
+  const proyecto_descripcion = document.getElementById('l-proyecto').value.trim();
+  const evaluacion_descripcion = document.getElementById('l-evaluacion').value.trim();
+  const tarea_descripcion = document.getElementById('l-tarea').value.trim();
+  const chipPayload = {};
+  CHIP_FIELDS.forEach(field => { chipPayload[field] = lessonPlanArrays[field] || []; });
+  const paso_a_paso = {};
+  PASO_A_PASO_STEPS.forEach(s => { paso_a_paso[s.key] = (document.getElementById(`l-paso-${s.key}`).value || '').trim(); });
 
   const isEdit = !!currentEditLessonId;
   const path = isEdit ? `/api/curriculum/lessons/${currentEditLessonId}` : `/api/curriculum/grades/${currentGradeId}/lessons`;
   const res = await virtusApiFetch(path, {
     method: isEdit ? 'PUT' : 'POST',
-    body: JSON.stringify({ lesson_number, trimester, title, video_link, description, lesson_plan })
+    body: JSON.stringify({
+      lesson_number, trimester, title, video_link, description, lesson_plan,
+      tiempo_estimado, actividades, proyecto_descripcion, evaluacion_descripcion, tarea_descripcion,
+      ...chipPayload, paso_a_paso
+    })
   });
   if (!res || !res.ok) { toast(res?.data?.message || 'Error al guardar la clase','error'); return; }
 
