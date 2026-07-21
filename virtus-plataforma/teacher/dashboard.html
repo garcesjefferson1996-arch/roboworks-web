@@ -19,38 +19,33 @@
   --border-hover:rgba(34,224,255,.35);
   --white:#111318;--text:#ffffff;--green:#16A34A;--red:#DC2626;
   --glass:rgba(255,255,255,.035);--glass-border:rgba(255,255,255,.09);--panel:rgba(17,19,24,.5);
-  --sidebar:250px;
+  --sidebar:96px;
 }
 html,body{height:100%;font-family:'Inter',sans-serif;color:var(--text);font-size:15px;letter-spacing:-.01em}
 body{display:flex;position:relative;background-color:var(--gray-light);
-  background-image:linear-gradient(rgba(6,7,8,.55),rgba(6,7,8,.7)),url('../images/virtus_plataforma.png');
+  background-image:linear-gradient(rgba(6,7,8,.16),rgba(6,7,8,.32)),url('../images/virtus_plataforma.png');
   background-size:cover;background-position:center;background-attachment:fixed}
 .mono{font-family:'JetBrains Mono',monospace;letter-spacing:0}
 
-.sidebar{width:var(--sidebar);background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid var(--glass-border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:50}
-.sidebar-brand{padding:1.25rem 1.1rem;border-bottom:1px solid var(--glass-border);display:flex;align-items:center;gap:.6rem}
-.sidebar-brand img{height:32px}
-.sidebar-brand-text{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:1.05rem;color:var(--text)}
-.sidebar-brand-text span{color:var(--or)}
-.sidebar-tag{font-size:.68rem;font-weight:800;letter-spacing:1.5px;color:var(--or);text-transform:uppercase;padding:1rem 1.1rem .25rem}
-.sidebar-nav{flex:1;padding:.5rem .75rem}
-.nav-item{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;border-radius:10px;cursor:pointer;color:var(--gray);font-size:.88rem;font-weight:600;border:none;background:none;width:100%;text-align:left;margin-bottom:.2rem}
-.nav-item i{width:18px}
-.nav-item:hover,.nav-item.active{background:var(--or-light);color:var(--or-dark)}
-.nav-item.active{box-shadow:inset 0 0 0 1px var(--border-hover)}
-.sidebar-footer{padding:.9rem;border-top:1px solid var(--glass-border)}
-.teacher-chip{display:flex;align-items:center;gap:.7rem;padding:.75rem;border-radius:12px;background:var(--glass);border:1px solid var(--glass-border)}
-.teacher-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--or),#17b8d1);display:flex;align-items:center;justify-content:center;color:#04141a;font-weight:800;font-size:.85rem;flex-shrink:0}
-.teacher-chip-info{flex:1;overflow:hidden}
-.teacher-chip-name{font-size:.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.teacher-chip-role{font-size:.7rem;color:var(--gray)}
-.logout-btn{background:none;border:none;color:var(--gray);cursor:pointer;padding:.3rem;font-size:.9rem}
-.logout-btn:hover{color:var(--red)}
+.dock{width:64px;background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:100px;display:flex;flex-direction:column;align-items:center;padding:1rem 0;gap:.35rem;position:fixed;left:16px;top:50%;transform:translateY(-50%);z-index:50;max-height:calc(100vh - 3rem)}
+.dock-brand{width:40px;height:40px;border-radius:50%;overflow:hidden;margin-bottom:.5rem;flex-shrink:0}
+.dock-brand img{width:100%;height:100%;object-fit:cover}
+.nav-item{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;cursor:pointer;color:var(--gray);font-size:1rem;border:none;background:none;flex-shrink:0;transition:.2s}
+.nav-item .sr-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.nav-item:hover{background:rgba(255,255,255,.06);color:var(--text)}
+.nav-item.active{background:var(--or);color:#04141a;box-shadow:none}
+.dock-sep{width:22px;height:1px;background:var(--glass-border);margin:.4rem 0}
+.icon-btn-dock{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;border:none;background:none;color:var(--gray);cursor:pointer;font-size:.95rem;flex-shrink:0}
+.icon-btn-dock:hover{color:var(--or)}
+.icon-btn-dock.danger:hover{color:var(--red)}
 
-.main{margin-left:var(--sidebar);flex:1;min-height:100vh;display:flex;flex-direction:column}
-.topbar{background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);padding:1rem 1.75rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
-.topbar-title{font-size:1.05rem;font-weight:800;font-family:'Chakra Petch',sans-serif}
-.content{flex:1;padding:1.75rem;max-width:1100px;width:100%}
+.main{margin-left:calc(var(--sidebar) + 1.5rem);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:100px;margin:1.5rem 1.75rem 0;padding:.6rem 1.4rem .6rem 1.4rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:1.5rem;z-index:40}
+.topbar-title{font-size:1rem;font-weight:800;font-family:'Chakra Petch',sans-serif;flex:1}
+.who-chip{display:flex;align-items:center;gap:.55rem;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);border-radius:100px;padding:.3rem .9rem .3rem .3rem;flex-shrink:0}
+.teacher-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--or),#17b8d1);display:flex;align-items:center;justify-content:center;color:#04141a;font-weight:800;font-size:.8rem;flex-shrink:0}
+.teacher-chip-name{font-size:.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.content{flex:1;padding:1.5rem 1.75rem 1.75rem;max-width:1100px;width:100%}
 
 .hidden{display:none!important}
 .grid-classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.1rem}
@@ -316,32 +311,26 @@ body{display:flex;position:relative;background-color:var(--gray-light);
 </head>
 <body>
 
-<div class="sidebar">
-  <div class="sidebar-brand">
+<div class="dock">
+  <div class="dock-brand">
     <img src="/images/virtus/virtus-logo.png" onerror="this.style.display='none'">
-    <div class="sidebar-brand-text">VIRTUS <span>STEAM</span></div>
   </div>
-  <div class="sidebar-tag">Panel Docente</div>
-  <div class="sidebar-nav">
-    <button class="nav-item active" id="navGrades"><i class="fas fa-graduation-cap"></i> Mis Grados</button>
-  </div>
-  <div class="sidebar-footer">
-    <div class="teacher-chip">
-      <div class="teacher-avatar" id="teacherAvatar">--</div>
-      <div class="teacher-chip-info">
-        <div class="teacher-chip-name" id="teacherName">Cargando...</div>
-        <div class="teacher-chip-role">Docente</div>
-      </div>
-      <button class="icon-btn" id="changePwBtn" title="Cambiar contraseña"><i class="fas fa-key"></i></button>
-      <button class="logout-btn" id="logoutBtn" title="Cerrar sesión"><i class="fas fa-right-from-bracket"></i></button>
-    </div>
-  </div>
+  <button class="nav-item active" id="navGrades" title="Mis Grados"><i class="fas fa-graduation-cap"></i><span class="sr-label">Mis Grados</span></button>
+  <div class="dock-sep"></div>
+  <button class="icon-btn-dock" id="changePwBtn" title="Cambiar contraseña"><i class="fas fa-key"></i></button>
+  <button class="icon-btn-dock danger" id="logoutBtn" title="Cerrar sesión"><i class="fas fa-right-from-bracket"></i></button>
 </div>
 
 <div class="main">
   <div class="topbar">
     <div class="topbar-title" id="topbarTitle">Mis Grados</div>
-    <div id="notifBellWrap"></div>
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <div id="notifBellWrap"></div>
+      <div class="who-chip">
+        <div class="teacher-avatar" id="teacherAvatar">--</div>
+        <div class="teacher-chip-name" id="teacherName">Cargando...</div>
+      </div>
+    </div>
   </div>
   <div class="content">
     <div id="alert" class="alert"></div>
