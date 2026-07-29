@@ -226,6 +226,8 @@ tr:last-child td{border-bottom:none}
     <button class="sb-item" onclick="goTab('classes',this)"><i class="fas fa-layer-group"></i> Paralelos</button>
     <button class="sb-item" onclick="goTab('programs',this)"><i class="fas fa-cubes"></i> Programas</button>
     <button class="sb-item" onclick="goTab('curriculum',this)"><i class="fas fa-graduation-cap"></i> Currículo</button>
+    <div class="sb-section">Competencia</div>
+    <button class="sb-item" onclick="goTab('robotics',this)"><i class="fas fa-robot"></i> Robótica de Competencia</button>
     <div class="sb-section">Otros</div>
     <button class="sb-item" onclick="goTab('soon',this)"><i class="fas fa-hourglass-half"></i> Próximamente</button>
   </div>
@@ -375,6 +377,79 @@ tr:last-child td{border-bottom:none}
             <button class="btn btn-orange btn-sm" id="newLessonBtn" onclick="openLessonModal()"><i class="fas fa-plus"></i> Nueva clase</button>
           </div>
           <div class="card-body" id="lessonsContainer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROBÓTICA DE COMPETENCIA -->
+    <div class="tab-panel" id="tab-robotics">
+      <div id="robotsListView">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-robot"></i> Robótica de Competencia</div>
+            <button class="btn btn-orange" id="newRobotBtn" onclick="openRobotModal()"><i class="fas fa-plus"></i> Nuevo robot</button>
+          </div>
+          <div class="card-body table-wrap">
+            <p class="form-hint" style="margin-bottom:.75rem">Repositorio de tus robots de competencia: archivos STL, código y diagramas de conexión, disponibles en modo lectura para los docentes.</p>
+            <table>
+              <thead><tr><th>Robot</th><th>Categoría</th><th>Archivos</th><th></th></tr></thead>
+              <tbody id="robotsTable"></tbody>
+            </table>
+            <div class="loader" id="robotsLoader"><div class="spin"></div>Cargando...</div>
+            <div class="empty hidden" id="robotsEmpty"><i class="fas fa-robot"></i>Todavía no hay robots registrados.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="robotDetailView" class="hidden">
+        <button class="btn btn-ghost btn-sm" onclick="closeRobotDetail()" style="margin-bottom:1rem"><i class="fas fa-arrow-left"></i> Volver a robots</button>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-robot"></i> <span id="rd-robot-name">Robot</span></div>
+            <div>
+              <button class="btn btn-ghost btn-sm" onclick="openRobotModal(currentRobotId)"><i class="fas fa-pen"></i> Editar</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteRobot(currentRobotId)"><i class="fas fa-trash"></i> Eliminar</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="form-hint" id="rd-robot-desc"></p>
+
+            <div class="category-block">
+              <div class="category-title"><i class="fas fa-cube"></i> Archivos STL</div>
+              <div id="rd-files-stl"></div>
+              <label class="btn btn-ghost btn-sm" style="margin-top:.5rem;cursor:pointer">
+                <i class="fas fa-upload"></i> Subir STL
+                <input type="file" hidden onchange="uploadRobotFileInput(this,'stl')">
+              </label>
+            </div>
+
+            <div class="category-block">
+              <div class="category-title"><i class="fas fa-code"></i> Código</div>
+              <div id="rd-files-code"></div>
+              <label class="btn btn-ghost btn-sm" style="margin-top:.5rem;cursor:pointer">
+                <i class="fas fa-upload"></i> Subir código
+                <input type="file" hidden onchange="uploadRobotFileInput(this,'code')">
+              </label>
+            </div>
+
+            <div class="category-block">
+              <div class="category-title"><i class="fas fa-diagram-project"></i> Conexiones</div>
+              <div id="rd-files-connection"></div>
+              <label class="btn btn-ghost btn-sm" style="margin-top:.5rem;cursor:pointer">
+                <i class="fas fa-upload"></i> Subir conexión
+                <input type="file" hidden onchange="uploadRobotFileInput(this,'connection')">
+              </label>
+            </div>
+
+            <div class="category-block">
+              <div class="category-title"><i class="fas fa-file"></i> Otros archivos</div>
+              <div id="rd-files-other"></div>
+              <label class="btn btn-ghost btn-sm" style="margin-top:.5rem;cursor:pointer">
+                <i class="fas fa-upload"></i> Subir archivo
+                <input type="file" hidden onchange="uploadRobotFileInput(this,'other')">
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -639,6 +714,24 @@ tr:last-child td{border-bottom:none}
   </div>
 </div>
 
+<!-- MODAL: ROBOT DE COMPETENCIA -->
+<div class="modal-overlay" id="modal-robot">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fas fa-robot"></i> <span id="robot-modal-title">Nuevo robot</span></h3><button class="modal-close" onclick="closeModal('modal-robot')">✕</button></div>
+    <div class="modal-body">
+      <form id="robotForm">
+        <div class="form-group"><label>Nombre <span class="req">*</span></label><input class="form-control" id="r-name" required></div>
+        <div class="form-group"><label>Categoría (opcional)</label><input class="form-control" id="r-category" placeholder="Ej. Sumo, Seguidor de línea, Rescate"></div>
+        <div class="form-group"><label>Descripción (opcional)</label><textarea class="form-control" id="r-description" rows="3"></textarea></div>
+      </form>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('modal-robot')">Cerrar</button>
+      <button class="btn btn-orange" onclick="saveRobot()"><i class="fas fa-check"></i> Guardar</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL: CLASE (currículo) -->
 <div class="modal-overlay" id="modal-lesson">
   <div class="modal-box modal-lg">
@@ -807,9 +900,10 @@ tr:last-child td{border-bottom:none}
 <script src="/js/api-client.js"></script>
 <script>
 let me = null;
-let allClasses = [], allTeachers = [], allPrograms = [], allGrades = [];
+let allClasses = [], allTeachers = [], allPrograms = [], allGrades = [], allRobots = [];
 let currentClassId = null;
 let currentGradeId = null;
+let currentRobotId = null;
 
 function initials(n){ return (n||'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('') || '??'; }
 function esc(s){ const d=document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
@@ -857,7 +951,7 @@ async function init(){
     document.getElementById('curriculumHint').textContent = 'Solo Virtus (super_admin) puede crear o editar el currículo. Aquí puedes consultarlo.';
   }
 
-  await Promise.all([loadStudents(), loadTeachers(), loadClasses(), loadPrograms(), loadGrades()]);
+  await Promise.all([loadStudents(), loadTeachers(), loadClasses(), loadPrograms(), loadGrades(), loadRobots()]);
   fillStudentGradeSelect();
   updateStats();
 }
@@ -1476,6 +1570,155 @@ function closeGradeDetail(){
   document.getElementById('gradesListView').classList.remove('hidden');
   currentGradeId = null;
   loadGrades();
+}
+
+// ───────────── ROBÓTICA DE COMPETENCIA ─────────────
+async function loadRobots(){
+  const res = await virtusApiFetch('/api/robotics/robots');
+  const loader = document.getElementById('robotsLoader');
+  if (loader) loader.style.display = 'none';
+  if (!res || !res.ok) { toast('No se pudieron cargar los robots','error'); return; }
+
+  allRobots = res.data.robots || [];
+  const tbody = document.getElementById('robotsTable');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  document.getElementById('robotsEmpty').classList.toggle('hidden', allRobots.length > 0);
+
+  allRobots.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${esc(r.name)}</strong>${r.description ? `<div class="form-hint">${esc(r.description)}</div>` : ''}</td>
+      <td>${r.category ? esc(r.category) : '<span class="form-hint">—</span>'}</td>
+      <td><span class="badge badge-orange">${r.file_count || 0}</span></td>
+      <td class="td-actions"><button class="btn btn-ghost btn-sm" onclick="openRobotDetail(${r.id})"><i class="fas fa-folder-open"></i> Ver archivos</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function openRobotModal(id){
+  const isEdit = !!id;
+  document.getElementById('robot-modal-title').textContent = isEdit ? 'Editar robot' : 'Nuevo robot';
+  document.getElementById('robotForm').reset();
+  document.getElementById('robotForm').dataset.editId = isEdit ? id : '';
+
+  if (isEdit) {
+    const robot = allRobots.find(r => r.id === id);
+    if (robot) {
+      document.getElementById('r-name').value = robot.name || '';
+      document.getElementById('r-category').value = robot.category || '';
+      document.getElementById('r-description').value = robot.description || '';
+    }
+  }
+  openModal('modal-robot');
+}
+
+async function saveRobot(){
+  const name = document.getElementById('r-name').value.trim();
+  const category = document.getElementById('r-category').value.trim();
+  const description = document.getElementById('r-description').value.trim();
+  if (!name) { toast('El nombre es requerido','error'); return; }
+
+  const editId = document.getElementById('robotForm').dataset.editId;
+  const body = JSON.stringify({ name, category, description });
+  const res = editId
+    ? await virtusApiFetch(`/api/robotics/robots/${editId}`, { method: 'PUT', body })
+    : await virtusApiFetch('/api/robotics/robots', { method: 'POST', body });
+
+  if (!res || !res.ok) { toast(res?.data?.message || 'Error al guardar el robot','error'); return; }
+
+  toast(editId ? 'Robot actualizado' : 'Robot creado');
+  closeModal('modal-robot');
+  await loadRobots();
+  if (editId && currentRobotId === Number(editId)) {
+    await openRobotDetail(currentRobotId);
+  }
+}
+
+async function deleteRobot(id){
+  if (!confirm('¿Eliminar este robot y todos sus archivos? Esta acción no se puede deshacer.')) return;
+  const res = await virtusApiFetch(`/api/robotics/robots/${id}`, { method: 'DELETE' });
+  if (!res || !res.ok) { toast(res?.data?.message || 'Error al eliminar','error'); return; }
+  toast('Robot eliminado');
+  closeRobotDetail();
+}
+
+async function openRobotDetail(id){
+  currentRobotId = id;
+  const res = await virtusApiFetch(`/api/robotics/robots/${id}`);
+  if (!res || !res.ok) { toast('No se pudo abrir el robot','error'); return; }
+
+  const { robot, files } = res.data;
+  document.getElementById('rd-robot-name').textContent = robot.name;
+  document.getElementById('rd-robot-desc').textContent = robot.description || '';
+
+  document.getElementById('robotsListView').classList.add('hidden');
+  document.getElementById('robotDetailView').classList.remove('hidden');
+
+  renderRobotFiles(files || []);
+}
+
+function closeRobotDetail(){
+  document.getElementById('robotDetailView').classList.add('hidden');
+  document.getElementById('robotsListView').classList.remove('hidden');
+  currentRobotId = null;
+  loadRobots();
+}
+
+function renderRobotFiles(files){
+  const byCategory = { stl: [], code: [], connection: [], other: [] };
+  files.forEach(f => { (byCategory[f.file_category] || byCategory.other).push(f); });
+
+  Object.keys(byCategory).forEach(cat => {
+    const container = document.getElementById(`rd-files-${cat}`);
+    if (!container) return;
+    container.innerHTML = '';
+    if (byCategory[cat].length === 0) {
+      container.innerHTML = '<p class="form-hint">Sin archivos todavía.</p>';
+      return;
+    }
+    byCategory[cat].forEach(f => container.appendChild(renderRobotFileItem(f)));
+  });
+}
+
+function renderRobotFileItem(f){
+  const item = document.createElement('div');
+  item.className = 'material-item';
+  const url = virtusSafeUrl(f.file_url);
+  const sizeKb = f.file_size ? `${Math.round(f.file_size / 1024)} KB` : '';
+  item.innerHTML = `
+    <div class="material-info">
+      <div class="material-title">${esc(f.file_name)}</div>
+      <div class="material-desc">${sizeKb}</div>
+    </div>
+    ${url ? `<a href="${escAttr(url)}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Descargar</a>` : ''}
+    <button class="btn btn-danger btn-sm" onclick="deleteRobotFile(${f.id})"><i class="fas fa-trash"></i></button>
+  `;
+  return item;
+}
+
+async function uploadRobotFileInput(inputEl, category){
+  const file = inputEl.files[0];
+  if (!file || !currentRobotId) return;
+
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('file_category', category);
+  const res = await virtusApiUpload(`/api/robotics/robots/${currentRobotId}/files`, fd);
+  inputEl.value = '';
+
+  if (!res || !res.ok) { toast(res?.data?.message || 'Error al subir el archivo','error'); return; }
+  toast('Archivo subido exitosamente');
+  await openRobotDetail(currentRobotId);
+}
+
+async function deleteRobotFile(id){
+  if (!confirm('¿Eliminar este archivo?')) return;
+  const res = await virtusApiFetch(`/api/robotics/files/${id}`, { method: 'DELETE' });
+  if (!res || !res.ok) { toast(res?.data?.message || 'Error al eliminar el archivo','error'); return; }
+  toast('Archivo eliminado');
+  await openRobotDetail(currentRobotId);
 }
 
 async function loadLessons(gradeId){

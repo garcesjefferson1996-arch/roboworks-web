@@ -315,7 +315,8 @@ body{display:flex;position:relative;background-color:var(--gray-light);
   <div class="dock-brand">
     <img src="/images/virtus/virtus-logo.png" onerror="this.style.display='none'">
   </div>
-  <button class="nav-item active" id="navGrades" title="Mis Grados"><i class="fas fa-graduation-cap"></i><span class="sr-label">Mis Grados</span></button>
+  <button class="nav-item active" id="navGrades" title="Mis Grados" onclick="showGradesView()"><i class="fas fa-graduation-cap"></i><span class="sr-label">Mis Grados</span></button>
+  <button class="nav-item" id="navRobotics" title="Robótica de Competencia" onclick="showRoboticsView()"><i class="fas fa-robot"></i><span class="sr-label">Robótica de Competencia</span></button>
   <div class="dock-sep"></div>
   <button class="icon-btn-dock" id="changePwBtn" title="Cambiar contraseña"><i class="fas fa-key"></i></button>
   <button class="icon-btn-dock danger" id="logoutBtn" title="Cerrar sesión"><i class="fas fa-right-from-bracket"></i></button>
@@ -368,6 +369,51 @@ body{display:flex;position:relative;background-color:var(--gray-light);
           <i class="fas fa-users-rectangle"></i>
           Este grado todavía no tiene paralelos (clases) creados. Contacta al administrador de tu institución.
         </div>
+      </div>
+    </div>
+
+    <!-- Vista: Robótica de Competencia (solo lectura) -->
+    <div id="viewRobotics" class="hidden">
+      <div class="detail-header">
+        <h2>Robótica de Competencia</h2>
+        <div class="detail-meta">
+          <span><i class="fas fa-robot"></i>Repositorio de robots del admin: archivos STL, código y conexiones</span>
+        </div>
+      </div>
+      <div class="grid-classes" id="roboticsGrid"></div>
+      <div class="empty-state hidden" id="emptyRobotics">
+        <i class="fas fa-robot"></i>
+        Todavía no hay robots de competencia registrados por el administrador.
+      </div>
+    </div>
+
+    <!-- Vista: detalle de un robot de competencia (solo lectura) -->
+    <div id="viewRoboticsDetail" class="hidden">
+      <button class="back-btn" id="roboticsBackBtn" onclick="closeRoboticsDetail()"><i class="fas fa-arrow-left"></i> Volver a Robótica de Competencia</button>
+
+      <div class="detail-header">
+        <h2 id="rtd-name">-</h2>
+        <div class="detail-meta">
+          <span id="rtd-category"></span>
+        </div>
+      </div>
+      <p id="rtd-description" style="color:rgba(255,255,255,.5);font-size:.85rem;margin-bottom:1rem"></p>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-cube"></i> Archivos STL</div>
+        <div id="rtd-files-stl"></div>
+      </div>
+      <div class="section">
+        <div class="section-title"><i class="fas fa-code"></i> Código</div>
+        <div id="rtd-files-code"></div>
+      </div>
+      <div class="section">
+        <div class="section-title"><i class="fas fa-diagram-project"></i> Conexiones</div>
+        <div id="rtd-files-connection"></div>
+      </div>
+      <div class="section">
+        <div class="section-title"><i class="fas fa-file"></i> Otros archivos</div>
+        <div id="rtd-files-other"></div>
       </div>
     </div>
 
@@ -557,6 +603,8 @@ let currentGradeId = null;
 let currentClassId = null;
 let currentTaskId = null;
 let currentTaskMaxScore = 10;
+let currentRobotics = [];
+let currentRoboticsId = null;
 
 function initials(name) {
   return (name || '?').split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
@@ -676,6 +724,117 @@ document.getElementById('gradeBackBtn').addEventListener('click', () => {
   currentGradeId = null;
   loadGrades();
 });
+
+// ───────────── NAVEGACIÓN DEL DOCK (Mis Grados / Robótica de Competencia) ─────────────
+function showGradesView(){
+  document.getElementById('viewRobotics').classList.add('hidden');
+  document.getElementById('viewRoboticsDetail').classList.add('hidden');
+  document.getElementById('viewGradeDetail').classList.add('hidden');
+  document.getElementById('viewClassDetail').classList.add('hidden');
+  document.getElementById('viewGrades').classList.remove('hidden');
+  document.getElementById('navRobotics').classList.remove('active');
+  document.getElementById('navGrades').classList.add('active');
+  document.getElementById('topbarTitle').textContent = 'Mis Grados';
+}
+
+function showRoboticsView(){
+  document.getElementById('viewGrades').classList.add('hidden');
+  document.getElementById('viewGradeDetail').classList.add('hidden');
+  document.getElementById('viewClassDetail').classList.add('hidden');
+  document.getElementById('viewRoboticsDetail').classList.add('hidden');
+  document.getElementById('viewRobotics').classList.remove('hidden');
+  document.getElementById('navGrades').classList.remove('active');
+  document.getElementById('navRobotics').classList.add('active');
+  document.getElementById('topbarTitle').textContent = 'Robótica de Competencia';
+  loadTeacherRobotics();
+}
+
+// ───────────── ROBÓTICA DE COMPETENCIA (solo lectura) ─────────────
+async function loadTeacherRobotics(){
+  const res = await virtusApiFetch('/api/robotics/robots');
+  if (!res || !res.ok) { showAlert('No se pudieron cargar los robots de competencia'); return; }
+  currentRobotics = res.data.robots || [];
+  renderTeacherRobotics();
+}
+
+function renderTeacherRobotics(){
+  const grid = document.getElementById('roboticsGrid');
+  const empty = document.getElementById('emptyRobotics');
+  grid.innerHTML = '';
+
+  if (currentRobotics.length === 0) {
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  currentRobotics.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'class-card';
+    card.innerHTML = `
+      <div class="grade-card-icon"><i class="fas fa-robot"></i></div>
+      <h3>${escapeHtml(r.name)}</h3>
+      <div class="class-meta">
+        <span><i class="fas fa-tag"></i> ${r.category ? escapeHtml(r.category) : 'Sin categoría'}</span>
+        <span><i class="fas fa-folder"></i> ${r.file_count || 0} archivo(s)</span>
+      </div>
+    `;
+    card.addEventListener('click', () => openTeacherRoboticsDetail(r.id));
+    grid.appendChild(card);
+  });
+}
+
+async function openTeacherRoboticsDetail(id){
+  currentRoboticsId = id;
+  const res = await virtusApiFetch(`/api/robotics/robots/${id}`);
+  if (!res || !res.ok) { showAlert('No se pudo abrir el robot'); return; }
+
+  const { robot, files } = res.data;
+  document.getElementById('rtd-name').textContent = robot.name;
+  document.getElementById('rtd-category').innerHTML = robot.category
+    ? `<i class="fas fa-tag"></i> ${escapeHtml(robot.category)}` : '';
+  document.getElementById('rtd-description').textContent = robot.description || '';
+
+  document.getElementById('viewRobotics').classList.add('hidden');
+  document.getElementById('viewRoboticsDetail').classList.remove('hidden');
+
+  renderTeacherRobotFiles(files || []);
+}
+
+function closeRoboticsDetail(){
+  document.getElementById('viewRoboticsDetail').classList.add('hidden');
+  document.getElementById('viewRobotics').classList.remove('hidden');
+  currentRoboticsId = null;
+}
+
+function renderTeacherRobotFiles(files){
+  const byCategory = { stl: [], code: [], connection: [], other: [] };
+  files.forEach(f => { (byCategory[f.file_category] || byCategory.other).push(f); });
+
+  Object.keys(byCategory).forEach(cat => {
+    const container = document.getElementById(`rtd-files-${cat}`);
+    if (!container) return;
+    container.innerHTML = '';
+    if (byCategory[cat].length === 0) {
+      container.innerHTML = '<p style="color:rgba(255,255,255,.3);font-size:.8rem">Sin archivos todavía.</p>';
+      return;
+    }
+    byCategory[cat].forEach(f => {
+      const url = virtusSafeUrl(f.file_url);
+      const sizeKb = f.file_size ? `${Math.round(f.file_size / 1024)} KB` : '';
+      const item = document.createElement('div');
+      item.className = 'material-item';
+      item.innerHTML = `
+        <div style="flex:1">
+          <div style="font-weight:600">${escapeHtml(f.file_name)}</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.4)">${sizeKb}</div>
+        </div>
+        ${url ? `<a href="${url.replace(/"/g,'&quot;')}" target="_blank" rel="noopener" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Descargar</a>` : ''}
+      `;
+      container.appendChild(item);
+    });
+  });
+}
 
 async function openClassDetail(classId) {
   currentClassId = classId;

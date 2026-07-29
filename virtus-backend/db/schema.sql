@@ -120,31 +120,13 @@ CREATE TABLE IF NOT EXISTS grade_lessons (
     INDEX idx_gl_grade (grade_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ------------------------------------------------------------
--- Planificacion pedagogica estructurada (Virtus asistente docente)
--- MySQL no soporta "ADD COLUMN IF NOT EXISTS" (eso es sintaxis de
--- Postgres/MariaDB). Este bloque es un parche de una sola vez para la
--- tabla grade_lessons que ya existia en produccion sin estas columnas.
--- Una vez aplicado en produccion, si este archivo se vuelve a correr
--- completo contra esa misma base, estas lineas fallaran con "Duplicate
--- column" (las columnas ya existiran) - en ese caso, borrar este
--- bloque, ya que el CREATE TABLE de arriba ya las incluye para
--- instalaciones nuevas desde cero.
--- ------------------------------------------------------------
-ALTER TABLE grade_lessons ADD COLUMN objetivos JSON NULL;
-ALTER TABLE grade_lessons ADD COLUMN competencias JSON NULL;
-ALTER TABLE grade_lessons ADD COLUMN destrezas JSON NULL;
-ALTER TABLE grade_lessons ADD COLUMN indicadores_evaluacion JSON NULL;
-ALTER TABLE grade_lessons ADD COLUMN tiempo_estimado VARCHAR(100) NULL;
-ALTER TABLE grade_lessons ADD COLUMN recursos_necesarios JSON NULL;
-ALTER TABLE grade_lessons ADD COLUMN materiales JSON NULL;
-ALTER TABLE grade_lessons ADD COLUMN kits JSON NULL;
-ALTER TABLE grade_lessons ADD COLUMN software_requerido JSON NULL;
-ALTER TABLE grade_lessons ADD COLUMN actividades TEXT NULL;
-ALTER TABLE grade_lessons ADD COLUMN proyecto_descripcion TEXT NULL;
-ALTER TABLE grade_lessons ADD COLUMN evaluacion_descripcion TEXT NULL;
-ALTER TABLE grade_lessons ADD COLUMN tarea_descripcion TEXT NULL;
-ALTER TABLE grade_lessons ADD COLUMN paso_a_paso JSON NULL;
+-- Nota: el parche de una sola vez que agregaba las columnas de
+-- planificacion pedagogica estructurada a grade_lessons (objetivos,
+-- competencias, destrezas, etc.) ya se aplico en produccion y fue
+-- retirado de este archivo - el CREATE TABLE de grade_lessons de arriba
+-- ya las incluye para instalaciones nuevas desde cero. Si necesitas
+-- verificar exactamente que columnas tiene esa tabla en produccion,
+-- usa DESCRIBE grade_lessons.
 
 CREATE TABLE IF NOT EXISTS lesson_resources (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -366,6 +348,40 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     INDEX idx_audit_actor (actor_id),
     INDEX idx_audit_action (action),
     INDEX idx_audit_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ------------------------------------------------------------
+-- ROBOTICA DE COMPETENCIA (repositorio del admin: robots propios
+-- con archivos STL, codigo y diagramas de conexion, visibles en
+-- modo lectura para los docentes de la misma institucion)
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS competition_robots (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT NOT NULL,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    category VARCHAR(100),
+    created_by INT NOT NULL,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_cr_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    CONSTRAINT fk_cr_creator FOREIGN KEY (created_by) REFERENCES users(id),
+    INDEX idx_cr_tenant (tenant_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS competition_robot_files (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    robot_id INT NOT NULL,
+    file_category ENUM('stl','code','connection','other') NOT NULL,
+    file_url VARCHAR(500) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_size INT,
+    uploaded_by INT NOT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_crf_robot FOREIGN KEY (robot_id) REFERENCES competition_robots(id) ON DELETE CASCADE,
+    CONSTRAINT fk_crf_uploader FOREIGN KEY (uploaded_by) REFERENCES users(id),
+    INDEX idx_crf_robot (robot_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 SET FOREIGN_KEY_CHECKS = 1;

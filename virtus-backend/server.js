@@ -70,6 +70,7 @@ const materialRoutes = require('./src/routes/materialRoutes');
 const uploadRoutes = require('./src/routes/uploadRoutes');
 const curriculumRoutes = require('./src/routes/curriculumRoutes');
 const notificationRoutes = require('./src/routes/notificationRoutes');
+const roboticsRoutes = require('./src/routes/roboticsRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
@@ -80,6 +81,7 @@ app.use('/api/materials', materialRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/curriculum', curriculumRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/robotics', roboticsRoutes);
 
 app.get('/api/health', async (req, res) => {
     try {
