@@ -9,6 +9,7 @@ const path = require('path');
 dotenv.config();
 
 const db = require('./src/config/database');
+const { scheduleClassReminders } = require('./src/jobs/classReminders');
 
 const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
@@ -121,4 +122,5 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, async () => {
     console.log(`Virtus API corriendo en puerto ${PORT} (${isProduction ? 'produccion' : 'desarrollo'})`);
     await db.testConnection();
+    scheduleClassReminders();
 });

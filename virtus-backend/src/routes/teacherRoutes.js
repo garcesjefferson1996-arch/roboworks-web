@@ -13,6 +13,7 @@ const { uploadMaterial } = require('../config/cloudinary');
 const { logAction } = require('../utils/audit');
 const Notification = require('../models/Notification');
 const Attendance = require('../models/Attendance');
+const TeacherSummary = require('../models/TeacherSummary');
 
 router.use(authMiddleware);
 router.use(requireRole('teacher'));
@@ -40,6 +41,20 @@ router.get('/dashboard', async (req, res) => {
     } catch (error) {
         console.error('Error en dashboard de docente:', error.message);
         res.status(500).json({ message: 'Error al obtener el panel del docente' });
+    }
+});
+
+// ============================================
+// RESUMEN (pantalla de inicio: lo urgente de un vistazo)
+// ============================================
+
+router.get('/summary', async (req, res) => {
+    try {
+        const summary = await TeacherSummary.getSummary(req.user.id);
+        res.json(summary);
+    } catch (error) {
+        console.error('Error al obtener el resumen del docente:', error.message);
+        res.status(500).json({ message: 'Error al obtener el resumen' });
     }
 });
 

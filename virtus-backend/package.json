@@ -24,6 +24,7 @@
     "mysql2": "^3.17.2",
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
+    "node-cron": "^3.0.3",
     "otplib": "^12.0.1",
     "qrcode": "^1.5.4"
   },

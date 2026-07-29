@@ -315,7 +315,8 @@ body{display:flex;position:relative;background-color:var(--gray-light);
   <div class="dock-brand">
     <img src="/images/virtus/virtus-logo.png" onerror="this.style.display='none'">
   </div>
-  <button class="nav-item active" id="navGrades" title="Mis Grados" onclick="showGradesView()"><i class="fas fa-graduation-cap"></i><span class="sr-label">Mis Grados</span></button>
+  <button class="nav-item active" id="navSummary" title="Resumen" onclick="showSummaryView()"><i class="fas fa-house"></i><span class="sr-label">Resumen</span></button>
+  <button class="nav-item" id="navGrades" title="Mis Grados" onclick="showGradesView()"><i class="fas fa-graduation-cap"></i><span class="sr-label">Mis Grados</span></button>
   <button class="nav-item" id="navRobotics" title="Robótica de Competencia" onclick="showRoboticsView()"><i class="fas fa-robot"></i><span class="sr-label">Robótica de Competencia</span></button>
   <div class="dock-sep"></div>
   <button class="icon-btn-dock" id="changePwBtn" title="Cambiar contraseña"><i class="fas fa-key"></i></button>
@@ -324,7 +325,7 @@ body{display:flex;position:relative;background-color:var(--gray-light);
 
 <div class="main">
   <div class="topbar">
-    <div class="topbar-title" id="topbarTitle">Mis Grados</div>
+    <div class="topbar-title" id="topbarTitle">Resumen</div>
     <div style="display:flex;align-items:center;gap:.75rem">
       <div id="notifBellWrap"></div>
       <div class="who-chip">
@@ -336,8 +337,38 @@ body{display:flex;position:relative;background-color:var(--gray-light);
   <div class="content">
     <div id="alert" class="alert"></div>
 
+    <!-- Vista: resumen de inicio (lo urgente de un vistazo) -->
+    <div id="viewSummary">
+      <div class="section">
+        <div class="section-title"><i class="fas fa-calendar-day"></i>&nbsp;Clases de hoy</div>
+        <div id="summaryTodayClasses"></div>
+        <div class="empty-state hidden" id="emptyTodayClasses">
+          <i class="fas fa-mug-hot"></i>
+          No tienes clases programadas para hoy.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-marker"></i>&nbsp;Entregas por calificar <span class="class-count" id="summaryPendingBadge">0</span></div>
+        <div id="summaryPendingGrading"></div>
+        <div class="empty-state hidden" id="emptyPendingGrading">
+          <i class="fas fa-circle-check"></i>
+          Estás al día: no hay entregas pendientes de calificar.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-triangle-exclamation"></i>&nbsp;Alertas de asistencia</div>
+        <div id="summaryAttendanceAlerts"></div>
+        <div class="empty-state hidden" id="emptyAttendanceAlerts">
+          <i class="fas fa-thumbs-up"></i>
+          Ningún estudiante con inasistencias frecuentes por ahora.
+        </div>
+      </div>
+    </div>
+
     <!-- Vista: lista de grados que da el docente -->
-    <div id="viewGrades">
+    <div id="viewGrades" class="hidden">
       <div class="grid-classes" id="gradesGrid"></div>
       <div class="empty-state hidden" id="emptyGrades">
         <i class="fas fa-graduation-cap"></i>
@@ -605,6 +636,7 @@ let currentTaskId = null;
 let currentTaskMaxScore = 10;
 let currentRobotics = [];
 let currentRoboticsId = null;
+let currentSummary = null;
 
 function initials(name) {
   return (name || '?').split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
@@ -631,7 +663,7 @@ async function init() {
   checkForcedPasswordChange(verify.data.user);
   virtusInitNotificationBell('notifBellWrap');
 
-  await loadGrades();
+  await Promise.all([loadGrades(), loadSummary()]);
 }
 
 async function loadGrades() {
@@ -725,28 +757,141 @@ document.getElementById('gradeBackBtn').addEventListener('click', () => {
   loadGrades();
 });
 
-// ───────────── NAVEGACIÓN DEL DOCK (Mis Grados / Robótica de Competencia) ─────────────
-function showGradesView(){
+// ───────────── NAVEGACIÓN DEL DOCK (Resumen / Mis Grados / Robótica de Competencia) ─────────────
+function hideAllMainViews(){
+  document.getElementById('viewSummary').classList.add('hidden');
+  document.getElementById('viewGrades').classList.add('hidden');
   document.getElementById('viewRobotics').classList.add('hidden');
   document.getElementById('viewRoboticsDetail').classList.add('hidden');
   document.getElementById('viewGradeDetail').classList.add('hidden');
   document.getElementById('viewClassDetail').classList.add('hidden');
-  document.getElementById('viewGrades').classList.remove('hidden');
+  document.getElementById('navSummary').classList.remove('active');
+  document.getElementById('navGrades').classList.remove('active');
   document.getElementById('navRobotics').classList.remove('active');
+}
+
+function showSummaryView(){
+  hideAllMainViews();
+  document.getElementById('viewSummary').classList.remove('hidden');
+  document.getElementById('navSummary').classList.add('active');
+  document.getElementById('topbarTitle').textContent = 'Resumen';
+  loadSummary();
+}
+
+function showGradesView(){
+  hideAllMainViews();
+  document.getElementById('viewGrades').classList.remove('hidden');
   document.getElementById('navGrades').classList.add('active');
   document.getElementById('topbarTitle').textContent = 'Mis Grados';
 }
 
 function showRoboticsView(){
-  document.getElementById('viewGrades').classList.add('hidden');
-  document.getElementById('viewGradeDetail').classList.add('hidden');
-  document.getElementById('viewClassDetail').classList.add('hidden');
-  document.getElementById('viewRoboticsDetail').classList.add('hidden');
+  hideAllMainViews();
   document.getElementById('viewRobotics').classList.remove('hidden');
-  document.getElementById('navGrades').classList.remove('active');
   document.getElementById('navRobotics').classList.add('active');
   document.getElementById('topbarTitle').textContent = 'Robótica de Competencia';
   loadTeacherRobotics();
+}
+
+// ───────────── RESUMEN (pantalla de inicio) ─────────────
+async function loadSummary(){
+  const res = await virtusApiFetch('/api/teacher/summary');
+  if (!res || !res.ok) { return; }
+  currentSummary = res.data;
+  renderSummary();
+}
+
+function renderSummary(){
+  if (!currentSummary) return;
+
+  const todayWrap = document.getElementById('summaryTodayClasses');
+  const emptyToday = document.getElementById('emptyTodayClasses');
+  todayWrap.innerHTML = '';
+  const todayClasses = currentSummary.today_classes || [];
+  if (todayClasses.length === 0) {
+    emptyToday.classList.remove('hidden');
+  } else {
+    emptyToday.classList.add('hidden');
+    todayClasses.forEach(c => {
+      const row = document.createElement('div');
+      row.className = 'material-item';
+      row.style.cursor = 'pointer';
+      row.innerHTML = `
+        <i class="fas fa-chalkboard-user"></i>
+        <div style="flex:1">
+          <div style="font-weight:700">${escapeHtml(c.grade_name || '')} — ${escapeHtml(c.name)}</div>
+          <div style="font-size:.75rem;color:var(--gray)">${c.schedule_time ? c.schedule_time.slice(0,5) : 'Sin hora'}</div>
+        </div>
+      `;
+      row.addEventListener('click', () => goToClassFrom(c.id));
+      todayWrap.appendChild(row);
+    });
+  }
+
+  const pendingWrap = document.getElementById('summaryPendingGrading');
+  const emptyPending = document.getElementById('emptyPendingGrading');
+  const badge = document.getElementById('summaryPendingBadge');
+  pendingWrap.innerHTML = '';
+  const pending = currentSummary.pending_grading || [];
+  badge.textContent = currentSummary.pending_grading_total || 0;
+  if (pending.length === 0) {
+    emptyPending.classList.remove('hidden');
+  } else {
+    emptyPending.classList.add('hidden');
+    pending.forEach(p => {
+      const row = document.createElement('div');
+      row.className = 'material-item';
+      row.style.cursor = 'pointer';
+      row.innerHTML = `
+        <i class="fas fa-file-pen"></i>
+        <div style="flex:1">
+          <div style="font-weight:700">${escapeHtml(p.title)}</div>
+          <div style="font-size:.75rem;color:var(--gray)">${escapeHtml(p.class_name)}</div>
+        </div>
+        <span class="class-count">${p.pending_count} sin calificar</span>
+      `;
+      row.addEventListener('click', () => goToClassFrom(p.class_id));
+      pendingWrap.appendChild(row);
+    });
+  }
+
+  const alertsWrap = document.getElementById('summaryAttendanceAlerts');
+  const emptyAlerts = document.getElementById('emptyAttendanceAlerts');
+  alertsWrap.innerHTML = '';
+  const alerts = currentSummary.attendance_alerts || [];
+  if (alerts.length === 0) {
+    emptyAlerts.classList.remove('hidden');
+  } else {
+    emptyAlerts.classList.add('hidden');
+    alerts.forEach(a => {
+      const row = document.createElement('div');
+      row.className = 'material-item';
+      row.style.cursor = 'pointer';
+      row.innerHTML = `
+        <i class="fas fa-triangle-exclamation" style="color:var(--red)"></i>
+        <div style="flex:1">
+          <div style="font-weight:700">${escapeHtml(a.full_name)}</div>
+          <div style="font-size:.75rem;color:var(--gray)">${escapeHtml(a.class_name)}</div>
+        </div>
+        <span class="class-count">${a.absences} faltas</span>
+      `;
+      row.addEventListener('click', () => goToClassFrom(a.class_id));
+      alertsWrap.appendChild(row);
+    });
+  }
+}
+
+// Navega desde una tarjeta del resumen directo al detalle de esa clase,
+// ubicando primero a que grado pertenece (currentGrades ya viene cargado
+// desde init()). Pasa primero por el detalle del grado (para que quede
+// bien poblado) y luego abre el paralelo, asi el boton "Volver" funciona.
+async function goToClassFrom(classId){
+  const grade = currentGrades.find(g => (g.classes || []).some(c => c.id === classId));
+  if (!grade) { showGradesView(); return; }
+  hideAllMainViews();
+  document.getElementById('navGrades').classList.add('active');
+  await openGradeDetail(grade.id);
+  await openClassDetail(classId);
 }
 
 // ───────────── ROBÓTICA DE COMPETENCIA (solo lectura) ─────────────
