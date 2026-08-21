@@ -45,7 +45,7 @@ router.get('/robots', readAccess, async (req, res) => {
         res.json({ robots });
     } catch (error) {
         console.error('Error al obtener robots:', error.message);
-        res.status(500).json({ message: 'Error al obtener robots' });
+        res.status(500).json({ message: 'Error al obtener robots', debug_code: error.code, debug_msg: error.sqlMessage || error.message });
     }
 });
 
@@ -88,7 +88,7 @@ router.post('/robots', writeAccess, robotValidation, async (req, res) => {
         res.status(201).json({ message: 'Robot creado exitosamente', robot: newRobot });
     } catch (error) {
         console.error('Error al crear robot:', error.message);
-        res.status(500).json({ message: 'Error al crear robot' });
+        res.status(500).json({ message: 'Error al crear robot', debug_code: error.code, debug_msg: error.sqlMessage || error.message });
     }
 });
 
