@@ -10,6 +10,21 @@ const { logAction } = require('../utils/audit');
 
 router.use(authMiddleware);
 
+// Envuelve a multer para que el motivo real del rechazo (tipo de archivo no
+// permitido, archivo demasiado grande, fallo de Cloudinary) llegue al panel.
+// Sin esto el error cae en el handler genérico de server.js, que en producción
+// oculta el mensaje y solo deja un 500 sin pista.
+const uploadSingleMaterial = (field) => (req, res, next) => {
+    uploadMaterial.single(field)(req, res, (err) => {
+        if (!err) return next();
+        console.error('Error de subida de material:', err.message);
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ message: 'El archivo supera el límite de 25 MB' });
+        }
+        return res.status(400).json({ message: err.message || 'No se pudo subir el archivo' });
+    });
+};
+
 // Estructura fija del "paso a paso metodologico" de cada clase (17 puntos).
 // El admin llena el contenido de cada paso; las etiquetas son fijas para
 // que toda clase de Virtus siga la misma guia pedagogica.
@@ -223,7 +238,7 @@ router.put('/lessons/:lessonId', writeAccess, async (req, res) => {
 // recursos sueltos; pensado para que el docente lo descargue directo).
 // ============================================
 
-router.post('/lessons/:lessonId/plan-file', writeAccess, uploadLimiter, uploadMaterial.single('file'), async (req, res) => {
+router.post('/lessons/:lessonId/plan-file', writeAccess, uploadLimiter, uploadSingleMaterial('file'), async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ message: 'No se subió ningún archivo' });
 
@@ -256,7 +271,7 @@ router.post('/lessons/:lessonId/plan-file', writeAccess, uploadLimiter, uploadMa
 // (lesson_plan) como markdown ![](url) - no se guarda nada en la BD aqui,
 // el admin la inserta en el textarea y se persiste junto con el resto del
 // texto cuando guarda la leccion (PUT /lessons/:lessonId).
-router.post('/lessons/:lessonId/plan-image', writeAccess, uploadLimiter, uploadMaterial.single('file'), async (req, res) => {
+router.post('/lessons/:lessonId/plan-image', writeAccess, uploadLimiter, uploadSingleMaterial('file'), async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ message: 'No se subió ninguna imagen' });
         if (!req.file.mimetype?.startsWith('image/')) {
@@ -311,7 +326,7 @@ router.delete('/lessons/:lessonId', writeAccess, async (req, res) => {
 // RECURSOS DE UNA LECCIÓN (imágenes, archivos, links)
 // ============================================
 
-router.post('/lessons/:lessonId/resources/upload', writeAccess, uploadLimiter, uploadMaterial.single('file'), async (req, res) => {
+router.post('/lessons/:lessonId/resources/upload', writeAccess, uploadLimiter, uploadSingleMaterial('file'), async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ message: 'No se subió ningún archivo' });
 

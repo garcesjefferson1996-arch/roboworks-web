@@ -34,19 +34,49 @@ const uploadProfilePhoto = multer({
     }
 });
 
-// Materiales de clase: permite documentos, no solo imágenes
+// Materiales de clase: permite documentos, no solo imágenes.
+// Office (.pptx/.docx/.xlsx) y .zip van como resource_type 'raw' por el mismo
+// motivo documentado abajo en los archivos de robótica: Cloudinary sube esos
+// formatos como "raw" y ahí NO valida contra allowed_formats, así que la
+// combinación 'auto' + allowed_formats los rechazaba. Imágenes y PDF se quedan
+// en 'auto' (Cloudinary los trata como image) para no cambiar las URLs ya
+// guardadas ni la transformación q_auto de los PDF de planificación.
+const MATERIAL_RAW_EXT = ['.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx', '.zip'];
+const ALLOWED_MATERIAL_EXT = [
+    '.jpg', '.jpeg', '.png', '.webp', '.gif', '.pdf',
+    ...MATERIAL_RAW_EXT
+];
+
 const materialStorage = new CloudinaryStorage({
     cloudinary,
-    params: {
-        folder: 'virtus-materials',
-        resource_type: 'auto', // permite pdf, doc, ppt, imágenes, etc.
-        allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'zip']
+    params: (req, file) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        const isRaw = MATERIAL_RAW_EXT.includes(ext);
+        const params = {
+            folder: 'virtus-materials',
+            resource_type: isRaw ? 'raw' : 'auto'
+        };
+        // En 'raw' el public_id debe conservar la extensión, si no la URL
+        // resultante no se puede abrir/descargar correctamente.
+        if (isRaw) {
+            params.use_filename = true;
+            params.unique_filename = true;
+        }
+        return params;
     }
 });
 
 const uploadMaterial = multer({
     storage: materialStorage,
-    limits: { fileSize: 25 * 1024 * 1024 } // 25MB, ajustar según necesidad real
+    limits: { fileSize: 25 * 1024 * 1024 }, // 25MB, ajustar según necesidad real
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        if (ALLOWED_MATERIAL_EXT.includes(ext)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Tipo de archivo no permitido. Usa PDF, Word, PowerPoint, Excel, imágenes o .zip'), false);
+        }
+    }
 });
 
 // Archivos de Robótica de Competencia: STL, código fuente, diagramas de conexión.
