@@ -34,22 +34,22 @@ class CompetitionRobot {
     }
 
     static async create(data) {
-        const { tenant_id, name, description, category, created_by } = data;
+        const { tenant_id, name, description, category, external_link, created_by } = data;
         const [result] = await db.pool.query(
-            `INSERT INTO competition_robots (tenant_id, name, description, category, created_by)
-             VALUES (?, ?, ?, ?, ?)`,
-            [tenant_id, name, description || null, category || null, created_by]
+            `INSERT INTO competition_robots (tenant_id, name, description, category, external_link, created_by)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [tenant_id, name, description || null, category || null, external_link || null, created_by]
         );
         return result.insertId;
     }
 
     static async update(id, data) {
-        const { name, description, category, is_active } = data;
+        const { name, description, category, external_link, is_active } = data;
         const [result] = await db.pool.query(
             `UPDATE competition_robots
-                SET name = ?, description = ?, category = ?, is_active = ?
+                SET name = ?, description = ?, category = ?, external_link = ?, is_active = ?
              WHERE id = ?`,
-            [name, description || null, category || null, is_active === undefined ? 1 : is_active, id]
+            [name, description || null, category || null, external_link || null, is_active === undefined ? 1 : is_active, id]
         );
         return result.affectedRows > 0;
     }

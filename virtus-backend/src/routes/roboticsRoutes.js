@@ -77,10 +77,13 @@ router.post('/robots', writeAccess, robotValidation, async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { name, description, category } = req.body;
+        const { name, description, category, external_link } = req.body;
+        if (external_link && !/^https?:\/\//i.test(external_link)) {
+            return res.status(400).json({ message: 'El link debe empezar con http:// o https://' });
+        }
         const robotId = await CompetitionRobot.create({
             tenant_id: req.user.tenant_id,
-            name, description, category,
+            name, description, category, external_link,
             created_by: req.user.id
         });
 
@@ -107,9 +110,12 @@ router.put('/robots/:id', writeAccess, robotValidation, async (req, res) => {
             return res.status(403).json({ message: 'No tienes acceso a este robot' });
         }
 
-        const { name, description, category, is_active } = req.body;
+        const { name, description, category, external_link, is_active } = req.body;
+        if (external_link && !/^https?:\/\//i.test(external_link)) {
+            return res.status(400).json({ message: 'El link debe empezar con http:// o https://' });
+        }
         const updated = await CompetitionRobot.update(req.params.id, {
-            name, description, category,
+            name, description, category, external_link,
             is_active: is_active === undefined ? 1 : (is_active ? 1 : 0)
         });
         if (!updated) {

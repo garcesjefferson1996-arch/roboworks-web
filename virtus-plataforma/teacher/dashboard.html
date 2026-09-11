@@ -429,6 +429,7 @@ body{display:flex;position:relative;background-color:var(--gray-light);
         </div>
       </div>
       <p id="rtd-description" style="color:rgba(255,255,255,.5);font-size:.85rem;margin-bottom:1rem"></p>
+      <p id="rtd-link" style="margin-bottom:1rem"></p>
 
       <div class="section">
         <div class="section-title"><i class="fas fa-cube"></i> Archivos STL</div>
@@ -939,6 +940,10 @@ async function openTeacherRoboticsDetail(id){
   document.getElementById('rtd-category').innerHTML = robot.category
     ? `<i class="fas fa-tag"></i> ${escapeHtml(robot.category)}` : '';
   document.getElementById('rtd-description').textContent = robot.description || '';
+  const rtdLinkUrl = virtusSafeUrl(robot.external_link);
+  document.getElementById('rtd-link').innerHTML = rtdLinkUrl
+    ? `<a class="btn-primary" style="display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600" href="${escapeAttr(rtdLinkUrl)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-cloud-download-alt"></i> Descargar de Google Drive</a>`
+    : '';
 
   document.getElementById('viewRobotics').classList.add('hidden');
   document.getElementById('viewRoboticsDetail').classList.remove('hidden');

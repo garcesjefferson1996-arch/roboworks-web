@@ -413,6 +413,7 @@ tr:last-child td{border-bottom:none}
           </div>
           <div class="card-body">
             <p class="form-hint" id="rd-robot-desc"></p>
+            <p id="rd-robot-link" style="margin:0 0 1rem"></p>
 
             <div class="category-block">
               <div class="category-title"><i class="fas fa-cube"></i> Archivos STL</div>
@@ -722,7 +723,8 @@ tr:last-child td{border-bottom:none}
       <form id="robotForm">
         <div class="form-group"><label>Nombre <span class="req">*</span></label><input class="form-control" id="r-name" required></div>
         <div class="form-group"><label>Categoría (opcional)</label><input class="form-control" id="r-category" placeholder="Ej. Sumo, Seguidor de línea, Rescate"></div>
-        <div class="form-group"><label>Descripción (opcional)</label><textarea class="form-control" id="r-description" rows="3"></textarea></div>
+        <div class="form-group"><label>Descripción / paso a paso (opcional)</label><textarea class="form-control" id="r-description" rows="3"></textarea></div>
+        <div class="form-group"><label>Link de descarga — Google Drive (opcional)</label><input class="form-control" id="r-link" placeholder="https://drive.google.com/..."><p class="form-hint">Se muestra como botón para que el docente descargue todos los archivos desde ahí.</p></div>
       </form>
     </div>
     <div class="modal-foot">
@@ -1609,6 +1611,7 @@ function openRobotModal(id){
       document.getElementById('r-name').value = robot.name || '';
       document.getElementById('r-category').value = robot.category || '';
       document.getElementById('r-description').value = robot.description || '';
+      document.getElementById('r-link').value = robot.external_link || '';
     }
   }
   openModal('modal-robot');
@@ -1618,10 +1621,12 @@ async function saveRobot(){
   const name = document.getElementById('r-name').value.trim();
   const category = document.getElementById('r-category').value.trim();
   const description = document.getElementById('r-description').value.trim();
+  const external_link = document.getElementById('r-link').value.trim();
   if (!name) { toast('El nombre es requerido','error'); return; }
+  if (external_link && !/^https?:\/\//i.test(external_link)) { toast('El link debe empezar con http:// o https://','error'); return; }
 
   const editId = document.getElementById('robotForm').dataset.editId;
-  const body = JSON.stringify({ name, category, description });
+  const body = JSON.stringify({ name, category, description, external_link });
   const res = editId
     ? await virtusApiFetch(`/api/robotics/robots/${editId}`, { method: 'PUT', body })
     : await virtusApiFetch('/api/robotics/robots', { method: 'POST', body });
@@ -1652,6 +1657,10 @@ async function openRobotDetail(id){
   const { robot, files } = res.data;
   document.getElementById('rd-robot-name').textContent = robot.name;
   document.getElementById('rd-robot-desc').textContent = robot.description || '';
+  const linkUrl = virtusSafeUrl(robot.external_link);
+  document.getElementById('rd-robot-link').innerHTML = linkUrl
+    ? `<a class="btn btn-orange btn-sm" href="${esc(linkUrl)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-cloud-download-alt"></i> Descargar de Google Drive</a>`
+    : '';
 
   document.getElementById('robotsListView').classList.add('hidden');
   document.getElementById('robotDetailView').classList.remove('hidden');

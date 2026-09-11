@@ -192,6 +192,12 @@ CREATE TABLE IF NOT EXISTS classes (
 
 ALTER TABLE classes MODIFY COLUMN program_id INT NULL;
 
+-- Link externo (p.ej. carpeta de Google Drive) para descargar los archivos
+-- de un robot de competencia con un solo botón, en vez de subirlos uno por
+-- uno. Columna agregada despues del CREATE TABLE inicial, de ahi el ALTER
+-- idempotente (MySQL 8.0.29+ soporta IF NOT EXISTS en ADD COLUMN).
+ALTER TABLE competition_robots ADD COLUMN IF NOT EXISTS external_link VARCHAR(500) NULL;
+
 -- ------------------------------------------------------------
 -- INSCRIPCIONES
 -- ------------------------------------------------------------
@@ -361,6 +367,7 @@ CREATE TABLE IF NOT EXISTS competition_robots (
     name VARCHAR(200) NOT NULL,
     description TEXT,
     category VARCHAR(100),
+    external_link VARCHAR(500),
     created_by INT NOT NULL,
     is_active TINYINT(1) NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
