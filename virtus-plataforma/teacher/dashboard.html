@@ -104,6 +104,21 @@ body{display:flex;position:relative;background-color:var(--gray-light);
 .empty-state{text-align:center;padding:2.5rem 1rem;color:var(--gray)}
 .empty-state i{font-size:2rem;color:var(--border);margin-bottom:.75rem;display:block}
 
+.robot-card-img{height:120px;border-radius:12px;background:linear-gradient(135deg,var(--or),#0c4a5c);display:flex;align-items:center;justify-content:center;margin-bottom:.85rem;overflow:hidden}
+.robot-card-img img{width:100%;height:100%;object-fit:cover}
+.robot-card-img i{font-size:2.2rem;color:rgba(8,9,11,.4)}
+.robot-hero{border-radius:16px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--glass-border)}
+.robot-hero img{width:100%;max-height:320px;object-fit:cover;display:block}
+.robot-hero-placeholder{height:200px;background:linear-gradient(135deg,var(--or),#0c4a5c);display:flex;align-items:center;justify-content:center}
+.robot-hero-placeholder i{font-size:3rem;color:rgba(8,9,11,.35)}
+.robot-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;margin:1rem 0 1.25rem}
+.robot-gallery img{width:100%;height:95px;object-fit:cover;border-radius:10px;border:1px solid var(--glass-border);cursor:zoom-in}
+.robot-steps{margin-top:.5rem}
+.robot-step{display:flex;gap:.85rem;padding:.85rem 0;border-bottom:1px solid var(--glass-border)}
+.robot-step:last-child{border-bottom:none}
+.robot-step-num{width:28px;height:28px;border-radius:8px;background:var(--or);color:#08090b;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;flex-shrink:0}
+.robot-step-text{font-size:.85rem;line-height:1.55;padding-top:.15rem}
+
 .trimester-section{margin-bottom:1.25rem}
 .trimester-header{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:.82rem;color:var(--or-dark);text-transform:uppercase;letter-spacing:.4px;padding:.5rem 0;border-bottom:2px solid var(--or-dark);margin-bottom:.75rem}
 .lesson-card{border:1px solid var(--glass-border);border-radius:12px;margin-bottom:.7rem;overflow:hidden;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
@@ -428,25 +443,16 @@ body{display:flex;position:relative;background-color:var(--gray-light);
           <span id="rtd-category"></span>
         </div>
       </div>
-      <p id="rtd-description" style="color:rgba(255,255,255,.5);font-size:.85rem;margin-bottom:1rem"></p>
-      <p id="rtd-link" style="margin-bottom:1rem"></p>
+      <div id="rtd-hero"></div>
+      <p id="rtd-description" style="color:rgba(255,255,255,.5);font-size:.85rem;margin-bottom:.5rem"></p>
+      <div class="robot-gallery" id="rtd-gallery"></div>
 
-      <div class="section">
-        <div class="section-title"><i class="fas fa-cube"></i> Archivos STL</div>
-        <div id="rtd-files-stl"></div>
+      <div class="section" id="rtd-steps-wrap">
+        <div class="section-title"><i class="fas fa-list-ol"></i> Paso a paso</div>
+        <div class="robot-steps" id="rtd-steps"></div>
       </div>
-      <div class="section">
-        <div class="section-title"><i class="fas fa-code"></i> Código</div>
-        <div id="rtd-files-code"></div>
-      </div>
-      <div class="section">
-        <div class="section-title"><i class="fas fa-diagram-project"></i> Conexiones</div>
-        <div id="rtd-files-connection"></div>
-      </div>
-      <div class="section">
-        <div class="section-title"><i class="fas fa-file"></i> Otros archivos</div>
-        <div id="rtd-files-other"></div>
-      </div>
+
+      <p id="rtd-link" style="margin-bottom:1rem"></p>
     </div>
 
     <!-- Vista: detalle de un paralelo (clase puntual: roster, tareas, asistencia, calificaciones) -->
@@ -629,6 +635,7 @@ body{display:flex;position:relative;background-color:var(--gray-light);
 
 <script src="/js/api-config.js"></script>
 <script src="/js/api-client.js"></script>
+<script src="/js/competition-robots-data.js"></script>
 <script>
 let currentGrades = [];
 let currentGradeId = null;
@@ -791,7 +798,7 @@ function showRoboticsView(){
   document.getElementById('viewRobotics').classList.remove('hidden');
   document.getElementById('navRobotics').classList.add('active');
   document.getElementById('topbarTitle').textContent = 'Robótica de Competencia';
-  loadTeacherRobotics();
+  renderTeacherRobotics();
 }
 
 // ───────────── RESUMEN (pantalla de inicio) ─────────────
@@ -895,34 +902,29 @@ async function goToClassFrom(classId){
   await openClassDetail(classId);
 }
 
-// ───────────── ROBÓTICA DE COMPETENCIA (solo lectura) ─────────────
-async function loadTeacherRobotics(){
-  const res = await virtusApiFetch('/api/robotics/robots');
-  if (!res || !res.ok) { showAlert('No se pudieron cargar los robots de competencia'); return; }
-  currentRobotics = res.data.robots || [];
-  renderTeacherRobotics();
-}
-
+// ───────────── ROBÓTICA DE COMPETENCIA (contenido estático, solo lectura) ─────────────
 function renderTeacherRobotics(){
   const grid = document.getElementById('roboticsGrid');
   const empty = document.getElementById('emptyRobotics');
+  const robots = window.VIRTUS_COMPETITION_ROBOTS || [];
   grid.innerHTML = '';
 
-  if (currentRobotics.length === 0) {
+  if (robots.length === 0) {
     empty.classList.remove('hidden');
     return;
   }
   empty.classList.add('hidden');
 
-  currentRobotics.forEach(r => {
+  robots.forEach(r => {
     const card = document.createElement('div');
     card.className = 'class-card';
     card.innerHTML = `
-      <div class="grade-card-icon"><i class="fas fa-robot"></i></div>
+      <div class="robot-card-img">
+        ${r.image ? `<img src="${escapeAttr(r.image)}" alt="">` : `<i class="fas ${escapeHtml(r.icon || 'fa-robot')}"></i>`}
+      </div>
       <h3>${escapeHtml(r.name)}</h3>
       <div class="class-meta">
         <span><i class="fas fa-tag"></i> ${r.category ? escapeHtml(r.category) : 'Sin categoría'}</span>
-        <span><i class="fas fa-folder"></i> ${r.file_count || 0} archivo(s)</span>
       </div>
     `;
     card.addEventListener('click', () => openTeacherRoboticsDetail(r.id));
@@ -930,60 +932,51 @@ function renderTeacherRobotics(){
   });
 }
 
-async function openTeacherRoboticsDetail(id){
+function openTeacherRoboticsDetail(id){
+  const robot = (window.VIRTUS_COMPETITION_ROBOTS || []).find(r => r.id === id);
+  if (!robot) return;
   currentRoboticsId = id;
-  const res = await virtusApiFetch(`/api/robotics/robots/${id}`);
-  if (!res || !res.ok) { showAlert('No se pudo abrir el robot'); return; }
 
-  const { robot, files } = res.data;
   document.getElementById('rtd-name').textContent = robot.name;
   document.getElementById('rtd-category').innerHTML = robot.category
     ? `<i class="fas fa-tag"></i> ${escapeHtml(robot.category)}` : '';
   document.getElementById('rtd-description').textContent = robot.description || '';
-  const rtdLinkUrl = virtusSafeUrl(robot.external_link);
+
+  const hero = document.getElementById('rtd-hero');
+  hero.innerHTML = robot.image
+    ? `<div class="robot-hero"><img src="${escapeAttr(robot.image)}" alt=""></div>`
+    : `<div class="robot-hero"><div class="robot-hero-placeholder"><i class="fas ${escapeHtml(robot.icon || 'fa-robot')}"></i></div></div>`;
+
+  const gallery = document.getElementById('rtd-gallery');
+  gallery.innerHTML = (robot.gallery || []).map(url => `<img src="${escapeAttr(url)}" alt="" onclick="window.open('${escapeAttr(url)}','_blank')">`).join('');
+
+  const stepsWrap = document.getElementById('rtd-steps-wrap');
+  const steps = document.getElementById('rtd-steps');
+  if (robot.steps && robot.steps.length) {
+    stepsWrap.classList.remove('hidden');
+    steps.innerHTML = robot.steps.map((s, i) => `
+      <div class="robot-step">
+        <div class="robot-step-num">${i + 1}</div>
+        <div class="robot-step-text">${escapeHtml(s)}</div>
+      </div>
+    `).join('');
+  } else {
+    stepsWrap.classList.add('hidden');
+  }
+
+  const rtdLinkUrl = virtusSafeUrl(robot.driveLink);
   document.getElementById('rtd-link').innerHTML = rtdLinkUrl
     ? `<a class="btn-primary" style="display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600" href="${escapeAttr(rtdLinkUrl)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-cloud-download-alt"></i> Descargar de Google Drive</a>`
     : '';
 
   document.getElementById('viewRobotics').classList.add('hidden');
   document.getElementById('viewRoboticsDetail').classList.remove('hidden');
-
-  renderTeacherRobotFiles(files || []);
 }
 
 function closeRoboticsDetail(){
   document.getElementById('viewRoboticsDetail').classList.add('hidden');
   document.getElementById('viewRobotics').classList.remove('hidden');
   currentRoboticsId = null;
-}
-
-function renderTeacherRobotFiles(files){
-  const byCategory = { stl: [], code: [], connection: [], other: [] };
-  files.forEach(f => { (byCategory[f.file_category] || byCategory.other).push(f); });
-
-  Object.keys(byCategory).forEach(cat => {
-    const container = document.getElementById(`rtd-files-${cat}`);
-    if (!container) return;
-    container.innerHTML = '';
-    if (byCategory[cat].length === 0) {
-      container.innerHTML = '<p style="color:rgba(255,255,255,.3);font-size:.8rem">Sin archivos todavía.</p>';
-      return;
-    }
-    byCategory[cat].forEach(f => {
-      const url = virtusSafeUrl(f.file_url);
-      const sizeKb = f.file_size ? `${Math.round(f.file_size / 1024)} KB` : '';
-      const item = document.createElement('div');
-      item.className = 'material-item';
-      item.innerHTML = `
-        <div style="flex:1">
-          <div style="font-weight:600">${escapeHtml(f.file_name)}</div>
-          <div style="font-size:.75rem;color:rgba(255,255,255,.4)">${sizeKb}</div>
-        </div>
-        ${url ? `<a href="${url.replace(/"/g,'&quot;')}" target="_blank" rel="noopener" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Descargar</a>` : ''}
-      `;
-      container.appendChild(item);
-    });
-  });
 }
 
 async function openClassDetail(classId) {

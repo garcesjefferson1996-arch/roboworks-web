@@ -192,12 +192,6 @@ CREATE TABLE IF NOT EXISTS classes (
 
 ALTER TABLE classes MODIFY COLUMN program_id INT NULL;
 
--- Link externo (p.ej. carpeta de Google Drive) para descargar los archivos
--- de un robot de competencia con un solo botón, en vez de subirlos uno por
--- uno. Columna agregada despues del CREATE TABLE inicial, de ahi el ALTER
--- idempotente (MySQL 8.0.29+ soporta IF NOT EXISTS en ADD COLUMN).
-ALTER TABLE competition_robots ADD COLUMN IF NOT EXISTS external_link VARCHAR(500) NULL;
-
 -- ------------------------------------------------------------
 -- INSCRIPCIONES
 -- ------------------------------------------------------------
@@ -376,6 +370,28 @@ CREATE TABLE IF NOT EXISTS competition_robots (
     CONSTRAINT fk_cr_creator FOREIGN KEY (created_by) REFERENCES users(id),
     INDEX idx_cr_tenant (tenant_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Link externo (p.ej. carpeta de Google Drive) para descargar los archivos
+-- de un robot de competencia con un solo boton, en vez de subirlos uno por
+-- uno. Columna agregada despues del CREATE TABLE inicial de competition_robots
+-- (que ya la incluye para instalaciones nuevas), de ahi este ALTER idempotente
+-- via information_schema: "ADD COLUMN IF NOT EXISTS" no es valido en todas
+-- las versiones de MySQL/MariaDB, asi que se arma el ALTER dinamicamente
+-- solo si la columna todavia no existe.
+SET @col_exists = (
+    SELECT COUNT(*) FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = 'competition_robots'
+      AND COLUMN_NAME = 'external_link'
+);
+SET @sql_add_external_link = IF(
+    @col_exists = 0,
+    'ALTER TABLE competition_robots ADD COLUMN external_link VARCHAR(500) NULL',
+    'SELECT 1'
+);
+PREPARE stmt_add_external_link FROM @sql_add_external_link;
+EXECUTE stmt_add_external_link;
+DEALLOCATE PREPARE stmt_add_external_link;
 
 CREATE TABLE IF NOT EXISTS competition_robot_files (
     id INT AUTO_INCREMENT PRIMARY KEY,
