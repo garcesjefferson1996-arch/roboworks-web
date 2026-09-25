@@ -1,0 +1,423 @@
+[
+  {
+    "id": "esc-dual-5a",
+    "slug": "esc-cepillado-dual-5a",
+    "name": "ESC dual bidireccional 5A",
+    "category": "Controladores RC",
+    "description": "Controlador de velocidad bidireccional de doble vía para motores cepillados. Compatible con baterías LiPo 2S–3S y adecuado para coches RC 1/35, tanques y coches RC 4WD.",
+    "price": 2500,
+    "active": 1,
+    "featured": 1,
+    "demo": false,
+    "status": "available",
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/esc-dual-5a.png",
+        "alt": "Controlador ESC dual 5A sin fondo"
+      },
+      {
+        "kind": "image",
+        "url": "./assets/esc-dual-5a-conexiones.png",
+        "alt": "Referencia de conexiones: batería, canales y motores"
+      }
+    ],
+    "details": {
+      "voltage": "LiPo 2S–3S",
+      "technology": "Motores cepillados",
+      "features": [
+        "Control bidireccional de doble vía",
+        "Tamaño compacto con módulo de condensador incorporado",
+        "Capacidad de corriente y disipación de calor",
+        "Protección ante pérdida de señal del acelerador o pérdida de control"
+      ],
+      "specifications": {
+        "Corriente indicada": "5 A",
+        "Batería compatible": "LiPo 2S–3S",
+        "Tipo de motor": "Cepillado",
+        "Control": "Bidireccional, doble vía",
+        "Aplicaciones": "Coches RC 1/35, tanques y coches RC 4WD"
+      }
+    }
+  },
+  {
+    "id": "motor-tt-1-eje",
+    "slug": "motor-tt-1-eje",
+    "name": "Motor TT amarillo · 1 eje",
+    "category": "Motores",
+    "description": "Motorreductor TT amarillo con tapa trasera negra y 1 eje blanco. Precio por unidad.",
+    "price": 225,
+    "active": 1,
+    "featured": 1,
+    "demo": false,
+    "status": "available",
+    "illustrative": true,
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/motor-tt-1-eje.png",
+        "alt": "Motor TT amarillo · 1 eje"
+      }
+    ],
+    "details": {
+      "specifications": {
+        "Venta": "Por unidad",
+        "Modelo": "1 eje",
+        "Tapa del motor": "Negra"
+      },
+      "features": []
+    }
+  },
+  {
+    "id": "motor-tt-2-eje",
+    "slug": "motor-tt-2-eje",
+    "name": "Motor TT amarillo · 2 ejes",
+    "category": "Motores",
+    "description": "Motorreductor TT amarillo con tapa trasera negra y 2 ejes blancos. Precio por unidad.",
+    "price": 225,
+    "active": 1,
+    "featured": 1,
+    "demo": false,
+    "status": "available",
+    "illustrative": true,
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/motor-tt-2-eje.png",
+        "alt": "Motor TT amarillo · 2 ejes"
+      }
+    ],
+    "details": {
+      "specifications": {
+        "Venta": "Por unidad",
+        "Modelo": "2 ejes",
+        "Tapa del motor": "Negra"
+      },
+      "features": []
+    }
+  },
+  {
+    "id": "servo-sg90",
+    "slug": "servo-sg90",
+    "name": "Servomotor SG90",
+    "category": "Servomotores",
+    "description": "Micro servomotor SG90 para mecanismos y proyectos de robótica.",
+    "price": 390,
+    "active": 1,
+    "featured": 1,
+    "demo": false,
+    "status": "available",
+    "illustrative": true,
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/servo-sg90.png",
+        "alt": "Ilustración de Servomotor SG90 sin fondo"
+      }
+    ],
+    "details": {
+      "specifications": {
+        "Venta": "Por unidad"
+      },
+      "features": []
+    }
+  },
+  {
+    "id": "arduino-uno-r3",
+    "slug": "arduino-uno-r3",
+    "name": "Arduino Uno R3",
+    "category": "Placas de desarrollo",
+    "description": "Placa Arduino Uno R3 para aprender programación y construir proyectos de electrónica.",
+    "price": 1700,
+    "active": 1,
+    "featured": 1,
+    "demo": false,
+    "status": "available",
+    "illustrative": true,
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/arduino-uno-r3.png",
+        "alt": "Ilustración de Arduino Uno R3 sin fondo"
+      }
+    ],
+    "details": {
+      "specifications": {
+        "Venta": "Por unidad"
+      },
+      "features": []
+    }
+  },
+  {
+    "id": "arduino-nano",
+    "slug": "arduino-nano",
+    "name": "Arduino Nano",
+    "category": "Placas de desarrollo",
+    "description": "Placa Arduino Nano de formato compacto para proyectos de electrónica.",
+    "price": 1500,
+    "active": 1,
+    "featured": 1,
+    "demo": false,
+    "status": "available",
+    "illustrative": true,
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/arduino-nano.png",
+        "alt": "Ilustración de Arduino Nano sin fondo"
+      }
+    ],
+    "details": {
+      "specifications": {
+        "Venta": "Por unidad"
+      },
+      "features": []
+    }
+  },
+  {
+    "id": "shield-nano",
+    "slug": "shield-nano",
+    "name": "Shield para Arduino Nano",
+    "category": "Shields y expansiones",
+    "description": "Placa de expansión para Arduino Nano. Consulta la versión y conexiones disponibles antes de comprar.",
+    "price": 650,
+    "active": 1,
+    "featured": 1,
+    "demo": false,
+    "status": "available",
+    "illustrative": true,
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/shield-nano.png",
+        "alt": "Ilustración de Shield para Arduino Nano sin fondo"
+      }
+    ],
+    "details": {
+      "specifications": {
+        "Venta": "Por unidad"
+      },
+      "features": []
+    }
+  },
+  {
+    "id": "sparkx-i7-color-combo",
+    "slug": "sparkx-i7-color-combo",
+    "name": "Creality SPARKX i7 Color Combo",
+    "category": "Impresoras 3D",
+    "description": "Dale color a tus ideas: impresora 3D con sistema CFS Lite para crear figuras, prototipos y accesorios personalizados en hasta cuatro colores.",
+    "price": 79500,
+    "active": 1,
+    "featured": 1,
+    "demo": false,
+    "status": "available",
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/sparkx-i7-combo.png",
+        "alt": "SPARKX i7 Color Combo con CFS Lite"
+      },
+      {
+        "kind": "image",
+        "url": "./assets/sparkx-i7-ambiente.png",
+        "alt": "SPARKX i7 y CFS Lite en un espacio de trabajo; objetos decorativos de referencia"
+      }
+    ],
+    "details": {
+      "technology": "Impresión 3D multicolor",
+      "specifications": {
+        "Configuración": "SPARKX i7 + CFS Lite",
+        "Volumen de impresión": "260 × 260 × 255 mm",
+        "Colores": "Hasta 4 con CFS Lite",
+        "Boquilla instalada": "0,4 mm, acero endurecido",
+        "Temperatura máxima de boquilla": "300 °C",
+        "Temperatura máxima de cama": "100 °C",
+        "Superficie": "Placa PEI texturizada de doble cara",
+        "Materiales": "PLA, PLA Silk, PLA-CF y PETG",
+        "TPU": "90A o superior con portabobinas; 64D o superior con CFS Lite",
+        "Memoria interna": "8 GB"
+      },
+      "features": [
+        "Recuperación de impresión tras un corte de energía.",
+        "Sensor de fin de filamento y recarga automática con CFS Lite.",
+        "Impresión sin conexión usando el almacenamiento interno."
+      ],
+      "note": "Por su estructura abierta, el fabricante no recomienda ABS, ASA ni otros filamentos de alta temperatura. Los filamentos y objetos decorativos de las fotografías se venden por separado.",
+      "sources": [
+        {
+          "title": "Especificaciones y compatibilidad · Creality",
+          "url": "https://www.creality.com/blog/sparkx-i7-faq-compilation"
+        },
+        {
+          "title": "Ficha comercial · SKP3D",
+          "url": "https://skp3d.com/product/creality-sparkx-i7-color-combo/"
+        }
+      ]
+    }
+  },
+  {
+    "id": "filamento-skp3d-pla",
+    "slug": "filamento-skp3d-pla",
+    "name": "Filamento PLA · SKP3D",
+    "category": "Filamentos SKP3D",
+    "description": "Color y detalle para tus ideas. PLA para figuras, maquetas y prototipos visuales, distribuido por VIRTUS Electrónica.",
+    "price": 2400,
+    "active": 1,
+    "featured": 0,
+    "demo": false,
+    "status": "available",
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/skp-pla.webp",
+        "alt": "Bobina PLA roja del catálogo SKP3D; imagen de referencia del producto"
+      }
+    ],
+    "colors": [
+      {
+        "name": "Rojo",
+        "hex": "#ca292f"
+      },
+      {
+        "name": "Negro",
+        "hex": "#242424"
+      },
+      {
+        "name": "Naranja",
+        "hex": "#ed7c25"
+      },
+      {
+        "name": "Verde claro",
+        "hex": "#a3cd4f"
+      },
+      {
+        "name": "Verde",
+        "hex": "#28854a"
+      },
+      {
+        "name": "Blanco",
+        "hex": "#ffffff"
+      },
+      {
+        "name": "Amarillo",
+        "hex": "#f6d22a"
+      },
+      {
+        "name": "Transparente",
+        "hex": "#e1ebea"
+      },
+      {
+        "name": "Plata",
+        "hex": "#b6bbc1"
+      },
+      {
+        "name": "Burdeos",
+        "hex": "#752a3e"
+      },
+      {
+        "name": "Morado",
+        "hex": "#844998"
+      },
+      {
+        "name": "Azul pavo real",
+        "hex": "#168794"
+      },
+      {
+        "name": "Galaxy",
+        "hex": "#45465e"
+      },
+      {
+        "name": "Verde oscuro",
+        "hex": "#214d39"
+      },
+      {
+        "name": "Azul oscuro",
+        "hex": "#253c6c"
+      },
+      {
+        "name": "Marrón",
+        "hex": "#805739"
+      },
+      {
+        "name": "Azul",
+        "hex": "#3373c1"
+      },
+      {
+        "name": "Celeste",
+        "hex": "#85c6eb"
+      },
+      {
+        "name": "Gris pizarra",
+        "hex": "#667579"
+      }
+    ],
+    "details": {
+      "specifications": {
+        "Material": "PLA",
+        "Venta": "Bobina de 1 kg",
+        "Temperatura de impresión orientativa": "180–220 °C",
+        "Cama recomendada": "40–60 °C",
+        "Diámetro": "1,75 mm"
+      },
+      "features": [
+        "Acabado liso y buen detalle para modelos decorativos.",
+        "Baja contracción, adecuada para empezar con impresión 3D.",
+        "Conservar seco y protegido de la humedad."
+      ],
+      "note": "La foto muestra el color rojo. Consulta la presentación exacta; los ajustes dependen de la impresora y la bobina.",
+      "sources": [
+        {
+          "title": "Ficha y paleta de colores · SKP3D",
+          "url": "https://skp3d.com/product/pla/"
+        }
+      ]
+    }
+  },
+  {
+    "id": "creality-k1c",
+    "slug": "creality-k1c",
+    "name": "Creality K1C",
+    "category": "Impresoras 3D",
+    "description": "Impresora cerrada para prototipos y piezas funcionales, con nivelación automática y cámara para supervisar tus proyectos. Consulta precio y disponibilidad con VIRTUS.",
+    "price": null,
+    "active": 1,
+    "featured": 0,
+    "demo": false,
+    "status": "available",
+    "images": [
+      {
+        "kind": "image",
+        "url": "./assets/skp-k1c.jpg",
+        "alt": "Creality K1C, fotografía del catálogo SKP3D"
+      }
+    ],
+    "details": {
+      "specifications": {
+        "Tecnología": "FDM / CoreXY",
+        "Volumen": "220 × 220 × 250 mm",
+        "Velocidad máxima": "600 mm/s",
+        "Aceleración máxima": "20.000 mm/s²",
+        "Boquilla máxima": "300 °C",
+        "Cama máxima": "100 °C",
+        "Conexión": "Wi-Fi y USB",
+        "Pantalla": "Táctil a color de 4,3 pulgadas"
+      },
+      "features": [
+        "Nivelación automática.",
+        "Cámara con IA.",
+        "Detección de fin de filamento y recuperación tras cortes eléctricos."
+      ],
+      "note": "Valores máximos del fabricante; el rendimiento depende del material y del perfil. Confirmamos versión, accesorios y entrega al cotizar.",
+      "sources": [
+        {
+          "title": "Ficha comercial · SKP3D",
+          "url": "https://skp3d.com/product/creality-k1-c/"
+        },
+        {
+          "title": "Especificaciones · Creality",
+          "url": "https://www.creality.com/products/k1c-carbon-3d-printer"
+        }
+      ]
+    }
+  }
+]

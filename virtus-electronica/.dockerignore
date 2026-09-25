@@ -1,0 +1,9 @@
+data
+test
+test-output
+.env
+public/assets/*.png
+!public/assets/virtus-original.png
+!public/assets/virtus-owner-logo.png
+backups
+release

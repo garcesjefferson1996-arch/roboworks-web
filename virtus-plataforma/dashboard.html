@@ -70,6 +70,16 @@ body{display:flex;position:relative;background-color:var(--bg);
 .hero-virtus-lema{position:absolute;bottom:.9rem;right:1.25rem;font-size:.6rem;font-style:italic;color:rgba(255,255,255,.28);letter-spacing:1.5px;font-family:'Nunito',sans-serif;z-index:1}
 @media(max-width:560px){.hero-worky-holder{width:78px;height:78px;margin:0 auto}.hero-virtus-text h2{font-size:1.25rem}.hero-virtus-inner{flex-direction:column;text-align:center;gap:.85rem}.hero-eyebrow{justify-content:center}}
 
+.store-banner{display:flex;align-items:center;gap:1.4rem;background:linear-gradient(120deg,rgba(34,224,255,.12),rgba(34,224,255,.03));backdrop-filter:blur(16px);border:1px solid rgba(34,224,255,.35);border-radius:20px;padding:1.35rem 1.6rem;margin-bottom:1.5rem;text-decoration:none;color:#fff;transition:transform .25s,border-color .25s;position:relative;overflow:hidden}
+.store-banner:hover{transform:translateY(-3px);border-color:var(--or)}
+.store-banner-icon{width:54px;height:54px;border-radius:16px;background:rgba(34,224,255,.16);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.4rem;color:var(--or)}
+.store-banner-text{flex:1;position:relative;z-index:1}
+.store-banner-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--or);margin-bottom:.25rem}
+.store-banner-text h3{font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:.2rem}
+.store-banner-text p{font-size:.78rem;color:rgba(255,255,255,.62)}
+.store-banner-cta{flex-shrink:0;background:var(--or);color:#04141a;font-weight:800;font-size:.8rem;padding:.65rem 1.15rem;border-radius:100px;display:flex;align-items:center;gap:.5rem;white-space:nowrap}
+@media(max-width:640px){.store-banner{flex-wrap:wrap;text-align:center;justify-content:center}.store-banner-icon{margin:0 auto}.store-banner-cta{margin:0 auto}}
+
 .games-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
 .game-card{cursor:pointer;background:var(--panel);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:18px;overflow:hidden;transition:transform .25s,border-color .25s;text-align:left;font-family:inherit;color:#fff;display:flex;flex-direction:column}
 .game-card:not(.locked):hover{transform:translateY(-4px);border-color:var(--border-hover)}
@@ -257,6 +267,16 @@ body{display:flex;position:relative;background-color:var(--bg);
         </div>
         <span class="hero-virtus-lema">Totus Tuus</span>
       </div>
+
+      <a class="store-banner" href="https://virtusrobotica.com/tienda/" target="_blank" rel="noopener noreferrer">
+        <div class="store-banner-icon"><i class="fas fa-bolt"></i></div>
+        <div class="store-banner-text">
+          <div class="store-banner-eyebrow">Nuevo</div>
+          <h3>Tienda VIRTUS Electrónica</h3>
+          <p>Componentes, kits e impresión 3D para tu próximo proyecto.</p>
+        </div>
+        <div class="store-banner-cta">Ir a la tienda <i class="fas fa-arrow-right"></i></div>
+      </a>
 
       <div class="games-grid">
         <button class="game-card game-tangram" onclick="window.open('tangram.html','_blank')">

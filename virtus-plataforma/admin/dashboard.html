@@ -158,6 +158,10 @@ tr:last-child td{border-bottom:none}
 .robot-hero-placeholder i{font-size:3.2rem;color:rgba(8,9,11,.35)}
 .robot-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;margin:1rem 0 1.25rem}
 .robot-gallery img{width:100%;height:95px;object-fit:cover;border-radius:10px;border:1px solid var(--glass-border);cursor:zoom-in}
+.robot-specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;margin-bottom:1.1rem}
+.robot-spec{background:rgba(255,255,255,.03);border:1px solid var(--glass-border);border-radius:10px;padding:.6rem .8rem}
+.robot-spec-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--text-light)}
+.robot-spec-value{font-size:.85rem;font-weight:700;margin-top:.15rem}
 .robot-steps{margin-top:.5rem}
 .robot-step{display:flex;gap:.85rem;padding:.85rem 0;border-bottom:1px solid var(--border)}
 .robot-step:last-child{border-bottom:none}
@@ -426,6 +430,7 @@ tr:last-child td{border-bottom:none}
           </div>
           <div class="card-body">
             <div id="rd-robot-hero"></div>
+            <div class="robot-specs" id="rd-robot-specs"></div>
             <p class="form-hint" id="rd-robot-desc" style="font-size:.85rem;color:var(--text);margin-bottom:.5rem"></p>
             <div class="robot-gallery" id="rd-robot-gallery"></div>
 
@@ -1573,6 +1578,14 @@ function openRobotDetail(id){
   hero.innerHTML = robot.image
     ? `<div class="robot-hero"><img src="${escAttr(robot.image)}" alt=""></div>`
     : `<div class="robot-hero"><div class="robot-hero-placeholder"><i class="fas ${esc(robot.icon || 'fa-robot')}"></i></div></div>`;
+
+  const specs = document.getElementById('rd-robot-specs');
+  specs.innerHTML = (robot.specs || []).map(s => `
+    <div class="robot-spec">
+      <div class="robot-spec-label">${esc(s.label)}</div>
+      <div class="robot-spec-value">${esc(s.value)}</div>
+    </div>
+  `).join('');
 
   const gallery = document.getElementById('rd-robot-gallery');
   gallery.innerHTML = (robot.gallery || []).map(url => `<img src="${escAttr(url)}" alt="" onclick="window.open('${escAttr(url)}','_blank')">`).join('');

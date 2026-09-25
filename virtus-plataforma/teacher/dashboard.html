@@ -111,6 +111,10 @@ body{display:flex;position:relative;background-color:var(--gray-light);
 .robot-hero img{width:100%;max-height:320px;object-fit:cover;display:block}
 .robot-hero-placeholder{height:200px;background:linear-gradient(135deg,var(--or),#0c4a5c);display:flex;align-items:center;justify-content:center}
 .robot-hero-placeholder i{font-size:3rem;color:rgba(8,9,11,.35)}
+.robot-specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem;margin-bottom:1.1rem}
+.robot-spec{background:rgba(255,255,255,.03);border:1px solid var(--glass-border);border-radius:10px;padding:.6rem .8rem}
+.robot-spec-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gray)}
+.robot-spec-value{font-size:.85rem;font-weight:700;margin-top:.15rem}
 .robot-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;margin:1rem 0 1.25rem}
 .robot-gallery img{width:100%;height:95px;object-fit:cover;border-radius:10px;border:1px solid var(--glass-border);cursor:zoom-in}
 .robot-steps{margin-top:.5rem}
@@ -444,6 +448,7 @@ body{display:flex;position:relative;background-color:var(--gray-light);
         </div>
       </div>
       <div id="rtd-hero"></div>
+      <div class="robot-specs" id="rtd-specs"></div>
       <p id="rtd-description" style="color:rgba(255,255,255,.5);font-size:.85rem;margin-bottom:.5rem"></p>
       <div class="robot-gallery" id="rtd-gallery"></div>
 
@@ -946,6 +951,14 @@ function openTeacherRoboticsDetail(id){
   hero.innerHTML = robot.image
     ? `<div class="robot-hero"><img src="${escapeAttr(robot.image)}" alt=""></div>`
     : `<div class="robot-hero"><div class="robot-hero-placeholder"><i class="fas ${escapeHtml(robot.icon || 'fa-robot')}"></i></div></div>`;
+
+  const specs = document.getElementById('rtd-specs');
+  specs.innerHTML = (robot.specs || []).map(s => `
+    <div class="robot-spec">
+      <div class="robot-spec-label">${escapeHtml(s.label)}</div>
+      <div class="robot-spec-value">${escapeHtml(s.value)}</div>
+    </div>
+  `).join('');
 
   const gallery = document.getElementById('rtd-gallery');
   gallery.innerHTML = (robot.gallery || []).map(url => `<img src="${escapeAttr(url)}" alt="" onclick="window.open('${escapeAttr(url)}','_blank')">`).join('');

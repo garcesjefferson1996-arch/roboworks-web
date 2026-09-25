@@ -1,0 +1,594 @@
+[
+  {
+    "g": 2,
+    "id": 8,
+    "title": "Tangram Virtus: atributos de las figuras",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_2EGB_Clase04_TangramAtributos_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Organiza parejas y entrega un set de siete piezas. Acuerden alternar los roles de quien coloca y quien observa; cuenten las piezas antes de comenzar.\n\n(8 min) Nombra y compara las piezas: cinco triángulos de tres tamaños, un cuadrado y un paralelogramo. La forma se conserva al girar una pieza; cambia su orientación. Un atributo es una característica que permite describirla.\n\n(22 min) Clasifiquen las piezas por forma y luego por tamaño. El docente modela cómo elegir una pieza por el contorno. Cada pareja completa una silueta con las siete piezas, sin huecos ni superposiciones, y señala dos atributos de una pieza. Cambien de roles a mitad del reto. Usen la silueta impresa si no hay conexión.\n\n(10 min) Dos parejas muestran una solución. Cada estudiante dibuja una pieza, nombra su forma y un atributo; recojan y cuenten las siete piezas.",
+      "l-proyecto": "Una silueta resuelta con las siete piezas y un dibujo de una pieza con dos atributos identificados.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Nombra al menos dos formas y describe un atributo de cada una. Completa una silueta con siete piezas, con el apoyo que necesite. Explica una elección y respeta los turnos de su pareja. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: reconocer en casa un objeto triangular y otro cuadrangular y describirlos oralmente.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Ofrecer piezas grandes, contornos con divisiones y explicación oral o señalada. Reducir inicialmente a una figura simple sin exigir rapidez.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Identificar triángulos, cuadrado y paralelogramo por sus lados, forma y tamaño.",
+        "Componer una figura con las siete piezas y explicar una decisión antes de moverlas."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Describir, comparar y combinar figuras por sus atributos; anticipar la colocación de las piezas."
+      ],
+      "indicadores_evaluacion": [
+        "Nombra al menos dos formas y describe un atributo de cada una.",
+        "Completa una silueta con siete piezas, con el apoyo que necesite.",
+        "Explica una elección y respeta los turnos de su pareja."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Un tangram Virtus de siete piezas por pareja",
+        "Siluetas impresas o proyectadas",
+        "Hoja, lápiz y superficie plana"
+      ],
+      "kits": [
+        "Tangram Virtus"
+      ],
+      "software_requerido": [
+        "RoboTangram de Virtus, como apoyo opcional"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Organiza parejas y entrega un set de siete piezas. Acuerden alternar los roles de quien coloca y quien observa; cuenten las piezas antes de comenzar.",
+      "motivacion": "Muestra una silueta sencilla y pregunta cómo puede construirse usando las siete piezas. Haz visible que todas caben sin superponerse.",
+      "preguntas_iniciales": "¿Qué piezas tienen tres lados? ¿Cuáles tienen cuatro? ¿En qué se parecen los triángulos grandes y pequeños?",
+      "explicacion_teorica": "(8 min) Nombra y compara las piezas: cinco triángulos de tres tamaños, un cuadrado y un paralelogramo. La forma se conserva al girar una pieza; cambia su orientación. Un atributo es una característica que permite describirla.",
+      "analogias": "Cada pieza es como una palabra: conserva su identidad, pero al combinarla con otras permite construir algo nuevo.",
+      "construccion_robot": "No corresponde construir un robot en esta sesión. Una silueta resuelta con las siete piezas y un dibujo de una pieza con dos atributos identificados.",
+      "conexiones_electronicas": "No se realizan conexiones electrónicas en esta sesión.",
+      "programacion": "No se requiere escribir un programa en esta sesión. Se representa y explica la solución antes de avanzar.",
+      "pruebas": "Comparen el contorno final con la silueta, cuenten siete piezas y comprueben que no se superpongan. Cada estudiante nombra una figura y cuenta sus lados.",
+      "posibles_errores": "Confundir tamaño con forma; creer que un triángulo girado deja de ser triángulo; superponer piezas para cubrir un hueco.",
+      "como_solucionarlos": "Volver a contar lados, girar una sola pieza sobre la mesa y comparar bordes. Ofrecer una silueta con divisiones como apoyo y retirarla gradualmente.",
+      "preguntas_estudiantes": "¿Qué atributo te ayudó a elegir la pieza? ¿Qué cambia al girarla? ¿Qué harías distinto antes de empezar otra figura?",
+      "actividad_practica": "(22 min) Clasifiquen las piezas por forma y luego por tamaño. El docente modela cómo elegir una pieza por el contorno. Cada pareja completa una silueta con las siete piezas, sin huecos ni superposiciones, y señala dos atributos de una pieza. Cambien de roles a mitad del reto. Usen la silueta impresa si no hay conexión.",
+      "proyecto_final": "Una silueta resuelta con las siete piezas y un dibujo de una pieza con dos atributos identificados.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Nombra al menos dos formas y describe un atributo de cada una. Completa una silueta con siete piezas, con el apoyo que necesite. Explica una elección y respeta los turnos de su pareja. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Dos parejas muestran una solución. Cada estudiante dibuja una pieza, nombra su forma y un atributo; recojan y cuenten las siete piezas.",
+      "reflexion": "Relaciona la Prudencia con observar, pensar y probar una pieza antes de cambiar toda la figura. Pregunta qué decisión tomaron con calma."
+    }
+  },
+  {
+    "g": 3,
+    "id": 57,
+    "title": "Tangram: patrones con rotación y reflejo",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_3EGB_Clase04_TangramRotacionReflejo_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Forma parejas y recuerda los atributos de las piezas. Entrega el tangram y tarjetas con dos secuencias: una de giros y otra de imágenes reflejadas.\n\n(8 min) Girar es cambiar la orientación sobre la mesa; reflejar produce una imagen de espejo respecto de una línea. Usa el paralelogramo para distinguirlas. La pieza conserva forma y tamaño. En una secuencia, identifiquen primero la regla y después predigan el siguiente término.\n\n(22 min) Reproduzcan sobre la mesa tres orientaciones de una tarjeta y dibujen la cuarta. Resuelvan una secuencia de cuartos de vuelta y otra que alterna una figura y su reflejo. Marquen una esquina con una señal removible para seguir el cambio. Luego intercambien una secuencia inventada de cuatro posiciones con otra pareja. No dependan de que el juego digital genere patrones: las tarjetas las prepara el docente.\n\n(10 min) Comparen dos soluciones y completen una tarjeta de salida: dibujar una pieza girada y su reflejo. Recoger el material.",
+      "l-proyecto": "Dos secuencias completadas y una secuencia propia con la regla indicada mediante flechas o explicación oral.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Distingue giro y reflejo usando una pieza y un eje. Predice y representa el siguiente elemento de una secuencia. Explica la regla y revisa su predicción con un compañero. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: encontrar una imagen con simetría en el entorno y señalar su eje.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Usar tarjetas de alto contraste y una esquina marcada. Empezar con un solo giro y permitir explicar señalando o manipulando.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Distinguir un giro de una reflexión mediante piezas de tangram y un eje de referencia.",
+        "Continuar una secuencia de orientaciones y justificar la transformación elegida."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Reconocer y continuar patrones geométricos basados en giros y reflejos, conservando forma y tamaño."
+      ],
+      "indicadores_evaluacion": [
+        "Distingue giro y reflejo usando una pieza y un eje.",
+        "Predice y representa el siguiente elemento de una secuencia.",
+        "Explica la regla y revisa su predicción con un compañero."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Tangram Virtus por pareja",
+        "Tarjetas con secuencias dibujadas",
+        "Espejo pequeño opcional",
+        "Hojas, lápices y una línea marcada como eje"
+      ],
+      "kits": [
+        "Tangram Virtus"
+      ],
+      "software_requerido": [
+        "RoboTangram de Virtus, como apoyo opcional"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Forma parejas y recuerda los atributos de las piezas. Entrega el tangram y tarjetas con dos secuencias: una de giros y otra de imágenes reflejadas.",
+      "motivacion": "Coloca el paralelogramo sobre una silueta de su imagen reflejada. Permite intentar encajarlo solo girando y descubrir que necesitan voltearlo.",
+      "preguntas_iniciales": "¿Girar y voltear producen siempre lo mismo? ¿Qué conserva una pieza cuando cambia su posición? ¿Cómo reconocerías su imagen en un espejo?",
+      "explicacion_teorica": "(8 min) Girar es cambiar la orientación sobre la mesa; reflejar produce una imagen de espejo respecto de una línea. Usa el paralelogramo para distinguirlas. La pieza conserva forma y tamaño. En una secuencia, identifiquen primero la regla y después predigan el siguiente término.",
+      "analogias": "Un giro se parece a las manecillas de un reloj; una reflexión, a tu imagen en el espejo. No todas las figuras permiten distinguir fácilmente ambos cambios.",
+      "construccion_robot": "No corresponde construir un robot en esta sesión. Dos secuencias completadas y una secuencia propia con la regla indicada mediante flechas o explicación oral.",
+      "conexiones_electronicas": "No se realizan conexiones electrónicas en esta sesión.",
+      "programacion": "No se requiere escribir un programa en esta sesión. Se representa y explica la solución antes de avanzar.",
+      "pruebas": "Explicar la regla sin mover las piezas; realizar el giro o volteo y comparar con la predicción. Comprobar que no se cambió de pieza para obtener el resultado.",
+      "posibles_errores": "Confundir giro y reflejo; cambiar de pieza para imitar la silueta; continuar sin una regla constante.",
+      "como_solucionarlos": "Marcar una esquina, usar un espejo o voltear el paralelogramo, y ensayar una transformación por vez antes de combinarlas.",
+      "preguntas_estudiantes": "¿Cómo sabes que fue un giro? ¿Qué observas al otro lado del eje? ¿Puede otra pareja continuar tu secuencia solo con tu explicación?",
+      "actividad_practica": "(22 min) Reproduzcan sobre la mesa tres orientaciones de una tarjeta y dibujen la cuarta. Resuelvan una secuencia de cuartos de vuelta y otra que alterna una figura y su reflejo. Marquen una esquina con una señal removible para seguir el cambio. Luego intercambien una secuencia inventada de cuatro posiciones con otra pareja. No dependan de que el juego digital genere patrones: las tarjetas las prepara el docente.",
+      "proyecto_final": "Dos secuencias completadas y una secuencia propia con la regla indicada mediante flechas o explicación oral.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Distingue giro y reflejo usando una pieza y un eje. Predice y representa el siguiente elemento de una secuencia. Explica la regla y revisa su predicción con un compañero. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Comparen dos soluciones y completen una tarjeta de salida: dibujar una pieza girada y su reflejo. Recoger el material.",
+      "reflexion": "Practicar la Prudencia significa observar qué transformación pide el reto antes de mover la pieza; cambiar una cosa por vez ayuda a reconocer errores."
+    }
+  },
+  {
+    "g": 4,
+    "id": 109,
+    "title": "Tangram: patrones con dos atributos",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_4EGB_Clase04_TangramDosAtributos_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Forma grupos de tres o cuatro. Asigna roles de observación, colocación y registro; intercámbialos durante la actividad.\n\n(8 min) Un patrón tiene una regla que permite anticipar lo que sigue. Registrar por separado tamaño y orientación evita fijarse solo en uno. Lean cada término como un par: grande-arriba, pequeño-derecha. Las piezas disponibles limitan cuántos términos físicos pueden mostrarse a la vez; dibujen o reutilicen piezas para representar una secuencia larga.\n\n(22 min) Completen dos tarjetas indicando ambos atributos del término faltante. Después cada grupo dibuja una secuencia de seis términos con una regla repetida de dos atributos y oculta los dos últimos. Otro grupo predice esos términos y reproduce uno con el tangram. Comparen la predicción con la regla escrita y corrijan si es ambigua.\n\n(10 min) Comparen una predicción correcta y una que solo cumple un atributo. Cada estudiante completa un término nuevo y explica las dos pistas.",
+      "l-proyecto": "Una tarjeta con seis términos, regla de dos atributos y predicción argumentada por otro grupo.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Identifica los dos atributos del patrón. Continúa la secuencia respetando ambos atributos. Explica su regla y escucha la revisión de otro equipo. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: dibujar un patrón que alterne dos atributos y pedir a alguien que lo continúe.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Separar los atributos en dos filas con símbolos. Resolver primero uno y añadir el segundo; permitir explicación oral y tiempo adicional.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Identificar dos atributos que varían en una secuencia de piezas.",
+        "Crear y continuar un patrón de dos atributos y justificar la predicción."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Describir y reproducir patrones de figuras atendiendo simultáneamente a dos atributos observables."
+      ],
+      "indicadores_evaluacion": [
+        "Identifica los dos atributos del patrón.",
+        "Continúa la secuencia respetando ambos atributos.",
+        "Explica su regla y escucha la revisión de otro equipo."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Un tangram Virtus por grupo",
+        "Tarjetas dibujadas con patrones de tamaño y orientación",
+        "Hojas cuadriculadas y lápices"
+      ],
+      "kits": [
+        "Tangram Virtus"
+      ],
+      "software_requerido": [
+        "RoboTangram de Virtus, como apoyo opcional"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Forma grupos de tres o cuatro. Asigna roles de observación, colocación y registro; intercámbialos durante la actividad.",
+      "motivacion": "Presenta una tarjeta con triángulo grande hacia arriba, pequeño hacia la derecha, grande hacia arriba y pequeño hacia la derecha. Oculta el siguiente y pide justificar una predicción.",
+      "preguntas_iniciales": "¿Qué dos características cambian? ¿Basta con acertar el tamaño? ¿Qué parte de la secuencia vuelve a aparecer?",
+      "explicacion_teorica": "(8 min) Un patrón tiene una regla que permite anticipar lo que sigue. Registrar por separado tamaño y orientación evita fijarse solo en uno. Lean cada término como un par: grande-arriba, pequeño-derecha. Las piezas disponibles limitan cuántos términos físicos pueden mostrarse a la vez; dibujen o reutilicen piezas para representar una secuencia larga.",
+      "analogias": "Es como un uniforme con dos condiciones: no basta con llevar la camiseta correcta si también se pide un color específico de pantalón.",
+      "construccion_robot": "No corresponde construir un robot en esta sesión. Una tarjeta con seis términos, regla de dos atributos y predicción argumentada por otro grupo.",
+      "conexiones_electronicas": "No se realizan conexiones electrónicas en esta sesión.",
+      "programacion": "No se requiere escribir un programa en esta sesión. Se representa y explica la solución antes de avanzar.",
+      "pruebas": "Registrar ambos atributos de cada término en dos filas. Revisar dos ciclos completos y comprobar que la predicción satisface las dos condiciones.",
+      "posibles_errores": "Atender solo a un atributo; cambiar la regla a mitad de la secuencia; elegir colores o tamaños que el set no tiene.",
+      "como_solucionarlos": "Usar una tabla de dos atributos, repetir el primer ciclo y elegir tamaño-orientación con tarjetas dibujadas. No exigir piezas inexistentes.",
+      "preguntas_estudiantes": "¿Qué evidencia confirma tu regla? ¿Qué pasaría si solo acertaras la forma? ¿La secuencia permite una única continuación con la regla elegida?",
+      "actividad_practica": "(22 min) Completen dos tarjetas indicando ambos atributos del término faltante. Después cada grupo dibuja una secuencia de seis términos con una regla repetida de dos atributos y oculta los dos últimos. Otro grupo predice esos términos y reproduce uno con el tangram. Comparen la predicción con la regla escrita y corrijan si es ambigua.",
+      "proyecto_final": "Una tarjeta con seis términos, regla de dos atributos y predicción argumentada por otro grupo.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Identifica los dos atributos del patrón. Continúa la secuencia respetando ambos atributos. Explica su regla y escucha la revisión de otro equipo. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Comparen una predicción correcta y una que solo cumple un atributo. Cada estudiante completa un término nuevo y explica las dos pistas.",
+      "reflexion": "Vincula la Prudencia con revisar ambas condiciones antes de responder y con escuchar al grupo antes de mover el material compartido."
+    }
+  },
+  {
+    "g": 5,
+    "id": 474,
+    "title": "Scratch: mini reto de repetición y condicional",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_5EGB_Clase04_ScratchRepeticionCondicional_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Recupera el proyecto de la clase 3 o abre uno nuevo. Organiza parejas con roles de programador y observador, que cambiarán a mitad de la actividad.\n\n(8 min) La bandera inicia el programa; por siempre evalúa sus bloques continuamente; si ejecuta una acción solo cuando su condición es verdadera. El sensor tocando borde va dentro del espacio de condición. Colocar el cambio de color dentro del si hace que dependa del contacto.\n\n(22 min) Construyan primero el movimiento repetido y pruébenlo; añadan después la condición y el cambio de color. Antes de ejecutar, anoten qué pasará en el centro y en el borde. Realicen tres pruebas, intercambien roles y expliquen un ajuste. Quien termine puede cambiar la velocidad y anticipar el efecto.\n\n(10 min) Dos parejas muestran su código y una prueba. Guardar o descargar el proyecto; conectar repetir y decidir con los programas que luego harán en MakeCode.",
+      "l-proyecto": "Proyecto guardado como 5EGB_Clase04_Equipo con movimiento, repetición y una condición verificable.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Coloca movimiento y condición dentro de un bucle. Logra una reacción al borde y explica por qué ocurre. Registra una predicción y una corrección basada en pruebas. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: dibujar el diagrama repetir-revisar-actuar del proyecto.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Entregar un proyecto inicial con los bloques disponibles, ampliar la interfaz y evaluar por separado movimiento, repetición y condición.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Combinar un bucle y una condición en una animación corta de Scratch.",
+        "Predecir, probar y corregir el comportamiento del personaje al tocar un borde."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Organizar una secuencia de programación visual que repite acciones y decide según una condición."
+      ],
+      "indicadores_evaluacion": [
+        "Coloca movimiento y condición dentro de un bucle.",
+        "Logra una reacción al borde y explica por qué ocurre.",
+        "Registra una predicción y una corrección basada en pruebas."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Computador por pareja",
+        "Proyector",
+        "Hoja para predicción y registro de pruebas"
+      ],
+      "kits": [],
+      "software_requerido": [
+        "Scratch, en línea o instalado"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Recupera el proyecto de la clase 3 o abre uno nuevo. Organiza parejas con roles de programador y observador, que cambiarán a mitad de la actividad.",
+      "motivacion": "Muestra un personaje que se mueve y cambia de color al llegar a un borde. Pide separar las acciones que se repiten de la decisión que depende de tocarlo.",
+      "preguntas_iniciales": "¿Qué ocurriría si mover se ejecutara una sola vez? ¿Cuándo debería cambiar el color? ¿Qué diferencia hay entre repetir y decidir?",
+      "explicacion_teorica": "(8 min) La bandera inicia el programa; por siempre evalúa sus bloques continuamente; si ejecuta una acción solo cuando su condición es verdadera. El sensor tocando borde va dentro del espacio de condición. Colocar el cambio de color dentro del si hace que dependa del contacto.",
+      "analogias": "Un vigilante revisa continuamente una puerta: repetir es revisar otra vez; si alguien llega, entonces abre. Revisar y decidir son tareas distintas.",
+      "construccion_robot": "No corresponde construir un robot en esta sesión. Proyecto guardado como 5EGB_Clase04_Equipo con movimiento, repetición y una condición verificable.",
+      "conexiones_electronicas": "No se realizan conexiones electrónicas en esta sesión.",
+      "programacion": "Al presionar bandera verde: quitar efectos gráficos; ir a x:0 y:0; apuntar en dirección 90; por siempre: mover 5 pasos; si tocando borde, entonces cambiar efecto color por 25 y rebotar si toca un borde. La comprobación y el rebote quedan dentro del bucle. Detener con el botón rojo.",
+      "pruebas": "Prueba 1: en el centro se mueve sin cambiar de color. Prueba 2: al tocar el borde cambia de color y rebota. Prueba 3: al reiniciar vuelve al centro sin efectos acumulados.",
+      "posibles_errores": "Dejar mover fuera del bucle; colocar el cambio de color fuera del si; evaluar tocando borde después de haber rebotado; no reiniciar la posición.",
+      "como_solucionarlos": "Leer el programa de arriba abajo, mover el bloque al contenedor correcto y colocar la condición antes del rebote. Reiniciar posición y efectos con la bandera.",
+      "preguntas_estudiantes": "¿Qué bloque hace que el programa siga revisando? ¿Cómo sabes que el color depende del borde? ¿Qué cambiaste después de una prueba?",
+      "actividad_practica": "(22 min) Construyan primero el movimiento repetido y pruébenlo; añadan después la condición y el cambio de color. Antes de ejecutar, anoten qué pasará en el centro y en el borde. Realicen tres pruebas, intercambien roles y expliquen un ajuste. Quien termine puede cambiar la velocidad y anticipar el efecto.",
+      "proyecto_final": "Proyecto guardado como 5EGB_Clase04_Equipo con movimiento, repetición y una condición verificable.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Coloca movimiento y condición dentro de un bucle. Logra una reacción al borde y explica por qué ocurre. Registra una predicción y una corrección basada en pruebas. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Dos parejas muestran su código y una prueba. Guardar o descargar el proyecto; conectar repetir y decidir con los programas que luego harán en MakeCode.",
+      "reflexion": "Relaciona la Fe con confiar en que pueden aprender algo nuevo mientras comprueban y mejoran cada intento; pedir ayuda forma parte del aprendizaje."
+    }
+  },
+  {
+    "g": 6,
+    "id": 205,
+    "title": "Repaso rápido de 5to",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_6EGB_Clase04_RepasoLEDsBotonesCondicionales_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Recupera lo que recuerdan de quinto: matriz LED, botones A y B, y decisiones. Usa las respuestas para ajustar el repaso, sin calificación diagnóstica punitiva.\n\n(8 min) Un botón es una entrada, la matriz LED una salida y el programa decide qué mostrar. En para siempre se revisa continuamente si el botón A está presionado; si no, se ejecuta la alternativa. Distingue la condición de estado del botón del evento al presionar.\n\n(22 min) En parejas construyan el programa, prueben A presionado y liberado, y registren las salidas. Intercambien roles y modifiquen un icono sin alterar la condición. Si hay placas disponibles y el docente valida la conexión, transfieran el programa y comparen simulador y placa.\n\n(10 min) Guardar el proyecto y compartir una prueba. Registrar qué concepto necesita refuerzo antes de trabajar con sensores y variables.",
+      "l-proyecto": "Programa de dos respuestas y tabla con condición, predicción y resultado observado.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Reconoce botón, matriz LED y función del programa. Implementa una condición con dos respuestas distintas. Comprueba los estados verdadero y falso y explica un ajuste. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: describir otro objeto cotidiano que responda a un botón.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Usar el simulador ampliado, una plantilla de bloques y una tabla con iconos. Aceptar la demostración oral de los dos estados.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n\nReferencia técnica: https://makecode.microbit.org/reference/input/button-is-pressed\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Recuperar el uso de la matriz LED, los botones y los condicionales en micro:bit.",
+        "Construir y probar un programa que muestre dos respuestas según el estado de un botón."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Relacionar una entrada digital con una decisión y una salida visible, anticipando resultados."
+      ],
+      "indicadores_evaluacion": [
+        "Reconoce botón, matriz LED y función del programa.",
+        "Implementa una condición con dos respuestas distintas.",
+        "Comprueba los estados verdadero y falso y explica un ajuste."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Computador por pareja",
+        "micro:bit y cable USB de datos, si están disponibles",
+        "Hoja de registro"
+      ],
+      "kits": [
+        "VirtiBit / micro:bit"
+      ],
+      "software_requerido": [
+        "MakeCode para micro:bit y su simulador"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Recupera lo que recuerdan de quinto: matriz LED, botones A y B, y decisiones. Usa las respuestas para ajustar el repaso, sin calificación diagnóstica punitiva.",
+      "motivacion": "En el simulador, mantén pulsado A para mostrar un corazón; suéltalo para mostrar una cara. Pide describir entrada y salida.",
+      "preguntas_iniciales": "¿Qué parte recibe nuestra acción? ¿Qué parte muestra el resultado? ¿Qué debería verse cuando nadie pulsa el botón?",
+      "explicacion_teorica": "(8 min) Un botón es una entrada, la matriz LED una salida y el programa decide qué mostrar. En para siempre se revisa continuamente si el botón A está presionado; si no, se ejecuta la alternativa. Distingue la condición de estado del botón del evento al presionar.",
+      "analogias": "Como un letrero con dos mensajes: el programa revisa si se cumple una condición y elige cuál mostrar.",
+      "construccion_robot": "No corresponde construir un robot en esta sesión. Programa de dos respuestas y tabla con condición, predicción y resultado observado.",
+      "conexiones_electronicas": "Si se usa la placa real, el docente comprueba el cable USB de datos y conecta únicamente micro:bit al computador. No se añaden motores ni circuitos externos en este repaso. El simulador permite completar toda la actividad.",
+      "programacion": "En MakeCode: para siempre → si botón A está presionado, mostrar icono corazón; si no, mostrar icono cara feliz. Predecir el resultado antes de pulsar A. Como ampliación, cambiar la condición al botón B y volver a probar.",
+      "pruebas": "Sin pulsar A aparece la cara; manteniendo A aparece el corazón; al soltarlo vuelve la cara. Comprueben además que B no active la condición configurada para A.",
+      "posibles_errores": "Confundir botón A y B; usar solo un evento cuando se quiere detectar el estado sostenido; colocar las salidas fuera del condicional; cable que solo carga.",
+      "como_solucionarlos": "Revisar el nombre de la entrada, usar si/si no dentro de para siempre y contrastar con el simulador. Si falla la conexión física, continuar en simulación y revisar el cable con el docente.",
+      "preguntas_estudiantes": "¿Dónde está la entrada? ¿Qué ocurre si la condición es falsa? ¿Qué comportamiento debería ser igual en la pantalla y en la placa?",
+      "actividad_practica": "(22 min) En parejas construyan el programa, prueben A presionado y liberado, y registren las salidas. Intercambien roles y modifiquen un icono sin alterar la condición. Si hay placas disponibles y el docente valida la conexión, transfieran el programa y comparen simulador y placa.",
+      "proyecto_final": "Programa de dos respuestas y tabla con condición, predicción y resultado observado.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Reconoce botón, matriz LED y función del programa. Implementa una condición con dos respuestas distintas. Comprueba los estados verdadero y falso y explica un ajuste. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Guardar el proyecto y compartir una prueba. Registrar qué concepto necesita refuerzo antes de trabajar con sensores y variables.",
+      "reflexion": "La Esperanza se practica fijando una meta posible y avanzando con pruebas pequeñas, incluso cuando el primer intento no funciona."
+    }
+  },
+  {
+    "g": 7,
+    "id": 260,
+    "title": "Bienvenida a 7mo: la virtud de la Caridad",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_7EGB_Clase04_CaridadTecnologiaParaAyudar_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Presenta la Caridad como usar lo aprendido para ayudar con respeto. Recupera una habilidad de quinto o sexto que cada estudiante pueda aportar al equipo.\n\n(8 min) Una solución parte de escuchar una necesidad. Distingue entrada, proceso y salida: pulsar un botón, decidir qué señal mostrar y encender un icono. La Caridad se concreta en una ayuda útil, respetuosa y compartida; el dispositivo por sí solo no garantiza ayudar.\n\n(22 min) En grupos elijan una necesidad del aula, conversen sobre a quién ayuda y propongan dos alternativas. Escojan una y dibujen un esquema entrada-proceso-salida. Representen el funcionamiento con una dramatización o un prototipo de papel. Otro equipo hace de usuario, prueba la señal y aporta una mejora.\n\n(10 min) Cada equipo presenta en un minuto su propuesta y la mejora. Guardar las fichas como punto de partida del año.",
+      "l-proyecto": "Ficha con necesidad, destinatario, boceto, entrada-proceso-salida, prueba y una mejora recibida.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Describe una necesidad concreta sin etiquetar a compañeros. Propone una solución y representa cómo funciona. Escucha al equipo usuario y modifica al menos un detalle. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: observar una necesidad cotidiana y preguntar qué ayuda sería bienvenida.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Ofrecer situaciones ilustradas, roles flexibles y la opción de explicar con dibujo, voz o dramatización, sin exigir uso de pantalla.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Reconocer una necesidad cotidiana y proponer una ayuda tecnológica respetuosa.",
+        "Representar una solución mediante entrada, proceso y salida, incluyendo una prueba sencilla."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Diseñar colaborativamente una propuesta tecnológica orientada a una necesidad y explicar cómo comprobar su utilidad."
+      ],
+      "indicadores_evaluacion": [
+        "Describe una necesidad concreta sin etiquetar a compañeros.",
+        "Propone una solución y representa cómo funciona.",
+        "Escucha al equipo usuario y modifica al menos un detalle."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Hojas y lápices",
+        "Tarjetas con situaciones del aula",
+        "Computador y proyector opcionales"
+      ],
+      "kits": [
+        "micro:bit, opcional para demostración"
+      ],
+      "software_requerido": [
+        "MakeCode para micro:bit, demostración opcional"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Presenta la Caridad como usar lo aprendido para ayudar con respeto. Recupera una habilidad de quinto o sexto que cada estudiante pueda aportar al equipo.",
+      "motivacion": "Presenta una situación: en el trabajo grupal una persona necesita indicar que requiere apoyo sin interrumpir. Pregunta qué ayuda le resultaría útil y cómo se lo consultarían.",
+      "preguntas_iniciales": "¿A quién queremos ayudar? ¿Qué necesita realmente? ¿Cómo evitar una solución que decida por esa persona? ¿Puede resolverse sin tecnología?",
+      "explicacion_teorica": "(8 min) Una solución parte de escuchar una necesidad. Distingue entrada, proceso y salida: pulsar un botón, decidir qué señal mostrar y encender un icono. La Caridad se concreta en una ayuda útil, respetuosa y compartida; el dispositivo por sí solo no garantiza ayudar.",
+      "analogias": "Como prestar una herramienta: primero preguntamos qué hace falta y después elegimos algo útil, en lugar de entregar cualquier objeto.",
+      "construccion_robot": "No corresponde construir un robot en esta sesión. Ficha con necesidad, destinatario, boceto, entrada-proceso-salida, prueba y una mejora recibida.",
+      "conexiones_electronicas": "No se construyen circuitos. Si el docente demuestra micro:bit, usa solo la placa con USB y sus botones y LEDs integrados.",
+      "programacion": "Demostración opcional en MakeCode: al presionar A, mostrar un símbolo de solicitud de ayuda; al presionar B, borrar pantalla. Antes de usarlo, acordar con el grupo qué significa la señal. No se necesita dominar un lenguaje nuevo.",
+      "pruebas": "Comprobar que el usuario entiende la señal, puede activarla y puede dejar de usarla. Preguntar si la propuesta ayuda sin exponer ni etiquetar a ninguna persona.",
+      "posibles_errores": "Elegir un aparato antes de conocer la necesidad; confundir una idea vistosa con una ayuda útil; no prever cómo desactivar la señal.",
+      "como_solucionarlos": "Volver a preguntar qué necesita el usuario, simplificar la propuesta y añadir una forma de detener o reiniciar la señal.",
+      "preguntas_estudiantes": "¿Qué parte de tu propuesta ayuda? ¿Cómo lo comprobarías con el usuario? ¿Qué harías si prefiere otra solución?",
+      "actividad_practica": "(22 min) En grupos elijan una necesidad del aula, conversen sobre a quién ayuda y propongan dos alternativas. Escojan una y dibujen un esquema entrada-proceso-salida. Representen el funcionamiento con una dramatización o un prototipo de papel. Otro equipo hace de usuario, prueba la señal y aporta una mejora.",
+      "proyecto_final": "Ficha con necesidad, destinatario, boceto, entrada-proceso-salida, prueba y una mejora recibida.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Describe una necesidad concreta sin etiquetar a compañeros. Propone una solución y representa cómo funciona. Escucha al equipo usuario y modifica al menos un detalle. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Cada equipo presenta en un minuto su propuesta y la mejora. Guardar las fichas como punto de partida del año.",
+      "reflexion": "Ayudar implica escuchar, compartir conocimientos y respetar decisiones. Invita a nombrar una acción concreta de Caridad practicada durante la clase."
+    }
+  },
+  {
+    "g": 8,
+    "id": 315,
+    "title": "Bienvenida a 8vo: el Kit Virtuno y Arduino real",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_8EGB_Clase04_KitVirtunoArduinoReal_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Presenta la Excelencia como trabajar con cuidado, comprobar y mejorar. Entrega un kit por grupo, todavía sin alimentación, y acuerda registrar qué contiene.\n\n(8 min) Arduino Uno ejecuta un programa; la protoboard sirve para conectar componentes sin soldar. Distingue componentes de entrada y salida presentes en el kit. Explica que los agujeros de la protoboard tienen conexiones internas y no se debe asumir que toda una fila o riel está unido sin verificar el modelo.\n\n(22 min) Cada grupo registra nombre, aspecto y función de cinco elementos realmente presentes. Dibuja un esquema entrada-placa-salida para una idea sencilla. Intercambien inventarios con otro grupo para comprobar nombres y cantidades y acuerden cómo almacenar el material.\n\n(10 min) Comparen inventarios, recojan el kit y escriban una pregunta para las próximas clases. Relacionar diseñar, construir y comprobar.",
+      "l-proyecto": "Inventario ilustrado y esquema de una idea con entrada, procesamiento y salida; acuerdos de cuidado y devolución.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Identifica placa, protoboard y otros elementos presentes. Explica entrada, proceso y salida con un ejemplo. Revisa el inventario y respeta la secuencia de manejo acordada. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: dibujar un dispositivo del entorno e identificar una posible entrada y salida.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Usar fotografías grandes, etiquetas contrastadas y manipulación acompañada; reducir el inventario a tres elementos esenciales.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Identificar la placa Arduino Uno, la protoboard y los componentes disponibles del Kit Virtuno.",
+        "Distinguir entrada, procesamiento y salida y aplicar acuerdos de manejo del kit."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Reconocer componentes de un sistema físico y representar su función antes de realizar conexiones."
+      ],
+      "indicadores_evaluacion": [
+        "Identifica placa, protoboard y otros elementos presentes.",
+        "Explica entrada, proceso y salida con un ejemplo.",
+        "Revisa el inventario y respeta la secuencia de manejo acordada."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Kit Virtuno disponible en el aula",
+        "Tarjetas con nombres y funciones",
+        "Hoja de inventario",
+        "Computador y proyector para demostración"
+      ],
+      "kits": [
+        "Kit Virtuno: Arduino Uno y protoboard; inventariar los demás componentes presentes"
+      ],
+      "software_requerido": [
+        "Arduino IDE, solo para demostración docente si ya está disponible"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Presenta la Excelencia como trabajar con cuidado, comprobar y mejorar. Entrega un kit por grupo, todavía sin alimentación, y acuerda registrar qué contiene.",
+      "motivacion": "Muestra la diferencia entre el dado diseñado en Tinkercad y una placa física capaz de ejecutar instrucciones. Presenta una demostración preparada del LED integrado, sin pedir aún construir un circuito.",
+      "preguntas_iniciales": "¿Qué componentes reconocen? ¿Qué diferencia hay entre una pieza diseñada en 3D y un sistema que recibe y responde? ¿Qué conviene revisar antes de conectar?",
+      "explicacion_teorica": "(8 min) Arduino Uno ejecuta un programa; la protoboard sirve para conectar componentes sin soldar. Distingue componentes de entrada y salida presentes en el kit. Explica que los agujeros de la protoboard tienen conexiones internas y no se debe asumir que toda una fila o riel está unido sin verificar el modelo.",
+      "analogias": "El programa es una receta y la placa la ejecuta; la protoboard es un espacio para organizar conexiones, no una fuente de energía ni un computador.",
+      "construccion_robot": "Inventariar y clasificar componentes sobre una bandeja. Dibujar dónde irían placa, entrada y salida en una futura construcción; no ensamblar un robot todavía.",
+      "conexiones_electronicas": "Mantener el kit desconectado durante la exploración. La demostración docente usa únicamente el LED integrado y USB. No conectar motores ni fuentes externas; revisar las conexiones antes de energizar cualquier circuito futuro.",
+      "programacion": "Observar un programa de demostración ya preparado que encienda y apague el LED integrado. Identificar la relación entre una instrucción y la salida, sin exigir escritura de código en esta sesión.",
+      "pruebas": "Cada estudiante señala la placa y la protoboard y explica una diferencia. El equipo revisa que el inventario coincida con las piezas y justifica una clasificación funcional.",
+      "posibles_errores": "Confundir protoboard y placa; pensar que cualquier cable puede ir en cualquier pin; atribuir funciones a componentes no identificados.",
+      "como_solucionarlos": "Usar etiquetas y una imagen ampliada, leer los nombres impresos y consultar al docente antes de conectar. Mantener aparte una pieza desconocida hasta identificarla.",
+      "preguntas_estudiantes": "¿Dónde se ejecutan las instrucciones? ¿Qué información necesitarías para conectar un motor? ¿Cómo sabremos que el kit queda completo?",
+      "actividad_practica": "(22 min) Cada grupo registra nombre, aspecto y función de cinco elementos realmente presentes. Dibuja un esquema entrada-placa-salida para una idea sencilla. Intercambien inventarios con otro grupo para comprobar nombres y cantidades y acuerden cómo almacenar el material.",
+      "proyecto_final": "Inventario ilustrado y esquema de una idea con entrada, procesamiento y salida; acuerdos de cuidado y devolución.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Identifica placa, protoboard y otros elementos presentes. Explica entrada, proceso y salida con un ejemplo. Revisa el inventario y respeta la secuencia de manejo acordada. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Comparen inventarios, recojan el kit y escriban una pregunta para las próximas clases. Relacionar diseñar, construir y comprobar.",
+      "reflexion": "La Excelencia se expresa en revisar un trabajo, reconocer lo que falta por aprender y cuidar el material común."
+    }
+  },
+  {
+    "g": 9,
+    "id": 372,
+    "title": "Bienvenida a 9no: código real en Arduino IDE",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_9EGB_Clase04_BienvenidaCodigoArduinoIDE_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Recupera las ideas de secuencia, repetición y condición conocidas en bloques. Presenta el paso al texto como otra forma de expresar esa lógica.\n\n(8 min) setup se ejecuta una vez al iniciar o reiniciar; loop se repite. Las llaves delimitan bloques y muchas instrucciones terminan con punto y coma. El ejemplo configura el LED integrado como salida y alterna encendido, espera, apagado y espera.\n\n(22 min) En parejas emparejen tarjetas de acciones con líneas del programa. Marquen setup y loop con colores y describan un ciclo completo. Predigan qué cambia al reducir la espera. Revisen una copia con un punto y coma omitido y expliquen cómo la repararían. El docente puede verificar y demostrar el programa; la instalación del IDE se aborda en la clase prevista.\n\n(10 min) Compartir una lectura del programa y una corrección. Registrar las dudas para la exploración posterior del IDE.",
+      "l-proyecto": "Programa anotado con funciones y acciones, predicción sobre las esperas y corrección justificada de un error simple.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Distingue setup de loop. Relaciona cada instrucción principal con una acción. Predice el efecto de cambiar una espera y localiza un error de sintaxis sencillo. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: escribir una rutina cotidiana separando preparación y acciones repetidas.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Ofrecer código impreso con letra grande, líneas numeradas y tarjetas de acciones. Permitir la explicación oral sin exigir teclear.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n\nReferencia técnica: https://docs.arduino.cc/built-in-examples/basics/Blink/\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Relacionar una secuencia de bloques con instrucciones de un programa de Arduino.",
+        "Distinguir setup y loop y explicar el comportamiento de un ejemplo sencillo."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Interpretar una secuencia textual de control y relacionarla con acciones observables, localizando errores simples."
+      ],
+      "indicadores_evaluacion": [
+        "Distingue setup de loop.",
+        "Relaciona cada instrucción principal con una acción.",
+        "Predice el efecto de cambiar una espera y localiza un error de sintaxis sencillo."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Computador y proyector",
+        "Tarjetas de bloques y código",
+        "Arduino Uno y USB para demostración opcional"
+      ],
+      "kits": [
+        "Arduino Uno, opcional para demostración"
+      ],
+      "software_requerido": [
+        "Arduino IDE previamente instalado, o ejemplo impreso"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Recupera las ideas de secuencia, repetición y condición conocidas en bloques. Presenta el paso al texto como otra forma de expresar esa lógica.",
+      "motivacion": "Muestra dos representaciones del mismo parpadeo: bloques y código. Pide encontrar acciones conocidas antes de explicar símbolos nuevos.",
+      "preguntas_iniciales": "¿Qué parte se hace una sola vez? ¿Qué debe repetirse? ¿Qué cambia al escribir instrucciones en lugar de arrastrarlas?",
+      "explicacion_teorica": "(8 min) setup se ejecuta una vez al iniciar o reiniciar; loop se repite. Las llaves delimitan bloques y muchas instrucciones terminan con punto y coma. El ejemplo configura el LED integrado como salida y alterna encendido, espera, apagado y espera.",
+      "analogias": "setup es preparar el espacio antes de una actividad; loop es la rutina que se repite una vez que todo está preparado.",
+      "construccion_robot": "No corresponde construir un robot en esta sesión. Programa anotado con funciones y acciones, predicción sobre las esperas y corrección justificada de un error simple.",
+      "conexiones_electronicas": "Demostración opcional con Arduino Uno conectado por USB y su LED integrado; no se monta circuito externo. La interpretación del código puede hacerse por completo en papel.",
+      "programacion": "Ejemplo docente: void setup() { pinMode(LED_BUILTIN, OUTPUT); } void loop() { digitalWrite(LED_BUILTIN, HIGH); delay(1000); digitalWrite(LED_BUILTIN, LOW); delay(1000); }. Leer cada línea antes de ejecutarla. Cambiar ambas esperas a 500 para comparar, si el entorno está preparado.",
+      "pruebas": "Seguir un ciclo con el dedo y comprobar encendido-espera-apagado-espera. Comparar la predicción con la demostración o una representación temporal en papel.",
+      "posibles_errores": "Creer que setup se repite; omitir punto y coma o llave; confundir compilar con cargar a una placa; cambiar varias cosas a la vez.",
+      "como_solucionarlos": "Delimitar las dos funciones, revisar el primer error señalado y corregir un cambio por vez. Explicar que verificar revisa el programa y cargar lo transfiere cuando hay una placa configurada.",
+      "preguntas_estudiantes": "¿Qué parte se ejecuta solo al comenzar? ¿Por qué hay dos esperas? ¿Qué conocimiento de bloques te ayudó a leer este programa?",
+      "actividad_practica": "(22 min) En parejas emparejen tarjetas de acciones con líneas del programa. Marquen setup y loop con colores y describan un ciclo completo. Predigan qué cambia al reducir la espera. Revisen una copia con un punto y coma omitido y expliquen cómo la repararían. El docente puede verificar y demostrar el programa; la instalación del IDE se aborda en la clase prevista.",
+      "proyecto_final": "Programa anotado con funciones y acciones, predicción sobre las esperas y corrección justificada de un error simple.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Distingue setup de loop. Relaciona cada instrucción principal con una acción. Predice el efecto de cambiar una espera y localiza un error de sintaxis sencillo. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Compartir una lectura del programa y una corrección. Registrar las dudas para la exploración posterior del IDE.",
+      "reflexion": "Trabajar con Excelencia significa explicar lo que se hace, revisar evidencias y mejorar una versión; copiar código sin comprenderlo no permite verificarlo."
+    }
+  },
+  {
+    "g": 10,
+    "id": 425,
+    "title": "Bienvenida a 10mo: el año que cierra el ciclo Virtus",
+    "pdf": "C:\\Users\\HP\\OneDrive\\Desktop\\RoboWorks\\roboworks-web\\planificaciones\\Entrega_Clase04_2026-09-20\\Virtus_10EGB_Clase04_BienvenidaIntegridad_Planificacion.pdf",
+    "fields": {
+      "l-tiempo": "45 minutos (sugeridos)",
+      "l-actividades": "(5 min) Presenta el último año como oportunidad de integrar diseño, construcción y programación. Cada estudiante menciona un aprendizaje y algo que todavía necesita practicar.\n\n(8 min) La Integridad implica coherencia entre lo que se hizo, lo que se muestra y lo que se afirma. Un proyecto necesita una necesidad, una propuesta, criterios observables, tareas y registro de pruebas. Distingue objetivo deseado, prototipo parcial y resultado comprobado.\n\n(22 min) En equipos elaboren un mapa de aprendizajes: mecánica, electrónica, programación y diseño 3D. Escojan una necesidad del entorno y redacten una idea preliminar, dos criterios de éxito y una primera prueba. Asignen roles rotativos y acuerden registrar aportes, fuentes y resultados, incluidos los fallidos. Otro equipo revisa si los criterios pueden observarse.\n\n(10 min) Presentación de un minuto por equipo y retroalimentación sobre la viabilidad. Guardar las fichas como referencia, sin fijar todavía un proyecto definitivo.",
+      "l-proyecto": "Ficha preliminar con necesidad, idea, dos criterios de éxito, primera prueba, roles y acuerdos de registro y autoría.",
+      "l-evaluacion": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Relaciona la propuesta con aprendizajes previos. Formula dos criterios observables y una prueba inicial. Distingue lo realizado de lo proyectado y acuerda reconocer aportes y fuentes. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "l-tarea": "Sin tarea obligatoria. Opcional: recuperar una evidencia de un proyecto anterior y anotar un aprendizaje y una mejora posible.",
+      "l-plan": "## Orientaciones para el docente\n\n- Duración sugerida: 45 minutos; ajustar al horario del paralelo.\n- Dar una ficha con preguntas breves, ejemplos de criterios y roles flexibles; permitir respuesta oral o gráfica antes del texto.\n- Fechas y docente: completar según el paralelo.\n- La destreza está formulada para esta sesión de Virtus; no se asigna un código ministerial no verificado.\n- Evaluación formativa con evidencia, sin calificar por rapidez.\n"
+    },
+    "chips": {
+      "objetivos": [
+        "Reconocer aprendizajes previos y elegir una meta alcanzable para el cierre del ciclo.",
+        "Proponer una idea de proyecto con criterios de prueba, roles y acuerdos de autoría."
+      ],
+      "competencias": [
+        "Pensamiento lógico y resolución de problemas",
+        "Comunicación de decisiones y trabajo colaborativo"
+      ],
+      "destrezas": [
+        "Planificar una propuesta tecnológica que integre conocimientos previos, evidencias de funcionamiento y comunicación honesta del proceso."
+      ],
+      "indicadores_evaluacion": [
+        "Relaciona la propuesta con aprendizajes previos.",
+        "Formula dos criterios observables y una prueba inicial.",
+        "Distingue lo realizado de lo proyectado y acuerda reconocer aportes y fuentes."
+      ],
+      "recursos_necesarios": [
+        "Tiempo sugerido: 45 minutos",
+        "Espacio de trabajo organizado y apoyos visuales"
+      ],
+      "materiales": [
+        "Hojas o cuaderno de proyecto",
+        "Lápices y tarjetas con experiencias previas",
+        "Ejemplos de proyectos disponibles"
+      ],
+      "kits": [],
+      "software_requerido": [
+        "Editor de documentos opcional para registrar la ficha"
+      ]
+    },
+    "steps": {
+      "bienvenida": "(5 min) Presenta el último año como oportunidad de integrar diseño, construcción y programación. Cada estudiante menciona un aprendizaje y algo que todavía necesita practicar.",
+      "motivacion": "Contrasta dos informes de un prototipo: uno reconoce una prueba fallida y explica la mejora; otro afirma que funciona sin evidencia. Pide identificar cuál permite confiar en el proceso.",
+      "preguntas_iniciales": "¿Qué sabemos construir y programar? ¿Qué evidencia muestra que algo funciona? ¿Cómo reconocemos una ayuda, una fuente o un fragmento de código ajeno?",
+      "explicacion_teorica": "(8 min) La Integridad implica coherencia entre lo que se hizo, lo que se muestra y lo que se afirma. Un proyecto necesita una necesidad, una propuesta, criterios observables, tareas y registro de pruebas. Distingue objetivo deseado, prototipo parcial y resultado comprobado.",
+      "analogias": "Un cuaderno de laboratorio es como el historial de una reparación: anota qué se intentó y qué ocurrió, no solo la fotografía final.",
+      "construccion_robot": "No corresponde construir un robot en esta sesión. Ficha preliminar con necesidad, idea, dos criterios de éxito, primera prueba, roles y acuerdos de registro y autoría.",
+      "conexiones_electronicas": "No se realizan conexiones electrónicas en esta sesión.",
+      "programacion": "No se requiere escribir un programa en esta sesión. Se representa y explica la solución antes de avanzar.",
+      "pruebas": "Revisar la ficha con tres preguntas: ¿qué problema atiende?, ¿qué se observará para decir que funciona?, ¿qué parte no está hecha aún? No presentar una idea como un prototipo ya construido.",
+      "posibles_errores": "Proponer un alcance imposible para los recursos disponibles; formular criterios vagos; atribuirse todo el trabajo; ocultar una prueba fallida.",
+      "como_solucionarlos": "Reducir a una función comprobable, escribir una condición observable, registrar aportes y fuentes y separar resultados obtenidos de metas futuras.",
+      "preguntas_estudiantes": "¿Qué podríamos demostrar en una primera versión? ¿Qué debemos reconocer como ayuda externa? ¿Cómo informaríamos una limitación a quien usará el proyecto?",
+      "actividad_practica": "(22 min) En equipos elaboren un mapa de aprendizajes: mecánica, electrónica, programación y diseño 3D. Escojan una necesidad del entorno y redacten una idea preliminar, dos criterios de éxito y una primera prueba. Asignen roles rotativos y acuerden registrar aportes, fuentes y resultados, incluidos los fallidos. Otro equipo revisa si los criterios pueden observarse.",
+      "proyecto_final": "Ficha preliminar con necesidad, idea, dos criterios de éxito, primera prueba, roles y acuerdos de registro y autoría.",
+      "evaluacion_paso": "Lista de cotejo formativa: logrado, en proceso o requiere apoyo. Observar: Relaciona la propuesta con aprendizajes previos. Formula dos criterios observables y una prueba inicial. Distingue lo realizado de lo proyectado y acuerda reconocer aportes y fuentes. Registrar la evidencia y una mejora; no calificar por rapidez.",
+      "cierre_clase": "(10 min) Presentación de un minuto por equipo y retroalimentación sobre la viabilidad. Guardar las fichas como referencia, sin fijar todavía un proyecto definitivo.",
+      "reflexion": "La Integridad se muestra al reconocer lo que sabemos, lo que aún no funciona y la ayuda recibida, manteniendo coherencia entre el trabajo y su presentación."
+    }
+  }
+]

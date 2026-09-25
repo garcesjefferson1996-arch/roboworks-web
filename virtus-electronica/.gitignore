@@ -1,0 +1,8 @@
+data/*
+!data/.gitkeep
+.env
+node_modules/
+test-output/
+backups/
+release/
+*.zip

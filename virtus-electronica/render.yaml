@@ -1,0 +1,27 @@
+# Blueprint path in the existing repository: virtus-electronica/render.yaml
+services:
+  - type: web
+    name: virtus-mi-negocio
+    runtime: node
+    plan: starter
+    rootDir: virtus-electronica
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /gestion.html
+    envVars:
+      - key: NODE_VERSION
+        value: 22.23.2
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: DB_PATH
+        value: /var/data/store.sqlite
+      - key: BACKUP_PATH
+        value: /var/data/backups
+      - key: OWNER_SETUP_KEY
+        generateValue: true
+    disk:
+      name: virtus-datos
+      mountPath: /var/data
+      sizeGB: 1

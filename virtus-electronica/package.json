@@ -1,0 +1,23 @@
+{
+  "name": "virtus-electronica",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "dev": "node --env-file-if-exists=.env --watch src/server.js",
+    "seed": "node --env-file-if-exists=.env src/seed.js",
+    "admin": "node --env-file-if-exists=.env src/create-admin.js",
+    "backup": "node --env-file-if-exists=.env src/backup.js",
+    "format": "prettier --write src/*.js public/*.js public/styles.css test/*.js *.json *.md",
+    "test": "node --test test/*.test.js",
+    "check": "node --check src/server.js && node --check public/app.js && node --check public/admin.js && node --check src/management.js && node --check public/gestion.js && node --check src/backup.js",
+    "preview:static": "node scripts/preview-static.js"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}

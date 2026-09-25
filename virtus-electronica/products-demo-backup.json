@@ -1,0 +1,808 @@
+[
+  {
+    "id": "a6139a7c-a49e-44e8-8a75-246413ecd2b6",
+    "slug": "arduino-uno-r3",
+    "sku": "DEMO-0001",
+    "name": "Arduino Uno R3",
+    "category_id": "1294d020-9640-40a8-b343-c61668697448",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Tu primera idea empieza aquí. Una placa de desarrollo versátil para explorar programación y electrónica.",
+    "price": 1850,
+    "compare_price": 2200,
+    "stock": 38,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 1,
+    "demo": 1,
+    "details": {
+      "voltage": "5 V",
+      "level": "Inicial",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "5 V",
+        "Nivel": "Inicial"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Arduino",
+    "category_slug": "arduino",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "fa18e76f-93ad-402b-a5a0-c3b9802b4a37",
+        "product_id": "a6139a7c-a49e-44e8-8a75-246413ecd2b6",
+        "url": "/assets/uno.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Arduino Uno R3",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "f3ea394f-9670-4a66-9148-d08d648e4d07",
+    "slug": "esp32-devkit",
+    "sku": "DEMO-0002",
+    "name": "ESP32 DevKit V1",
+    "category_id": "4534f7b6-0ee1-4cf6-8335-fce4fd72d65d",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Conecta tus ideas. Una plataforma compacta para explorar proyectos de Internet de las cosas.",
+    "price": 950,
+    "compare_price": 0,
+    "stock": 54,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 1,
+    "demo": 1,
+    "details": {
+      "voltage": "3.3 V",
+      "level": "Intermedio",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Wi-Fi / Bluetooth",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "3.3 V",
+        "Nivel": "Intermedio"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "ESP32 & IoT",
+    "category_slug": "esp32",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "c6a168d5-51dc-44ab-821d-2566422251b7",
+        "product_id": "f3ea394f-9670-4a66-9148-d08d648e4d07",
+        "url": "/assets/esp32.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de ESP32 DevKit V1",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "4c0f1dc1-0d1d-4c7e-bd2e-84937190c03f",
+    "slug": "kit-maker-inicio",
+    "sku": "DEMO-0003",
+    "name": "Kit Maker · Primeros pasos",
+    "category_id": "a683b154-b39c-4cf8-b8a2-880e4c7ee089",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Todo un mundo por descubrir en una sola caja. Un punto de partida para aprender creando circuitos.",
+    "price": 4990,
+    "compare_price": 5990,
+    "stock": 12,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 1,
+    "demo": 1,
+    "details": {
+      "voltage": "5 V",
+      "level": "Inicial",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Kit",
+      "use": "Educación y prototipado",
+      "kit": true,
+      "includes": [
+        "Placa de desarrollo",
+        "Protoboard",
+        "Cables de conexión",
+        "Selección de sensores y componentes"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "1–2",
+      "software": "Arduino IDE",
+      "projects": [
+        "Semáforo programable",
+        "Medición de distancia",
+        "Control de un servomotor"
+      ],
+      "specifications": {
+        "Voltaje": "5 V",
+        "Nivel": "Inicial"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Kits educativos",
+    "category_slug": "kits",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "2d93fdb3-8f6d-492a-96ba-258c65948b00",
+        "product_id": "4c0f1dc1-0d1d-4c7e-bd2e-84937190c03f",
+        "url": "/assets/kit.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Kit Maker · Primeros pasos",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "c773ab3d-dae9-41f6-9dc0-4fda0790241f",
+    "slug": "sensor-ultrasonico-hc-sr04",
+    "sku": "DEMO-0004",
+    "name": "Sensor ultrasónico HC-SR04",
+    "category_id": "b96a7c31-023c-4554-a33e-3c82f5d7eea8",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Añade percepción de distancia a tu próximo proyecto de robótica.",
+    "price": 250,
+    "compare_price": 0,
+    "stock": 65,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 1,
+    "demo": 1,
+    "details": {
+      "voltage": "5 V",
+      "level": "Inicial",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "5 V",
+        "Nivel": "Inicial"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Sensores",
+    "category_slug": "sensores",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "04c2056d-6a33-4a75-b59c-06e49ee44bbc",
+        "product_id": "c773ab3d-dae9-41f6-9dc0-4fda0790241f",
+        "url": "/assets/sensor.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Sensor ultrasónico HC-SR04",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "5ac4ee56-6a43-48ad-a4a3-0b8b297f3987",
+    "slug": "arduino-nano",
+    "sku": "DEMO-0005",
+    "name": "Arduino Nano compatible",
+    "category_id": "1294d020-9640-40a8-b343-c61668697448",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Un formato compacto para proyectos donde cada milímetro importa.",
+    "price": 690,
+    "compare_price": 0,
+    "stock": 24,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 0,
+    "demo": 1,
+    "details": {
+      "voltage": "5 V",
+      "level": "Inicial",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "5 V",
+        "Nivel": "Inicial"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Arduino",
+    "category_slug": "arduino",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "e940f196-dc6c-4242-a89e-e6a33f503074",
+        "product_id": "5ac4ee56-6a43-48ad-a4a3-0b8b297f3987",
+        "url": "/assets/uno.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Arduino Nano compatible",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "45fa8883-0871-4ac1-ad49-93727b651df7",
+    "slug": "driver-motores",
+    "sku": "DEMO-0009",
+    "name": "Driver de motores L298N",
+    "category_id": "c1da3346-7433-4244-8e7f-bb4756a91378",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Controla el movimiento de tu robot desde un microcontrolador.",
+    "price": 490,
+    "compare_price": 0,
+    "stock": 23,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 0,
+    "demo": 1,
+    "details": {
+      "voltage": "5 V",
+      "level": "Intermedio",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "5 V",
+        "Nivel": "Intermedio"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Drivers",
+    "category_slug": "drivers",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "4608b66d-3465-44c5-b6e1-b0ba924db38a",
+        "product_id": "45fa8883-0871-4ac1-ad49-93727b651df7",
+        "url": "/assets/esp32.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Driver de motores L298N",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "4916c8e1-f22d-4912-9bbc-226849eb8c78",
+    "slug": "filamento-pla",
+    "sku": "DEMO-0011",
+    "name": "Filamento PLA · 1 kg",
+    "category_id": "d4f259ae-dbe9-4117-be9b-68055da99d4b",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Material para transformar modelos digitales en objetos tangibles.",
+    "price": 1990,
+    "compare_price": 0,
+    "stock": 0,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 0,
+    "demo": 1,
+    "details": {
+      "voltage": "No aplica",
+      "level": "Inicial",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "No aplica",
+        "Nivel": "Inicial"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Impresión 3D",
+    "category_slug": "impresion-3d",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "44c92a87-b0b9-4634-9416-3cbbfa038a9f",
+        "product_id": "4916c8e1-f22d-4912-9bbc-226849eb8c78",
+        "url": "/assets/hero.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Filamento PLA · 1 kg",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "50006d5a-e730-4eae-a206-60e3a2931995",
+    "slug": "kit-laboratorio-steam",
+    "sku": "DEMO-0012",
+    "name": "Kit Laboratorio STEAM",
+    "category_id": "a683b154-b39c-4cf8-b8a2-880e4c7ee089",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Una selección de componentes para aprender en equipo y desarrollar proyectos en el aula.",
+    "price": 8990,
+    "compare_price": 0,
+    "stock": 6,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 0,
+    "demo": 1,
+    "details": {
+      "voltage": "5 V",
+      "level": "Intermedio",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Kit",
+      "use": "Educación y prototipado",
+      "kit": true,
+      "includes": [
+        "Placa de desarrollo",
+        "Protoboard",
+        "Cables de conexión",
+        "Selección de sensores y componentes"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "1–2",
+      "software": "Arduino IDE",
+      "projects": [
+        "Semáforo programable",
+        "Medición de distancia",
+        "Control de un servomotor"
+      ],
+      "specifications": {
+        "Voltaje": "5 V",
+        "Nivel": "Intermedio"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Kits educativos",
+    "category_slug": "kits",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "25520e09-c966-4fa6-adb8-83691db37dfe",
+        "product_id": "50006d5a-e730-4eae-a206-60e3a2931995",
+        "url": "/assets/kit.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Kit Laboratorio STEAM",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "8f02edaa-0402-4964-92d1-61346d03170c",
+    "slug": "kit-robot-explorador",
+    "sku": "DEMO-0006",
+    "name": "Kit Robot Explorador",
+    "category_id": "4fde14f9-54b7-4ee7-9b14-82a16551d7da",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Diseña, programa y experimenta con un robot móvil educativo.",
+    "price": 6490,
+    "compare_price": 7490,
+    "stock": 8,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 0,
+    "demo": 1,
+    "details": {
+      "voltage": "5 V",
+      "level": "Intermedio",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": true,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "5 V",
+        "Nivel": "Intermedio"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Robótica",
+    "category_slug": "robotica",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "30680356-68af-4b92-833c-2a333067929b",
+        "product_id": "8f02edaa-0402-4964-92d1-61346d03170c",
+        "url": "/assets/kit.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Kit Robot Explorador",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "23bb49fa-c76e-4155-aa6a-deea124251fe",
+    "slug": "servo-sg90",
+    "sku": "DEMO-0007",
+    "name": "Micro servomotor SG90",
+    "category_id": "f18dbf44-4f71-4952-8e0f-0ee255f1d246",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Explora mecanismos y control de posición en proyectos educativos.",
+    "price": 350,
+    "compare_price": 0,
+    "stock": 45,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 0,
+    "demo": 1,
+    "details": {
+      "voltage": "5 V",
+      "level": "Inicial",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "5 V",
+        "Nivel": "Inicial"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Servomotores",
+    "category_slug": "servomotores",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "5e02c2ee-6d8f-48f0-be54-bc398909c84d",
+        "product_id": "23bb49fa-c76e-4155-aa6a-deea124251fe",
+        "url": "/assets/kit.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Micro servomotor SG90",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "43448ac8-c6da-4bd4-9fab-2fe19ff75586",
+    "slug": "protoboard-830",
+    "sku": "DEMO-0010",
+    "name": "Protoboard de 830 puntos",
+    "category_id": "6febb17f-8848-4b2c-92d8-e4e876e5ac9b",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Experimenta con conexiones sin necesidad de soldadura.",
+    "price": 390,
+    "compare_price": 0,
+    "stock": 50,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 0,
+    "demo": 1,
+    "details": {
+      "voltage": "No aplica",
+      "level": "Inicial",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "No aplica",
+        "Nivel": "Inicial"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Cables y conectores",
+    "category_slug": "cables",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "d8c5c8bd-3bee-4572-bca6-cd0b1ff08e66",
+        "product_id": "43448ac8-c6da-4bd4-9fab-2fe19ff75586",
+        "url": "/assets/kit.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Protoboard de 830 puntos",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  },
+  {
+    "id": "9126fb09-21d3-4ca4-af15-ebad40c44cbf",
+    "slug": "servo-mg996r",
+    "sku": "DEMO-0008",
+    "name": "Servomotor MG996R",
+    "category_id": "f18dbf44-4f71-4952-8e0f-0ee255f1d246",
+    "brand_id": "ee9fd778-dec3-4afd-91ae-88fdfa486710",
+    "description": "Control de movimiento para tus prototipos de mecanismos.",
+    "price": 1290,
+    "compare_price": 0,
+    "stock": 14,
+    "min_stock": 5,
+    "status": "available",
+    "active": 1,
+    "featured": 0,
+    "demo": 1,
+    "details": {
+      "voltage": "6 V",
+      "level": "Intermedio",
+      "compatibility": "Arduino IDE",
+      "age": "14+ con supervisión",
+      "technology": "Electrónica",
+      "type": "Componente",
+      "use": "Educación y prototipado",
+      "kit": false,
+      "includes": [
+        "Unidad de demostración del producto"
+      ],
+      "features": [
+        "Diseñado para experimentar",
+        "Recursos técnicos en una sola ficha",
+        "Ideal para proyectos educativos"
+      ],
+      "applications": [
+        "Prototipado de circuitos",
+        "Aprendizaje de programación",
+        "Proyectos STEAM"
+      ],
+      "note": "Ficha demostrativa. Verificar especificaciones, contenido e imágenes con el fabricante antes de publicar el producto real.",
+      "students": "",
+      "software": "Arduino IDE",
+      "projects": [],
+      "specifications": {
+        "Voltaje": "6 V",
+        "Nivel": "Intermedio"
+      },
+      "quantityDiscounts": []
+    },
+    "created_at": "2026-09-21 04:30:08",
+    "category": "Servomotores",
+    "category_slug": "servomotores",
+    "brand": "Catálogo demostrativo",
+    "images": [
+      {
+        "id": "bc56e24f-5793-49bd-bec7-d13f48417fd2",
+        "product_id": "9126fb09-21d3-4ca4-af15-ebad40c44cbf",
+        "url": "/assets/kit.webp",
+        "kind": "image",
+        "alt": "Ilustración conceptual de Servomotor MG996R",
+        "position": 0
+      }
+    ],
+    "resources": [],
+    "variants": [],
+    "relations": []
+  }
+]
