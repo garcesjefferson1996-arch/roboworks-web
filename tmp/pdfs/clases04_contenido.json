@@ -1,0 +1,424 @@
+[
+  {
+    "g": 2,
+    "id": 8,
+    "title": "Tangram Virtus: atributos de las figuras",
+    "short": "Tangram: atributos",
+    "virtue": "Prudencia",
+    "folder": "2do EGB",
+    "slug": "TangramAtributos",
+    "time": 45,
+    "objectives": [
+      "Identificar triángulos, cuadrado y paralelogramo por sus lados, forma y tamaño.",
+      "Componer una figura con las siete piezas y explicar una decisión antes de moverlas."
+    ],
+    "skill": "Describir, comparar y combinar figuras por sus atributos; anticipar la colocación de las piezas.",
+    "materials": [
+      "Un tangram Virtus de siete piezas por pareja",
+      "Siluetas impresas o proyectadas",
+      "Hoja, lápiz y superficie plana"
+    ],
+    "software": [
+      "RoboTangram de Virtus, como apoyo opcional"
+    ],
+    "kits": [
+      "Tangram Virtus"
+    ],
+    "welcome": "(5 min) Organiza parejas y entrega un set de siete piezas. Acuerden alternar los roles de quien coloca y quien observa; cuenten las piezas antes de comenzar.",
+    "motivation": "Muestra una silueta sencilla y pregunta cómo puede construirse usando las siete piezas. Haz visible que todas caben sin superponerse.",
+    "questions": "¿Qué piezas tienen tres lados? ¿Cuáles tienen cuatro? ¿En qué se parecen los triángulos grandes y pequeños?",
+    "theory": "(8 min) Nombra y compara las piezas: cinco triángulos de tres tamaños, un cuadrado y un paralelogramo. La forma se conserva al girar una pieza; cambia su orientación. Un atributo es una característica que permite describirla.",
+    "analogy": "Cada pieza es como una palabra: conserva su identidad, pero al combinarla con otras permite construir algo nuevo.",
+    "practice": "(22 min) Clasifiquen las piezas por forma y luego por tamaño. El docente modela cómo elegir una pieza por el contorno. Cada pareja completa una silueta con las siete piezas, sin huecos ni superposiciones, y señala dos atributos de una pieza. Cambien de roles a mitad del reto. Usen la silueta impresa si no hay conexión.",
+    "tests": "Comparen el contorno final con la silueta, cuenten siete piezas y comprueben que no se superpongan. Cada estudiante nombra una figura y cuenta sus lados.",
+    "errors": "Confundir tamaño con forma; creer que un triángulo girado deja de ser triángulo; superponer piezas para cubrir un hueco.",
+    "fixes": "Volver a contar lados, girar una sola pieza sobre la mesa y comparar bordes. Ofrecer una silueta con divisiones como apoyo y retirarla gradualmente.",
+    "inquiry": "¿Qué atributo te ayudó a elegir la pieza? ¿Qué cambia al girarla? ¿Qué harías distinto antes de empezar otra figura?",
+    "product": "Una silueta resuelta con las siete piezas y un dibujo de una pieza con dos atributos identificados.",
+    "indicators": [
+      "Nombra al menos dos formas y describe un atributo de cada una.",
+      "Completa una silueta con siete piezas, con el apoyo que necesite.",
+      "Explica una elección y respeta los turnos de su pareja."
+    ],
+    "close": "(10 min) Dos parejas muestran una solución. Cada estudiante dibuja una pieza, nombra su forma y un atributo; recojan y cuenten las siete piezas.",
+    "reflection": "Relaciona la Prudencia con observar, pensar y probar una pieza antes de cambiar toda la figura. Pregunta qué decisión tomaron con calma.",
+    "home": "Sin tarea obligatoria. Opcional: reconocer en casa un objeto triangular y otro cuadrangular y describirlos oralmente.",
+    "support": "Ofrecer piezas grandes, contornos con divisiones y explicación oral o señalada. Reducir inicialmente a una figura simple sin exigir rapidez."
+  },
+  {
+    "g": 3,
+    "id": 57,
+    "title": "Tangram: patrones con rotación y reflejo",
+    "short": "Tangram: giro y reflejo",
+    "virtue": "Prudencia",
+    "folder": "3ro EGB",
+    "slug": "TangramRotacionReflejo",
+    "time": 45,
+    "objectives": [
+      "Distinguir un giro de una reflexión mediante piezas de tangram y un eje de referencia.",
+      "Continuar una secuencia de orientaciones y justificar la transformación elegida."
+    ],
+    "skill": "Reconocer y continuar patrones geométricos basados en giros y reflejos, conservando forma y tamaño.",
+    "materials": [
+      "Tangram Virtus por pareja",
+      "Tarjetas con secuencias dibujadas",
+      "Espejo pequeño opcional",
+      "Hojas, lápices y una línea marcada como eje"
+    ],
+    "software": [
+      "RoboTangram de Virtus, como apoyo opcional"
+    ],
+    "kits": [
+      "Tangram Virtus"
+    ],
+    "welcome": "(5 min) Forma parejas y recuerda los atributos de las piezas. Entrega el tangram y tarjetas con dos secuencias: una de giros y otra de imágenes reflejadas.",
+    "motivation": "Coloca el paralelogramo sobre una silueta de su imagen reflejada. Permite intentar encajarlo solo girando y descubrir que necesitan voltearlo.",
+    "questions": "¿Girar y voltear producen siempre lo mismo? ¿Qué conserva una pieza cuando cambia su posición? ¿Cómo reconocerías su imagen en un espejo?",
+    "theory": "(8 min) Girar es cambiar la orientación sobre la mesa; reflejar produce una imagen de espejo respecto de una línea. Usa el paralelogramo para distinguirlas. La pieza conserva forma y tamaño. En una secuencia, identifiquen primero la regla y después predigan el siguiente término.",
+    "analogy": "Un giro se parece a las manecillas de un reloj; una reflexión, a tu imagen en el espejo. No todas las figuras permiten distinguir fácilmente ambos cambios.",
+    "practice": "(22 min) Reproduzcan sobre la mesa tres orientaciones de una tarjeta y dibujen la cuarta. Resuelvan una secuencia de cuartos de vuelta y otra que alterna una figura y su reflejo. Marquen una esquina con una señal removible para seguir el cambio. Luego intercambien una secuencia inventada de cuatro posiciones con otra pareja. No dependan de que el juego digital genere patrones: las tarjetas las prepara el docente.",
+    "tests": "Explicar la regla sin mover las piezas; realizar el giro o volteo y comparar con la predicción. Comprobar que no se cambió de pieza para obtener el resultado.",
+    "errors": "Confundir giro y reflejo; cambiar de pieza para imitar la silueta; continuar sin una regla constante.",
+    "fixes": "Marcar una esquina, usar un espejo o voltear el paralelogramo, y ensayar una transformación por vez antes de combinarlas.",
+    "inquiry": "¿Cómo sabes que fue un giro? ¿Qué observas al otro lado del eje? ¿Puede otra pareja continuar tu secuencia solo con tu explicación?",
+    "product": "Dos secuencias completadas y una secuencia propia con la regla indicada mediante flechas o explicación oral.",
+    "indicators": [
+      "Distingue giro y reflejo usando una pieza y un eje.",
+      "Predice y representa el siguiente elemento de una secuencia.",
+      "Explica la regla y revisa su predicción con un compañero."
+    ],
+    "close": "(10 min) Comparen dos soluciones y completen una tarjeta de salida: dibujar una pieza girada y su reflejo. Recoger el material.",
+    "reflection": "Practicar la Prudencia significa observar qué transformación pide el reto antes de mover la pieza; cambiar una cosa por vez ayuda a reconocer errores.",
+    "home": "Sin tarea obligatoria. Opcional: encontrar una imagen con simetría en el entorno y señalar su eje.",
+    "support": "Usar tarjetas de alto contraste y una esquina marcada. Empezar con un solo giro y permitir explicar señalando o manipulando."
+  },
+  {
+    "g": 4,
+    "id": 109,
+    "title": "Tangram: patrones con dos atributos",
+    "short": "Tangram: dos atributos",
+    "virtue": "Prudencia",
+    "folder": "4to EGB",
+    "slug": "TangramDosAtributos",
+    "time": 45,
+    "objectives": [
+      "Identificar dos atributos que varían en una secuencia de piezas.",
+      "Crear y continuar un patrón de dos atributos y justificar la predicción."
+    ],
+    "skill": "Describir y reproducir patrones de figuras atendiendo simultáneamente a dos atributos observables.",
+    "materials": [
+      "Un tangram Virtus por grupo",
+      "Tarjetas dibujadas con patrones de tamaño y orientación",
+      "Hojas cuadriculadas y lápices"
+    ],
+    "software": [
+      "RoboTangram de Virtus, como apoyo opcional"
+    ],
+    "kits": [
+      "Tangram Virtus"
+    ],
+    "welcome": "(5 min) Forma grupos de tres o cuatro. Asigna roles de observación, colocación y registro; intercámbialos durante la actividad.",
+    "motivation": "Presenta una tarjeta con triángulo grande hacia arriba, pequeño hacia la derecha, grande hacia arriba y pequeño hacia la derecha. Oculta el siguiente y pide justificar una predicción.",
+    "questions": "¿Qué dos características cambian? ¿Basta con acertar el tamaño? ¿Qué parte de la secuencia vuelve a aparecer?",
+    "theory": "(8 min) Un patrón tiene una regla que permite anticipar lo que sigue. Registrar por separado tamaño y orientación evita fijarse solo en uno. Lean cada término como un par: grande-arriba, pequeño-derecha. Las piezas disponibles limitan cuántos términos físicos pueden mostrarse a la vez; dibujen o reutilicen piezas para representar una secuencia larga.",
+    "analogy": "Es como un uniforme con dos condiciones: no basta con llevar la camiseta correcta si también se pide un color específico de pantalón.",
+    "practice": "(22 min) Completen dos tarjetas indicando ambos atributos del término faltante. Después cada grupo dibuja una secuencia de seis términos con una regla repetida de dos atributos y oculta los dos últimos. Otro grupo predice esos términos y reproduce uno con el tangram. Comparen la predicción con la regla escrita y corrijan si es ambigua.",
+    "tests": "Registrar ambos atributos de cada término en dos filas. Revisar dos ciclos completos y comprobar que la predicción satisface las dos condiciones.",
+    "errors": "Atender solo a un atributo; cambiar la regla a mitad de la secuencia; elegir colores o tamaños que el set no tiene.",
+    "fixes": "Usar una tabla de dos atributos, repetir el primer ciclo y elegir tamaño-orientación con tarjetas dibujadas. No exigir piezas inexistentes.",
+    "inquiry": "¿Qué evidencia confirma tu regla? ¿Qué pasaría si solo acertaras la forma? ¿La secuencia permite una única continuación con la regla elegida?",
+    "product": "Una tarjeta con seis términos, regla de dos atributos y predicción argumentada por otro grupo.",
+    "indicators": [
+      "Identifica los dos atributos del patrón.",
+      "Continúa la secuencia respetando ambos atributos.",
+      "Explica su regla y escucha la revisión de otro equipo."
+    ],
+    "close": "(10 min) Comparen una predicción correcta y una que solo cumple un atributo. Cada estudiante completa un término nuevo y explica las dos pistas.",
+    "reflection": "Vincula la Prudencia con revisar ambas condiciones antes de responder y con escuchar al grupo antes de mover el material compartido.",
+    "home": "Sin tarea obligatoria. Opcional: dibujar un patrón que alterne dos atributos y pedir a alguien que lo continúe.",
+    "support": "Separar los atributos en dos filas con símbolos. Resolver primero uno y añadir el segundo; permitir explicación oral y tiempo adicional."
+  },
+  {
+    "g": 5,
+    "id": 474,
+    "title": "Scratch: mini reto de repetición y condicional",
+    "short": "Scratch: repetir y decidir",
+    "virtue": "Fe",
+    "folder": "5to EGB",
+    "slug": "ScratchRepeticionCondicional",
+    "time": 45,
+    "objectives": [
+      "Combinar un bucle y una condición en una animación corta de Scratch.",
+      "Predecir, probar y corregir el comportamiento del personaje al tocar un borde."
+    ],
+    "skill": "Organizar una secuencia de programación visual que repite acciones y decide según una condición.",
+    "materials": [
+      "Computador por pareja",
+      "Proyector",
+      "Hoja para predicción y registro de pruebas"
+    ],
+    "software": [
+      "Scratch, en línea o instalado"
+    ],
+    "kits": [],
+    "welcome": "(5 min) Recupera el proyecto de la clase 3 o abre uno nuevo. Organiza parejas con roles de programador y observador, que cambiarán a mitad de la actividad.",
+    "motivation": "Muestra un personaje que se mueve y cambia de color al llegar a un borde. Pide separar las acciones que se repiten de la decisión que depende de tocarlo.",
+    "questions": "¿Qué ocurriría si mover se ejecutara una sola vez? ¿Cuándo debería cambiar el color? ¿Qué diferencia hay entre repetir y decidir?",
+    "theory": "(8 min) La bandera inicia el programa; por siempre evalúa sus bloques continuamente; si ejecuta una acción solo cuando su condición es verdadera. El sensor tocando borde va dentro del espacio de condición. Colocar el cambio de color dentro del si hace que dependa del contacto.",
+    "analogy": "Un vigilante revisa continuamente una puerta: repetir es revisar otra vez; si alguien llega, entonces abre. Revisar y decidir son tareas distintas.",
+    "program": "Al presionar bandera verde: quitar efectos gráficos; ir a x:0 y:0; apuntar en dirección 90; por siempre: mover 5 pasos; si tocando borde, entonces cambiar efecto color por 25 y rebotar si toca un borde. La comprobación y el rebote quedan dentro del bucle. Detener con el botón rojo.",
+    "practice": "(22 min) Construyan primero el movimiento repetido y pruébenlo; añadan después la condición y el cambio de color. Antes de ejecutar, anoten qué pasará en el centro y en el borde. Realicen tres pruebas, intercambien roles y expliquen un ajuste. Quien termine puede cambiar la velocidad y anticipar el efecto.",
+    "tests": "Prueba 1: en el centro se mueve sin cambiar de color. Prueba 2: al tocar el borde cambia de color y rebota. Prueba 3: al reiniciar vuelve al centro sin efectos acumulados.",
+    "errors": "Dejar mover fuera del bucle; colocar el cambio de color fuera del si; evaluar tocando borde después de haber rebotado; no reiniciar la posición.",
+    "fixes": "Leer el programa de arriba abajo, mover el bloque al contenedor correcto y colocar la condición antes del rebote. Reiniciar posición y efectos con la bandera.",
+    "inquiry": "¿Qué bloque hace que el programa siga revisando? ¿Cómo sabes que el color depende del borde? ¿Qué cambiaste después de una prueba?",
+    "product": "Proyecto guardado como 5EGB_Clase04_Equipo con movimiento, repetición y una condición verificable.",
+    "indicators": [
+      "Coloca movimiento y condición dentro de un bucle.",
+      "Logra una reacción al borde y explica por qué ocurre.",
+      "Registra una predicción y una corrección basada en pruebas."
+    ],
+    "close": "(10 min) Dos parejas muestran su código y una prueba. Guardar o descargar el proyecto; conectar repetir y decidir con los programas que luego harán en MakeCode.",
+    "reflection": "Relaciona la Fe con confiar en que pueden aprender algo nuevo mientras comprueban y mejoran cada intento; pedir ayuda forma parte del aprendizaje.",
+    "home": "Sin tarea obligatoria. Opcional: dibujar el diagrama repetir-revisar-actuar del proyecto.",
+    "support": "Entregar un proyecto inicial con los bloques disponibles, ampliar la interfaz y evaluar por separado movimiento, repetición y condición."
+  },
+  {
+    "g": 6,
+    "id": 205,
+    "title": "Repaso rápido de 5to",
+    "short": "MakeCode: LEDs y botones",
+    "virtue": "Esperanza",
+    "folder": "6to EGB",
+    "slug": "RepasoLEDsBotonesCondicionales",
+    "time": 45,
+    "objectives": [
+      "Recuperar el uso de la matriz LED, los botones y los condicionales en micro:bit.",
+      "Construir y probar un programa que muestre dos respuestas según el estado de un botón."
+    ],
+    "skill": "Relacionar una entrada digital con una decisión y una salida visible, anticipando resultados.",
+    "materials": [
+      "Computador por pareja",
+      "micro:bit y cable USB de datos, si están disponibles",
+      "Hoja de registro"
+    ],
+    "software": [
+      "MakeCode para micro:bit y su simulador"
+    ],
+    "kits": [
+      "VirtiBit / micro:bit"
+    ],
+    "welcome": "(5 min) Recupera lo que recuerdan de quinto: matriz LED, botones A y B, y decisiones. Usa las respuestas para ajustar el repaso, sin calificación diagnóstica punitiva.",
+    "motivation": "En el simulador, mantén pulsado A para mostrar un corazón; suéltalo para mostrar una cara. Pide describir entrada y salida.",
+    "questions": "¿Qué parte recibe nuestra acción? ¿Qué parte muestra el resultado? ¿Qué debería verse cuando nadie pulsa el botón?",
+    "theory": "(8 min) Un botón es una entrada, la matriz LED una salida y el programa decide qué mostrar. En para siempre se revisa continuamente si el botón A está presionado; si no, se ejecuta la alternativa. Distingue la condición de estado del botón del evento al presionar.",
+    "analogy": "Como un letrero con dos mensajes: el programa revisa si se cumple una condición y elige cuál mostrar.",
+    "electronics": "Si se usa la placa real, el docente comprueba el cable USB de datos y conecta únicamente micro:bit al computador. No se añaden motores ni circuitos externos en este repaso. El simulador permite completar toda la actividad.",
+    "program": "En MakeCode: para siempre → si botón A está presionado, mostrar icono corazón; si no, mostrar icono cara feliz. Predecir el resultado antes de pulsar A. Como ampliación, cambiar la condición al botón B y volver a probar.",
+    "practice": "(22 min) En parejas construyan el programa, prueben A presionado y liberado, y registren las salidas. Intercambien roles y modifiquen un icono sin alterar la condición. Si hay placas disponibles y el docente valida la conexión, transfieran el programa y comparen simulador y placa.",
+    "tests": "Sin pulsar A aparece la cara; manteniendo A aparece el corazón; al soltarlo vuelve la cara. Comprueben además que B no active la condición configurada para A.",
+    "errors": "Confundir botón A y B; usar solo un evento cuando se quiere detectar el estado sostenido; colocar las salidas fuera del condicional; cable que solo carga.",
+    "fixes": "Revisar el nombre de la entrada, usar si/si no dentro de para siempre y contrastar con el simulador. Si falla la conexión física, continuar en simulación y revisar el cable con el docente.",
+    "inquiry": "¿Dónde está la entrada? ¿Qué ocurre si la condición es falsa? ¿Qué comportamiento debería ser igual en la pantalla y en la placa?",
+    "product": "Programa de dos respuestas y tabla con condición, predicción y resultado observado.",
+    "indicators": [
+      "Reconoce botón, matriz LED y función del programa.",
+      "Implementa una condición con dos respuestas distintas.",
+      "Comprueba los estados verdadero y falso y explica un ajuste."
+    ],
+    "close": "(10 min) Guardar el proyecto y compartir una prueba. Registrar qué concepto necesita refuerzo antes de trabajar con sensores y variables.",
+    "reflection": "La Esperanza se practica fijando una meta posible y avanzando con pruebas pequeñas, incluso cuando el primer intento no funciona.",
+    "home": "Sin tarea obligatoria. Opcional: describir otro objeto cotidiano que responda a un botón.",
+    "support": "Usar el simulador ampliado, una plantilla de bloques y una tabla con iconos. Aceptar la demostración oral de los dos estados."
+  },
+  {
+    "g": 7,
+    "id": 260,
+    "title": "Bienvenida a 7mo: la virtud de la Caridad",
+    "short": "Tecnología para ayudar",
+    "virtue": "Caridad",
+    "folder": "7mo EGB",
+    "slug": "CaridadTecnologiaParaAyudar",
+    "time": 45,
+    "objectives": [
+      "Reconocer una necesidad cotidiana y proponer una ayuda tecnológica respetuosa.",
+      "Representar una solución mediante entrada, proceso y salida, incluyendo una prueba sencilla."
+    ],
+    "skill": "Diseñar colaborativamente una propuesta tecnológica orientada a una necesidad y explicar cómo comprobar su utilidad.",
+    "materials": [
+      "Hojas y lápices",
+      "Tarjetas con situaciones del aula",
+      "Computador y proyector opcionales"
+    ],
+    "software": [
+      "MakeCode para micro:bit, demostración opcional"
+    ],
+    "kits": [
+      "micro:bit, opcional para demostración"
+    ],
+    "welcome": "(5 min) Presenta la Caridad como usar lo aprendido para ayudar con respeto. Recupera una habilidad de quinto o sexto que cada estudiante pueda aportar al equipo.",
+    "motivation": "Presenta una situación: en el trabajo grupal una persona necesita indicar que requiere apoyo sin interrumpir. Pregunta qué ayuda le resultaría útil y cómo se lo consultarían.",
+    "questions": "¿A quién queremos ayudar? ¿Qué necesita realmente? ¿Cómo evitar una solución que decida por esa persona? ¿Puede resolverse sin tecnología?",
+    "theory": "(8 min) Una solución parte de escuchar una necesidad. Distingue entrada, proceso y salida: pulsar un botón, decidir qué señal mostrar y encender un icono. La Caridad se concreta en una ayuda útil, respetuosa y compartida; el dispositivo por sí solo no garantiza ayudar.",
+    "analogy": "Como prestar una herramienta: primero preguntamos qué hace falta y después elegimos algo útil, en lugar de entregar cualquier objeto.",
+    "electronics": "No se construyen circuitos. Si el docente demuestra micro:bit, usa solo la placa con USB y sus botones y LEDs integrados.",
+    "program": "Demostración opcional en MakeCode: al presionar A, mostrar un símbolo de solicitud de ayuda; al presionar B, borrar pantalla. Antes de usarlo, acordar con el grupo qué significa la señal. No se necesita dominar un lenguaje nuevo.",
+    "practice": "(22 min) En grupos elijan una necesidad del aula, conversen sobre a quién ayuda y propongan dos alternativas. Escojan una y dibujen un esquema entrada-proceso-salida. Representen el funcionamiento con una dramatización o un prototipo de papel. Otro equipo hace de usuario, prueba la señal y aporta una mejora.",
+    "tests": "Comprobar que el usuario entiende la señal, puede activarla y puede dejar de usarla. Preguntar si la propuesta ayuda sin exponer ni etiquetar a ninguna persona.",
+    "errors": "Elegir un aparato antes de conocer la necesidad; confundir una idea vistosa con una ayuda útil; no prever cómo desactivar la señal.",
+    "fixes": "Volver a preguntar qué necesita el usuario, simplificar la propuesta y añadir una forma de detener o reiniciar la señal.",
+    "inquiry": "¿Qué parte de tu propuesta ayuda? ¿Cómo lo comprobarías con el usuario? ¿Qué harías si prefiere otra solución?",
+    "product": "Ficha con necesidad, destinatario, boceto, entrada-proceso-salida, prueba y una mejora recibida.",
+    "indicators": [
+      "Describe una necesidad concreta sin etiquetar a compañeros.",
+      "Propone una solución y representa cómo funciona.",
+      "Escucha al equipo usuario y modifica al menos un detalle."
+    ],
+    "close": "(10 min) Cada equipo presenta en un minuto su propuesta y la mejora. Guardar las fichas como punto de partida del año.",
+    "reflection": "Ayudar implica escuchar, compartir conocimientos y respetar decisiones. Invita a nombrar una acción concreta de Caridad practicada durante la clase.",
+    "home": "Sin tarea obligatoria. Opcional: observar una necesidad cotidiana y preguntar qué ayuda sería bienvenida.",
+    "support": "Ofrecer situaciones ilustradas, roles flexibles y la opción de explicar con dibujo, voz o dramatización, sin exigir uso de pantalla."
+  },
+  {
+    "g": 8,
+    "id": 315,
+    "title": "Bienvenida a 8vo: el Kit Virtuno y Arduino real",
+    "short": "Kit Virtuno y Arduino",
+    "virtue": "Excelencia",
+    "folder": "8vo EGB",
+    "slug": "KitVirtunoArduinoReal",
+    "time": 45,
+    "objectives": [
+      "Identificar la placa Arduino Uno, la protoboard y los componentes disponibles del Kit Virtuno.",
+      "Distinguir entrada, procesamiento y salida y aplicar acuerdos de manejo del kit."
+    ],
+    "skill": "Reconocer componentes de un sistema físico y representar su función antes de realizar conexiones.",
+    "materials": [
+      "Kit Virtuno disponible en el aula",
+      "Tarjetas con nombres y funciones",
+      "Hoja de inventario",
+      "Computador y proyector para demostración"
+    ],
+    "software": [
+      "Arduino IDE, solo para demostración docente si ya está disponible"
+    ],
+    "kits": [
+      "Kit Virtuno: Arduino Uno y protoboard; inventariar los demás componentes presentes"
+    ],
+    "welcome": "(5 min) Presenta la Excelencia como trabajar con cuidado, comprobar y mejorar. Entrega un kit por grupo, todavía sin alimentación, y acuerda registrar qué contiene.",
+    "motivation": "Muestra la diferencia entre el dado diseñado en Tinkercad y una placa física capaz de ejecutar instrucciones. Presenta una demostración preparada del LED integrado, sin pedir aún construir un circuito.",
+    "questions": "¿Qué componentes reconocen? ¿Qué diferencia hay entre una pieza diseñada en 3D y un sistema que recibe y responde? ¿Qué conviene revisar antes de conectar?",
+    "theory": "(8 min) Arduino Uno ejecuta un programa; la protoboard sirve para conectar componentes sin soldar. Distingue componentes de entrada y salida presentes en el kit. Explica que los agujeros de la protoboard tienen conexiones internas y no se debe asumir que toda una fila o riel está unido sin verificar el modelo.",
+    "analogy": "El programa es una receta y la placa la ejecuta; la protoboard es un espacio para organizar conexiones, no una fuente de energía ni un computador.",
+    "construction": "Inventariar y clasificar componentes sobre una bandeja. Dibujar dónde irían placa, entrada y salida en una futura construcción; no ensamblar un robot todavía.",
+    "electronics": "Mantener el kit desconectado durante la exploración. La demostración docente usa únicamente el LED integrado y USB. No conectar motores ni fuentes externas; revisar las conexiones antes de energizar cualquier circuito futuro.",
+    "program": "Observar un programa de demostración ya preparado que encienda y apague el LED integrado. Identificar la relación entre una instrucción y la salida, sin exigir escritura de código en esta sesión.",
+    "practice": "(22 min) Cada grupo registra nombre, aspecto y función de cinco elementos realmente presentes. Dibuja un esquema entrada-placa-salida para una idea sencilla. Intercambien inventarios con otro grupo para comprobar nombres y cantidades y acuerden cómo almacenar el material.",
+    "tests": "Cada estudiante señala la placa y la protoboard y explica una diferencia. El equipo revisa que el inventario coincida con las piezas y justifica una clasificación funcional.",
+    "errors": "Confundir protoboard y placa; pensar que cualquier cable puede ir en cualquier pin; atribuir funciones a componentes no identificados.",
+    "fixes": "Usar etiquetas y una imagen ampliada, leer los nombres impresos y consultar al docente antes de conectar. Mantener aparte una pieza desconocida hasta identificarla.",
+    "inquiry": "¿Dónde se ejecutan las instrucciones? ¿Qué información necesitarías para conectar un motor? ¿Cómo sabremos que el kit queda completo?",
+    "product": "Inventario ilustrado y esquema de una idea con entrada, procesamiento y salida; acuerdos de cuidado y devolución.",
+    "indicators": [
+      "Identifica placa, protoboard y otros elementos presentes.",
+      "Explica entrada, proceso y salida con un ejemplo.",
+      "Revisa el inventario y respeta la secuencia de manejo acordada."
+    ],
+    "close": "(10 min) Comparen inventarios, recojan el kit y escriban una pregunta para las próximas clases. Relacionar diseñar, construir y comprobar.",
+    "reflection": "La Excelencia se expresa en revisar un trabajo, reconocer lo que falta por aprender y cuidar el material común.",
+    "home": "Sin tarea obligatoria. Opcional: dibujar un dispositivo del entorno e identificar una posible entrada y salida.",
+    "support": "Usar fotografías grandes, etiquetas contrastadas y manipulación acompañada; reducir el inventario a tres elementos esenciales."
+  },
+  {
+    "g": 9,
+    "id": 372,
+    "title": "Bienvenida a 9no: código real en Arduino IDE",
+    "short": "De bloques a código",
+    "virtue": "Excelencia",
+    "folder": "9no EGB",
+    "slug": "BienvenidaCodigoArduinoIDE",
+    "time": 45,
+    "objectives": [
+      "Relacionar una secuencia de bloques con instrucciones de un programa de Arduino.",
+      "Distinguir setup y loop y explicar el comportamiento de un ejemplo sencillo."
+    ],
+    "skill": "Interpretar una secuencia textual de control y relacionarla con acciones observables, localizando errores simples.",
+    "materials": [
+      "Computador y proyector",
+      "Tarjetas de bloques y código",
+      "Arduino Uno y USB para demostración opcional"
+    ],
+    "software": [
+      "Arduino IDE previamente instalado, o ejemplo impreso"
+    ],
+    "kits": [
+      "Arduino Uno, opcional para demostración"
+    ],
+    "welcome": "(5 min) Recupera las ideas de secuencia, repetición y condición conocidas en bloques. Presenta el paso al texto como otra forma de expresar esa lógica.",
+    "motivation": "Muestra dos representaciones del mismo parpadeo: bloques y código. Pide encontrar acciones conocidas antes de explicar símbolos nuevos.",
+    "questions": "¿Qué parte se hace una sola vez? ¿Qué debe repetirse? ¿Qué cambia al escribir instrucciones en lugar de arrastrarlas?",
+    "theory": "(8 min) setup se ejecuta una vez al iniciar o reiniciar; loop se repite. Las llaves delimitan bloques y muchas instrucciones terminan con punto y coma. El ejemplo configura el LED integrado como salida y alterna encendido, espera, apagado y espera.",
+    "analogy": "setup es preparar el espacio antes de una actividad; loop es la rutina que se repite una vez que todo está preparado.",
+    "electronics": "Demostración opcional con Arduino Uno conectado por USB y su LED integrado; no se monta circuito externo. La interpretación del código puede hacerse por completo en papel.",
+    "program": "Ejemplo docente: void setup() { pinMode(LED_BUILTIN, OUTPUT); } void loop() { digitalWrite(LED_BUILTIN, HIGH); delay(1000); digitalWrite(LED_BUILTIN, LOW); delay(1000); }. Leer cada línea antes de ejecutarla. Cambiar ambas esperas a 500 para comparar, si el entorno está preparado.",
+    "practice": "(22 min) En parejas emparejen tarjetas de acciones con líneas del programa. Marquen setup y loop con colores y describan un ciclo completo. Predigan qué cambia al reducir la espera. Revisen una copia con un punto y coma omitido y expliquen cómo la repararían. El docente puede verificar y demostrar el programa; la instalación del IDE se aborda en la clase prevista.",
+    "tests": "Seguir un ciclo con el dedo y comprobar encendido-espera-apagado-espera. Comparar la predicción con la demostración o una representación temporal en papel.",
+    "errors": "Creer que setup se repite; omitir punto y coma o llave; confundir compilar con cargar a una placa; cambiar varias cosas a la vez.",
+    "fixes": "Delimitar las dos funciones, revisar el primer error señalado y corregir un cambio por vez. Explicar que verificar revisa el programa y cargar lo transfiere cuando hay una placa configurada.",
+    "inquiry": "¿Qué parte se ejecuta solo al comenzar? ¿Por qué hay dos esperas? ¿Qué conocimiento de bloques te ayudó a leer este programa?",
+    "product": "Programa anotado con funciones y acciones, predicción sobre las esperas y corrección justificada de un error simple.",
+    "indicators": [
+      "Distingue setup de loop.",
+      "Relaciona cada instrucción principal con una acción.",
+      "Predice el efecto de cambiar una espera y localiza un error de sintaxis sencillo."
+    ],
+    "close": "(10 min) Compartir una lectura del programa y una corrección. Registrar las dudas para la exploración posterior del IDE.",
+    "reflection": "Trabajar con Excelencia significa explicar lo que se hace, revisar evidencias y mejorar una versión; copiar código sin comprenderlo no permite verificarlo.",
+    "home": "Sin tarea obligatoria. Opcional: escribir una rutina cotidiana separando preparación y acciones repetidas.",
+    "support": "Ofrecer código impreso con letra grande, líneas numeradas y tarjetas de acciones. Permitir la explicación oral sin exigir teclear."
+  },
+  {
+    "g": 10,
+    "id": 425,
+    "title": "Bienvenida a 10mo: el año que cierra el ciclo Virtus",
+    "short": "Cierre del ciclo Virtus",
+    "virtue": "Integridad",
+    "folder": "10mo EGB",
+    "slug": "BienvenidaIntegridad",
+    "time": 45,
+    "objectives": [
+      "Reconocer aprendizajes previos y elegir una meta alcanzable para el cierre del ciclo.",
+      "Proponer una idea de proyecto con criterios de prueba, roles y acuerdos de autoría."
+    ],
+    "skill": "Planificar una propuesta tecnológica que integre conocimientos previos, evidencias de funcionamiento y comunicación honesta del proceso.",
+    "materials": [
+      "Hojas o cuaderno de proyecto",
+      "Lápices y tarjetas con experiencias previas",
+      "Ejemplos de proyectos disponibles"
+    ],
+    "software": [
+      "Editor de documentos opcional para registrar la ficha"
+    ],
+    "kits": [],
+    "welcome": "(5 min) Presenta el último año como oportunidad de integrar diseño, construcción y programación. Cada estudiante menciona un aprendizaje y algo que todavía necesita practicar.",
+    "motivation": "Contrasta dos informes de un prototipo: uno reconoce una prueba fallida y explica la mejora; otro afirma que funciona sin evidencia. Pide identificar cuál permite confiar en el proceso.",
+    "questions": "¿Qué sabemos construir y programar? ¿Qué evidencia muestra que algo funciona? ¿Cómo reconocemos una ayuda, una fuente o un fragmento de código ajeno?",
+    "theory": "(8 min) La Integridad implica coherencia entre lo que se hizo, lo que se muestra y lo que se afirma. Un proyecto necesita una necesidad, una propuesta, criterios observables, tareas y registro de pruebas. Distingue objetivo deseado, prototipo parcial y resultado comprobado.",
+    "analogy": "Un cuaderno de laboratorio es como el historial de una reparación: anota qué se intentó y qué ocurrió, no solo la fotografía final.",
+    "practice": "(22 min) En equipos elaboren un mapa de aprendizajes: mecánica, electrónica, programación y diseño 3D. Escojan una necesidad del entorno y redacten una idea preliminar, dos criterios de éxito y una primera prueba. Asignen roles rotativos y acuerden registrar aportes, fuentes y resultados, incluidos los fallidos. Otro equipo revisa si los criterios pueden observarse.",
+    "tests": "Revisar la ficha con tres preguntas: ¿qué problema atiende?, ¿qué se observará para decir que funciona?, ¿qué parte no está hecha aún? No presentar una idea como un prototipo ya construido.",
+    "errors": "Proponer un alcance imposible para los recursos disponibles; formular criterios vagos; atribuirse todo el trabajo; ocultar una prueba fallida.",
+    "fixes": "Reducir a una función comprobable, escribir una condición observable, registrar aportes y fuentes y separar resultados obtenidos de metas futuras.",
+    "inquiry": "¿Qué podríamos demostrar en una primera versión? ¿Qué debemos reconocer como ayuda externa? ¿Cómo informaríamos una limitación a quien usará el proyecto?",
+    "product": "Ficha preliminar con necesidad, idea, dos criterios de éxito, primera prueba, roles y acuerdos de registro y autoría.",
+    "indicators": [
+      "Relaciona la propuesta con aprendizajes previos.",
+      "Formula dos criterios observables y una prueba inicial.",
+      "Distingue lo realizado de lo proyectado y acuerda reconocer aportes y fuentes."
+    ],
+    "close": "(10 min) Presentación de un minuto por equipo y retroalimentación sobre la viabilidad. Guardar las fichas como referencia, sin fijar todavía un proyecto definitivo.",
+    "reflection": "La Integridad se muestra al reconocer lo que sabemos, lo que aún no funciona y la ayuda recibida, manteniendo coherencia entre el trabajo y su presentación.",
+    "home": "Sin tarea obligatoria. Opcional: recuperar una evidencia de un proyecto anterior y anotar un aprendizaje y una mejora posible.",
+    "support": "Dar una ficha con preguntas breves, ejemplos de criterios y roles flexibles; permitir respuesta oral o gráfica antes del texto."
+  }
+]
