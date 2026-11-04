@@ -62,6 +62,19 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
 
+
+// Defensa CSRF: la sesion va en cookie SameSite=None, asi que toda peticion que
+// cambia estado debe venir de un origen permitido (multipart/form-data es una
+// "peticion simple" que CORS no bloquea por si solo).
+app.use('/api', (req, res, next) => {
+    if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
+    const origin = req.get('origin');
+    if (origin && !allowedOrigins.includes(origin)) {
+        return res.status(403).json({ message: 'Origen no permitido' });
+    }
+    next();
+});
+
 const authRoutes = require('./src/routes/authRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 const teacherRoutes = require('./src/routes/teacherRoutes');
@@ -89,10 +102,7 @@ app.get('/api/health', async (req, res) => {
         const [result] = await db.pool.query('SELECT 1 + 1 as solution');
         res.json({
             status: 'OK',
-            message: 'Virtus API funcionando',
-            environment: isProduction ? 'production' : 'development',
-            database: result[0].solution === 2 ? 'conectado' : 'error',
-            timestamp: new Date().toISOString()
+            database: result[0].solution === 2 ? 'conectado' : 'error'
         });
     } catch (error) {
         res.status(500).json({ status: 'ERROR', message: 'Error de conexion con la base de datos' });
@@ -122,5 +132,6 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, async () => {
     console.log(`Virtus API corriendo en puerto ${PORT} (${isProduction ? 'produccion' : 'desarrollo'})`);
     await db.testConnection();
+    await require('./src/config/migrations').ensureSecuritySchema();
     scheduleClassReminders();
 });

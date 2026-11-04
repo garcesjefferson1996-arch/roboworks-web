@@ -46,6 +46,8 @@ CREATE TABLE IF NOT EXISTS users (
     locked_until TIMESTAMP NULL,
     totp_secret VARCHAR(255) NULL,
     totp_enabled TINYINT(1) NOT NULL DEFAULT 0,
+    totp_last_step BIGINT NULL,
+    token_version INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_users_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
     INDEX idx_users_tenant (tenant_id),

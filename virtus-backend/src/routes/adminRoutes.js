@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const express = require('express');
 const router = express.Router();
 const rateLimit = require('express-rate-limit');
@@ -224,11 +225,11 @@ router.post('/students', accountCreationLimiter, createStudentValidation, async 
         const { full_name, class_ids, parent_phone } = req.body;
 
         const timestamp = Date.now().toString().slice(-6);
-        const username = 'est_' + timestamp + Math.floor(Math.random() * 100);
+        const username = 'est_' + timestamp + crypto.randomInt(100);
         const tempPassword = generateTempPassword();
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(tempPassword, salt);
-        const invitation_code = 'VIRTUS-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        const invitation_code = 'VIRTUS-' + crypto.randomBytes(5).toString('base64url').replace(/[-_]/g,'').substring(0, 6).toUpperCase();
 
         await connection.beginTransaction();
 
@@ -331,11 +332,11 @@ router.post('/students/bulk', bulkStudentsLimiter, async (req, res) => {
             }
 
             const timestamp = Date.now().toString().slice(-6);
-            const username = 'est_' + timestamp + Math.floor(Math.random() * 1000) + results.length;
+            const username = 'est_' + timestamp + crypto.randomInt(1000) + results.length;
             const tempPassword = generateTempPassword();
             const salt = await bcrypt.genSalt(10);
             const password_hash = await bcrypt.hash(tempPassword, salt);
-            const invitation_code = 'VIRTUS-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            const invitation_code = 'VIRTUS-' + crypto.randomBytes(5).toString('base64url').replace(/[-_]/g,'').substring(0, 6).toUpperCase();
 
             const [result] = await connection.query(
                 `INSERT INTO users (tenant_id, username, password_hash, full_name, role, temporary_password, invitation_code, parent_phone)
@@ -529,7 +530,7 @@ router.post('/students/:studentId/reset-password', accountCreationLimiter, async
         const password_hash = await bcrypt.hash(tempPassword, salt);
 
         await db.pool.query(
-            `UPDATE users SET password_hash = ?, temporary_password = TRUE,
+            `UPDATE users SET password_hash = ?, temporary_password = TRUE, token_version = token_version + 1,
                 failed_login_attempts = 0, locked_until = NULL
              WHERE id = ?`,
             [password_hash, req.params.studentId]
@@ -561,7 +562,8 @@ const editUserValidation = [
     body('full_name').optional({ checkFalsy: true }).trim().isLength({ min: 2 }).withMessage('Nombre invalido'),
     body('username').optional({ checkFalsy: true }).trim().isLength({ min: 3 }).matches(/^[a-zA-Z0-9._-]+$/)
         .withMessage('Usuario invalido (solo letras, numeros, punto, guion y guion bajo)'),
-    body('password').optional({ checkFalsy: true }).isLength({ min: 8 }).withMessage('La contrasena debe tener al menos 8 caracteres'),
+    body('password').optional({ checkFalsy: true }).isLength({ min: 8, max: 72 }).withMessage('La contrasena debe tener entre 8 y 72 caracteres')
+        .matches(/\d/).withMessage('La contrasena debe incluir un numero').matches(/[A-Za-z]/).withMessage('La contrasena debe incluir una letra'),
     body('parent_phone').optional({ checkFalsy: true }).trim()
 ];
 
@@ -742,7 +744,7 @@ router.post('/teachers/:teacherId/reset-password', accountCreationLimiter, async
         const password_hash = await bcrypt.hash(tempPassword, salt);
 
         await db.pool.query(
-            `UPDATE users SET password_hash = ?, temporary_password = TRUE,
+            `UPDATE users SET password_hash = ?, temporary_password = TRUE, token_version = token_version + 1,
                 failed_login_attempts = 0, locked_until = NULL
              WHERE id = ?`,
             [password_hash, req.params.teacherId]
@@ -874,7 +876,7 @@ function generateTempPassword() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
     let pass = '';
     for (let i = 0; i < 10; i++) {
-        pass += chars[Math.floor(Math.random() * chars.length)];
+        pass += chars[crypto.randomInt(chars.length)];
     }
     return pass;
 }

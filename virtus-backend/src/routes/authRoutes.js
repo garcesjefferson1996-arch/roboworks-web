@@ -36,6 +36,9 @@ const changePasswordValidation = [
     body('newPassword')
         .isLength({ min: 8 }).withMessage('La nueva contrasena debe tener al menos 8 caracteres')
         .matches(/\d/).withMessage('La nueva contrasena debe incluir al menos un numero')
+        .matches(/[A-Za-z]/).withMessage('La nueva contrasena debe incluir al menos una letra')
+        .isLength({ max: 72 }).withMessage('La nueva contrasena no puede superar 72 caracteres')
+        .custom((v) => !/^(.)\1+$/.test(v) && !['12345678','123456789','password','contrasena','qwertyui'].includes(String(v).toLowerCase())).withMessage('La contrasena es demasiado comun')
 ];
 
 router.post('/login', loginLimiter, loginValidation, authController.login);

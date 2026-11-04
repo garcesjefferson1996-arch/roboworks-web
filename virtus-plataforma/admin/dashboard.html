@@ -880,13 +880,13 @@ let currentGradeId = null;
 let currentRobotId = null;
 
 function initials(n){ return (n||'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('') || '??'; }
-function esc(s){ const d=document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
+function esc(s){ const d=document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML.replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 // esc() sirve para texto entre etiquetas, pero NO escapa comillas dobles -
 // usarlo dentro de href="${esc(x)}" permite que un valor con una comilla
 // rompa el atributo e inyecte otro atributo/evento (ej. onmouseover). Para
 // atributos siempre hay que usar escAttr(), igual que en las otras dos
 // plataformas (docente/estudiante).
-function escAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
+function escAttr(s){ return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function toast(msg,type='success'){
   const el=document.getElementById('toast');
   el.className='alert-toast '+type; el.textContent=msg;
@@ -960,7 +960,7 @@ async function loadStudents(){
       <td class="td-actions">
         <button class="btn btn-ghost btn-sm" onclick="viewStudent(${s.id})" title="Ver clases"><i class="fas fa-eye"></i></button>
         <button class="btn btn-ghost btn-sm" onclick="openEditStudentModal(${s.id})" title="Editar usuario/contraseña"><i class="fas fa-pen"></i></button>
-        <button class="btn btn-ghost btn-sm" onclick="resetPassword('student', ${s.id}, '${esc(s.full_name).replace(/'/g, "\\'")}')" title="Resetear contraseña"><i class="fas fa-key"></i></button>
+        <button class="btn btn-ghost btn-sm" onclick="resetPassword('student', ${s.id}, ${escAttr(JSON.stringify(String(s.full_name ?? '')))})" title="Resetear contraseña"><i class="fas fa-key"></i></button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -1044,7 +1044,7 @@ async function loadTeachers(){
       <td><span class="badge badge-green">${t.total_classes||0}</span></td>
       <td class="td-actions">
         <button class="btn btn-ghost btn-sm" onclick="openEditTeacherModal(${t.id})" title="Editar usuario/contraseña/grados"><i class="fas fa-pen"></i></button>
-        <button class="btn btn-ghost btn-sm" onclick="resetPassword('teacher', ${t.id}, '${esc(t.full_name).replace(/'/g, "\\'")}')" title="Resetear contraseña"><i class="fas fa-key"></i></button>
+        <button class="btn btn-ghost btn-sm" onclick="resetPassword('teacher', ${t.id}, ${escAttr(JSON.stringify(String(t.full_name ?? '')))})" title="Resetear contraseña"><i class="fas fa-key"></i></button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -1588,7 +1588,7 @@ function openRobotDetail(id){
   `).join('');
 
   const gallery = document.getElementById('rd-robot-gallery');
-  gallery.innerHTML = (robot.gallery || []).map(url => `<img src="${escAttr(url)}" alt="" onclick="window.open('${escAttr(url)}','_blank')">`).join('');
+  gallery.innerHTML = (robot.gallery || []).map(url => `<img src="${escAttr(url)}" alt="" onclick="window.open(${escAttr(JSON.stringify(String(url)))},'_blank')">`).join('');
 
   const stepsWrap = document.getElementById('rd-robot-steps-wrap');
   const steps = document.getElementById('rd-robot-steps');

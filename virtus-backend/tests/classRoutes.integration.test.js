@@ -16,6 +16,12 @@ const jwt = require('jsonwebtoken');
 const request = require('supertest');
 const db = require('../src/config/database');
 const classRoutes = require('../src/routes/classRoutes');
+const authMiddleware = require('../src/middleware/auth');
+
+// El authMiddleware ahora consulta el estado del usuario en la BD (1a query).
+function mockAuthState(id, role, tenant_id) {
+    db.pool.query.mockResolvedValueOnce([[{ id, tenant_id, role, is_active: 1, token_version: 0 }]]);
+}
 
 function buildApp() {
     const app = express();
@@ -32,9 +38,11 @@ function tokenFor(user) {
 describe('GET /api/classes/:classId (aislamiento por institucion)', () => {
     beforeEach(() => {
         db.pool.query.mockReset();
+        [5, 7].forEach(id => authMiddleware.invalidateUserCache(id));
     });
 
     test('academy_admin de la institucion 1 NO puede leer una clase de la institucion 2 (403)', async () => {
+        mockAuthState(5, 'academy_admin', 1);
         db.pool.query.mockResolvedValueOnce([[{ id: 50, tenant_id: 2, teacher_id: null, name: 'Clase ajena' }]]);
 
         const app = buildApp();
@@ -48,6 +56,7 @@ describe('GET /api/classes/:classId (aislamiento por institucion)', () => {
     });
 
     test('academy_admin de la MISMA institucion si puede leer la clase (200)', async () => {
+        mockAuthState(5, 'academy_admin', 1);
         db.pool.query.mockResolvedValueOnce([[{ id: 51, tenant_id: 1, teacher_id: null, name: 'Clase propia' }]]);
 
         const app = buildApp();
@@ -62,6 +71,7 @@ describe('GET /api/classes/:classId (aislamiento por institucion)', () => {
     });
 
     test('un docente que no dicta la clase recibe 403', async () => {
+        mockAuthState(7, 'teacher', 1);
         db.pool.query.mockResolvedValueOnce([[{ id: 52, tenant_id: 1, teacher_id: 999, name: 'Clase de otro profe' }]]);
 
         const app = buildApp();

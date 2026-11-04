@@ -961,7 +961,7 @@ function openTeacherRoboticsDetail(id){
   `).join('');
 
   const gallery = document.getElementById('rtd-gallery');
-  gallery.innerHTML = (robot.gallery || []).map(url => `<img src="${escapeAttr(url)}" alt="" onclick="window.open('${escapeAttr(url)}','_blank')">`).join('');
+  gallery.innerHTML = (robot.gallery || []).map(url => `<img src="${escapeAttr(url)}" alt="" onclick="window.open(${escapeAttr(JSON.stringify(String(url)))},'_blank')">`).join('');
 
   const stepsWrap = document.getElementById('rtd-steps-wrap');
   const steps = document.getElementById('rtd-steps');
@@ -1548,10 +1548,10 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str ?? '';
-  return div.innerHTML;
+  return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 function escapeAttr(str) {
-  return (str || '').replace(/"/g, '&quot;');
+  return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function checkForcedPasswordChange(user){

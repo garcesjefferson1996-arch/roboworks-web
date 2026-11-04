@@ -45,15 +45,37 @@ class User {
         const password_hash = await bcrypt.hash(newPassword, salt);
 
         const [result] = await db.pool.query(
-            'UPDATE users SET password_hash = ?, temporary_password = FALSE WHERE id = ?',
+            'UPDATE users SET password_hash = ?, temporary_password = FALSE, token_version = token_version + 1 WHERE id = ?',
             [password_hash, userId]
         );
+        require('../middleware/auth').invalidateUserCache(userId);
         return result.affectedRows > 0;
     }
 
     // Edicion directa desde el admin: username/nombre/telefono y,
     // opcionalmente, una contrasena elegida por el admin (no aleatoria).
     // Todos los campos son opcionales; solo se actualiza lo que venga.
+    // Cierra todas las sesiones abiertas del usuario (invalida sus JWT).
+    static async revokeSessions(userId) {
+        await db.pool.query('UPDATE users SET token_version = token_version + 1 WHERE id = ?', [userId]);
+        require('../middleware/auth').invalidateUserCache(userId);
+    }
+
+    // Anti-replay de TOTP: acepta el paso solo si es mayor al ultimo usado.
+    // El UPDATE condicional es atomico, asi dos logins simultaneos con el mismo codigo no pasan ambos.
+    static async consumeTotpStep(userId, step) {
+        try {
+            const [r] = await db.pool.query(
+                'UPDATE users SET totp_last_step = ? WHERE id = ? AND (totp_last_step IS NULL OR totp_last_step < ?)',
+                [step, userId, step]
+            );
+            return r.affectedRows > 0;
+        } catch (error) {
+            if (error.code === 'ER_BAD_FIELD_ERROR') return true; // aun sin migrar
+            throw error;
+        }
+    }
+
     static async findByUsernameAnyTenant(username) {
         const [rows] = await db.pool.query('SELECT id FROM users WHERE username = ?', [username]);
         return rows[0];
@@ -71,7 +93,7 @@ class User {
         if (password) {
             const salt = await bcrypt.genSalt(10);
             const password_hash = await bcrypt.hash(password, salt);
-            fields.push('password_hash = ?', 'temporary_password = FALSE', 'failed_login_attempts = 0', 'locked_until = NULL');
+            fields.push('password_hash = ?', 'temporary_password = FALSE', 'failed_login_attempts = 0', 'locked_until = NULL', 'token_version = token_version + 1');
             values.push(password_hash);
         }
 
@@ -79,6 +101,7 @@ class User {
 
         values.push(userId);
         const [result] = await db.pool.query(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`, values);
+        if (password) require('../middleware/auth').invalidateUserCache(userId);
         return result.affectedRows > 0;
     }
 

@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const { verifyToken: verifyTotp } = require('../utils/totp');
+const { verifyTokenStep } = require('../utils/totp');
 const { logAction } = require('../utils/audit');
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -63,7 +63,8 @@ class AuthController {
                     return res.status(200).json({ requiresTotp: true });
                 }
 
-                const totpValid = verifyTotp(totp_code, user.totp_secret);
+                const totpStep = verifyTokenStep(totp_code, user.totp_secret);
+                const totpValid = totpStep !== null && await User.consumeTotpStep(user.id, totpStep);
                 if (!totpValid) {
                     const result = await User.registerFailedLogin(user.id, user.failed_login_attempts);
                     await logAction({
@@ -82,7 +83,8 @@ class AuthController {
                     id: user.id,
                     username: user.username,
                     role: user.role,
-                    tenant_id: user.tenant_id
+                    tenant_id: user.tenant_id,
+                    tv: user.token_version || 0
                 },
                 process.env.JWT_SECRET,
                 { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
@@ -144,6 +146,15 @@ class AuthController {
 
             const changed = await User.changePassword(userId, newPassword);
             if (changed) {
+                // La version de sesion subio: se emite una nueva cookie para esta
+                // sesion y todas las demas (otros dispositivos) quedan cerradas.
+                const fresh = await User.findById(userId, true);
+                const newToken = jwt.sign(
+                    { id: user.id, username: user.username, role: user.role, tenant_id: user.tenant_id, tv: fresh.token_version || 0 },
+                    process.env.JWT_SECRET,
+                    { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+                );
+                res.cookie('token', newToken, cookieOptions());
                 await logAction({
                     tenantId: user.tenant_id, actorId: user.id, actorRole: user.role,
                     action: 'password_changed', targetType: 'user', targetId: user.id, ip: req.ip

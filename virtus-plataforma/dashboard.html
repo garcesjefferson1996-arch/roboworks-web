@@ -401,8 +401,8 @@ let currentClassId = null;
 const DAY_LABEL = { monday:'Lunes', tuesday:'Martes', wednesday:'Miércoles', thursday:'Jueves', friday:'Viernes', saturday:'Sábado', sunday:'Domingo' };
 
 function initials(n){ return (n||'?').split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
-function esc(s){ const d=document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
-function escAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
+function esc(s){ const d=document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML.replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function escAttr(s){ return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function openModal(id){ document.getElementById(id).classList.add('open'); }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
