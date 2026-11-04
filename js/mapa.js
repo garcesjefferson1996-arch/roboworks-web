@@ -25,7 +25,7 @@
     var faltan = stops.length - seen.length;
     document.body.classList.toggle('mapa-completo', faltan <= 0);
     var falta = document.getElementById('falta');
-    if (falta) falta.textContent = faltan === 1 ? 'Esta es tu última letra.' : 'Te faltan ' + faltan + ' letras para ganar tu clase de prueba gratis.';
+    if (falta) falta.textContent = faltan === 1 ? 'Esta es tu última letra.' : 'Te faltan ' + faltan + ' letras para completar el mapa.';
     barTxt.textContent = seen.length >= stops.length ? '¡Mapa completo!' : seen.length + ' de ' + stops.length + ' letras';
   }
 
@@ -76,9 +76,9 @@
 
   /* Selector de los tres caminos */
   var progs = [
-    { fill: '#d9582a', ink: '#b8430f', name: 'RoboEnglish', motto: 'Build. Discover. Create.', hook: 'Aprender tecnología también puede ser una aventura en otro idioma.', href: 'roboenglish.html' },
-    { fill: '#0077a8', ink: '#006d99', name: 'RoboCode', motto: 'Think. Code. Create.', hook: 'Las grandes ideas también se programan.', href: 'robocode.html' },
-    { fill: '#04704f', ink: '#04704f', name: 'RoboAI', motto: 'Imagine. Innovate. Transform.', hook: 'El futuro necesita mentes curiosas y creativas.', href: 'roboai.html' }
+    { fill: '#d9582a', ink: '#b8430f', name: 'RoboEnglish', motto: 'Build. Discover. Create.', hook: 'Construye robots y usa el inglés de forma natural.', href: 'roboenglish.html' },
+    { fill: '#0077a8', ink: '#006d99', name: 'RoboCode', motto: 'Think. Code. Create.', hook: 'Crea sus propios videojuegos y aprende a pensar paso a paso.', href: 'robocode.html' },
+    { fill: '#04704f', ink: '#04704f', name: 'RoboAI', motto: 'Imagine. Innovate. Transform.', hook: 'Descubre la inteligencia artificial y Python, con criterio.', href: 'roboai.html' }
   ];
   var chips = [].slice.call(document.querySelectorAll('[data-prog]'));
   function setProg(n) {
@@ -120,6 +120,20 @@
     }, { rootMargin: '0px 0px -40% 0px' }).observe(map);
   } else {
     bar.classList.add('is-on');
+  }
+
+  /* La edad se agrega al mensaje de WhatsApp */
+  var edad = document.getElementById('edad');
+  var edadLink = document.getElementById('edad-link');
+  if (edad && edadLink) {
+    edad.addEventListener('change', function () {
+      var txt = edad.value
+        ? '¡Hola! Mi hijo/a tiene ' + edad.value + ' años. ¿Qué programa de RoboWorks me recomiendan? Quisiera agendar la clase de prueba gratis.'
+        : edadLink.getAttribute('data-wa-text');
+      edadLink.setAttribute('href', 'https://wa.me/593993340103?text=' + encodeURIComponent(txt));
+      edadLink.setAttribute('target', '_blank');
+      edadLink.setAttribute('rel', 'noopener');
+    });
   }
 
   paint();
