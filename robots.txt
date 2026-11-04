@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tudominio.com/sitemap.xml
+Sitemap: https://roboworks.site/sitemap.xml
