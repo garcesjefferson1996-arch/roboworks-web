@@ -171,6 +171,28 @@ button.menu-btn{border:1px solid rgba(255,255,255,.75);cursor:pointer;font:inher
   .map-premio strong{font-size:15px}
   .mapa-completo .bricks{display:none}
 }
+/* portada: nada encima de la imagen */
+.portada{max-width:1180px;margin:0 auto;padding:14px 24px 0;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.top .glass{background:rgba(255,255,255,.9);box-shadow:none}
+.nav-top{display:flex;flex-wrap:wrap;justify-content:center;gap:2px}
+.nav-top a{display:flex;align-items:center;min-height:44px;padding:0 13px;border-radius:999px;color:var(--cream);font-size:14px;font-weight:500}
+.nav-top a:hover{background:rgba(247,239,230,.12);color:var(--cream)}
+.hero{min-height:0;padding:0;border-radius:32px;background:none;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-img{position:static;inset:auto;display:block;width:100%;height:auto;object-fit:initial}
+.hero-copy{max-width:760px;margin:18px auto 0;padding:0;align-items:center;gap:14px;color:var(--cream);text-align:center}
+.hero-copy .lugar{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#f3d7a8}
+.hero-copy h1{font-size:clamp(32px,4.6vw,54px);line-height:1.08}
+.hero-copy p{max-width:560px;font-size:17px;color:var(--sand)}
+.hero-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:14px;margin-top:14px}
+.card-team,.card-prog{position:static;width:auto;margin:0}
+.sigue{align-self:center;display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:10px;color:#f3d7a8;font:500 19px Outfit,sans-serif}
+.sigue:hover{color:#fff}
+.map{margin-top:34px}
+.card-team,.card-prog{background:rgba(255,248,238,.95);-webkit-backdrop-filter:none;backdrop-filter:none;text-align:left}
+.card-prog>span,.card-prog p{text-align:left}
+@media (max-width:1040px){.nav-top{display:none}}
+@media (max-width:720px){.portada{padding:10px 12px 0}.hero{border-radius:22px}}
 .bar-in{transition:opacity .25s ease,transform .25s ease}
 .bar:not(.is-on) .bar-in{opacity:0;visibility:hidden;transform:translateY(16px)}
 @media (max-width:400px){
